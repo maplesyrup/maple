@@ -61,5 +61,5 @@ with your local branch.
 
 Here's a graphic detailing what this all looks like:
 
-!(./workflow.png)
+![workflow](./workflow.png)
 
