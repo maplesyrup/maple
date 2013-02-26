@@ -12,10 +12,10 @@ To install `rbenv` follow the instructions here for your specific OS: https://gi
 Since rails 3.2 suggests we use ruby 1.9.3 that's what we'll all use. Run these commands after installing
 `rbenv`.
 
-`rbenv install 1.9.3-p327`
-`rbenv rehash`
-`cd /path/to/rails/project`
-`rbenv local 1.9.3-p327`
+  rbenv install 1.9.3-p327
+  rbenv rehash
+  cd /path/to/rails/project
+  rbenv local 1.9.3-p327
 
 That will set your local version of ruby to 1.9.3
 
