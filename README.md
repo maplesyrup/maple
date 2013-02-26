@@ -53,8 +53,8 @@ How to update a branch with the newest code from `upstream/master`
 Usually you'll want to update your local master branch or the branch you're working on with `upstream/master`
 every so often so as to get the recent changes. To do so execute these commands:
 
-`git fetch --all`
-`git merge upstream/master`
+    git fetch --all
+    git merge upstream/master
 
 The first command gets all the branches on `upstream` and `origin`. The second command merges `upstream/master
 with your local branch.
