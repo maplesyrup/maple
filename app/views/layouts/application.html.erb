@@ -2,15 +2,20 @@
 <html>
 <head>
   <title>Maple Syrup</title>
-  <%= stylesheet_link_tag    "bootstrap.min", :media => "all" %>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= stylesheet_link_tag "custom", "bootstrap.min" %>
+  <!--
+  <link rel="stylesheet" type="text/css" href="/assets/bootstrap.min.css" />
+-->
+  <link rel="stylesheet" type="text/css" href="/assets/custom.css" />
   <link href='http://fonts.googleapis.com/css?family=Lato:400,700,900|Open+Sans:300italic,700italic,400,700' rel='stylesheet' type='text/css'>
-  <%= javascript_include_tag "application" %>
+
+
   <%= csrf_meta_tags %>
 </head>
 <body>
 
 <%= yield %>
 
+  <%= javascript_include_tag "application" %>
 </body>
 </html>
