@@ -1,4 +1,8 @@
 Maple::Application.routes.draw do
+  get "users/show"
+
+  get "users/index"
+
   get "about/index"
 
   devise_for :users
@@ -16,7 +20,8 @@ Maple::Application.routes.draw do
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   resources :products
-
+  resources :users
+  
   # Sample resource route with options:
   #   resources :products do
   #     member do
