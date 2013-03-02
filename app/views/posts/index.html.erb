@@ -1,2 +1,24 @@
 <%= render "shared/header" %>
 <%= render "shared/subheader" %>
+
+<div class="container-fluid">
+  <div class="row glimpses">
+    <div class="span4 glimpse-column">
+      <%= render :partial => "shared/glimpse" %>
+      <%= render :partial => "shared/glimpse" %>
+    </div>
+
+    <div class="span4 glimpse-column">
+      Second column
+    </div> 
+
+    <div class="span4 glimpse-column">
+      Third column
+    </div>
+
+    <div class="span4 glimpse-column">
+      Fourth column
+    </div> 
+  </div>
+
+</div>

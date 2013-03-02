@@ -60,12 +60,17 @@ Home View
   margin: 0 auto;
 }
 
+.glimpse-column {
+  width: 275px;
+  margin-left: 0;
+  margin-right: 20px;
+}
+
 .glimpse {
   background-color: #EEEEEE;
   border: 1px solid #CCCCCC;
   width: 275px;
-  margin-left: 0;
-  margin-right: 20px;
+  margin: 0px 20px 20px 0px;
 }
 
 .inner-glimpse {
