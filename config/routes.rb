@@ -4,6 +4,7 @@ Maple::Application.routes.draw do
   get "users/index"
 
   get "about/index"
+  get "posts/index"
 
   devise_for :users
 
