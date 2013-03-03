@@ -6,4 +6,5 @@ class UsersController < ApplicationController
   def show
   	# get particular user here
   end
+
 end

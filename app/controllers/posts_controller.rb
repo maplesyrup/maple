@@ -14,6 +14,9 @@ class PostsController < ApplicationController
   end
 
   def index
+    if user_signed_in?
+      @logged_in_user = current_user
+    end
 
   end
 end
