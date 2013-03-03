@@ -5,6 +5,7 @@ gem 'rails-backbone'
 gem 'devise'
 gem "paperclip", "~> 3.0"
 gem 'quiet_assets', :group => :development
+gem 'aws-sdk'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
