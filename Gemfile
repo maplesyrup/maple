@@ -4,12 +4,11 @@ gem 'rails', '3.2.11'
 gem 'rails-backbone'
 gem 'devise'
 gem "paperclip", "~> 3.0"
-gem 'quiet_assets', :group => :development
+gem 'aws-sdk'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3'
 
 
 # Gems used only for assets and not required
@@ -24,8 +23,15 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-group :development do
+group :development, :test do
   gem 'pry'
+  gem 'quiet_assets'
+  gem 'sqlite3'
+end
+
+group :production do
+  gem 'thin'
+  gem 'pg'
 end
 
 gem 'jquery-rails'
