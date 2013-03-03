@@ -15,7 +15,8 @@ class PostsController < ApplicationController
 
   def index
     if user_signed_in?
-      print "The user is signed in"
+      @logged_in_user = current_user
     end
+
   end
 end
