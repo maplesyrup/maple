@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <a class="brand" href="#">MapleSyrup</a>
       <p class="navbar-text pull-right">
-        <% if @logged_in_user %>
+        <% if current_user %>
           <%= image_tag current_user.avatar.url(:thumb), :size => current_user.avatar.styles[:thumb].geometry  %>
           <a href="#" class="navbar-link"><%= @logged_in_user.email %></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <%= link_to "Logout", destroy_user_session_path, {:class => "navbar-link", :method => :delete} %>
