@@ -25,7 +25,7 @@
 
 <script type="text/javascript">
   $(document).ready(function () {
-    window.router = new Maple.Routers.PostsRouter({ posts: <%= @posts.to_json.html_safe -%> });
+    window.router = new Maple.Routers.PostsRouter({ posts: <%= @posts.to_json(:include => { :user => { :only => :email } }).html_safe -%> });
     Backbone.history.start();
   });
 
