@@ -1,12 +1,12 @@
 class Maple.Views.PostsIndexView extends Backbone.View
 
-  el: '#posts'
+  el: "#posts"
 
   template: JST["backbone/templates/posts/index"]
 
   initialize: ->
-    @render
-    @addAll
+    @render()
+    @addAll()
 
   addAll: ->
     @collection.forEach(@addOne, @)
