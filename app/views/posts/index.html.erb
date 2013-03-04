@@ -2,12 +2,13 @@
 <%= render "shared/subheader" %>
 
 <div class="container-fluid">
-  <div class="row glimpses">
+  <div id="posts" class="row glimpses">
     <div class="span4 glimpse-column">
       <%= render :partial => "shared/glimpse" %>
       <%= render :partial => "shared/glimpse" %>
     </div>
 
+<!--
     <div class="span4 glimpse-column">
       Second column
     </div> 
@@ -19,6 +20,15 @@
     <div class="span4 glimpse-column">
       Fourth column
     </div> 
+-->
   </div>
 
 </div>
+
+<script type="text/javascript">
+  $(function() {
+  window.router = Blog.Routers.PostsRouter({ posts: <%= @posts.to_json.html_safe -%> });
+  Backbone.history.start();
+  });
+
+</script>
