@@ -5,7 +5,7 @@ class Maple.Routers.PostsRouter extends Backbone.Router
     @posts.reset options.posts
 
   routes:
-    "index" : "index"
+    "" : "index"
 
   index: ->
     @view = new Maple.Views.PostsIndexView({ collection: @posts })

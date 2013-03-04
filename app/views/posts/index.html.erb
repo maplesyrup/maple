@@ -26,7 +26,6 @@
 <script type="text/javascript">
   $(document).ready(function () {
     window.router = new Maple.Routers.PostsRouter({ posts: <%= @posts.to_json.html_safe -%> });
-    console.log("After the router has been executed");
     Backbone.history.start();
   });
 

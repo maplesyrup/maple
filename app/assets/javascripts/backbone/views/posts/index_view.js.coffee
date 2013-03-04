@@ -5,6 +5,8 @@ class Maple.Views.PostsIndexView extends Backbone.View
   template: JST["backbone/templates/posts/index"]
 
   initialize: ->
+    console.log("This is the Index View init")
+    console.log(@collection)
     @render()
     @addAll()
 
