@@ -2,12 +2,11 @@
 <%= render "shared/subheader" %>
 
 <div class="container-fluid">
-  <div class="row glimpses">
+  <div id="posts" class="row glimpses">
     <div class="span4 glimpse-column">
-      <%= render :partial => "shared/glimpse" %>
-      <%= render :partial => "shared/glimpse" %>
     </div>
 
+<!--
     <div class="span4 glimpse-column">
       Second column
     </div> 
@@ -19,6 +18,15 @@
     <div class="span4 glimpse-column">
       Fourth column
     </div> 
+-->
   </div>
 
 </div>
+
+<script type="text/javascript">
+  $(document).ready(function () {
+    window.router = new Maple.Routers.PostsRouter({ posts: <%= @posts.to_json(:include => { :user => { :only => :email } }).html_safe -%> });
+    Backbone.history.start();
+  });
+
+</script>
