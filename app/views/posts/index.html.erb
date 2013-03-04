@@ -4,8 +4,6 @@
 <div class="container-fluid">
   <div id="posts" class="row glimpses">
     <div class="span4 glimpse-column">
-      <%= render :partial => "shared/glimpse" %>
-      <%= render :partial => "shared/glimpse" %>
     </div>
 
 <!--
@@ -26,9 +24,11 @@
 </div>
 
 <script type="text/javascript">
-  $(function() {
-  window.router = Blog.Routers.PostsRouter({ posts: <%= @posts.to_json.html_safe -%> });
-  Backbone.history.start();
+  $(document).ready(function () {
+    console.log("Before Router");
+    window.router = Blog.Routers.PostsRouter({ posts: <%= @posts.to_json.html_safe -%> });
+    console.log("After the router has been executed");
+    Backbone.history.start();
   });
 
 </script>
