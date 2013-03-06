@@ -5,6 +5,8 @@ gem 'rails-backbone'
 gem 'devise'
 gem "paperclip", "~> 3.0"
 gem 'aws-sdk'
+gem "omniauth"
+gem 'omniauth-facebook'
 gem 'will_paginate', '~> 3.0'
 
 # Bundle edge Rails instead:
