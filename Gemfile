@@ -5,6 +5,8 @@ gem 'rails-backbone'
 gem 'devise'
 gem "paperclip", "~> 3.0"
 gem 'aws-sdk'
+gem "omniauth"
+gem 'omniauth-facebook'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
