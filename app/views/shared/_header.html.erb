@@ -4,7 +4,11 @@
       <a class="brand" href="#">MapleSyrup</a>
       <p class="navbar-text pull-right">
         <% if current_user %>
-          <%= image_tag current_user.avatar.url(:thumb), :size => current_user.avatar.styles[:thumb].geometry  %>
+          <% if current_user.provider == "facebook" %>
+            <%= image_tag "http://graph.facebook.com/#{current_user.uid}/picture", :size => current_user.avatar.styles[:thumb].geometry  %>
+          <% else %>
+            <%= image_tag current_user.avatar.url(:thumb), :size => current_user.avatar.styles[:thumb].geometry  %>
+          <% end %>
           <a href="#" class="navbar-link"><%= current_user.email %></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <%= link_to "Logout", destroy_user_session_path, {:class => "navbar-link", :method => :delete} %>
         <% else %>
