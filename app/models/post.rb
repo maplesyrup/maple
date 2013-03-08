@@ -4,6 +4,7 @@ class Post < ActiveRecord::Base
   has_attached_file :image, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "/images/posts/:style/missing.png"
 
   belongs_to :user
+  belongs_to :company
 
   def public_model
     self.to_json(:include => [:user])
