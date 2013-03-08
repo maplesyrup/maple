@@ -10,6 +10,7 @@
             <%= image_tag current_user.avatar.url(:thumb), :size => current_user.avatar.styles[:thumb].geometry  %>
           <% end %>
           <a href="#" class="navbar-link"><%= current_user.email %></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <%= link_to "+ Create New Post", {:controller => "posts", :action => "new"}, {:class => "navbar-link", :method => :get} %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <%= link_to "Logout", destroy_user_session_path, {:class => "navbar-link", :method => :delete} %>
         <% else %>
           <%= link_to "Login", new_user_session_path, :class => "navbar-link" %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

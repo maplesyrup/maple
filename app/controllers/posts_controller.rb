@@ -16,4 +16,7 @@ class PostsController < ApplicationController
   def index
     @posts = Post.paged_posts
   end
+
+  def new
+  end
 end
