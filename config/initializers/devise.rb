@@ -216,8 +216,14 @@ Devise.setup do |config|
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'
   OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE if Rails.env.development?
 
-  config.omniauth :facebook, '496246817087540', 'c453598027d45ffd25520794040a7a77',
+  if Rails.env.development?
+    config.omniauth :facebook, '496246817087540', 'c453598027d45ffd25520794040a7a77',
       {:scope => 'email', :client_options => {:ssl => {:ca_file => '/usr/lib/ssl/certs/ca-certificates.crt'}}}
+  else
+    config.omniauth :facebook, '618114358203811', 'ac4ae99b63afa53322e50d003b2a91b4',
+      {:scope => 'email', :client_options => {:ssl => {:ca_file => '/usr/lib/ssl/certs/ca-certificates.crt'}}}
+  end
+
 
 
   # ==> Warden configuration
