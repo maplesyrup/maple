@@ -25,7 +25,13 @@
 
 <script type="text/javascript">
   $(document).ready(function () {
-    window.router = new Maple.Routers.PostsRouter({ posts: <%= Post.public_models(@posts).html_safe -%> });
+    var posts = <%= Post.public_models(@posts).html_safe -%>;
+
+    <% @posts.each do |post| %>
+      console.log(<%= post.to_json.html_safe %>);
+    <% end %>
+
+    window.router = new Maple.Routers.PostsRouter({ posts: posts});
     Backbone.history.start();
   });
 

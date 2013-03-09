@@ -1,0 +1,13 @@
+<%= form_for @post, :url => {:controller => "posts", :action => "create"}, :method => "POST", :html => { :multipart => true } do |form| %>
+
+    <%= label_tag(:title, "Title") %>
+    <%= form.text_field :title %><br />
+
+    <%= label_tag(:content, "Content") %>
+    <%= form.text_field :content %><br />
+
+    <%= label_tag(:image, "Image") %>
+    <%= form.file_field :image %><br /><br />
+
+    <%= submit_tag("Create New Post") %>
+<% end %>

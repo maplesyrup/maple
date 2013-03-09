@@ -1,16 +1,25 @@
 class PostsController < ApplicationController
 
   def create
-    user = User.find(params["user_id"])
+    print "Inside of create controller"
+    @post = Post.new(params[:post])
 
-    post = Post.new()
-    post.image = params["image"]
+    if user_signed_in?
+      print "Inside of User signed in"
+      @post.save
+      user = User.find(current_user.id)
+      user.posts << @post
+      @post.user = user
 
-    user.posts << post
-    post.user = user
+      if @post.save
+        user.save
+        redirect_to :action => "index"
+      else
+        render :action => "new"
+      end
 
-    post.save
-    user.save
+    end
+
   end
 
   def index
@@ -18,5 +27,9 @@ class PostsController < ApplicationController
   end
 
   def new
+    print "Inside of new controller"
+    @post = Post.new(params[:post])
+
+
   end
 end
