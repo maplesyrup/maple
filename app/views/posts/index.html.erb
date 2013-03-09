@@ -26,6 +26,7 @@
 <script type="text/javascript">
   $(document).ready(function () {
     var posts = <%= Post.public_models(@posts).html_safe -%>;
+    console.log(<%= Post.public_models(@posts).to_json.html_safe -%>)
 
     <% @posts.each do |post| %>
       console.log(<%= post.to_json.html_safe %>);
