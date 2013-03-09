@@ -29,6 +29,7 @@
 
     <% @posts.each do |post| %>
       console.log(<%= post.to_json.html_safe %>);
+      console.log('<%= image_tag post.image.url(:medium) %>');
     <% end %>
 
     window.router = new Maple.Routers.PostsRouter({ posts: posts});
