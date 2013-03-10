@@ -26,6 +26,7 @@
 <script type="text/javascript">
   $(document).ready(function () {
     var posts = <%= Post.public_models(@posts) -%>;
+    console.log(posts);
 
     window.router = new Maple.Routers.PostsRouter({ posts: posts});
     Backbone.history.start();
