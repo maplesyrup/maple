@@ -2,6 +2,7 @@ Maple::Application.routes.draw do
   get "users/show"
 
   get "users/index"
+  get "users/check_mobile_login"
 
   get "about/index"
   get "posts/index"
