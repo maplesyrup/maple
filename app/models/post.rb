@@ -4,7 +4,9 @@ class Post < ActiveRecord::Base
   has_attached_file :image, :styles => { :medium => "250x250>", :thumb => "100x100>" }, :default_url => "/images/posts/:style/missing.png"
 
   belongs_to :user
-  belongs_to :company
+  belongs_to :companyo
+
+  acts_as_voteable
 
   def public_model
     self.to_json(:include => [:user, :company])
