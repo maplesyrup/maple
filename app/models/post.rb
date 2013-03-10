@@ -10,8 +10,12 @@ class Post < ActiveRecord::Base
     self.to_json(:include => [:user])
   end
 
+  def image_url
+    image.url(:medium)
+  end
+
   def self.public_models(posts)
-    posts.to_json(:include => [:user => { :user => { :only => :email } }])
+    posts.to_json(:include => [:user => { :user => { :only => :email } }], :methods => [:image_url]).html_safe
   end
 
   def self.paged_posts(options = {})
