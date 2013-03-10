@@ -1,12 +1,18 @@
 class PostsController < ApplicationController
 
   def create
-    @post = Post.new(params[:post])
+    #@post = Post.new(params[:post])
+    @post = Post.new(:title => params[:post][:title], :content => params[:post][:title], :image => params[:post][:image])
 
     if user_signed_in?
       @post.save
       user = User.find(current_user.id)
+      company = Company.find_by_id(params[:company])
+
+      company.posts << @post
       user.posts << @post
+
+      @post.company = company
       @post.user = user
 
       if @post.save
@@ -26,6 +32,7 @@ class PostsController < ApplicationController
 
   def new
     @post = Post.new(params[:post])
+    @companies = Company.all
 
 
   end
