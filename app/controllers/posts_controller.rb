@@ -4,6 +4,9 @@ class PostsController < ApplicationController
     @post = Post.new(params[:post])
 
     if user_signed_in?
+      puts "We are inside of the user signed in of posts#create"
+      puts "The current user is:"
+      puts current_user
       @post.save
       user = User.find(current_user.id)
 
