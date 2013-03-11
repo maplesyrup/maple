@@ -16,6 +16,14 @@ class Post < ActiveRecord::Base
     image.url(:medium)
   end
 
+  def profile_image
+    if self.user_id
+      return "http://graph.facebook.com/" + self.user.uid + "/picture"
+    else
+      return "http://graph.facebook.com/picture"
+    end
+  end
+
   def total_votes
     self.votes_for
   end
