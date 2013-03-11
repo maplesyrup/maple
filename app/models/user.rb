@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :token_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:facebook]
+         
   before_save :ensure_authentication_token
 
   # Setup accessible (or protected) attributes for your model
