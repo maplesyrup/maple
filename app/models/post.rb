@@ -20,6 +20,12 @@ class Post < ActiveRecord::Base
     self.votes_for
   end
 
+  def time_since
+    puts "Time Since"
+    puts self.created_at
+    distance_of_time_in_words_to_now(self.created_at)
+  end
+
   def user_has_voted
     if current_user
       self.voted_by?(current_user)
@@ -34,4 +40,5 @@ class Post < ActiveRecord::Base
     options[:page] ||= 1
     Post.paginate(:page => options[:page], :per_page => 30)
   end
+
 end
