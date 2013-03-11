@@ -44,7 +44,7 @@ class PostsController < ApplicationController
 
       respond_to do |format|
         format.html
-        format.json { render :json => @posts.to_json({:include => {:user => { :only => [:uid, :email, :name] }, :company => { :only => :name} }, :methods => [:image_url, :total_votes]}).html_safe }
+        format.json { render :json => @posts.to_json({:include => {:user => { :only => [:uid, :email, :name] }, :company => { :only => :name} }, :methods => [:image_url, :total_votes, :profile_image]}).html_safe }
       end
     end
   end
