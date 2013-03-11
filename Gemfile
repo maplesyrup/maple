@@ -9,6 +9,7 @@ gem "omniauth"
 gem 'omniauth-facebook'
 gem 'will_paginate', '~> 3.0'
 gem "fb_graph", "~> 2.6.5"
+gem 'thumbs_up'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

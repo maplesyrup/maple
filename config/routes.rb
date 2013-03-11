@@ -6,6 +6,7 @@ Maple::Application.routes.draw do
 
   get "about/index"
   get "posts/index"
+  post "posts/vote_up"
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 

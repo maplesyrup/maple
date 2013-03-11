@@ -6,6 +6,8 @@ class Post < ActiveRecord::Base
   belongs_to :user
   belongs_to :company
 
+  acts_as_voteable
+
   def public_model
     self.to_json(:include => [:user, :company])
   end
@@ -14,8 +16,18 @@ class Post < ActiveRecord::Base
     image.url(:medium)
   end
 
+  def total_votes
+    self.votes_for
+  end
+
+  def user_has_voted
+    if current_user
+      self.voted_by?(current_user)
+    end
+  end
+
   def self.public_models(posts)
-    posts.to_json({:include => {:user => { :only => [:uid, :email] }, :company => { :only => :name} }, :methods => [:image_url]}).html_safe
+    posts.to_json({:include => {:user => { :only => [:uid, :email] }, :company => { :only => :name} }, :methods => [:image_url, :total_votes]}).html_safe
   end
 
   def self.paged_posts(options = {})

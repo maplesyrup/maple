@@ -25,11 +25,21 @@
 
 <script type="text/javascript">
   $(document).ready(function () {
-    var posts = <%= Post.public_models(@posts) -%>;
-    console.log(posts);
 
-    window.router = new Maple.Routers.PostsRouter({ posts: posts});
-    Backbone.history.start();
+    $.ajax({
+      type: "GET",
+      url: "/posts",
+      dataType: "json",
+      success: function(data) {
+        window.router = new Maple.Routers.PostsRouter({ posts: data});
+        Backbone.history.start();
+      },
+      error: function() {
+        console.log("We have an error");
+      }
+    });
+
+
   });
 
 </script>
