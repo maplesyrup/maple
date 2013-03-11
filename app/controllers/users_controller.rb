@@ -8,7 +8,6 @@ class UsersController < ApplicationController
   end
 
   def check_mobile_login
-    print "We are inside check_mobile_login controller"
     token = params[:token]
 
     user = FbGraph::User.me(token)
@@ -16,7 +15,13 @@ class UsersController < ApplicationController
 
     logged_in_user = User.find_by_uid(user.identifier)
 
+    puts "We are inside of check_mobile_login"
+    puts "Here is the logged_in_user"
     puts logged_in_user
+
+    if logged_in_user
+      sign_in(:user, logged_in_user)
+    end
 
     respond_to do |format|
       format.json { render :json => logged_in_user.authentication_token}
