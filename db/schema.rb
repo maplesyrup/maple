@@ -11,12 +11,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130310221118) do
+ActiveRecord::Schema.define(:version => 20130311075840) do
 
   create_table "companies", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                           :null => false
+    t.datetime "updated_at",                           :null => false
+    t.integer  "company_id"
+    t.string   "email",                :default => "", :null => false
+    t.string   "encrypted_password",   :default => "", :null => false
+    t.string   "authentication_token"
+    t.integer  "sign_in_count",        :default => 0
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "remember_created_at"
   end
 
   create_table "posts", :force => true do |t|
@@ -49,6 +59,7 @@ ActiveRecord::Schema.define(:version => 20130310221118) do
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
     t.datetime "avatar_updated_at"
+    t.string   "type"
     t.string   "provider"
     t.string   "uid"
     t.string   "name"

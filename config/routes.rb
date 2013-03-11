@@ -9,7 +9,8 @@ Maple::Application.routes.draw do
   post "posts/vote_up"
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
-
+  devise_for :companies
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
