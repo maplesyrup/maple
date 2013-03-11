@@ -1,6 +1,6 @@
 class Company < ActiveRecord::Base
 
-	attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :company_id, :name
+	attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :id, :name
 
 	devise :database_authenticatable, :token_authenticatable, 
 			:registerable, :recoverable, 
