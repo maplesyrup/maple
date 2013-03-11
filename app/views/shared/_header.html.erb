@@ -1,7 +1,10 @@
 <div class="navbar navbar-inverse navbar-fixed-top navigation">
   <div class="navbar-inner">
     <div class="container-fluid">
-      <a class="brand" href="#">MapleSyrup</a>
+      <a class="brand" href="#">MapleSyrup</a>&nbsp;&nbsp;
+      <% if current_company %>
+        <a class="brand companyName" href="#"> for <%= current_company.name %></a>
+      <% end %>
       <p class="navbar-text pull-right">
         <% if current_user %>
           <% if current_user.provider == "facebook" %>
@@ -12,6 +15,9 @@
           <a href="#" class="navbar-link"><%= current_user.email %></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <%= link_to "+ Create New Post", {:controller => "posts", :action => "new"}, {:class => "navbar-link", :method => :get} %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <%= link_to "Logout", destroy_user_session_path, {:class => "navbar-link", :method => :delete} %>
+        <% elsif current_company %>
+          <a href="#" class="navbar-link"><%= current_company.email %></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <%= link_to "Logout", destroy_company_session_path, {:class => "navbar-link", :method => :delete} %>
         <% else %>
           <%= link_to "Login", new_user_session_path, :class => "navbar-link" %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook), :class => "navbar-link" %>

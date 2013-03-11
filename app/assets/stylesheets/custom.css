@@ -30,6 +30,13 @@ h1, h2, h3, h4, h5, h6 {
   color: #FFFFFF;
 }
 
+.navbar-inverse .companyName
+{
+  font-size: 15px;
+  font-weight: bold;
+  color: #f89406;
+}
+
 .navbar-inverse .navbar-link {
   color: #FFFFFF;
   font-size: 12px;
