@@ -30,13 +30,23 @@ class PostsController < ApplicationController
   end
 
   def index
-    @posts = Post.paged_posts
+    if company_signed_in?
+      # If a company is signed in, render company specific view
+      @companyTaggedPosts = Post.find(:all, :conditions => ["company_id = ?", current_company.id])
 
-    respond_to do |format|
-      format.html
-      format.json { render :json => @posts.to_json({:include => {:user => { :only => [:uid, :email] }, :company => { :only => :name} }, :methods => [:image_url, :total_votes]}).html_safe }
+      respond_to do |format|
+        format.html
+        format.json { render :json => @companyTaggedPosts.to_json({:include => {:user => { :only => [:uid, :email] }, :company => { :only => :name} }, :methods => [:image_url, :total_votes]}).html_safe }
+      end
+    else
+      # Just render normal view
+      @posts = Post.paged_posts
+
+      respond_to do |format|
+        format.html
+        format.json { render :json => @posts.to_json({:include => {:user => { :only => [:uid, :email] }, :company => { :only => :name} }, :methods => [:image_url, :total_votes]}).html_safe }
+      end
     end
-
   end
 
   def new
