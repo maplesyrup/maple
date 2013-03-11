@@ -31,6 +31,7 @@
       url: "/posts",
       dataType: "json",
       success: function(data) {
+        console.log(data);
         window.router = new Maple.Routers.PostsRouter({ posts: data});
         Backbone.history.start();
       },

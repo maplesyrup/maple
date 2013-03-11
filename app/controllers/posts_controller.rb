@@ -1,12 +1,17 @@
 class PostsController < ApplicationController
 
   def create
+    if params[:token]
+      user = FbGraph::User.me(params[:token])
+      user = user.fetch
+      logged_in_user = User.find_by_uid(user.identifier)
+      sign_in(:user, logged_in_user)
+      params[:post].delete :token
+    end
+
     @post = Post.new(params[:post])
 
     if user_signed_in?
-      puts "We are inside of the user signed in of posts#create"
-      puts "The current user is:"
-      puts current_user
       @post.save
       user = User.find(current_user.id)
 
