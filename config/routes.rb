@@ -6,6 +6,7 @@ Maple::Application.routes.draw do
 
   get "about/index"
   get "posts/index"
+  get "posts/all"
   post "posts/vote_up"
   get "posts/companies"
 

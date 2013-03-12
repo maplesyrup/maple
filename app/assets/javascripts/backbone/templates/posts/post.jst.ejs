@@ -14,7 +14,7 @@
 
   <div class="glimpse-info">
     <% if (typeof(user) !== "undefined") { %>
-      <img src="http://graph.facebook.com/<%= user.uid %>/picture" />
+      <img src="<%= user.profile_image %>" />
     <% } %>
     <div class="glimpse-meta">
       <span class="content">

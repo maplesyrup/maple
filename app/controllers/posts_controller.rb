@@ -29,6 +29,10 @@ class PostsController < ApplicationController
 
   end
 
+  def all
+    @posts = Post.paged_posts
+  end
+
   def companies
     render :json => Company.all.to_json(:only => [:name, :id])
   end
@@ -46,10 +50,6 @@ class PostsController < ApplicationController
       # Just render normal view
       @posts = Post.paged_posts
 
-      respond_to do |format|
-        format.html
-        format.json { render :json => @posts.to_json({:include => {:user => { :only => [:uid, :email, :name] }, :company => { :only => :name} }, :methods => [:image_url, :total_votes, :profile_image]}).html_safe }
-      end
     end
   end
 
