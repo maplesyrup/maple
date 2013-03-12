@@ -1,6 +1,6 @@
 Maple::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
-
+  config.serve_static_assets = false
 
   # Tell paperclip where to look when using imagemagick
   Paperclip.options[:command_path] = "/usr/local/bin/"

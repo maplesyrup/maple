@@ -17,3 +17,6 @@
 /log/*.log
 /tmp
 .rbenv-version
+
+# Ignore the public files
+/public/assets/*
