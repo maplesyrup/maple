@@ -1,12 +1,8 @@
 def profile_image(post)
-  if post.user
-    if post.user.uid
-      "http://graph.facebook.com/" + post.user.uid + "/picture"
-    else
-      post.user.avatar.url(:thumb)
-    end
+  if post.user.uid
+    "http://graph.facebook.com/" + post.user.uid + "/picture"
   else
-    nil
+    post.user.avatar.url(:thumb)
   end
 end
 
@@ -31,35 +27,35 @@ def user_has_voted(post)
   end
 end
 
-def check_for_nil(parent, val)
-  if parent.nil?
-    nil
-  else
-    val
-  end
-end
-
 json.array!(@posts) do |post|
   json.id post.id
 
-  json.company do
-    json.id check_for_nil(post.company, post.company.id)
-    json.name check_for_nil(post.company, post.company.name)
+  if post.company
+    json.company do
+      json.id post.company.id
+      json.name post.company.name
+    end
   end
 
   json.content post.content
   json.created_at post.created_at
-  json.thumbnail post.image.url(:thumb)
-  json.image_url post.image.url(:medium)
+
+  if post.image
+    json.thumbnail post.image.url(:thumb)
+    json.image_url post.image.url(:medium)
+  end
+  
   json.full_image_url post.image.url
   json.title post.title
   json.total_votes post.votes_for
 
-  json.user do
-    json.id check_for_nil(post.user, post.user.id)
-    json.name check_for_nil(post.user, post.user.name)
-    json.uid check_for_nil(post.user, post.user.uid)
-    json.profile_image profile_image(post)
+  if post.user
+    json.user do
+      json.id post.user.id
+      json.name post.user.name
+      json.uid post.user.uid
+      json.profile_image profile_image(post)
+    end
   end
 
   json.time_since time_since(post.created_at)
