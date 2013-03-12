@@ -9,8 +9,9 @@
 
   <%= f.password_field :password, :placeholder => "Enter your password" %><br />
 
-  <%= f.submit :class => "btn btn-large btn-success", :value => "Login" %>
   <%= link_to "For Users", new_user_session_path, :class => "btn btn-large btn-primary" %>
+  <%= f.submit :class => "btn btn-large btn-success", :value => "Login" %>
+
 
 <% end %>
 
