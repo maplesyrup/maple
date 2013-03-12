@@ -6,6 +6,7 @@ class CompaniesController < ApplicationController
 
   def all
     @companies = Company.paged_companies
+  	render :json => @companies.to_json(:only => [:name, :id])
   end
 
 end
