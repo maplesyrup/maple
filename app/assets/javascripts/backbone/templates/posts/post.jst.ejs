@@ -18,7 +18,11 @@
 
   <div class="glimpse-info">
     <% if (typeof(user) !== "undefined") { %>
-      <img src="/assets/<%= user.profile_image %>" />
+      <% if (!user.uid) { %>
+        <img src="/assets/<%= user.profile_image %>" />
+      <% } else { %>
+        <img src="<%= user.profile_image %>" />
+      <% } %>
     <% } %>
     <div class="glimpse-meta">
       <span class="content">
