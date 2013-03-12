@@ -17,7 +17,7 @@ class Post < ActiveRecord::Base
   end
 
   def profile_image
-    if self.user_id
+    if self.user.uid
       return "http://graph.facebook.com/" + self.user.uid + "/picture"
     else
       return "http://graph.facebook.com/picture"
