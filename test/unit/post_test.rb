@@ -6,7 +6,7 @@ class PostTest < ActiveSupport::TestCase
     companies = companies(:one, :two)
     posts[0].company = companies(:one)
     posts[1].company = companies(:two)
-    posts.save
+    posts.map(&:save)
 
     filtered_posts = Post.paged_posts({ :companies => ["Apple"] })
 
