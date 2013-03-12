@@ -18,4 +18,6 @@
 //= require backbone_datalink
 //= require backbone/maple
 //= require infinity
+//= require bootstrap.min
+//= require custom
 //= require_tree .
