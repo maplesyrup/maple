@@ -20,6 +20,7 @@ Maple::Application.routes.draw do
   # This route can be invoked with purchase_url(:id => product.id)
 
   resources :posts
+  resources :companies
 
   resources :users do
     resources :posts
