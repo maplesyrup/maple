@@ -1,11 +1,3 @@
-def thumbnail_url(post)
-  post.image.url(:medium)
-end
-
-def image_url(post)
-  post.image.url(:medium)
-end
-
 def profile_image(post)
   if post.user.uid
     "http://graph.facebook.com/" + post.user.uid + "/picture"
@@ -45,8 +37,8 @@ json.array!(@posts) do |post|
 
   json.content post.content
   json.created_at post.created_at
-  json.thumbnail thumbnail_url(post)
-  json.image_url image_url(post)
+  json.thumbnail post.image.url(:thumb)
+  json.image_url post.image.url(:medium)
   json.title post.title
   json.total_votes post.votes_for
 
