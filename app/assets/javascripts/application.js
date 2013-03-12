@@ -17,4 +17,5 @@
 //= require backbone_rails_sync
 //= require backbone_datalink
 //= require backbone/maple
+//= require infinity
 //= require_tree .
