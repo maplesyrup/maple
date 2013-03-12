@@ -9,7 +9,7 @@ class Maple.Views.PostsIndexView extends Backbone.View
 
   initialize: ->
     @render()
-    @initializeInfinity()
+    #@initializeInfinity()
     @addAll()
   
   initializeInfinity: ->
@@ -23,8 +23,8 @@ class Maple.Views.PostsIndexView extends Backbone.View
     colId = @.getColumnId(index)
     @view = new Maple.Views.PostView({ model: model })
     console.log [@view.render().el]
-    @infiniteObjects[colId].append $(@view.render().el)
-    #@$el.find(colId).append @view.render().el
+    #@infiniteObjects[colId].append $(@view.render().el)
+    @$el.find(colId).append @view.render().el
 
   getColumnId: (index) ->
     @columnIds[index % @columnIds.length]
