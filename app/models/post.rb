@@ -12,34 +12,6 @@ class Post < ActiveRecord::Base
     self.to_json(:include => [:user, :company])
   end
 
-  def image_url
-    image.url(:medium)
-  end
-
-  def profile_image
-    if self.user_id
-      return "http://graph.facebook.com/" + self.user.uid + "/picture"
-    else
-      return "http://graph.facebook.com/picture"
-    end
-  end
-
-  def total_votes
-    self.votes_for
-  end
-
-  def time_since
-    puts "Time Since"
-    puts self.created_at
-    distance_of_time_in_words_to_now(self.created_at)
-  end
-
-  def user_has_voted
-    if current_user
-      self.voted_by?(current_user)
-    end
-  end
-
   def self.public_models(posts)
     posts.to_json({:include => {:user => { :only => [:uid, :email] }, :company => { :only => :name} }, :methods => [:image_url, :total_votes]}).html_safe
   end
