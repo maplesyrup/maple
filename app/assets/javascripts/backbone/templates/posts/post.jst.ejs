@@ -1,6 +1,6 @@
 <div class="glimpse">
   <div class="inner-glimpse">
-    <img src="<%= image_url %>" />
+    <img src="/assets/<%= image_url %>" />
     <div class="outer-feature">
       <div class="inner-feature">
         <div class="votes">
@@ -18,7 +18,7 @@
 
   <div class="glimpse-info">
     <% if (typeof(user) !== "undefined") { %>
-      <img src="<%= user.profile_image %>" />
+      <img src="/assets/<%= user.profile_image %>" />
     <% } %>
     <div class="glimpse-meta">
       <span class="content">
