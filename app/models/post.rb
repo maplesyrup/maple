@@ -18,7 +18,8 @@ class Post < ActiveRecord::Base
 
   def self.paged_posts(options = {})
     options[:page] ||= 1
-    Post.paginate(:page => options[:page], :per_page => 30)
+    #TODO sort in SQL query so we can paginate
+    Post.all.sort { |p1, p2| p2.votes_for <=> p1.votes_for }
   end
 
 end
