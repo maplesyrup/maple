@@ -1,9 +1,9 @@
 def thumbnail_url(post)
-  post.image.url(:medium)  
+  post.image.url(:medium)
 end
 
 def image_url(post)
-  post.image.url
+  post.image.url(:medium)
 end
 
 def profile_image(uid)
@@ -33,7 +33,7 @@ end
 
 json.array!(@posts) do |post|
   json.id post.id
-  
+
   json.company do
     json.id post.company.id
     json.name post.company.name

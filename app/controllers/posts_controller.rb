@@ -10,9 +10,9 @@ class PostsController < ApplicationController
     end
 
     @post = Post.new(params[:post])
+    require 'pry'; binding.pry
 
     if user_signed_in?
-      @post.save
       user = User.find(current_user.id)
 
       user.posts << @post
@@ -36,7 +36,7 @@ class PostsController < ApplicationController
   def companies
     render :json => Company.all.to_json(:only => [:name, :id])
   end
-  
+
   def index
     if company_signed_in?
       # If a company is signed in, render company specific view
@@ -54,6 +54,7 @@ class PostsController < ApplicationController
   end
 
   def new
+    require 'pry';binding.pry
     @post = Post.new(params[:post])
     @companies = Company.all
   end

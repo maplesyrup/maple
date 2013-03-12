@@ -8,7 +8,7 @@ class Maple.Views.PostView extends Backbone.View
   initialize: ->
     @.model.bind 'change', =>
       if(@.model.hasChanged('total_votes'))
-        @.render();
+        @.render()
 
   vote: ->
     num_votes = @.model.get('total_votes')
