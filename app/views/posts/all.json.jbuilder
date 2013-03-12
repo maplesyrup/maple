@@ -39,6 +39,7 @@ json.array!(@posts) do |post|
   json.created_at post.created_at
   json.thumbnail post.image.url(:thumb)
   json.image_url post.image.url(:medium)
+  json.full_image_url post.image.url
   json.title post.title
   json.total_votes post.votes_for
 
