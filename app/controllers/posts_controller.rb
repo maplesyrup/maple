@@ -55,11 +55,11 @@ class PostsController < ApplicationController
   end
 
   def vote_up
-    if user_signed_in?
-      post = Post.find_by_id(params[:post_id])
-      user = User.find_by_id(current_user.id)
 
-      user.vote_for(post)
-    end
+    post = Post.find_by_id(params[:post_id])
+
+    current_user.vote_for(post)
+
+    render :json => post
   end
 end
