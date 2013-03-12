@@ -8,6 +8,7 @@ Maple::Application.routes.draw do
   get "posts/index"
   get "posts/all"
   post "posts/vote_up"
+  get "posts/companies"
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   devise_for :companies

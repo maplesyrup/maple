@@ -33,6 +33,10 @@ class PostsController < ApplicationController
     @posts = Post.paged_posts
   end
 
+  def companies
+    render :json => Company.all.to_json(:only => [:name, :id])
+  end
+  
   def index
     if company_signed_in?
       # If a company is signed in, render company specific view
@@ -58,10 +62,6 @@ class PostsController < ApplicationController
     if user_signed_in?
       post = Post.find_by_id(params[:post_id])
       user = User.find_by_id(current_user.id)
-      puts "The Post is"
-      puts post
-      puts "The user is"
-      puts user
 
       user.vote_for(post)
     end

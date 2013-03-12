@@ -1,12 +1,20 @@
 class Maple.Views.PostsIndexView extends Backbone.View
 
   el: "#posts"
+  
+  columnIds: ["#col1", "#col2", "#col3", "#col4"]
+  infiniteObjects: []
 
   template: JST["backbone/templates/posts/index"]
 
   initialize: ->
     @render()
+    #@initializeInfinity()
     @addAll()
+  
+  initializeInfinity: ->
+    for columnId in @columnIds
+      @infiniteObjects.push new infinity.ListView( $(columnId) )
 
   addAll: ->
     @collection.forEach(@addOne, @)
@@ -14,15 +22,12 @@ class Maple.Views.PostsIndexView extends Backbone.View
   addOne: (model, index) ->
     colId = @.getColumnId(index)
     @view = new Maple.Views.PostView({ model: model })
+    console.log [@view.render().el]
+    #@infiniteObjects[colId].append $(@view.render().el)
     @$el.find(colId).append @view.render().el
 
   getColumnId: (index) ->
-    switch (index % 4)
-      when 0 then return "#col1"
-      when 1 then return "#col2"
-      when 2 then return "#col3"
-      when 3 then return "#col4"
-      else return "#col1"
+    @columnIds[index % @columnIds.length]
 
   render: ->
     @$el.html @template()
