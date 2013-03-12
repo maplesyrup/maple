@@ -9,8 +9,9 @@
 
   <%= f.password_field :password, :placeholder => "Enter your password" %><br />
 
-  <%= f.submit :class => "btn btn-large btn-primary", :value => "Login" %>
-  <%= link_to "For Companies", new_company_session_path, :class => "btn btn-large btn-success" %>
+  <%= link_to "For Companies", new_company_session_path, :class => "btn btn-large btn-primary" %>
+  <%= f.submit :class => "btn btn-large btn-success", :value => "Login" %>
+
 <% end %>
 
 <%= render "devise/shared/links" %>
