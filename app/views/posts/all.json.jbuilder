@@ -7,7 +7,11 @@ def image_url(post)
 end
 
 def profile_image(uid)
-  "http://graph.facebook.com/" + uid + "/picture"
+  if uid
+    "http://graph.facebook.com/" + uid + "/picture"
+  else
+    current_user.avatar.url(:thumb)
+  end
 end
 
 def time_since(created_at)
