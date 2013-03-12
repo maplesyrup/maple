@@ -5,7 +5,11 @@
       <div class="inner-feature">
         <div class="votes">
           <span class="num-votes"><%= total_votes %></span>
-          <a class="vote" href="#"><span class="label label-info">Vote</span></a>
+          <% if (voted_on == 0) { %>
+            <a class="vote" href="#"><span class="label label-info">Vote</span></a>
+          <% } else if (voted_on == 1) { %>
+            <span class="label label-inverse">Voted</span>
+          <% } %>
         </div>
         <h4><%= title %></h4>
       </div>

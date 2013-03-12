@@ -19,9 +19,9 @@ end
 # 0 - Logged in User, has not voted
 # 1 - Logged in User, has voted
 # 2 - Not logged in user
-def user_has_voted(post, user)
-  if (user)
-    if (post.voted_by?(user))
+def user_has_voted(post)
+  if (current_user)
+    if (post.voted_by?(current_user))
       1
     else
       0
@@ -54,6 +54,6 @@ json.array!(@posts) do |post|
   end
 
   json.time_since time_since(post.created_at)
-  json.voted_on user_has_voted(post, post.user)
+  json.voted_on user_has_voted(post)
 
 end
