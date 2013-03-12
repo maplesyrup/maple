@@ -6,11 +6,11 @@ def image_url(post)
   post.image.url(:medium)
 end
 
-def profile_image(uid)
-  if uid
-    "http://graph.facebook.com/" + uid + "/picture"
+def profile_image(post)
+  if post.user.uid
+    "http://graph.facebook.com/" + post.user.uid + "/picture"
   else
-    current_user.avatar.url(:thumb)
+    post.user.avatar.url(:thumb)
   end
 end
 
@@ -54,7 +54,7 @@ json.array!(@posts) do |post|
     json.id post.user.id
     json.name post.user.name
     json.uid post.user.uid
-    json.profile_image profile_image(post.user.uid)
+    json.profile_image profile_image(post)
   end
 
   json.time_since time_since(post.created_at)
