@@ -29,6 +29,10 @@ class PostsController < ApplicationController
 
   end
 
+  def companies
+    render :json => Company.all.to_json(:only => [:name, :id])
+  end
+  
   def index
     if company_signed_in?
       # If a company is signed in, render company specific view
