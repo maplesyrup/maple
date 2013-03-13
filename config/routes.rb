@@ -5,7 +5,7 @@ Maple::Application.routes.draw do
   get "posts/all"
   post "posts/vote_up"
 
-  match "posts/:company" => "posts#some"
+  match "posts/company/:company" => "posts#some"
 
   get "companies/all"
 

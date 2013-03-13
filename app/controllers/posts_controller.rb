@@ -40,6 +40,7 @@ class PostsController < ApplicationController
   end
 
   def index
+    @companies = Company.all
     if company_signed_in?
       # If a company is signed in, render company specific view
       @companyTaggedPosts = Post.find(:all, :conditions => ["company_id = ?", current_company.id])
@@ -51,7 +52,6 @@ class PostsController < ApplicationController
     else
       # Just render normal view
       @posts = Post.paged_posts
-      @companies = Company.all
     end
   end
 
