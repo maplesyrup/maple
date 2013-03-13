@@ -20,9 +20,9 @@ class Post < ActiveRecord::Base
     options[:page] ||= 1
     #TODO sort in SQL query so we can paginate
     posts = Post.all
-    if options[:companies]
+    if options[:company]
       posts = posts.select do |post|
-        options[:companies].include? post.company.name
+        options[:company].include? post.company.name
       end
     end
 

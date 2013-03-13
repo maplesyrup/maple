@@ -5,9 +5,13 @@ Maple::Application.routes.draw do
   get "posts/all"
   post "posts/vote_up"
 
+  match "posts/:company" => "posts#some"
+
+  get "companies/all"
+
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   devise_for :companies
-  get "companies/all"
+  
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
