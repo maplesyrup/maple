@@ -32,3 +32,6 @@ class Maple.Views.PostsIndexView extends Backbone.View
   render: ->
     @$el.html @template()
     @
+  close: ->
+    @remove
+    @unbind

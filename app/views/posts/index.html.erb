@@ -1,5 +1,11 @@
 <%= render "shared/header" %>
-<%= render "shared/subheader" %>
+
+<ul class="nav nav-pills nav-escape-above">
+  <li class="active"><a href="#">All</a></li>
+  <% for @company in @companies %>
+    <li class="company-listing"><a href="#" filter=<%= "posts/" + @company.name %> ><%= @company.name %></a></li>
+  <% end %>
+</ul>
 
 <div class="container-fluid">
   <div id="posts" class="row glimpses">
@@ -26,25 +32,3 @@
 <div id="imageModal" class="modal hide">
   <img id="imageInModal" src="" />
 </div>
-
-<script type="text/javascript">
-  $(document).ready(function () {
-
-    $.ajax({
-      type: "GET",
-      url: "/posts/all",
-      dataType: "json",
-      success: function(data) {
-        console.log(data);
-        window.router = new Maple.Routers.PostsRouter({ posts: data});
-        Backbone.history.start();
-      },
-      error: function() {
-        console.log("We have an error");
-      }
-    });
-
-
-  });
-
-</script>

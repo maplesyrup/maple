@@ -25,3 +25,8 @@ class Maple.Views.PostView extends Backbone.View
   render: ->
     @$el.html(@template(@model.toJSON()))
     @
+
+  close: ->
+    @remove
+    @unbind
+    @.model.unbind

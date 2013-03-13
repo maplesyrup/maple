@@ -51,7 +51,7 @@ class PostsController < ApplicationController
     else
       # Just render normal view
       @posts = Post.paged_posts
-
+      @companies = Company.all
     end
   end
 
