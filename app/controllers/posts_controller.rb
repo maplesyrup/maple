@@ -29,8 +29,14 @@ class PostsController < ApplicationController
 
   end
 
+
   def all
     @posts = Post.paged_posts
+  end
+
+  def some
+    @posts = Post.paged_posts(params)
+    render "posts/all.json.jbuilder"
   end
 
   def index
