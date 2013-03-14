@@ -8,7 +8,7 @@ class PostTest < ActiveSupport::TestCase
     posts[1].company = companies(:two)
     posts.map(&:save)
 
-    filtered_posts = Post.paged_posts({ :companies => ["Apple"] })
+    filtered_posts = Post.paged_posts({ :company => ["Apple"] })
 
     assert_equal filtered_posts.length, 1
     assert_equal filtered_posts[0].company.name, companies(:one).name
