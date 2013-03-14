@@ -206,6 +206,7 @@ DEPENDENCIES
   quiet_assets
   rails (= 3.2.11)
   rails-backbone
+  rake
   sass-rails (~> 3.2.3)
   sqlite3
   thin

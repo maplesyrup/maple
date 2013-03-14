@@ -33,6 +33,7 @@ group :development, :test do
   gem 'pry'
   gem 'quiet_assets'
   gem 'sqlite3'
+  gem 'rake'
 end
 
 group :production do
