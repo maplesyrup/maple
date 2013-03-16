@@ -8,20 +8,20 @@ class Post < ActiveRecord::Base
 
   acts_as_voteable
 
-  def public_model
+  def public_model(options = {})
     self.to_json(:include => [:user, :company])
   end
 
-  def self.public_models(posts)
-    posts.as_json({:include => {:user => { :only => [:uid, :email] }, :company => { :only => :name} }, :methods => [:image_url, :total_votes]})
+  def self.public_models(posts, options = {})
+    posts_json = posts.as_json({:include => {:user => { :only => [:uid, :email] }, :company => { :only => :name} }, :methods => [:image_url, :total_votes]})
 
-    posts.map do |post|
-      post[:full_image_url] = post.image.url
-      post[:image_url] = post.image.url(:medium)
-      post[:total_votes] = post.votes_for
-      post[:voted_on] = 1
+    posts.each_with_index do |post, idx|
+      posts_json[idx][:full_image_url] = post.image.url
+      posts_json[idx][:image_url] = post.image.url(:medium)
+      posts_json[idx][:total_votes] = post.votes_for
+      posts_json[idx][:voted_on] = post.voted_on(options[:user]) if options[:user]
     end
-    posts.to_json
+    posts_json.to_json
   end
 
   def self.paged_posts(options = {})
@@ -35,6 +35,18 @@ class Post < ActiveRecord::Base
     end
 
     posts.sort { |p1, p2| p2.votes_for <=> p1.votes_for }
+  end
+
+  def voted_on(user)
+    if (user)
+      if (self.voted_by?(user))
+        1
+      else
+        0
+      end
+    else
+      2
+    end
   end
 
 end
