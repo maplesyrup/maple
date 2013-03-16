@@ -3,7 +3,6 @@ class Maple.Views.PostsIndexView extends Backbone.View
   el: "#posts"
 
   columnIds: ["#col1", "#col2", "#col3", "#col4"]
-  infiniteObjects: []
 
   template: JST["backbone/templates/posts/index"]
 
