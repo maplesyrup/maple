@@ -1,0 +1,27 @@
+<%= render "shared/header" %>
+
+<ul class="nav nav-pills nav-escape-above companies">
+</ul>
+
+<div class="container-fluid">
+  <div id="posts" class="row glimpses">
+  </div>
+</div>
+
+<div id="imageModal" class="modal hide">
+  <img id="imageInModal" src="" />
+</div>
+
+<script>
+  $(function()
+  {
+    window.router = new Maple.Routers.PostsRouter({
+      posts: <%= Post.public_models(@posts).html_safe %>,
+    });
+    window.router = new Maple.Routers.CompaniesRouter({
+      companies: <%= Company.public_models(@companies).html_safe %>
+    });
+    Backbone.history.start();
+  });
+</script>
+
