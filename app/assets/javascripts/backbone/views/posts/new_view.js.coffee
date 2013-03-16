@@ -21,20 +21,28 @@ class Maple.Views.NewPostView extends Backbone.View
   save: (e) =>
     e.preventDefault()
     e.stopPropagation()
-    title = @$el.find('#post-title').val()
-    content = @$el.find('#post-content').val()
-    company_id = @$el.find('#post-company').val()
 
-    model = new Maple.Models.Post({title: title, content: content, company_id: company_id})
-    @collection.create model,
-         success: (post) =>
-           @model = post
-           @close()
-           window.location.hash = ""
+    formData = new FormData($('#new-post')[0])
 
+    $.ajax({
+      url: '/posts',
+      type: 'POST',
+      success: (post) =>
+        @collection.add([post])
+        @close()
+        window.location.hash = ''
+      error: (e) => console.log(e),
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false
+    })
+
+  validate: (e) =>
+    console.log(e)
 
   close: =>
-    @remove()
+    @$el.remove()
     @unbind()
 
 

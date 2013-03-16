@@ -9,23 +9,21 @@ class PostsController < ApplicationController
       params[:post].delete :token
     end
 
-    @post = Post.new(params[:post])
+    post = params[:post] ? Post.new(sanitize(params[:post])) : Post.new(sanitize(params))
 
     if user_signed_in?
-      @post.save
-      user = User.find(current_user.id)
 
-      user.posts << @post
-      @post.user = user
+      current_user.posts << post
+      post.user = current_user
 
-      if @post.save
-        user.save
-        redirect_to :action => "index"
-      else
-        render :action => "new"
-      end
+      current_user.save
+      post.save
 
     end
+
+    options = {}
+    options[:user] = current_user if current_user
+    render :json => post.public_model(options)
 
   end
 
@@ -52,5 +50,14 @@ class PostsController < ApplicationController
     current_user.vote_for(post)
 
     render :json => post
+  end
+
+
+  def sanitize(model)
+    sanitized = {}
+    Post.attr_accessible[:default].each do |attr|
+      sanitized[attr] = model[attr] if model[attr]
+    end
+    sanitized
   end
 end

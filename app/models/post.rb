@@ -9,7 +9,14 @@ class Post < ActiveRecord::Base
   acts_as_voteable
 
   def public_model(options = {})
-    self.to_json(:include => [:user, :company])
+    post_json = self.as_json(:include => [:user, :company])
+
+    post_json[:full_image_url] = self.image.url
+    post_json[:image_url] = self.image.url(:medium)
+    post_json[:total_votes] = self.votes_for
+    post_json[:voted_on] = self.voted_on(options[:user]) if options[:user]
+
+    post_json.to_json
   end
 
   def self.public_models(posts, options = {})
