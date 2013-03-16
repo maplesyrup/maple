@@ -1,24 +1,19 @@
 class Maple.Views.PostsIndexView extends Backbone.View
 
   el: "#posts"
-  
+
   columnIds: ["#col1", "#col2", "#col3", "#col4"]
   infiniteObjects: []
 
   template: JST["backbone/templates/posts/index"]
 
   initialize: ->
-    @.collection.bind 'reset', => 
-      @.render() 
+    @.collection.bind 'reset', =>
+      @.render()
       @.addAll()
-    
+
     @render()
-    #@initializeInfinity()
     @addAll()
-  
-  initializeInfinity: ->
-    for columnId in @columnIds
-      @infiniteObjects.push new infinity.ListView( $(columnId) )
 
   addAll: ->
     @collection.forEach(@addOne, @)
