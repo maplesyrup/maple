@@ -13,7 +13,7 @@ class Post < ActiveRecord::Base
   end
 
   def self.public_models(posts)
-    posts.to_json({:include => {:user => { :only => [:uid, :email] }, :company => { :only => :name} }, :methods => [:image_url, :total_votes]}).html_safe
+    posts.to_json({:include => {:user => { :only => [:uid, :email] }, :company => { :only => :name} }, :methods => [:image_url, :total_votes]})
   end
 
   def self.paged_posts(options = {})

@@ -29,35 +29,20 @@ class PostsController < ApplicationController
 
   end
 
-
-  def all
-    @posts = Post.paged_posts
-  end
-
-  def some
-    @posts = Post.paged_posts(params)
-    render "posts/all.json.jbuilder"
-  end
-
   def index
-    @companies = Company.all
-    if company_signed_in?
-      # If a company is signed in, render company specific view
-      @companyTaggedPosts = Post.find(:all, :conditions => ["company_id = ?", current_company.id])
+    options = {}
+    options[:company] = [current_company.name] if company_signed_in?
+    options[:page] = (params[:page] || 1).to_i
 
-      respond_to do |format|
-        format.html
-        format.json { render :json => @companyTaggedPosts.to_json({:include => {:user => { :only => [:uid, :email] }, :company => { :only => :name} }, :methods => [:image_url, :total_votes]}).html_safe }
-      end
-    else
-      # Just render normal view
-      @posts = Post.paged_posts
-    end
+    posts = Post.paged_posts(options)
+
+    render :json => Post.public_models(posts)
   end
 
   def new
-    @post = Post.new(params[:post])
-    @companies = Company.all
+    post = Post.new(params[:post])
+
+    render :json => post.public_model
   end
 
   def vote_up
