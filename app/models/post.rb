@@ -14,7 +14,7 @@ class Post < ActiveRecord::Base
     post_json[:full_image_url] = self.image.url
     post_json[:image_url] = self.image.url(:medium)
     post_json[:total_votes] = self.votes_for
-    post_json[:voted_on] = self.voted_on(options[:user]) if options[:user]
+    post_json[:voted_on] = self.voted_on(options[:user])
 
     post_json.to_json
   end
@@ -26,7 +26,7 @@ class Post < ActiveRecord::Base
       posts_json[idx][:full_image_url] = post.image.url
       posts_json[idx][:image_url] = post.image.url(:medium)
       posts_json[idx][:total_votes] = post.votes_for
-      posts_json[idx][:voted_on] = post.voted_on(options[:user]) if options[:user]
+      posts_json[idx][:voted_on] = post.voted_on(options[:user])
     end
     posts_json.to_json
   end
