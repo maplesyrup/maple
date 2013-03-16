@@ -2,16 +2,14 @@ Maple::Application.routes.draw do
 
   get "users/check_mobile_login"
 
-  get "posts/all"
   post "posts/vote_up"
 
   match "posts/company/:company" => "posts#some"
 
-  get "companies/all"
-
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   devise_for :companies
-  
+
+  get 'application/home'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -27,9 +25,6 @@ Maple::Application.routes.draw do
   resources :posts
   resources :companies
 
-  resources :users do
-    resources :posts
-  end
   # Sample resource route with options:
   #   resources :products do
   #     member do
@@ -65,7 +60,7 @@ Maple::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'posts#index'
+  root :to => 'application#home'
 
   # See how all your routes lay out with "rake routes"
 
