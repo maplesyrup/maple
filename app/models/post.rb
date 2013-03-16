@@ -13,7 +13,15 @@ class Post < ActiveRecord::Base
   end
 
   def self.public_models(posts)
-    posts.to_json({:include => {:user => { :only => [:uid, :email] }, :company => { :only => :name} }, :methods => [:image_url, :total_votes]})
+    posts.as_json({:include => {:user => { :only => [:uid, :email] }, :company => { :only => :name} }, :methods => [:image_url, :total_votes]})
+
+    posts.map do |post|
+      post[:full_image_url] = post.image.url
+      post[:image_url] = post.image.url(:medium)
+      post[:total_votes] = post.votes_for
+      post[:voted_on] = 1
+    end
+    posts.to_json
   end
 
   def self.paged_posts(options = {})
