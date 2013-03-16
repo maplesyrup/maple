@@ -9,9 +9,13 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
 
   routes:
     '' : 'index'
+    'newPost' : 'newPost'
     '*default' : 'index'
 
   index: ->
     @view = new Maple.Views.PostsIndexView({ collection: @posts})
     @view = new Maple.Views.CompaniesIndexView({ collection: @companies})
+
+  newPost: ->
+    @view = new Maple.Views.NewPostView({ collection: @posts, companies: @companies })
 

@@ -1,0 +1,17 @@
+<label for="post-title">Title</label>
+<input type="text" name="post-title" id="post-title" />
+
+<label for="post-content">Content</label>
+<input type="text" name="post-content" id="post-content" />
+
+<select id="post-company">
+<% for (var i = 0; i < companies.length; i++) { %>
+  <option value="<%= companies[i].id %>"><%= companies[i].name %></option>
+<% } %>
+</select>
+
+<label for="post-image">Image</label>
+<input type="file" name="post-image" id="post-image" />
+
+<button id="post-submit">Submit</button>
+
