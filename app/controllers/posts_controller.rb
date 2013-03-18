@@ -6,10 +6,11 @@ class PostsController < ApplicationController
       user = user.fetch
       logged_in_user = User.find_by_uid(user.identifier)
       sign_in(:user, logged_in_user)
-      params[:post].delete :token
     end
 
-    post = params[:post] ? Post.new(sanitize(params[:post])) : Post.new(sanitize(params))
+    post = Post.new(sanitize(params[:post]))
+
+    success = false
 
     if user_signed_in?
 
@@ -17,14 +18,18 @@ class PostsController < ApplicationController
       post.user = current_user
 
       current_user.save
-      post.save
+      success = post.save
 
     end
 
     options = {}
     options[:user] = current_user if current_user
-    render :json => post.public_model(options)
-
+    if success
+      render :json => post.public_model(options)
+    else
+      render :json => post.public_model(options),
+             :status => Rack::Utils.status_code(400)
+    end
   end
 
   def index
