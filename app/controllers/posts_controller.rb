@@ -6,58 +6,46 @@ class PostsController < ApplicationController
       user = user.fetch
       logged_in_user = User.find_by_uid(user.identifier)
       sign_in(:user, logged_in_user)
-      params[:post].delete :token
     end
 
-    @post = Post.new(params[:post])
+    post = Post.new(sanitize(params[:post]))
+
+    success = false
 
     if user_signed_in?
-      @post.save
-      user = User.find(current_user.id)
 
-      user.posts << @post
-      @post.user = user
+      current_user.posts << post
+      post.user = current_user
 
-      if @post.save
-        user.save
-        redirect_to :action => "index"
-      else
-        render :action => "new"
-      end
+      current_user.save
+      success = post.save
 
     end
 
-  end
-
-
-  def all
-    @posts = Post.paged_posts
-  end
-
-  def some
-    @posts = Post.paged_posts(params)
-    render "posts/all.json.jbuilder"
+    options = {}
+    options[:user] = current_user if current_user
+    if success
+      render :json => post.public_model(options)
+    else
+      render :json => post.public_model(options),
+             :status => Rack::Utils.status_code(400)
+    end
   end
 
   def index
-    @companies = Company.all
-    if company_signed_in?
-      # If a company is signed in, render company specific view
-      @companyTaggedPosts = Post.find(:all, :conditions => ["company_id = ?", current_company.id])
+    options = {}
+    options[:company] = [current_company.name] if company_signed_in?
+    options[:page] = (params[:page] || 1).to_i
 
-      respond_to do |format|
-        format.html
-        format.json { render :json => @companyTaggedPosts.to_json({:include => {:user => { :only => [:uid, :email] }, :company => { :only => :name} }, :methods => [:image_url, :total_votes]}).html_safe }
-      end
-    else
-      # Just render normal view
-      @posts = Post.paged_posts
-    end
+    posts = Post.paged_posts(options)
+
+    render :json => Post.public_models(posts)
   end
 
   def new
-    @post = Post.new(params[:post])
-    @companies = Company.all
+    post = Post.new(params[:post])
+
+    render :json => post.public_model
   end
 
   def vote_up
@@ -67,5 +55,14 @@ class PostsController < ApplicationController
     current_user.vote_for(post)
 
     render :json => post
+  end
+
+
+  def sanitize(model)
+    sanitized = {}
+    Post.attr_accessible[:default].each do |attr|
+      sanitized[attr] = model[attr] if model[attr]
+    end
+    sanitized
   end
 end
