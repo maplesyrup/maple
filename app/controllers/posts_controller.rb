@@ -1,6 +1,10 @@
 class PostsController < ApplicationController
 
   def create
+    # post posts/:id
+    #
+    # This route will create a new ad with the given id. It will
+    # also log in mobile users that are posting an ad.
     if params[:token]
       user = FbGraph::User.me(params[:token])
       user = user.fetch
@@ -33,6 +37,10 @@ class PostsController < ApplicationController
   end
 
   def index
+    # get posts
+    #
+    # This route will return all the posts and filter if there are
+    # options specified. Currently we can filter by company
     options = {}
     options[:company] = [current_company.name] if company_signed_in?
     options[:page] = (params[:page] || 1).to_i
@@ -43,12 +51,19 @@ class PostsController < ApplicationController
   end
 
   def new
+    # get posts/new
+    #
+    # This route will a new post with the specified parameters without
+    # saving it to the database
     post = Post.new(params[:post])
 
     render :json => post.public_model
   end
 
   def vote_up
+    # post posts/vote_up
+    #
+    # This will increment the vote for the selected post by 1
 
     post = Post.find_by_id(params[:post_id])
 
