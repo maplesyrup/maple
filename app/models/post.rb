@@ -1,3 +1,45 @@
+# Post Class
+# ==========
+#
+# A post has the following fields:
+# id, title, content, created_at,
+# updated_at, user_id, image_file_name,
+# image_content_type, image_file_size,
+# image_updated_at, company_id.
+#
+# public_model(options):
+# Parameters: "options" - "user" key should be
+# the logged in user
+# Returned JSON includes the author, company,
+# full_image_url, image_url, total_votes,
+# and voted_on
+#
+# self.public_models(posts, options):
+# Parameters: "posts" - Array of posts
+# to convert into JSON, "options" - "user" key
+# should be the logged in user
+# Returned JSON includes the author, company,
+# full_image_url, image_url, total_votes
+# and voted_on
+# 
+# self.paged_posts(options):
+# Parameters: "options" - "company" key
+# is the post's associated Company, "page"
+# key sets the page of Posts to retrieve (defaults
+# to 1)
+# Retrieves all of the Posts and includes
+# the associated Company for a Post if
+# it exists.
+# Sorts the results by the number of votes.
+# 
+# voted_on(user):
+# Parameters: "user" - return if the Post
+# has been voted on by the user
+# Return 0 if the user has not voted
+# on the Post
+# Return 1 if the user voted on the Post
+# Return 2 if user is invalid
+#
 class Post < ActiveRecord::Base
   attr_accessible :content, :title, :image, :company_id
 
