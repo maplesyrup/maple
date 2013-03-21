@@ -1,3 +1,27 @@
+# Company Class
+# =============
+#
+# A Company has the following fields:
+# id, name, created_at, email,
+# encrypted_password, authentication_token,
+# sign_in_count, current_sign_in_at,
+# last_sign_in_at, current_sign_in_ip,
+# last_sign_in_ip, remember_created_at.
+#
+# self.paged_companies(options):
+# Parameters: "options" - specify "page" number
+# Pass in options[:page] to specify
+# which Companies to retrieve.
+# 
+# public_model:
+# Convert the instance Company's attributes
+# into JSON.
+#
+# self.public_models(companies):
+# Parameters: "companies" - array of Companies
+# Pass in an array of Companies and convert
+# them into JSON.
+#
 class Company < ActiveRecord::Base
 
 	attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :id, :name, :encrypted_password
