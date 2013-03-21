@@ -1,0 +1,48 @@
+<!DOCTYPE>
+<html>
+  <head>
+  </head>
+  <body>
+    <h1>MapleSyrup web documentation</h1>
+    <h2>Controllers</h2>
+    <ul>
+      <% @controllers = `ls ./controllers`.split.select { |file| file.end_with?('html') }.map do |file|
+           file.sub('.html','')
+         end %>
+      <% for @c in @controllers %>
+        <li><a href="./controllers/<%= @c %>.html"><%= @c %></a></li>
+      <% end%>
+    </ul>
+    <h2>Models</h2>
+    <ul>
+      <% @models = `ls ./models`.split.select { |file| file.end_with?('html') }.map do |file|
+           file.sub('.html','')
+         end %>
+      <% for @m in @models %>
+        <li><a href="./models/<%= @m %>.html"><%= @m %></a></li>
+      <% end%>
+    </ul>
+    <h2>Backbone<h2>
+
+    <h3>Views</h3>
+    <ul>
+      <% @bbViews = `ls ./javascript/views`.split.select { |file| file.end_with?('html') }.map do |file|
+           file.sub('.html','')
+         end %>
+      <% for @v in @bbViews %>
+        <li><a href="./javascript/views/<%= @v %>.html"><%= @v %></a></li>
+      <% end%>
+    </ul>
+    <h3>Models</h3>
+    <ul>
+      <% @bbModels = `ls ./javascript/models`.split.select { |file| file.end_with?('html') }.map do |file|
+           file.sub('.html','')
+         end %>
+      <% for @m in @bbModels %>
+        <li><a href="./javascript/models/<%= @m %>.html"><%= @m %></a></li>
+      <% end%>
+    </ul>
+
+  </body>
+</html>
+
