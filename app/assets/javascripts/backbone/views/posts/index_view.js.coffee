@@ -1,4 +1,11 @@
 class Maple.Views.PostsIndexView extends Backbone.View
+  # Associates the current View with
+  # the #posts DOM element.
+  # For every Post in the Collection,
+  # render a Post View and append the
+  # it to one of the four columns
+  # DOM elements, #col1, #col2, #col3,
+  # or #col4.
 
   el: "#posts"
 

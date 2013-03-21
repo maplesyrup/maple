@@ -63,48 +63,7 @@
             
             <div class="content"><div class='highlight'><pre><span class="class"><span class="keyword">class</span> <span class="title">PostsController</span> <span class="inheritance">&lt; <span class="parent">ApplicationController</span></span></span>
 
-  <span class="function"><span class="keyword">def</span> <span class="title">create</span></span>
-    <span class="keyword">if</span> params[<span class="symbol">:token</span>]
-      user = <span class="constant">FbGraph::User</span>.me(params[<span class="symbol">:token</span>])
-      user = user.fetch
-      logged_in_user = <span class="constant">User</span>.find_by_uid(user.identifier)
-      sign_in(<span class="symbol">:user</span>, logged_in_user)
-      params[<span class="symbol">:post</span>].delete <span class="symbol">:token</span>
-    <span class="keyword">end</span>
-
-    <span class="variable">@post</span> = <span class="constant">Post</span>.new(params[<span class="symbol">:post</span>])
-
-    <span class="keyword">if</span> user_signed_in?
-      <span class="variable">@post</span>.save
-      user = <span class="constant">User</span>.find(current_user.id)
-
-      user.posts &lt;&lt; <span class="variable">@post</span>
-      <span class="variable">@post</span>.user = user
-
-      <span class="keyword">if</span> <span class="variable">@post</span>.save
-        user.save
-        redirect_to <span class="symbol">:action</span> =&gt; <span class="string">"index"</span>
-      <span class="keyword">else</span>
-        render <span class="symbol">:action</span> =&gt; <span class="string">"new"</span>
-      <span class="keyword">end</span>
-
-    <span class="keyword">end</span>
-
-  <span class="keyword">end</span>
-
-
-  <span class="function"><span class="keyword">def</span> <span class="title">all</span></span>
-    <span class="variable">@posts</span> = <span class="constant">Post</span>.paged_posts
-  <span class="keyword">end</span>
-
-  <span class="function"><span class="keyword">def</span> <span class="title">some</span></span>
-    <span class="variable">@posts</span> = <span class="constant">Post</span>.paged_posts(params)
-    render <span class="string">"posts/all.json.jbuilder"</span>
-  <span class="keyword">end</span>
-
-  <span class="function"><span class="keyword">def</span> <span class="title">index</span></span>
-    <span class="variable">@companies</span> = <span class="constant">Company</span>.all
-    <span class="keyword">if</span> company_signed_in?</pre></div></div>
+  <span class="function"><span class="keyword">def</span> <span class="title">create</span></span></pre></div></div>
             
         </li>
         
@@ -115,17 +74,44 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>If a company is signed in, render company specific view</p>
+              <p>post posts/:id</p>
+<p>This route will create a new ad with the given id. It will
+also log in mobile users that are posting an ad.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="variable">@companyTaggedPosts</span> = <span class="constant">Post</span>.find(<span class="symbol">:all</span>, <span class="symbol">:conditions</span> =&gt; [<span class="string">"company_id = ?"</span>, current_company.id])
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> params[<span class="symbol">:token</span>]
+      user = <span class="constant">FbGraph::User</span>.me(params[<span class="symbol">:token</span>])
+      user = user.fetch
+      logged_in_user = <span class="constant">User</span>.find_by_uid(user.identifier)
+      sign_in(<span class="symbol">:user</span>, logged_in_user)
+    <span class="keyword">end</span>
 
-      respond_to <span class="keyword">do</span> |format|
-        format.html
-        format.json { render <span class="symbol">:json</span> =&gt; <span class="variable">@companyTaggedPosts</span>.to_json({<span class="symbol">:include</span> =&gt; {<span class="symbol">:user</span> =&gt; { <span class="symbol">:only</span> =&gt; [<span class="symbol">:uid</span>, <span class="symbol">:email</span>] }, <span class="symbol">:company</span> =&gt; { <span class="symbol">:only</span> =&gt; <span class="symbol">:name</span>} }, <span class="symbol">:methods</span> =&gt; [<span class="symbol">:image_url</span>, <span class="symbol">:total_votes</span>]}).html_safe }
-      <span class="keyword">end</span>
-    <span class="keyword">else</span></pre></div></div>
+    post = <span class="constant">Post</span>.new(sanitize(params[<span class="symbol">:post</span>]))
+
+    success = <span class="keyword">false</span>
+
+    <span class="keyword">if</span> user_signed_in?
+
+      current_user.posts &lt;&lt; post
+      post.user = current_user
+
+      current_user.save
+      success = post.save
+
+    <span class="keyword">end</span>
+
+    options = {}
+    options[<span class="symbol">:user</span>] = current_user <span class="keyword">if</span> current_user
+    <span class="keyword">if</span> success
+      render <span class="symbol">:json</span> =&gt; post.public_model(options)
+    <span class="keyword">else</span>
+      render <span class="symbol">:json</span> =&gt; post.public_model(options),
+             <span class="symbol">:status</span> =&gt; <span class="constant">Rack::Utils</span>.status_code(<span class="number">400</span>)
+    <span class="keyword">end</span>
+  <span class="keyword">end</span>
+
+  <span class="function"><span class="keyword">def</span> <span class="title">index</span></span></pre></div></div>
             
         </li>
         
@@ -136,26 +122,73 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p>Just render normal view</p>
+              <p>get posts</p>
+<p>This route will return all the posts and filter if there are
+options specified. Currently we can filter by company</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>      <span class="variable">@posts</span> = <span class="constant">Post</span>.paged_posts
-    <span class="keyword">end</span>
+            <div class="content"><div class='highlight'><pre>    options = {}
+    options[<span class="symbol">:company</span>] = [current_company.name] <span class="keyword">if</span> company_signed_in?
+    options[<span class="symbol">:page</span>] = (params[<span class="symbol">:page</span>] || <span class="number">1</span>).to_i
+
+    posts = <span class="constant">Post</span>.paged_posts(options)
+
+    render <span class="symbol">:json</span> =&gt; <span class="constant">Post</span>.public_models(posts)
   <span class="keyword">end</span>
 
-  <span class="function"><span class="keyword">def</span> <span class="title">new</span></span>
-    <span class="variable">@post</span> = <span class="constant">Post</span>.new(params[<span class="symbol">:post</span>])
-    <span class="variable">@companies</span> = <span class="constant">Company</span>.all
+  <span class="function"><span class="keyword">def</span> <span class="title">new</span></span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>get posts/new</p>
+<p>This route will a new post with the specified parameters without
+saving it to the database</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    post = <span class="constant">Post</span>.new(params[<span class="symbol">:post</span>])
+
+    render <span class="symbol">:json</span> =&gt; post.public_model
   <span class="keyword">end</span>
 
-  <span class="function"><span class="keyword">def</span> <span class="title">vote_up</span></span>
+  <span class="function"><span class="keyword">def</span> <span class="title">vote_up</span></span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>post posts/vote_up</p>
+<p>This will increment the vote for the selected post by 1</p>
 
-    post = <span class="constant">Post</span>.find_by_id(params[<span class="symbol">:post_id</span>])
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    post = <span class="constant">Post</span>.find_by_id(params[<span class="symbol">:post_id</span>])
 
     current_user.vote_for(post)
 
     render <span class="symbol">:json</span> =&gt; post
+  <span class="keyword">end</span>
+
+
+  <span class="function"><span class="keyword">def</span> <span class="title">sanitize</span><span class="params">(model)</span></span>
+    sanitized = {}
+    <span class="constant">Post</span>.attr_accessible[<span class="symbol">:default</span>].each <span class="keyword">do</span> |attr|
+      sanitized[attr] = model[attr] <span class="keyword">if</span> model[attr]
+    <span class="keyword">end</span>
+    sanitized
   <span class="keyword">end</span>
 <span class="keyword">end</span></pre></div></div>
             

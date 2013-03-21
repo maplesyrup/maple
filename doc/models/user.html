@@ -72,7 +72,17 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>Include default devise modules. Others available are:
+              <p>A user has the following fields:
+&quot;id&quot;, &quot;email&quot;, &quot;encrypted_password&quot;,
+&quot;reset_password_token&quot;, &quot;reset_password_sent_at&quot;,
+&quot;remember_created_at&quot;, &quot;sign_in_count&quot;,
+&quot;current_sign_in_at&quot;, &quot;last_sign_in_at&quot;,
+&quot;current_sign_in_ip&quot;, &quot;last_sign_in_ip&quot;,
+&quot;created_at&quot;, &quot;updated_at&quot;, &quot;avatar_file_name&quot;,
+&quot;avatar_content_type&quot;, &quot;avatar_file_size&quot;,
+&quot;avatar_updated_at&quot;, &quot;provider&quot;, &quot;uid&quot;, &quot;name&quot;,
+&quot;authentication_token&quot;, &quot;type&quot;</p>
+<p>Include default devise modules. Others available are:
 :token_authenticatable, :confirmable,
 :lockable, :timeoutable and :omniauthable</p>
 
@@ -106,8 +116,27 @@
   acts_as_voter
 
 
-  <span class="function"><span class="keyword">def</span> <span class="title"><span class="keyword">self</span></span>.<span class="title">find_for_facebook_oauth</span><span class="params">(auth, signed_in_resource=<span class="keyword">nil</span>)</span></span>
-    user = <span class="constant">User</span>.where(<span class="symbol">:provider</span> =&gt; auth.provider, <span class="symbol">:uid</span> =&gt; auth.uid).first
+  <span class="function"><span class="keyword">def</span> <span class="title"><span class="keyword">self</span></span>.<span class="title">find_for_facebook_oauth</span><span class="params">(auth, signed_in_resource=<span class="keyword">nil</span>)</span></span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>self.find_for_facebook_oauth(auth,
+signed_in_resource):
+Parameters: &quot;auth&quot; - Facebook authenticated
+user information
+Retrive the User that matches the authenticated
+Facebook user or add a new User to the database</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    user = <span class="constant">User</span>.where(<span class="symbol">:provider</span> =&gt; auth.provider, <span class="symbol">:uid</span> =&gt; auth.uid).first
     <span class="keyword">unless</span> user
       user = <span class="constant">User</span>.create(<span class="symbol">name:</span>auth.extra.raw_info.name,
                            <span class="symbol">provider:</span>auth.provider,
@@ -119,8 +148,26 @@
   <span class="keyword">end</span>
 
 
-  <span class="function"><span class="keyword">def</span> <span class="title"><span class="keyword">self</span></span>.<span class="title">new_with_session</span><span class="params">(params, session)</span></span>
-    <span class="keyword">super</span>.tap <span class="keyword">do</span> |user|
+  <span class="function"><span class="keyword">def</span> <span class="title"><span class="keyword">self</span></span>.<span class="title">new_with_session</span><span class="params">(params, session)</span></span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>self.new_with_session(params, session):
+Parameters: &quot;params&quot; - extra parameters,
+&quot;session&quot; - 
+Use the session&#39;s Facebook email as the User&#39;s
+email if the User does not have an email</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">super</span>.tap <span class="keyword">do</span> |user|
       <span class="keyword">if</span> data = session[<span class="string">"devise.facebook_data"</span>] &amp;&amp; session[<span class="string">"devise.facebook_data"</span>][<span class="string">"extra"</span>][<span class="string">"raw_info"</span>]
         user.email = data[<span class="string">"email"</span>] <span class="keyword">if</span> user.email.blank?
       <span class="keyword">end</span>
