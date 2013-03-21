@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>post_view.js.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="index_view.js.html">
+                index_view.js.coffee
+              </a>
+            
+              
+              <a class="source" href="post_view.js.html">
+                post_view.js.coffee
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>post_view.js.coffee</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="class"><span class="keyword">class</span> <span class="title">Maple</span>.<span class="title">Views</span>.<span class="title">PostView</span> <span class="keyword">extends</span> <span class="title">Backbone</span>.<span class="title">View</span></span>
+
+  template: JST[<span class="string">"backbone/templates/posts/post"</span>]
+
+  events:
+    <span class="string">"click .vote"</span>: <span class="string">"vote"</span>
+
+  initialize: -&gt;
+    @.model.bind <span class="string">'change'</span>, =&gt;
+      <span class="keyword">if</span>(@.model.hasChanged(<span class="string">'total_votes'</span>))
+        @.render()
+
+  vote: -&gt;
+    num_votes = @.model.get(<span class="string">'total_votes'</span>)
+    $.ajax
+      type: <span class="string">"POST"</span>
+      url: <span class="string">"/posts/vote_up"</span>
+      data: <span class="string">"post_id="</span> + @.model.get(<span class="string">'id'</span>)
+      success: =&gt;
+        console.log(<span class="string">"Success"</span>)
+      error: =&gt;
+        console.log(<span class="string">"There was an error"</span>)
+    @.model.set({<span class="string">'total_votes'</span>: num_votes + <span class="number">1</span>, <span class="string">'voted_on'</span>: <span class="number">1</span>})
+
+  render: -&gt;
+    <span class="property">@$el</span>.html(<span class="property">@template</span>(<span class="property">@model</span>.toJSON()))
+    @
+
+  close: -&gt;
+    <span class="property">@remove</span>
+    <span class="property">@unbind</span>
+    @.model.unbind</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

@@ -1,7 +1,7 @@
 # config.ru
 use Rack::Static,
   :urls => ["/controllers", "/models", "/javascript/models", "/javascript/views"],
-  :root => "public"
+  :root => "."
 
 run lambda { |env|
   [
