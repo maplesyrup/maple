@@ -1,13 +1,8 @@
-# Vote Class
-# ==========
-#
-# A vote has the following fields:
-# "id", "vote", "voteable_id", "voteable_type"
-# "voter_id", "voter_type", "created_at",
-# "updated_at"
-#
 class Vote < ActiveRecord::Base
-
+    # A vote has the following fields:
+    # "id", "vote", "voteable_id", "voteable_type"
+    # "voter_id", "voter_type", "created_at",
+    # "updated_at"
   scope :for_voter, lambda { |*args| where(["voter_id = ? AND voter_type = ?", args.first.id, args.first.class.base_class.name]) }
   scope :for_voteable, lambda { |*args| where(["voteable_id = ? AND voteable_type = ?", args.first.id, args.first.class.base_class.name]) }
   scope :recent, lambda { |*args| where(["created_at > ?", (args.first || 2.weeks.ago)]) }

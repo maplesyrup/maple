@@ -24,6 +24,11 @@
               </a>
             
               
+              <a class="source" href="new_view.js.html">
+                new_view.js.coffee
+              </a>
+            
+              
               <a class="source" href="post_view.js.html">
                 post_view.js.coffee
               </a>
@@ -51,9 +56,28 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="class"><span class="keyword">class</span> <span class="title">Maple</span>.<span class="title">Views</span>.<span class="title">PostView</span> <span class="keyword">extends</span> <span class="title">Backbone</span>.<span class="title">View</span></span>
+            <div class="content"><div class='highlight'><pre><span class="class"><span class="keyword">class</span> <span class="title">Maple</span>.<span class="title">Views</span>.<span class="title">PostView</span> <span class="keyword">extends</span> <span class="title">Backbone</span>.<span class="title">View</span></span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Renders a View for a Single Post.
+Binds a click event on the vote
+button to send a POST request and
+register the vote.
+Events modifying the underlying
+model&#39;s attributes will rerender
+the View.</p>
 
-  template: JST[<span class="string">"backbone/templates/posts/post"</span>]
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  template: JST[<span class="string">"backbone/templates/posts/post"</span>]
 
   events:
     <span class="string">"click .vote"</span>: <span class="string">"vote"</span>

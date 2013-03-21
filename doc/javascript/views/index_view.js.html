@@ -19,13 +19,13 @@
           <div id="jump_page">
             
               
-              <a class="source" href="index_view.js.html">
-                index_view.js.coffee
+              <a class="source" href="company_view.js.html">
+                company_view.js.coffee
               </a>
             
               
-              <a class="source" href="post_view.js.html">
-                post_view.js.coffee
+              <a class="source" href="index_view.js.html">
+                index_view.js.coffee
               </a>
             
           </div>
@@ -51,21 +51,7 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="class"><span class="keyword">class</span> <span class="title">Maple</span>.<span class="title">Views</span>.<span class="title">PostsIndexView</span> <span class="keyword">extends</span> <span class="title">Backbone</span>.<span class="title">View</span></span>
-
-  el: <span class="string">"#posts"</span>
-  
-  columnIds: [<span class="string">"#col1"</span>, <span class="string">"#col2"</span>, <span class="string">"#col3"</span>, <span class="string">"#col4"</span>]
-  infiniteObjects: []
-
-  template: JST[<span class="string">"backbone/templates/posts/index"</span>]
-
-  initialize: -&gt;
-    @.collection.bind <span class="string">'reset'</span>, =&gt; 
-      @.render() 
-      @.addAll()
-    
-    <span class="property">@render</span>()</pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="class"><span class="keyword">class</span> <span class="title">Maple</span>.<span class="title">Views</span>.<span class="title">CompaniesIndexView</span> <span class="keyword">extends</span> <span class="title">Backbone</span>.<span class="title">View</span></span></pre></div></div>
             
         </li>
         
@@ -76,48 +62,35 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>@initializeInfinity()</p>
+              <p>Associate the current View with
+the .companies DOM element.
+For every Company inside of the
+Collection, render a Company View
+and append it to the end of the
+.companies DOM element.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="property">@addAll</span>()
-  
-  initializeInfinity: -&gt;
-    <span class="keyword">for</span> columnId <span class="keyword">in</span> <span class="property">@columnIds</span>
-      <span class="property">@infiniteObjects</span>.push <span class="keyword">new</span> infinity.ListView( $(columnId) )
+            <div class="content"><div class='highlight'><pre>  el: <span class="string">".companies"</span>
+
+  template: JST[<span class="string">"backbone/templates/companies/index"</span>]
+
+  initialize: -&gt;
+    <span class="property">@render</span>()
+    <span class="property">@addAll</span>()
 
   addAll: -&gt;
     <span class="property">@collection</span>.forEach(<span class="property">@addOne</span>, @)
 
   addOne: (model, index) -&gt;
-    colId = @.getColumnId(index)
-    <span class="property">@view</span> = <span class="keyword">new</span> Maple.Views.PostView({ model: model })
-    console.log [<span class="property">@view</span>.render().el]</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-3">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-3">&#182;</a>
-              </div>
-              <p>@infiniteObjects[colId].append $(@view.render().el)</p>
+    <span class="property">@view</span> = <span class="keyword">new</span> Maple.Views.CompanyView({ model: model })
 
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    <span class="property">@$el</span>.find(colId).append <span class="property">@view</span>.render().el
+    <span class="property">@$el</span>.append <span class="property">@view</span>.render().el
 
-  getColumnId: (index) -&gt;
-    <span class="property">@columnIds</span>[index % <span class="property">@columnIds</span>.length]
 
   render: -&gt;
     <span class="property">@$el</span>.html <span class="property">@template</span>()
-    @
-  close: -&gt;
-    <span class="property">@remove</span>
-    <span class="property">@unbind</span></pre></div></div>
+    @</pre></div></div>
             
         </li>
         

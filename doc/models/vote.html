@@ -61,9 +61,25 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="class"><span class="keyword">class</span> <span class="title">Vote</span> <span class="inheritance">&lt; <span class="parent">ActiveRecord::Base</span></span></span>
+            <div class="content"><div class='highlight'><pre><span class="class"><span class="keyword">class</span> <span class="title">Vote</span> <span class="inheritance">&lt; <span class="parent">ActiveRecord::Base</span></span></span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>A vote has the following fields:
+&quot;id&quot;, &quot;vote&quot;, &quot;voteable_id&quot;, &quot;voteable_type&quot;
+&quot;voter_id&quot;, &quot;voter_type&quot;, &quot;created_at&quot;,
+&quot;updated_at&quot;</p>
 
-  scope <span class="symbol">:for_voter</span>, lambda { |*args| where([<span class="string">"voter_id = ? AND voter_type = ?"</span>, args.first.id, args.first.<span class="keyword">class</span>.base_class.name]) }
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  scope <span class="symbol">:for_voter</span>, lambda { |*args| where([<span class="string">"voter_id = ? AND voter_type = ?"</span>, args.first.id, args.first.<span class="keyword">class</span>.base_class.name]) }
   scope <span class="symbol">:for_voteable</span>, lambda { |*args| where([<span class="string">"voteable_id = ? AND voteable_type = ?"</span>, args.first.id, args.first.<span class="keyword">class</span>.base_class.name]) }
   scope <span class="symbol">:recent</span>, lambda { |*args| where([<span class="string">"created_at &gt; ?"</span>, (args.first || <span class="number">2</span>.weeks.ago)]) }
   scope <span class="symbol">:descending</span>, order(<span class="string">"created_at DESC"</span>)
@@ -76,11 +92,11 @@
         </li>
         
         
-        <li id="section-2">
+        <li id="section-3">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-2">&#182;</a>
+                <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
               <p>Comment out the line below to allow multiple votes per user.</p>
 

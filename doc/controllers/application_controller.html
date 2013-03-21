@@ -76,7 +76,11 @@
 
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="keyword">end</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>  <span class="function"><span class="keyword">def</span> <span class="title">home</span></span>
+    <span class="variable">@posts</span> = <span class="constant">Post</span>.paged_posts
+    <span class="variable">@companies</span> = <span class="constant">Company</span>.paged_companies
+  <span class="keyword">end</span>
+<span class="keyword">end</span></pre></div></div>
             
         </li>
         
