@@ -1,4 +1,10 @@
 class Maple.Views.NewPostView extends Backbone.View
+    # Associates the current View with
+    # a div.newPost DOM element.
+    # Binds an event on the submit button
+    # so we do a POST request on the
+    # form elements and close the form
+    # after we finish submitting it.
 
   className: 'newPost'
 

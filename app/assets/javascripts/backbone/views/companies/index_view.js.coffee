@@ -1,4 +1,10 @@
 class Maple.Views.CompaniesIndexView extends Backbone.View
+  # Associate the current View with
+  # the .companies DOM element.
+  # For every Company inside of the
+  # Collection, render a Company View
+  # and append it to the end of the
+  # .companies DOM element.
 
   el: ".companies"
 

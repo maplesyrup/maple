@@ -1,4 +1,11 @@
 class Maple.Views.PostView extends Backbone.View
+  # Renders a View for a Single Post.
+  # Binds a click event on the vote
+  # button to send a POST request and
+  # register the vote.
+  # Events modifying the underlying
+  # model's attributes will rerender
+  # the View.
 
   template: JST["backbone/templates/posts/post"]
 
