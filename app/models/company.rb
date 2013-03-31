@@ -35,7 +35,6 @@ class Company < ActiveRecord::Base
     options[:page] ||= 1
     Company.paginate(:page => options[:page], :per_page => 30)
   end
-
   def public_model
     # public_model:
     # Convert the instance Company's attributes

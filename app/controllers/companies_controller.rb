@@ -7,5 +7,14 @@ class CompaniesController < ApplicationController
     companies = Company.paged_companies
   	render :json => Company.public_models(companies)
   end
+
+  def show
+  	# show company
+  	#
+  	# This will show a specific company
+
+  	company = Company.find(params[:id])
+  	render :json => Company.public_models(company)
+  end
 end
 
