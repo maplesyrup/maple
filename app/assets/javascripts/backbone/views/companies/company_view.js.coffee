@@ -2,7 +2,7 @@ class Maple.Views.CompanyView extends Backbone.View
   # Display a company inside of
   # li.company DOM element.
 
-  tagName: "li"
+  tagName: "div"
 
   className: "company"
 

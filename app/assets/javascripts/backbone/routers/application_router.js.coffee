@@ -23,4 +23,4 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
   showCompany: (id) ->
     company = new Maple.Models.Company({ id: id })
     company.fetch success: (data) ->
-      console.log data.attributes
+      $("#maple-main-container").html( new Maple.Views.CompanyView({ model: company }).el )
