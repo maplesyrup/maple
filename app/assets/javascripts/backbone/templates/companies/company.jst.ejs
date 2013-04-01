@@ -6,7 +6,7 @@
 	</div>
 </div>
 	
-<div id="company-header-image">
+<div id="company-header-image" style="<%=' background: url(' + splash_image +') no-repeat center center'%>; background-size: cover"  >
 </div>
 
 <div id="company-information" class="container">
@@ -15,13 +15,13 @@
 			<div class="hero-unit">
 				<h1> Company Blurb</h1>
 				<p class="lead">
-					I had a similar issue with a site. I had a div container that had two columns. A right column that contained long text based articles. In the left column was a div navigation list that contained anchor links 
+					<%= company_blurb %>	
 				</p>
 			</div>
 			<div class="content">
 				<h2> More info </h2>
 				<p>
-					Middlesbrough Football Club (pron.: /ˈmɪdəlzbrə/), also known as Boro, are an English football club based in Middlesbrough, who play in the Football League Championship. Formed in 1876, they have played at the Riverside Stadium since August 1995,[2] their third ground since turning professional in 1889. Their longest-serving home was Ayresome Park, where they played for 92 years, from 1903 to 1995. 
+					<%= more_info %>
 				</p>
 			</div>
 		</div>

@@ -12,9 +12,13 @@ class CompaniesController < ApplicationController
   	# show company
   	#
   	# This will show a specific company
-
-  	company = Company.find(params[:id])
-  	render :json => Company.public_models(company)
-  end
+  	@company_editable = false
+  	if current_company && current_company.id == params[:id].to_i
+  		@company_editable = true
+  		@company = current_company
+  	else
+  		@company = Company.find(params[:id])
+	end
+  end 
 end
 
