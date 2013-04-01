@@ -26,7 +26,7 @@ class Company < ActiveRecord::Base
 			:validatable
 
 	before_save :ensure_authentication_token
-
+  
   def self.paged_companies(options = {})
     # self.paged_companies(options):
     # Parameters: "options" - specify "page" number
@@ -35,11 +35,14 @@ class Company < ActiveRecord::Base
     options[:page] ||= 1
     Company.paginate(:page => options[:page], :per_page => 30)
   end
+
   def public_model
     # public_model:
     # Convert the instance Company's attributes
     # into JSON.
-    self.to_json
+    Jbuilder.encode do |json|
+      json.(self, :id, :name, :splash_image, :company_blurb, :more_info, :company_url)
+    end 
   end
 
   def self.public_models(companies)
@@ -47,7 +50,10 @@ class Company < ActiveRecord::Base
     # Parameters: "companies" - array of Companies
     # Pass in an array of Companies and convert
     # them into JSON.
-    companies.to_json
+    Jbuilder.encode do |json|
+      json.array! companies do |json, company|
+        json.(company, :id, :name, :splash_image, :company_blurb, :more_info, :company_url)
+      end 
+    end
   end
-
 end

@@ -17,7 +17,16 @@
   {
     window.router = new Maple.Routers.ApplicationRouter({
       posts: <%= Post.public_models(@posts, { :user => current_user }).html_safe %>,
-      companies: <%= Company.public_models(@companies).html_safe %>
+      companies: <%= Company.public_models(@companies).html_safe %>, 
+      editable: 
+      <%= 
+        if current_company 
+          current_company.id
+        else
+          -1
+        end 
+      %>
+
     });
     Backbone.history.start();
   });
