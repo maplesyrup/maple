@@ -7,8 +7,10 @@ class Maple.Views.PostsIndexView extends Backbone.View
   # DOM elements, #col1, #col2, #col3,
   # or #col4.
 
-  el: "#posts"
+  id: "posts"
 
+  className: "row glimpses"
+  
   columnIds: ["#col1", "#col2", "#col3", "#col4"]
 
   template: JST["backbone/templates/posts/index"]
@@ -27,8 +29,6 @@ class Maple.Views.PostsIndexView extends Backbone.View
   addOne: (model, index) ->
     colId = @.getColumnId(index)
     @view = new Maple.Views.PostView({ model: model })
-    console.log [@view.render().el]
-    #@infiniteObjects[colId].append $(@view.render().el)
     @$el.find(colId).append @view.render().el
 
   getColumnId: (index) ->
@@ -37,6 +37,7 @@ class Maple.Views.PostsIndexView extends Backbone.View
   render: ->
     @$el.html @template()
     @
+
   close: ->
     @remove
     @unbind
