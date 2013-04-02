@@ -4,6 +4,8 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     @posts = new Maple.Collections.PostsCollection()
     @posts.reset options.posts
 
+    @companyPosts = new Maple.Collections.PostsCollection()
+
     @companies = new Maple.Collections.CompaniesCollection()
     @companies.reset options.companies
 
@@ -24,9 +26,11 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     company = @companies.get id
     that = @ 
     if company
-      $("#maple-main-container").html( new Maple.Views.CompanyShowView({model: company }).el )  
+      @companyPosts.reset company.attributes.posts  
+      $("#maple-main-container").html( new Maple.Views.CompanyShowView({model: company, collection: @companyPosts }).el )  
     else
-    company = new Maple.Models.Company({ id: id })
-    company.fetch success: (data) ->
-      $("#maple-main-container").html( new Maple.Views.CompanyShowView({ model: company }).el )
+      company = new Maple.Models.Company({ id: id })
+      company.fetch success: (data) ->
+      @companyPosts.reset company.attributes.posts
+      $("#maple-main-container").html( new Maple.Views.CompanyShowView({ model: company, collection: @companyPosts }).el )
       that.companies.add company

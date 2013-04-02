@@ -13,9 +13,9 @@ class CompaniesController < ApplicationController
   	#
   	# This will show a specific company
   	if current_company && current_company.id == params[:id].to_i
-  		render :json => current_company.public_model
+  		render :json => current_company.public_model(user => current_user || current_company)
   	else
-  		render :json => Company.find(params[:id]).public_model
+  		render :json => Company.find(params[:id]).public_model( user => current_user )
 	end
   end 
 end
