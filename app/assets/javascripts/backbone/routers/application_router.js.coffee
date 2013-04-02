@@ -14,13 +14,19 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     '*default' : 'index'
 
   index: ->
-    @view = new Maple.Views.PostsIndexView({ collection: @posts})
+    $("#maple-main-container").html(new Maple.Views.PostsIndexView({ collection: @posts}).el)
     @view = new Maple.Views.CompaniesIndexView({ collection: @companies})
 
   newPost: ->
     @view = new Maple.Views.NewPostView({ collection: @posts, companies: [] })
 
   showCompany: (id) ->
+    company = @companies.get id
+    that = @ 
+    if company
+      $("#maple-main-container").html( new Maple.Views.CompanyShowView({model: company }).el )  
+    else
     company = new Maple.Models.Company({ id: id })
     company.fetch success: (data) ->
       $("#maple-main-container").html( new Maple.Views.CompanyShowView({ model: company }).el )
+      that.companies.add company
