@@ -18,7 +18,7 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     @view = new Maple.Views.CompaniesIndexView({ collection: @companies})
 
   newPost: ->
-    @view = new Maple.Views.NewPostView({ collection: @posts, companies: [] })
+    @view = new Maple.Views.NewPostView({ collection: @posts, companies: @companies })
 
   showCompany: (id) ->
     company = @companies.get id
