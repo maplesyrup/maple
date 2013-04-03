@@ -8,6 +8,11 @@ class Maple.Views.CompanyShowView extends Backbone.View
 
   template: JST["backbone/templates/companies/show"]
 
+  events:
+    "click .company-edit-content": "editContent"
+    "hover .company-editable-content" : "toggleEdit" 
+
+  # body...
   initialize: ->
     @render()
 
@@ -19,3 +24,9 @@ class Maple.Views.CompanyShowView extends Backbone.View
       success: =>
         @$el.find("#company-posts-container").html(new Maple.Views.PostsIndexView({ collection: @model.posts }).el)
     @
+
+  editContent: ->
+    console.log "Edit_me"
+
+  toggleEdit: ->
+    console.log "show editable" 
