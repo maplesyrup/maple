@@ -4,7 +4,7 @@ Maple::Application.routes.draw do
 
   post "posts/vote_up"
 
-  match "posts/company/:company" => "posts#some"
+  match "companies/:id/posts" =>  "companies#posts" 
 
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
   devise_for :companies

@@ -44,9 +44,13 @@ class Company < ActiveRecord::Base
     # into JSON.
     Jbuilder.encode do |json|
       json.(self, :id, :name, :splash_image, :company_blurb, :more_info, :company_url)
-      company_posts = JSON.parse(Post.public_models(self.posts, options))
-      json.posts(company_posts) 
-    end 
+      json.editable false
+      if options[:company]
+        if options[:company].id == self.id
+          json.editable true
+        end 
+      end
+    end
   end
 
   def self.public_models(companies, options={})
@@ -57,8 +61,12 @@ class Company < ActiveRecord::Base
     Jbuilder.encode do |json|
       json.array! companies do |json, company| 
         json.(company, :id, :name, :splash_image, :company_blurb, :more_info, :company_url)
-        company_posts = JSON.parse(Post.public_models(company.posts, options))
-        json.posts(company_posts) 
+        json.editable false
+        if options[:company]
+          if options[:company].id == company.id
+            json.editable true
+          end
+        end  
       end 
     end
   end
