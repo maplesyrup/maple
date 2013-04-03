@@ -6,19 +6,28 @@
 	</div>
 </div>
 	
-<div id="company-header-image" style="<%=' background: url(' + splash_image +') no-repeat center center'%>; background-size: cover"  >
+<div id="company-header-image" style="<%=' background: url(' + splash_image +') no-repeat center center'%>; background-size: cover">
+<% if (editable === true) { %>
+	<div class="company-editable-content">Edit</div>
+<% } %>
 </div>
 
 <div id="company-information" class="container">
 	<div class="row-fluid">
 		<div class="span8 company-blurb">
 			<div class="hero-unit">
+				<% if (editable === true) { %>
+					<div class="company-editable-content">Edit</div>
+				<% } %>
 				<h1> Company Blurb</h1>
 				<p class="lead">
 					<%= company_blurb %>	
 				</p>
 			</div>
 			<div class="content">
+				<% if (editable === true) { %>
+					<div class="company-editable-content">Edit</div>
+				<% } %>
 				<h2> More info </h2>
 				<p>
 					<%= more_info %>
