@@ -51,6 +51,11 @@ h1, h2, h3, h4, h5, h6 {
   background: rgba(0,0,0,0.4)
 }
 
+.company-editable-content
+{
+  float: right;
+}
+
 .sub-header {
   font-size: 28px;
   margin-bottom: 10px;
