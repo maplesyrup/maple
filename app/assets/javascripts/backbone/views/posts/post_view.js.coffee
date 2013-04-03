@@ -27,7 +27,7 @@ class Maple.Views.PostView extends Backbone.View
         console.log("Success")
       error: =>
         console.log("There was an error")
-    @.model.set({'total_votes': num_votes + 1, 'voted_on': Maple.Models.Post.VOTED.YES})
+    @.model.set({'total_votes': num_votes + 1, 'voted_on': Maple.Post.VOTED.YES})
 
   render: ->
     @$el.html(@template(@model.toJSON()))
