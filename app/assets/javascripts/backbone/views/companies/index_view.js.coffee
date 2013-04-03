@@ -18,7 +18,7 @@ class Maple.Views.CompaniesIndexView extends Backbone.View
     @collection.forEach(@addOne, @)
 
   addOne: (model, index) ->
-    @view = new Maple.Views.CompanyView({ model: model })
+    @view = new Maple.Views.CompaniesPillView({ model: model })
 
     @$el.append @view.render().el
 
