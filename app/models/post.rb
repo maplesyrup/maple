@@ -63,9 +63,13 @@ class Post < ActiveRecord::Base
     # Sorts the results by the number of votes.
     options[:page] ||= 1
     posts = Post.all
-    if options[:company]
+    if options[:company_id]
       posts = posts.select do |post|
-        options[:company].include? post.company.name
+        options[:company_id].to_i == post.company.id.to_i
+      end
+    elsif options[:user_id]
+      posts = posts.select do |post|
+        options[:user_id].to_i == post.user.id.to_i
       end
     end
 
