@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130401051210) do
+ActiveRecord::Schema.define(:version => 20130403173711) do
 
   create_table "companies", :force => true do |t|
     t.string   "name"
@@ -27,10 +27,10 @@ ActiveRecord::Schema.define(:version => 20130401051210) do
     t.string   "last_sign_in_ip"
     t.datetime "remember_created_at"
     t.string   "image",                :default => "",                                                                   :null => false
+    t.string   "company_url",          :default => "",                                                                   :null => false
     t.string   "splash_image",         :default => "http://www.hybridlava.com/wp-content/uploads/Wide_wallPAPER011.jpg", :null => false
     t.string   "company_blurb",        :default => "Your company blurb",                                                 :null => false
     t.string   "more_info",            :default => "More space for information here",                                    :null => false
-    t.string   "company_url",          :default => "",                                                                   :null => false
   end
 
   create_table "posts", :force => true do |t|
