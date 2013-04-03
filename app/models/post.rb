@@ -15,6 +15,12 @@ class Post < ActiveRecord::Base
 
   acts_as_voteable
 
+  module VOTED
+    NO = 'no'
+    YES = 'yes'
+    UNAVAILABLE = 'unavailable'
+  end
+
   def public_model(options = {})
     # public_model(options):
     # Parameters: "options" - "user" key should be
@@ -76,23 +82,10 @@ class Post < ActiveRecord::Base
     posts.sort { |p1, p2| p2.votes_for <=> p1.votes_for }
   end
 
-  def voted_on(user)
-    # voted_on(user):
-    # Parameters: "user" - return if the Post
-    # has been voted on by the user
-    # Return 0 if the user has not voted
-    # on the Post
-    # Return 1 if the user voted on the Post
-    # Return 2 if user is invalid
-    if (user)
-      if (self.voted_by?(user))
-        1
-      else
-        0
-      end
-    else
-      2
-    end
+  def voted_on(user = nil)
+    return self.voted_by?(user) ? VOTED::YES : VOTED::NO if user
+
+    VOTED::UNAVAILABLE
   end
 
 end

@@ -14,4 +14,16 @@ class PostTest < ActiveSupport::TestCase
     assert_equal filtered_posts[0].company.id, companies[0].id
 
   end
+
+  test "voted on" do
+    post = posts(:one)
+    users = users(:one, :two)
+
+    users[0].vote_for(post)
+    users[0].save
+
+    assert_equal post.voted_on(users[0]), Post::VOTED::YES
+    assert_equal post.voted_on(users[1]), Post::VOTED::NO
+    assert_equal post.voted_on, Post::VOTED::UNAVAILABLE
+  end
 end
