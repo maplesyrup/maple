@@ -13,5 +13,6 @@ class Maple.Views.CompanyShowView extends Backbone.View
 
   render: ->
     @$el.html(@template(@model.toJSON()))
-    @$el.find("#company-posts-container").html(new Maple.Views.PostsIndexView({ collection: @collection }).el)
+    @model.posts.fetch success: =>
+      @$el.find("#company-posts-container").html(new Maple.Views.PostsIndexView({ collection: @model.posts }).el)
     @
