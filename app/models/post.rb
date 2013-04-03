@@ -67,6 +67,10 @@ class Post < ActiveRecord::Base
       posts = posts.select do |post|
         options[:company_id].to_i == post.company.id.to_i
       end
+    elsif options[:user_id]
+      posts = posts.select do |post|
+        options[:user_id].to_i == post.user.id.to_i
+      end
     end
 
     posts.sort { |p1, p2| p2.votes_for <=> p1.votes_for }

@@ -18,15 +18,5 @@ class CompaniesController < ApplicationController
   		render :json => Company.find(params[:id]).public_model({:user => current_user, :company => current_company})
     end
   end
-  
-  def posts
-   
-    options = {} 
-    options[:company_id] = params[:id] 
-    options[:page] = (params[:page] || 1).to_i
-    posts = Post.paged_posts(options)
-
-    render :json => Post.public_models(posts)
-  end 
 end
 

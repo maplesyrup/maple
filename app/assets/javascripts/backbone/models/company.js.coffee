@@ -4,8 +4,8 @@ class Maple.Models.Company extends Backbone.Model
 
   initialize: ->
   	@posts = new	Maple.Collections.PostsCollection
-  	@posts.url = @urlRoot + '/' + @id + '/posts'	 	
-  
+  	@posts.url = '/posts'	 	
+ 			 
 class Maple.Collections.CompaniesCollection extends Backbone.Collection
   model: Maple.Models.Company
   url: '/companies'

@@ -45,10 +45,8 @@ class Company < ActiveRecord::Base
     Jbuilder.encode do |json|
       json.(self, :id, :name, :splash_image, :company_blurb, :more_info, :company_url)
       json.editable false
-      if options[:company]
-        if options[:company].id == self.id
-          json.editable true
-        end 
+      if options[:company] && options[:company].id == self.id
+        json.editable true
       end
     end
   end
@@ -62,10 +60,8 @@ class Company < ActiveRecord::Base
       json.array! companies do |json, company| 
         json.(company, :id, :name, :splash_image, :company_blurb, :more_info, :company_url)
         json.editable false
-        if options[:company]
-          if options[:company].id == company.id
-            json.editable true
-          end
+        if options[:company] && options[:company].id == company.id
+          json.editable true
         end  
       end 
     end
