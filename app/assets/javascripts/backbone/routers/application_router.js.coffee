@@ -24,9 +24,9 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     company = @companies.get id
     that = @ 
     if company
-      $("#maple-main-container").html( new Maple.Views.CompanyShowView({model: company }).el )  
+      $("#maple-main-container").html( new Maple.Views.CompanyShowView({ model: company }).el )  
     else
-    company = new Maple.Models.Company({ id: id })
-    company.fetch success: (data) ->
+      company = new Maple.Models.Company({ id: id })
+      company.fetch success: (data) ->
       $("#maple-main-container").html( new Maple.Views.CompanyShowView({ model: company }).el )
       that.companies.add company
