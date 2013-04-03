@@ -83,13 +83,6 @@ class Post < ActiveRecord::Base
   end
 
   def voted_on(user = nil)
-    # voted_on(user):
-    # Parameters: "user" - return if the Post
-    # has been voted on by the user
-    # Return 0 if the user has not voted
-    # on the Post
-    # Return 1 if the user voted on the Post
-    # Return 2 if user is invalid
     return self.voted_by?(user) ? VOTED::YES : VOTED::NO if user
 
     VOTED::UNAVAILABLE
