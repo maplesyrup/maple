@@ -8,7 +8,7 @@
 	
 <div id="company-header-image" class="company-hover-content" style="<%=' background: url(' + splash_image +') no-repeat center center'%>; background-size: cover">
 <% if (editable === true) { %>
-	<div class="company-edit-content">Edit</div>
+	<div class="company-edit-content" id="company-splash-image">Edit</div>
 <% } %>
 </div>
 
@@ -20,14 +20,14 @@
 					<% if (editable === true) { %>
 						<div id="company-blurb-title" class="company-edit-content">Edit</div>
 					<% } %>	
-					<h1> Company Blurb</h1>
+					<h1> <%= blurb_title %> </h1>
 				</div>
 				<div class="company-hover-content">
 					<% if (editable === true) { %>
 						<div id="company-blurb-body" class="company-edit-content">Edit</div>
 					<% } %>	
 					<p class="lead">
-						<%= company_blurb %>	
+						<%= blurb_body %>	
 					</p>
 				</div>
 			</div>
@@ -36,14 +36,14 @@
 					<% if (editable === true) { %>
 						<div id="company-more-info-title" class="company-edit-content">Edit</div>
 					<% } %>
-					<h2> More info </h2>
+					<h2> <%= more_info_title %> </h2>
 				</div>
 				<div class="company-hover-content">
 					<% if (editable === true) { %>
 						<div id="company-more-info-body" class="company-edit-content">Edit</div>
 					<% } %>
 					<p>
-						<%= more_info %>
+						<%= more_info_body %>
 					</p>
 				</div>
 			</div>
