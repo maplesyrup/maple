@@ -10,8 +10,9 @@ class Maple.Views.CompanyShowView extends Backbone.View
 
   events:
     "click .company-edit-content": "editContent"
-    "hover .company-editable-content" : "toggleEdit" 
-
+    "mouseover .company-hover-content" : "toggleEdit" 
+    "mouseout .company-hover-content" : "toggleEdit"
+  
   # body...
   initialize: ->
     @render()
@@ -28,5 +29,5 @@ class Maple.Views.CompanyShowView extends Backbone.View
   editContent: ->
     console.log "Edit_me"
 
-  toggleEdit: ->
-    console.log "show editable" 
+  toggleEdit: (data) ->
+    $(data.currentTarget).find(".company-edit-content").toggle()
