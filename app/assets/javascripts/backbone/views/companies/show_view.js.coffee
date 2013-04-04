@@ -12,7 +12,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
     "click .company-edit-content": "editContent"
     "mouseover .company-hover-content" : "toggleEdit" 
     "mouseout .company-hover-content" : "toggleEdit"
-  
+     
   # body...
   initialize: ->
     @render()
@@ -26,8 +26,8 @@ class Maple.Views.CompanyShowView extends Backbone.View
         @$el.find("#company-posts-container").html(new Maple.Views.PostsIndexView({ collection: @model.posts }).el)
     @
 
-  editContent: ->
-    console.log "Edit_me"
+  editContent: (event) ->
+    console.log $(event.currentTarget).data
 
-  toggleEdit: (data) ->
-    $(data.currentTarget).find(".company-edit-content").toggle()
+  toggleEdit: (event) ->
+    $(event.currentTarget).find(".company-edit-content").toggle()
