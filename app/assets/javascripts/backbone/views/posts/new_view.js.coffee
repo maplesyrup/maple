@@ -36,7 +36,7 @@ class Maple.Views.NewPostView extends Backbone.View
       success: (post) =>
         @collection.add([post])
         @close()
-        window.location.hash = ''
+        window.router.navigate('/')
       error: (e) => console.log(e),
       data: formData,
       cache: false,
