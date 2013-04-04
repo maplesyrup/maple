@@ -9,10 +9,9 @@ class Maple.Views.CompanyShowView extends Backbone.View
   template: JST["backbone/templates/companies/show"]
 
   events:
-    "click .company-edit-content": "editContent"
-    "mouseover .company-hover-content" : "toggleEdit" 
-    "mouseout .company-hover-content" : "toggleEdit"
-     
+    "focus [contenteditable]" : "editContent"
+    "blur [contenteditable]" : "updateContent"
+  
   # body...
   initialize: ->
     @render()
@@ -26,22 +25,29 @@ class Maple.Views.CompanyShowView extends Backbone.View
         @$el.find("#company-posts-container").html(new Maple.Views.PostsIndexView({ collection: @model.posts }).el)
     @
 
-  getContent: (id) ->
+  saveContent: (id, content) ->
     if id ==  "company-blurb-title"
-      return  @model.attributes.blurb_title
+      @model.set({ blurb_title: content })
+      @model.save("blurb_title", { patch: true })
     else if id == "company-blurb-body"
-      return @model.attributes.blurb_body
+      @model.set({ blurb_body: content })
+      @model.save("blurb_body", { patch: true })
     else if id == "company-more-info-title"
-      return @model.attributes.more_info_title
+      @model.set({ more_info_title: content })
+      @model.save("more_info_title", { patch: true })
     else if id == "company-more-info-body"
-      return @model.attributes.more_info_body
+      @model.set({ more_info_body: content })
+      @model.save("more_info_body", { patch: true })
     else if id == "company-splash-image"
-      return @model.attributes.splash_image 
+      @model.set({ splash_image: content }) 
+      @model.save("splash_image", { patch: true })
     else
       return ""
 
+  updateContent: (event) ->
+    target = $(event.currentTarget)
+    targetID = target.attr("id")
+    @saveContent(targetID, target.html()) 
+      
   editContent: (event) ->
-    currentContent = @getContent $(event.currentTarget).attr("id")
-    
-  toggleEdit: (event) ->
-    $(event.currentTarget).find(".company-edit-content").toggle()
+    target = $(event.currentTarget)

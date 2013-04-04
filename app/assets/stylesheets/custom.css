@@ -38,6 +38,17 @@ h1, h2, h3, h4, h5, h6 {
   width: 100%;
 }
 
+[contenteditable="true"]
+{
+  outline: none;
+}
+
+[contenteditable="true"]:hover 
+{
+ outline: 3px dashed #0090D2; 
+ background-color: #fff;
+}
+
 #company-posts-container
 {
   padding-top: 20px;
@@ -48,12 +59,6 @@ h1, h2, h3, h4, h5, h6 {
   padding-top: 20px;
   padding-bottom: 20px;
   background: rgba(0,0,0,0.4)
-}
-
-.company-edit-content
-{
-  float: right;
-  display: none;
 }
 
 .sub-header {

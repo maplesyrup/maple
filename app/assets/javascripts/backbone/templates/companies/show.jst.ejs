@@ -16,36 +16,20 @@
 	<div class="row-fluid">
 		<div class="span8 company-blurb">
 			<div class="hero-unit">
-				<div class="company-hover-content">
-					<% if (editable === true) { %>
-						<div id="company-blurb-title" class="company-edit-content">Edit</div>
-					<% } %>	
-					<h1> <%= blurb_title %> </h1>
-				</div>
-				<div class="company-hover-content">
-					<% if (editable === true) { %>
-						<div id="company-blurb-body" class="company-edit-content">Edit</div>
-					<% } %>	
-					<p class="lead">
-						<%= blurb_body %>	
-					</p>
-				</div>
+				<h1 contenteditable="<%= editable %>" id="company-blurb-title"> 
+					<%= blurb_title %> 
+				</h1>
+				<p class="lead" id="company-blurb-body" contenteditable="<%= editable %>">
+					<%= blurb_body %>	
+				</p>
 			</div>
 			<div class="content">
-				<div class="company-hover-content">
-					<% if (editable === true) { %>
-						<div id="company-more-info-title" class="company-edit-content">Edit</div>
-					<% } %>
-					<h2> <%= more_info_title %> </h2>
-				</div>
-				<div class="company-hover-content">
-					<% if (editable === true) { %>
-						<div id="company-more-info-body" class="company-edit-content">Edit</div>
-					<% } %>
-					<p>
-						<%= more_info_body %>
-					</p>
-				</div>
+				<h2 id="company-more-info-title" contenteditable="<%= editable %>"> 
+					<%= more_info_title %> 
+				</h2>
+				<p id="company-more-info-body" contenteditable="<%= editable %>">
+					<%= more_info_body %>
+				</p>
 			</div>
 		</div>
 		<div class="span4 sponsored-challenges">
