@@ -11,14 +11,14 @@ class Maple.Views.CompanyShowView extends Backbone.View
   events:
     "focus [contenteditable]" : "editContent"
     "blur [contenteditable]" : "updateContent"
-  
-  # body...
+    "click #company-header-image" : "newImageDialog"
+ 
   initialize: ->
     @render()
 
   render: ->
     @$el.html(@template(@model.toJSON()))
-    @model.posts.fetch
+    @model.posts.fetch # lazy fetch of associated posts
       data: 
         company_id: @model.id
       success: =>
@@ -47,3 +47,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
       
   editContent: (event) ->
     target = $(event.currentTarget)
+
+  newImageDialog: (event) ->
+    @$el.find("#company-select-new-image").html( new Maple.Views.UploadImageView({ model: @model }).el)
+    @

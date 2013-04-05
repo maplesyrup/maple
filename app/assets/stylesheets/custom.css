@@ -20,22 +20,30 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 1;
 }
 
-#company-information
+#company-splash-image
 {
-  margin-top: 400px;
+  margin-bottom: 40px;
+  margin-top : -20px;
 }
 
+.full-width
+{
+  margin-left: -20px;
+  width: 103%;
+}
 #company-header-image
 {
-  top: 40px;
-  left: 0px;
-  position: absolute;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
   height: 400px;
-  width: 100%;
+}
+
+.image-container
+{
+  height: 100px;
+  background-color: #333333;
 }
 
 [contenteditable="true"]
