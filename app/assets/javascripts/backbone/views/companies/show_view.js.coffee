@@ -28,22 +28,18 @@ class Maple.Views.CompanyShowView extends Backbone.View
   saveContent: (id, content) ->
     if id ==  "company-blurb-title"
       @model.set({ blurb_title: content })
-      @model.save("blurb_title", { patch: true })
     else if id == "company-blurb-body"
       @model.set({ blurb_body: content })
-      @model.save("blurb_body", { patch: true })
     else if id == "company-more-info-title"
       @model.set({ more_info_title: content })
-      @model.save("more_info_title", { patch: true })
     else if id == "company-more-info-body"
       @model.set({ more_info_body: content })
-      @model.save("more_info_body", { patch: true })
     else if id == "company-splash-image"
       @model.set({ splash_image: content }) 
-      @model.save("splash_image", { patch: true })
     else
       return ""
-
+    @model.save()
+  
   updateContent: (event) ->
     target = $(event.currentTarget)
     targetID = target.attr("id")

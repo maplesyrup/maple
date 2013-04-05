@@ -18,7 +18,10 @@ class Company < ActiveRecord::Base
   # last_sign_in_at, current_sign_in_ip,
   # last_sign_in_ip, remember_created_at.
 
-	attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :id, :name, :encrypted_password
+	attr_accessible :splash_image, :blurb_title, :blurb_body, 
+      :more_info_title, :more_info_body, :company_url, 
+      :email, :password, :password_confirmation, :remember_me, :provider, 
+      :id, :name, :encrypted_password
 
 	devise :database_authenticatable, :token_authenticatable,
 			:registerable, :recoverable,
