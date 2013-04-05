@@ -6,10 +6,7 @@
 	</div>
 </div>
 	
-<div id="company-header-image" class="company-hover-content" style="<%=' background: url(' + splash_image +') no-repeat center center'%>; background-size: cover">
-<% if (editable === true) { %>
-	<div class="company-edit-content" id="company-splash-image">Edit</div>
-<% } %>
+<div id="company-header-image" class="company-hover-content" contenteditable="<%= editable %>" style="<%=' background: url(' + splash_image +') no-repeat center center'%>; background-size: cover">
 </div>
 
 <div id="company-information" class="container">
