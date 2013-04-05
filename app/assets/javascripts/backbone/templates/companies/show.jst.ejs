@@ -6,22 +6,26 @@
 	</div>
 </div>
 	
-<div id="company-header-image" style="<%=' background: url(' + splash_image +') no-repeat center center'%>; background-size: cover"  >
+<div id="company-header-image" class="company-hover-content" contenteditable="<%= editable %>" style="<%=' background: url(' + splash_image +') no-repeat center center'%>; background-size: cover">
 </div>
 
 <div id="company-information" class="container">
 	<div class="row-fluid">
 		<div class="span8 company-blurb">
 			<div class="hero-unit">
-				<h1> Company Blurb</h1>
-				<p class="lead">
-					<%= company_blurb %>	
+				<h1 contenteditable="<%= editable %>" id="company-blurb-title"> 
+					<%= blurb_title %> 
+				</h1>
+				<p class="lead" id="company-blurb-body" contenteditable="<%= editable %>">
+					<%= blurb_body %>	
 				</p>
 			</div>
 			<div class="content">
-				<h2> More info </h2>
-				<p>
-					<%= more_info %>
+				<h2 id="company-more-info-title" contenteditable="<%= editable %>"> 
+					<%= more_info_title %> 
+				</h2>
+				<p id="company-more-info-body" contenteditable="<%= editable %>">
+					<%= more_info_body %>
 				</p>
 			</div>
 		</div>

@@ -18,7 +18,10 @@ class Company < ActiveRecord::Base
   # last_sign_in_at, current_sign_in_ip,
   # last_sign_in_ip, remember_created_at.
 
-	attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :id, :name, :encrypted_password
+	attr_accessible :splash_image, :blurb_title, :blurb_body, 
+      :more_info_title, :more_info_body, :company_url, 
+      :email, :password, :password_confirmation, :remember_me, :provider, 
+      :id, :name, :encrypted_password
 
 	devise :database_authenticatable, :token_authenticatable,
 			:registerable, :recoverable,
@@ -43,7 +46,7 @@ class Company < ActiveRecord::Base
     # Convert the instance Company's attributes
     # into JSON.
     Jbuilder.encode do |json|
-      json.(self, :id, :name, :splash_image, :company_blurb, :more_info, :company_url)
+      json.(self, :id, :name, :splash_image, :blurb_title, :blurb_body, :more_info_title, :more_info_body, :company_url)
       json.editable false
       if options[:company] && options[:company].id == self.id
         json.editable true
@@ -58,7 +61,7 @@ class Company < ActiveRecord::Base
     # them into JSON.
     Jbuilder.encode do |json|
       json.array! companies do |json, company| 
-        json.(company, :id, :name, :splash_image, :company_blurb, :more_info, :company_url)
+        json.(company, :id, :name, :splash_image, :blurb_title, :blurb_body, :more_info_title, :more_info_body, :company_url)
         json.editable false
         if options[:company] && options[:company].id == company.id
           json.editable true
