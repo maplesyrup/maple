@@ -8,6 +8,11 @@ class Maple.Views.CompanyShowView extends Backbone.View
 
   template: JST["backbone/templates/companies/show"]
 
+  events:
+    "focus [contenteditable]" : "editContent"
+    "blur [contenteditable]" : "updateContent"
+  
+  # body...
   initialize: ->
     @render()
 
@@ -19,3 +24,26 @@ class Maple.Views.CompanyShowView extends Backbone.View
       success: =>
         @$el.find("#company-posts-container").html(new Maple.Views.PostsIndexView({ collection: @model.posts }).el)
     @
+
+  saveContent: (id, content) ->
+    if id ==  "company-blurb-title"
+      @model.set({ blurb_title: content })
+    else if id == "company-blurb-body"
+      @model.set({ blurb_body: content })
+    else if id == "company-more-info-title"
+      @model.set({ more_info_title: content })
+    else if id == "company-more-info-body"
+      @model.set({ more_info_body: content })
+    else if id == "company-splash-image"
+      @model.set({ splash_image: content }) 
+    else
+      return ""
+    @model.save()
+  
+  updateContent: (event) ->
+    target = $(event.currentTarget)
+    targetID = target.attr("id")
+    @saveContent(targetID, target.html()) 
+      
+  editContent: (event) ->
+    target = $(event.currentTarget)
