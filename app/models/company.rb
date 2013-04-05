@@ -1,14 +1,3 @@
-# Company Class
-# =============
-#
-
-#
-
-# 
-
-#
-
-#
 class Company < ActiveRecord::Base
 
   # A Company has the following fields:
