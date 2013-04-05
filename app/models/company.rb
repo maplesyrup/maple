@@ -9,8 +9,10 @@ class Company < ActiveRecord::Base
 
 	attr_accessible :splash_image, :blurb_title, :blurb_body, 
       :more_info_title, :more_info_body, :company_url, 
-      :email, :password, :password_confirmation, :remember_me, :provider, 
+      :email, :password, :password_confirmation, :remember_me, :provider, :logo
       :id, :name, :encrypted_password
+
+  has_attached_file :logo, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "posts/:style/missing.png"
 
 	devise :database_authenticatable, :token_authenticatable,
 			:registerable, :recoverable,
