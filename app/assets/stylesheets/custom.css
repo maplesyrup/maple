@@ -27,6 +27,14 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 60px;
 }
 
+#uploadLogoModal {
+  padding: 20px;
+}
+
+.modal h1 {
+  margin-bottom: 20px;
+}
+
 .no-logo {
   border: 1px solid #CCCCCC;
   text-align: center;

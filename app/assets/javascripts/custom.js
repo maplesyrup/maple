@@ -5,4 +5,9 @@ $(document).ready(function() {
     $("#imageInModal").attr("src", url);
     $("#imageModal").modal("show");
   });
+
+  $("body").on("click", ".logo", function(e) {
+    console.log("Clicked on the logo upload modal");
+    $("#uploadLogoModal").modal("show");
+  });
 });

@@ -49,3 +49,13 @@
 
 <div id="company-posts-container" class="container-fluid">
 </div>
+
+<div id="uploadLogoModal" class="modal hide">
+	<h1>Upload New Company Logo</h1>
+	<form accept-charset="UTF-8" action="/companies" class="edit_company" enctype="multipart/form-data" id="edit-company" method="post">
+	  <input type="file" name="post[logo]" id="company-logo" />
+
+	  <button id="company-submit">Submit</button>
+	</form>
+</div>
+
