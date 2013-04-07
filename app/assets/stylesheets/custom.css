@@ -9,6 +9,34 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Lato', "Helvetica", sans-serif;
   margin: 0;
 }
+
+#logo-placeholder {
+  width: 200px;
+  height: 200px;
+  margin-bottom: 20px;
+  float: left;
+  border: 1px solid #CCCCCC;
+  text-align: center;
+  font-size: 64px;
+  line-height: 200px;
+  font-weight: bold;
+  color: #CCCCCC;
+  background-color: #FFFFFF;
+}
+
+.company-content {
+  margin-left: 220px;
+  margin-bottom: 60px;
+}
+
+.modal h1 {
+  margin-bottom: 20px;
+}
+
+.hero-unit {
+  padding: 20px;
+}
+
 .nav-escape-above { padding-top: 40px;}
 
 .large-header {
@@ -45,8 +73,9 @@ h1, h2, h3, h4, h5, h6 {
 
 [contenteditable="true"]:hover 
 {
- outline: 3px dashed #0090D2; 
- background-color: #fff;
+  outline: 3px dashed #0090D2; 
+  background-color: #fff;
+  cursor: pointer;
 }
 
 #company-posts-container
