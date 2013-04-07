@@ -17,7 +17,8 @@ class Maple.Views.CompanyShowView extends Backbone.View
   initialize: ->
     @model.on "change", =>
       if @model.hasChanged("logo_urls")
-        @$el.find("#logo-placeholder").html('<img src="' + @model.get("logo_urls").medium + '"" />')
+        replaceImageTemplate = JST["backbone/templates/helpers/replace_image"]
+        @$el.find("#logo-placeholder").html(replaceImageTemplate({url: @model.get("logo_urls").medium}))
 
     @render()
 
