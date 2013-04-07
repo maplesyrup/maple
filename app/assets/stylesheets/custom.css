@@ -24,11 +24,6 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #FFFFFF;
 }
 
-#logo-placeholder:hover {
-  outline: 3px dashed #0090D2; 
-  cursor: pointer;
-}
-
 .company-content {
   margin-left: 220px;
   margin-bottom: 60px;
@@ -78,8 +73,9 @@ h1, h2, h3, h4, h5, h6 {
 
 [contenteditable="true"]:hover 
 {
- outline: 3px dashed #0090D2; 
- background-color: #fff;
+  outline: 3px dashed #0090D2; 
+  background-color: #fff;
+  cursor: pointer;
 }
 
 #company-posts-container
