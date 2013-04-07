@@ -15,10 +15,13 @@ class Maple.Views.CompanyShowView extends Backbone.View
   
   # body...
   initialize: ->
+    @model.on "change", =>
+      if @model.hasChanged("logo_urls")
+        @$el.find("#logo-placeholder").html('<img src="' + @model.get("logo_urls").medium + '"" />')
+
     @render()
 
   render: ->
-    console.log(@model)
     @$el.html(@template(@model.toJSON()))
     @model.posts.fetch
       data: 
@@ -32,32 +35,19 @@ class Maple.Views.CompanyShowView extends Backbone.View
     event.stopPropagation()
 
     formData = new FormData($('#add-company-logo')[0])
-    console.log(formData)
-    console.log(@model)
 
     $.ajax({
       url: '/companies/' + @model.id,
       type: 'PUT',
       success: (company) =>
-        console.log("Edited company")
-        #@collection.add([post])
-        #@close()
-        #window.router.navigate('/')
+        @model.set(company)
+        $("#uploadLogoModal").modal('hide')
       error: (e) => console.log(e),
       data: formData,
       cache: false,
       contentType: false,
       processData: false
     })
-
-    '''
-    console.log(logoField.val())
-    console.log(logoField.files[0])
-    console.log(logoField.files[0].getAsBinary())
-
-    console.log("a")
-    '''
-    #@saveContent(targetID, )
 
   saveContent: (id, content) ->
     if id ==  "company-blurb-title"

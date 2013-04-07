@@ -6,7 +6,7 @@ $(document).ready(function() {
     $("#imageModal").modal("show");
   });
 
-  $("body").on("click", ".logo", function(e) {
+  $("body").on("click", "#logo-placeholder", function(e) {
     $("#uploadLogoModal").modal("show");
   });
 });

@@ -37,6 +37,11 @@ class Company < ActiveRecord::Base
     # into JSON.
     Jbuilder.encode do |json|
       json.(self, :id, :name, :splash_image, :blurb_title, :blurb_body, :more_info_title, :more_info_body, :company_url)
+      json.logo_urls do
+        json.full self.logo.url
+        json.medium self.logo.url(:medium)
+        json.thumb self.logo.url(:thumb)
+      end
       json.editable false
       if options[:company] && options[:company].id == self.id
         json.editable true
