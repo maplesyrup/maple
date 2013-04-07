@@ -37,7 +37,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
     formData = new FormData($('#add-company-logo')[0])
 
     $.ajax({
-      url: '/companies/' + @model.id,
+      url: @model.url(),
       type: 'PUT',
       success: (company) =>
         @model.set(company)
