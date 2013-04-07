@@ -7,7 +7,6 @@ $(document).ready(function() {
   });
 
   $("body").on("click", ".logo", function(e) {
-    console.log("Clicked on the logo upload modal");
     $("#uploadLogoModal").modal("show");
   });
 });

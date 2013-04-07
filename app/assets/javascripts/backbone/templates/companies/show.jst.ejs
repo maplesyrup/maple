@@ -52,10 +52,10 @@
 
 <div id="uploadLogoModal" class="modal hide">
 	<h1>Upload New Company Logo</h1>
-	<form accept-charset="UTF-8" action="/companies" class="edit_company" enctype="multipart/form-data" id="edit-company" method="post">
-	  <input type="file" name="post[logo]" id="company-logo" />
+	<form accept-charset="UTF-8" action="/companies" enctype="multipart/form-data" id="add-company-logo" method="post">
+	  <input type="file" name="company[logo]" id="company-logo-field" />
 
-	  <button id="company-submit">Submit</button>
+	  <button id="company-submit-logo">Submit</button>
 	</form>
 </div>
 

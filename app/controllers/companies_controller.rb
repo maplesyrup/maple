@@ -20,9 +20,11 @@ class CompaniesController < ApplicationController
   end
   
   def update
+    puts "Inside of companies#update"
     @company = Company.find(params[:id])
     if current_company && current_company.id == @company.id
       @company.update_attributes(sanitize(params[:company]))
+      puts @company
       render :json => {}, :status => 200
     else
       render :json => {}, :status => 403 
