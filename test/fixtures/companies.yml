@@ -1,7 +1,15 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
+apple:
   name: Apple
+  blurb_title: Expensive products
+  blurb_body: We are the elite. Only $$ makes us happy
+  more_info_title: Here is some more info
+  more_info_body: God we make sexy products are so super shiny
 
-two:
+microsoft:
   name: Microsoft
+  blurb_title: Shit products
+  blurb_body: We are the peasants. Only frustration makes us happy
+  more_info_title: Here is some more info on microsoft
+  more_info_body: God we make shit products that are so super cheap
