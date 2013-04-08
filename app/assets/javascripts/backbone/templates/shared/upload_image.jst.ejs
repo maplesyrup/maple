@@ -1,0 +1,14 @@
+<div class="container select-new-image-container">
+	<div class="row-fluid select-new-image-container-inner" id="photo-drop-bin">
+		<div class="span12 select-new-image-option">
+			<i title="Nope, get me out of here" class="icon-remove icon-2x pull-right"></i>
+			<form accept-charset="UTF-8" action="/companies" enctype="multipart/form-data" id="add-splash-image" method="post">
+				<input type="file" name="company[splash_image]" id="splash-image-field" />
+			</form>
+			<i title="Save your image permanently" class="icon-ok icon-3x pull-left" id="save-image-button"></i>
+			<i class="icon-folder-close icon-4x company-image-folder" id="closed-folder"></i>	
+			<i class="icon-folder-open icon-4x company-image-folder" id="opened-folder"></i>
+			<i class="icon-spinner icon-spin file-loading icon-4x"></i>
+		</div>
+	</div>
+</div>		
