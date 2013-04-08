@@ -7,10 +7,14 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     @companies = new Maple.Collections.CompaniesCollection()
     @companies.reset options.companies
 
+    @users = new Maple.Collections.UsersCollection()
+    # no user bootstrapping. We'll lazy load instead 
+     
   routes:
     '' : 'index'
     'newPost' : 'newPost'
     'companies/:id' : 'showCompany'
+    'users/:id' : 'showUser'
     '*default' : 'index'
 
   index: ->
@@ -21,12 +25,27 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     @view = new Maple.Views.NewPostView({ collection: @posts, companies: @companies })
 
   showCompany: (id) ->
-    company = @companies.get id
-    that = @ 
+    company = @companies.get id 
     if company
+      # Use existing model if possible
       $("#maple-main-container").html( new Maple.Views.CompanyShowView({ model: company }).el )  
+    
     else
+      # Fetch model and add to collection
       company = new Maple.Models.Company({ id: id })
-      company.fetch success: (data) ->
-      $("#maple-main-container").html( new Maple.Views.CompanyShowView({ model: company }).el )
-      that.companies.add company
+      company.fetch success: (data) =>
+        $("#maple-main-container").html( new Maple.Views.CompanyShowView({ model: company }).el )
+        @companies.add company
+
+  showUser: (id) ->
+    user = @users.get id
+    if user
+      # Use existing model if possible
+      $("#maple-main-container").html( new Maple.Views.UserShowView({ model: user }).el )
+
+    else
+      # Fetch model and add to collection
+      user = new Maple.Models.User({ id: id })
+      user.fetch success: (data) =>
+        $("#maple-main-container").html( new Maple.Views.UserShowView({ model: user }).el )
+        @users.add user 
