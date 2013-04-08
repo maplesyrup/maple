@@ -5,4 +5,8 @@ $(document).ready(function() {
     $("#imageInModal").attr("src", url);
     $("#imageModal").modal("show");
   });
+
+  $("body").on("click", "#logo-placeholder", function(e) {
+    $("#uploadLogoModal").modal("show");
+  });
 });

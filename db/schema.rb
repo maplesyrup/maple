@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130404044134) do
+ActiveRecord::Schema.define(:version => 20130405203624) do
 
   create_table "companies", :force => true do |t|
     t.string   "name"
@@ -33,6 +33,10 @@ ActiveRecord::Schema.define(:version => 20130404044134) do
     t.string   "blurb_body",           :default => "Hey, this is our company!",                                          :null => false
     t.string   "more_info_title",      :default => "More Info",                                                          :null => false
     t.string   "more_info_body",       :default => "Here's a little more about us.",                                     :null => false
+    t.string   "logo_file_name"
+    t.string   "logo_content_type"
+    t.integer  "logo_file_size"
+    t.datetime "logo_updated_at"
   end
 
   create_table "posts", :force => true do |t|
