@@ -19,6 +19,7 @@ class Maple.Views.PostView extends Backbone.View
 
   vote: ->
     num_votes = @.model.get('total_votes')
+
     $.ajax
       type: "POST"
       url: "/posts/vote_up"
@@ -27,6 +28,7 @@ class Maple.Views.PostView extends Backbone.View
         console.log("Success")
       error: =>
         console.log("There was an error")
+
     @.model.set({'total_votes': num_votes + 1, 'voted_on': Maple.Post.VOTED.YES})
 
   render: ->

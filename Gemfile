@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.11'
-gem 'rails-backbone'
+gem 'rails-backbone', "~> 0.9.10"
 gem 'devise'
 gem "paperclip", "~> 3.0"
 gem 'aws-sdk'
@@ -11,6 +11,7 @@ gem 'will_paginate', '~> 3.0'
 gem "fb_graph", "~> 2.6.5"
 gem 'thumbs_up'
 gem "jbuilder", "~> 1.0.2"
+gem "tire"
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

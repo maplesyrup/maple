@@ -6,7 +6,7 @@ class PostsControllerTest < ActionController::TestCase
 
   def setup
     @user = users(:one)
-    @company = companies(:one)
+    @company = companies(:apple)
     sign_in @user
   end
 
