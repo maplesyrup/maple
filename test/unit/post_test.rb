@@ -3,7 +3,7 @@ require 'test_helper'
 class PostTest < ActiveSupport::TestCase
   test "filtered posts" do
     posts = posts(:one, :two)
-    companies = companies(:one, :two)
+    companies = companies(:apple, :microsoft)
     posts[0].company = companies[0]
     posts[1].company = companies[1]
     posts.map(&:save)
