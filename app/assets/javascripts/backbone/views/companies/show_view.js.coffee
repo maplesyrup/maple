@@ -11,9 +11,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
   events:
     "focus [contenteditable]" : "editContent"
     "blur [contenteditable]" : "updateContent"
-    "click #company-submit-logo" : "submitLogo"
-  
-  # body...
+
   initialize: ->
     @model.on "change", =>
       if @model.hasChanged("logo_urls")
@@ -24,7 +22,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
 
   render: ->
     @$el.html(@template(@model.toJSON()))
-    @model.posts.fetch
+    @model.posts.fetch # lazy fetch of associated posts
       data: 
         company_id: @model.id
       success: =>
@@ -59,13 +57,16 @@ class Maple.Views.CompanyShowView extends Backbone.View
       @model.set({ more_info_title: content })
     else if id == "company-more-info-body"
       @model.set({ more_info_body: content })
-    else if id == "company-splash-image"
-      @model.set({ splash_image: content }) 
     else if id == "company-logo-field"
       @model.set({ logo: content })
     else
-      return ""
-    @model.save()
+      return false 
+
+    @model.patch(
+      ["blurb_title", 
+      "blurb_body", 
+      "more_info_title", 
+      "more_info_body"])
   
   updateContent: (event) ->
     target = $(event.currentTarget)
@@ -73,4 +74,11 @@ class Maple.Views.CompanyShowView extends Backbone.View
     @saveContent(targetID, target.html()) 
       
   editContent: (event) ->
+    event.stopPropagation()
+    event.preventDefault()
+    
     target = $(event.currentTarget)
+    if target.attr("id") == "company-header-image"
+      @$el.find("#company-select-new-image").html( new Maple.Views.UploadImageView({ model: @model }).el)
+    else 
+      return false

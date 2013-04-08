@@ -22,6 +22,8 @@ class Company < ActiveRecord::Base
   
   has_many :posts
 
+  has_attached_file :splash_image, :default_url => "http://www.hybridlava.com/wp-content/uploads/Wide_wallPAPER011.jpg"  
+  
   def self.paged_companies(options = {})
     # self.paged_companies(options):
     # Parameters: "options" - specify "page" number
