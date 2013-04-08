@@ -47,6 +47,8 @@ class Company < ActiveRecord::Base
     # Pass in options[:page] to specify
     # which Companies to retrieve.
     options[:page] ||= 1
+
+    # crumb specifies what field in the model you want to search
     options[:crumb] ||= 'name'
     options[:query] ||= '*'
 

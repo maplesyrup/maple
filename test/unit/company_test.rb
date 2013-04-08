@@ -15,6 +15,16 @@ class CompanyTest < ActiveSupport::TestCase
   def teardown
   end
 
+  test "public model with inclusion of posts" do
+    post = posts(:one)
+    @apple.posts << post
+    c = @apple.public_model({ :include_posts => true })
+    response = JSON.parse(c)
+
+    assert response
+    assert_equal 1, response['posts'].length
+  end
+
   test "Basic model search" do
     c = Company.paged_companies
     assert_equal 2, c.results.length
