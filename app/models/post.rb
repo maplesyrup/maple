@@ -1,4 +1,6 @@
 class Post < ActiveRecord::Base
+  include Tire::Model::Search
+  include Tire::Model::Callbacks
 
   # A post has the following fields:
   # id, title, content, created_at,
@@ -15,10 +17,24 @@ class Post < ActiveRecord::Base
 
   acts_as_voteable
 
+  mapping do
+    indexes :_id, index: :not_analyzed
+    indexes :title
+    indexes :content
+    indexes :company_id, type: "integer"
+    indexes :user_id, type: "integer"
+    indexes :total_votes, type: "integer", index: :not_analyzed
+    indexes :created_at, type: "date", index: :not_analyzed
+  end
+
   module VOTED
     NO = 'no'
     YES = 'yes'
     UNAVAILABLE = 'unavailable'
+  end
+
+  def to_indexed_json
+    self.public_model
   end
 
   def public_model(options = {})
@@ -68,18 +84,23 @@ class Post < ActiveRecord::Base
     # it exists.
     # Sorts the results by the number of votes.
     options[:page] ||= 1
-    posts = Post.all
-    if options[:company_id]
-      posts = posts.select do |post|
-        options[:company_id].to_i == post.company.id.to_i
+    options[:crumb] ||= 'title'
+    options[:query] ||= '*'
+
+    s = self.search(load: true, page: options[:page], per_page: 30) do
+      query do
+        string "#{options[:crumb]}:#{options[:query]}", default_operator: 'AND'
       end
-    elsif options[:user_id]
-      posts = posts.select do |post|
-        options[:user_id].to_i == post.user.id.to_i
+
+      filter :term, { :company_id => options[:company_id] } if options[:company_id].present?
+      filter :term, { :user_id => options[:user_id] } if options[:user_id].present?
+
+      if options[:sort].present?
+        sort do
+          by options[:sort][:by], (options[:sort][:order] || "desc")
+        end
       end
     end
-
-    posts.sort { |p1, p2| p2.votes_for <=> p1.votes_for }
   end
 
   def voted_on(user = nil)
