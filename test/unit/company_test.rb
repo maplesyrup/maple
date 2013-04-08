@@ -11,6 +11,10 @@ class CompanyTest < ActiveSupport::TestCase
     @microsoft = companies(:microsoft)
     Company.index.import [@microsoft, @apple]
     Company.index.refresh
+
+    Post.index_name('test_' + Post.model_name.plural)
+    Post.index.delete
+    Post.create_elasticsearch_index
   end
 
   def teardown
@@ -18,6 +22,10 @@ class CompanyTest < ActiveSupport::TestCase
 
   test "public model with inclusion of posts" do
     post = posts(:one)
+
+    Post.index.import [post]
+    Post.index.refresh
+
     @apple.posts << post
     c = @apple.public_model({ :include_posts => true })
     response = JSON.parse(c)
