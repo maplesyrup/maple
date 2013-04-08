@@ -34,19 +34,14 @@ class Maple.Views.CompanyShowView extends Backbone.View
     event.stopPropagation()
 
     formData = new FormData($('#add-company-logo')[0])
-
-    $.ajax({
-      url: @model.url(),
-      type: 'PUT',
+    
+    @model.savePaperclip(formData,
+      type: 'PUT' 
       success: (company) =>
         @model.set(company)
         $("#uploadLogoModal").modal('hide')
-      error: (e) => console.log(e),
-      data: formData,
-      cache: false,
-      contentType: false,
-      processData: false
-    })
+      error: (e) =>
+        console.log(e))  
 
   saveContent: (id, content) ->
     if id ==  "company-blurb-title"
@@ -78,7 +73,10 @@ class Maple.Views.CompanyShowView extends Backbone.View
     event.preventDefault()
     
     target = $(event.currentTarget)
-    if target.attr("id") == "company-header-image"
+    targetID = target.attr("id")
+    if targetID == "company-header-image"
       @$el.find("#company-select-new-image").html( new Maple.Views.UploadImageView({ model: @model }).el)
-    else 
+    else if targetID == "company-submit-logo"
+      @submitLogo(event)
+    else
       return false
