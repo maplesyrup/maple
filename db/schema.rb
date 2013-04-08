@@ -11,28 +11,31 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130404044134) do
+ActiveRecord::Schema.define(:version => 20130407084918) do
 
   create_table "companies", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at",                                                                                             :null => false
-    t.datetime "updated_at",                                                                                             :null => false
-    t.string   "email",                :default => "",                                                                   :null => false
-    t.string   "encrypted_password",   :default => "",                                                                   :null => false
+    t.datetime "created_at",                                                              :null => false
+    t.datetime "updated_at",                                                              :null => false
+    t.string   "email",                     :default => "",                               :null => false
+    t.string   "encrypted_password",        :default => "",                               :null => false
     t.string   "authentication_token"
-    t.integer  "sign_in_count",        :default => 0
+    t.integer  "sign_in_count",             :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.datetime "remember_created_at"
-    t.string   "image",                :default => "",                                                                   :null => false
-    t.string   "company_url",          :default => "",                                                                   :null => false
-    t.string   "splash_image",         :default => "http://www.hybridlava.com/wp-content/uploads/Wide_wallPAPER011.jpg", :null => false
-    t.string   "blurb_title",          :default => "Company Blurb",                                                      :null => false
-    t.string   "blurb_body",           :default => "Hey, this is our company!",                                          :null => false
-    t.string   "more_info_title",      :default => "More Info",                                                          :null => false
-    t.string   "more_info_body",       :default => "Here's a little more about us.",                                     :null => false
+    t.string   "image",                     :default => "",                               :null => false
+    t.string   "company_url",               :default => "",                               :null => false
+    t.string   "blurb_title",               :default => "Company Blurb",                  :null => false
+    t.string   "blurb_body",                :default => "Hey, this is our company!",      :null => false
+    t.string   "more_info_title",           :default => "More Info",                      :null => false
+    t.string   "more_info_body",            :default => "Here's a little more about us.", :null => false
+    t.string   "splash_image_file_name"
+    t.string   "splash_image_content_type"
+    t.integer  "splash_image_file_size"
+    t.datetime "splash_image_updated_at"
   end
 
   create_table "posts", :force => true do |t|

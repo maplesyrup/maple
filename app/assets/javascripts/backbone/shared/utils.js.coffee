@@ -5,16 +5,21 @@ class Maple.Utils
 	# javascript that no one wants 
 	# to write a second time
 
-	@uploadFile: (_file, _url, _onsuccess, _onerror)=>
+	@uploadFile: (_file, _url, _onsuccess, _onerror, _options) =>
 		form = new FormData()
 		form.append 'file', _file	
-		@upload(form, _url, _onsuccess, _onerror)
+		@upload(form, _url, _onsuccess, _onerror, _options)
 
-	@uploadForm: (_data, _url, _onsuccess, _onerror) ->
+	@upload: (_data, _url, _onsuccess, _onerror, options) ->
 
+		type = undefined
+
+		if options
+			type = options.type
+			
 		$.ajax({
 			url: _url
-			type: 'POST'
+			type: type || 'POST'
 			data: _data
 			processData: false
 			cache: false

@@ -28,6 +28,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
   saveContent: (id, content) ->
     if id ==  "company-blurb-title"
       @model.set({ blurb_title: content })
+      @model.save({blurb_title: content}, {patch: true})
     else if id == "company-blurb-body"
       @model.set({ blurb_body: content })
     else if id == "company-more-info-title"
@@ -38,7 +39,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
       @model.set({ splash_image: content }) 
     else
       return ""
-    @model.save()
+    #@model.save()
   
   updateContent: (event) ->
     target = $(event.currentTarget)

@@ -21,6 +21,8 @@ class CompaniesController < ApplicationController
   
   def update
     @company = Company.find(params[:id])
+    require 'pry'
+    binding.pry 
     if current_company && current_company.id == @company.id
       @company.update_attributes(sanitize(params[:company]))
       render :json => {}, :status => 200
