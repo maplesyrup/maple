@@ -3,6 +3,7 @@ require 'test_helper'
 class CompanyTest < ActiveSupport::TestCase
   def setup
     # Have to delete index before each test
+    Company.index_name('test_' + Company.model_name.plural)
     Company.index.delete
     Company.create_elasticsearch_index
 
