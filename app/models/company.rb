@@ -1,14 +1,3 @@
-# Company Class
-# =============
-#
-
-#
-
-# 
-
-#
-
-#
 class Company < ActiveRecord::Base
 
   # A Company has the following fields:
@@ -20,8 +9,9 @@ class Company < ActiveRecord::Base
 
 	attr_accessible :splash_image, :blurb_title, :blurb_body, 
       :more_info_title, :more_info_body, :company_url, 
-      :email, :password, :password_confirmation, :remember_me, :provider, 
-      :id, :name, :encrypted_password
+      :email, :password, :password_confirmation, :remember_me, :provider, :logo, :id, :name, :encrypted_password
+
+  has_attached_file :logo, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "posts/:style/missing.png"
 
 	devise :database_authenticatable, :token_authenticatable,
 			:registerable, :recoverable,
@@ -49,6 +39,11 @@ class Company < ActiveRecord::Base
     # into JSON.
     Jbuilder.encode do |json|
       json.(self, :id, :name, :splash_image, :blurb_title, :blurb_body, :more_info_title, :more_info_body, :company_url)
+      json.logo_urls do
+        json.full self.logo.url
+        json.medium self.logo.url(:medium)
+        json.thumb self.logo.url(:thumb)
+      end
       json.editable false
       if options[:company] && options[:company].id == self.id
         json.editable true
@@ -64,6 +59,11 @@ class Company < ActiveRecord::Base
     Jbuilder.encode do |json|
       json.array! companies do |json, company| 
         json.(company, :id, :name, :splash_image, :blurb_title, :blurb_body, :more_info_title, :more_info_body, :company_url)
+        json.logo_urls do
+          json.full company.logo.url
+          json.medium company.logo.url(:medium)
+          json.thumb company.logo.url(:thumb)
+        end
         json.editable false
         if options[:company] && options[:company].id == company.id
           json.editable true

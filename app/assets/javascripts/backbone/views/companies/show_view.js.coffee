@@ -11,8 +11,13 @@ class Maple.Views.CompanyShowView extends Backbone.View
   events:
     "focus [contenteditable]" : "editContent"
     "blur [contenteditable]" : "updateContent"
- 
+
   initialize: ->
+    @model.on "change", =>
+      if @model.hasChanged("logo_urls")
+        replaceImageTemplate = JST["backbone/templates/helpers/replace_image"]
+        @$el.find("#logo-placeholder").html(replaceImageTemplate({url: @model.get("logo_urls").medium}))
+
     @render()
 
   render: ->
@@ -24,6 +29,25 @@ class Maple.Views.CompanyShowView extends Backbone.View
         @$el.find("#company-posts-container").html(new Maple.Views.PostsIndexView({ collection: @model.posts }).el)
     @
 
+  submitLogo: (event) ->
+    event.preventDefault()
+    event.stopPropagation()
+
+    formData = new FormData($('#add-company-logo')[0])
+
+    $.ajax({
+      url: @model.url(),
+      type: 'PUT',
+      success: (company) =>
+        @model.set(company)
+        $("#uploadLogoModal").modal('hide')
+      error: (e) => console.log(e),
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false
+    })
+
   saveContent: (id, content) ->
     if id ==  "company-blurb-title"
       @model.set({ blurb_title: content })
@@ -33,6 +57,8 @@ class Maple.Views.CompanyShowView extends Backbone.View
       @model.set({ more_info_title: content })
     else if id == "company-more-info-body"
       @model.set({ more_info_body: content })
+    else if id == "company-logo-field"
+      @model.set({ logo: content })
     else
       return false 
 

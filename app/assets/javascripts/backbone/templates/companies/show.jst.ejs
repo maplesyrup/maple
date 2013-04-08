@@ -15,6 +15,14 @@
 	<div class="row-fluid">
 		<div class="span8 company-blurb">
 			<div class="hero-unit">
+				<div contenteditable="<%= editable %>" id="logo-placeholder">
+					<% if (logo_urls.medium) { %>
+						<img src="<%= logo_urls.medium %>" />
+					<% } else { %>
+						?
+					<% } %>
+				</div>
+				<div class="company-content">
 				<h1 contenteditable="<%= editable %>" id="company-blurb-title"> 
 					<%= blurb_title %> 
 				</h1>
@@ -22,6 +30,7 @@
 					<%= blurb_body %>	
 				</p>
 			</div>
+		</div>
 			<div class="content">
 				<h2 id="company-more-info-title" contenteditable="<%= editable %>"> 
 					<%= more_info_title %> 
@@ -46,3 +55,24 @@
 
 <div id="company-posts-container" class="container-fluid">
 </div>
+
+<% if (editable) { %>
+	<div id="uploadLogoModal" class="modal hide">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	    <h3>Upload Company Logo</h3>	
+		</div>
+
+		<div class="modal-body">
+			<form accept-charset="UTF-8" action="/companies" enctype="multipart/form-data" id="add-company-logo" method="post">
+			  <input type="file" name="company[logo]" id="company-logo-field" />
+			 </form>
+		</div>
+
+		<div class="modal-footer">
+			<a href="" id="company-submit-logo" class="btn btn-primary">Upload</a>
+		</div>
+
+	</div>
+<% } %>
+
