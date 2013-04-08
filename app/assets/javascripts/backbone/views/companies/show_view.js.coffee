@@ -11,7 +11,6 @@ class Maple.Views.CompanyShowView extends Backbone.View
   events:
     "focus [contenteditable]" : "editContent"
     "blur [contenteditable]" : "updateContent"
-    "click #company-header-image" : "newImageDialog"
  
   initialize: ->
     @render()
@@ -28,18 +27,20 @@ class Maple.Views.CompanyShowView extends Backbone.View
   saveContent: (id, content) ->
     if id ==  "company-blurb-title"
       @model.set({ blurb_title: content })
-      @model.save({blurb_title: content}, {patch: true})
     else if id == "company-blurb-body"
       @model.set({ blurb_body: content })
     else if id == "company-more-info-title"
       @model.set({ more_info_title: content })
     else if id == "company-more-info-body"
       @model.set({ more_info_body: content })
-    else if id == "company-splash-image"
-      @model.set({ splash_image: content }) 
     else
-      return ""
-    #@model.save()
+      return false 
+
+    @model.patch(
+      ["blurb_title", 
+      "blurb_body", 
+      "more_info_title", 
+      "more_info_body"])
   
   updateContent: (event) ->
     target = $(event.currentTarget)
@@ -47,8 +48,11 @@ class Maple.Views.CompanyShowView extends Backbone.View
     @saveContent(targetID, target.html()) 
       
   editContent: (event) ->
+    event.stopPropagation()
+    event.preventDefault()
+    
     target = $(event.currentTarget)
-
-  newImageDialog: (event) ->
-    @$el.find("#company-select-new-image").html( new Maple.Views.UploadImageView({ model: @model }).el)
-    @
+    if target.attr("id") == "company-header-image"
+      @$el.find("#company-select-new-image").html( new Maple.Views.UploadImageView({ model: @model }).el)
+    else 
+      return false

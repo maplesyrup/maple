@@ -29,15 +29,14 @@ class Maple.Views.NewPostView extends Backbone.View
     e.stopPropagation()
 
     formData = new FormData($('#new-post')[0])
-    
-    Maple.Utils.upload(
-      formData, 
-      '/posts', 
-      ((post) =>
+   
+    @collection.savePaperclip(formData, 
+      success: (post) =>
         @collection.add([post])
         @close()
-        window.router.navigate('/')),
-      (e) => console.log(e))
+        window.router.navigate('/')
+      error: (e) =>
+        console.log(e))   
     
   validate: (e) =>
     console.log(e)

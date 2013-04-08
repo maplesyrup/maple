@@ -1,33 +1,46 @@
-class Maple.Utils
-	# Utilities class for Maple
-	#
-	#	For nitty gritty repeatable 
-	# javascript that no one wants 
-	# to write a second time
+Backbone.Model::patch = (attribute_whitelist, options)->
+	# Patch
+	#	
+	#	As of 0.9.9, backbone.js officially supports 
+	# PATCH. However, not all browsers support
+	# this functionality. Attribute_whitelist
+	# is a group of model attributes ["hand", "foot", "head"]
+	# that you want to sync to the server. Options
+	# is an additional object passed in by the user
+	# containing error and success callbacks.  
+	attrs = _.pick(@attributes, attribute_whitelist, 'id')
+	cached_attrs = @attributes
+	@attributes = attrs
+	_options = {}
+	_options.parse = true
+				
+	_options.success = (data)=>
+		@attributes = cached_attrs
+		options && options.success(data)
+	_options.error = (data)=>
+		@attributes = cached_attrs
+		options && options.error(data)	
+	
+	method = 'update'
+	@sync(method, @, _options)
 
-	@uploadFile: (_file, _url, _onsuccess, _onerror, _options) =>
-		form = new FormData()
-		form.append 'file', _file	
-		@upload(form, _url, _onsuccess, _onerror, _options)
 
-	@upload: (_data, _url, _onsuccess, _onerror, options) ->
+Backbone.Collection::savePaperclip = Backbone.Model::savePaperclip = (form, options) ->
+	# savePaperclip
+	# 
+	# save function that uploads images 
+	# to the server using an ajax call
+	# so that paperclip can use them
 
-		type = undefined
-
-		if options
-			type = options.type
-			
-		$.ajax({
-			url: _url
-			type: type || 'POST'
-			data: _data
+	$.ajax({
+			url: @url()
+			type: (options && options.type) || 'POST'
+			data: form
 			processData: false
 			cache: false
 			contentType: false
-			success: (data) -> _onsuccess(data)
-			error: (data) -> _onerror(data)
-		})
-
-
-
-
+			success: (data) -> 
+				(options	&& options.success(data)) 	
+			error: (data) ->
+				(options && options.error(data))	
+		})	  

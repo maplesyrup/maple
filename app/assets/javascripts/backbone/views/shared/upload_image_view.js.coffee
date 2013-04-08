@@ -1,18 +1,13 @@
 class Maple.Views.UploadImageView extends Backbone.View
 	#	Class for displaying image upload UI 
 	#
-	# To Use: 
-	#	Call this view and pass in the model 
-	# and the image (some models may have
-	# multiple images) resource that you 
-	# want to update. 
-	#
 	# Functionality: 
 	# The view will save
 	# the changed resource using the 
 	# model's url. 
 
-	imageResourceName: 'company[splash_image]' 
+	# for some added flexibility  
+	imageResourceName: 'company[splash_image]'  
 
 	tagName: 'div'
 
@@ -60,7 +55,7 @@ class Maple.Views.UploadImageView extends Backbone.View
 		$("#closed-folder").toggle()
 	
 	handleDragover: (event) ->
-		event.preventDefault()	
+		event.preventDefault()	# required for drag and drop. Chrome bug	
 
 	saveImage: (event) ->
 
@@ -71,20 +66,14 @@ class Maple.Views.UploadImageView extends Backbone.View
 		else
 			formData = new FormData($("#add-splash-image")[0])
 
-		Maple.Utils.upload(
-			formData,
-			@model.url(), 
-			((post) =>
-				@exitView
-				console.log("success")),
-			((e) =>
-				@exitView 
-				console.log(e)),
-			type:
-				"PUT")
+		@model.savePaperclip(formData,
+		 type: 'PUT',
+			success: (data) =>
+				@exitView()
 
-	updateSplashImage: (image) ->
-		console.log image
+			error: (data) =>
+				console.log "an error occured"
+				@exitView())
 
 	selectImageFromFile: (event) ->
 		$("#splash-image-field").click()
