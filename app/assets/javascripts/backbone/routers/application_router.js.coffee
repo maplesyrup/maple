@@ -7,10 +7,13 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     @companies = new Maple.Collections.CompaniesCollection()
     @companies.reset options.companies
 
+    @current_company = options.current_company || {}
+
   routes:
     '' : 'index'
     'newPost' : 'newPost'
     'companies/:id' : 'showCompany'
+    'dashboard' : 'dashboard'
     '*default' : 'index'
 
   index: ->
@@ -30,3 +33,7 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
       company.fetch success: (data) ->
       $("#maple-main-container").html( new Maple.Views.CompanyShowView({ model: company }).el )
       that.companies.add company
+
+  dashboard: ->
+    company = @companies.get @current_company.id
+    $("#maple-main-container").html( new Maple.Views.CompanyDashboardView({ model: company }).el )
