@@ -8,7 +8,6 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     @companies.reset options.companies
 
     @users = new Maple.Collections.UsersCollection()
-    @users.reset options.companies
     # no user bootstrapping. We'll lazy load instead 
      
   routes:
