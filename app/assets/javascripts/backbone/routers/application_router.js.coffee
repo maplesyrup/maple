@@ -19,12 +19,13 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
 
   index: ->
     $("#maple-main-container").html(new Maple.Views.PostsIndexView({ collection: @posts}).el)
-    @view = new Maple.Views.CompaniesIndexView({ collection: @companies})
+    @company_pill_view = new Maple.Views.CompaniesIndexView({ collection: @companies})
 
   newPost: ->
     @view = new Maple.Views.NewPostView({ collection: @posts, companies: @companies })
 
   showCompany: (id) ->
+    @company_pill_view.close()
     company = @companies.get id 
     if company
       # Use existing model if possible
