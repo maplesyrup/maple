@@ -11,7 +11,7 @@ class Maple.Views.PostsIndexView extends Backbone.View
 
   className: "row glimpses "
   
-  columnIds: ["#col1", "#col2", "#col3", "#col4", "#col5"]
+  columnIds: ["#col1", "#col2", "#col3", "#col4", "#col5", "#col6"]
 
   number_of_columns:      0
 
@@ -20,9 +20,10 @@ class Maple.Views.PostsIndexView extends Backbone.View
   three_column_template:  JST["backbone/templates/posts/three_column_index"]
   four_column_template:   JST["backbone/templates/posts/four_column_index"]
   five_column_template:   JST["backbone/templates/posts/five_column_index"]
-     
-  template: "" 
+  six_column_template:    JST["backbone/templates/posts/six_column_index"]
 
+  template: "" 
+     
   initialize: ->
     @.collection.bind 'reset', =>
       @.render()
@@ -50,13 +51,6 @@ class Maple.Views.PostsIndexView extends Backbone.View
     width = window.innerWidth   
     columns_that_fit = Math.floor width/@post_width
     switch columns_that_fit
-      when 3 
-        if @number_of_columns != 3
-          $("#posts").width(3 * (@post_width)) 
-          @number_of_columns = 3
-          @template = @three_column_template
-          @render()
-          @addAll()
       when 4 
         if @number_of_columns != 4
           $("#posts").width(4 * (@post_width)) 
@@ -71,6 +65,20 @@ class Maple.Views.PostsIndexView extends Backbone.View
           @template = @five_column_template
           @render()
           @addAll()        
+      when 6
+        if @number_of_columns != 6
+          $("#posts").width(6 * (@post_width))
+          @number_of_columns = 6
+          @template = @six_column_template
+          @render()
+          @addAll()
+      else
+        if @number_of_columns != 3
+          $("#posts").width(3 * (@post_width)) 
+          @number_of_columns = 3
+          @template = @three_column_template
+          @render()
+          @addAll()
 
   render: ->
     @$el.html @template()
