@@ -194,7 +194,6 @@ h1, h2, h3, h4, h5, h6 {
 Home View
 */
 #posts {
-  min-width: 900px; 
   float: none;
   margin: 0 auto;
 }
@@ -202,7 +201,7 @@ Home View
 .glimpse-column {
   width: 275px;
   margin-left: 0;
-  margin-right: 0;
+  margin-right: 20px
 }
 
 .glimpse {
