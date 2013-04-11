@@ -237,6 +237,10 @@ Home View
   margin-right: 50px;
 }
 
+.vote {
+  cursor: pointer;
+}
+
 .votes {
   float: right;
 }
