@@ -25,7 +25,7 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     @view = new Maple.Views.NewPostView({ collection: @posts, companies: @companies })
 
   showCompany: (id) ->
-    @company_pill_view.close()
+    @company_pill_view && @company_pill_view.close()
     company = @companies.get id 
     if company
       # Use existing model if possible
