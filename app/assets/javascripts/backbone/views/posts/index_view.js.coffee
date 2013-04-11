@@ -9,15 +9,13 @@ class Maple.Views.PostsIndexView extends Backbone.View
 
   id: "posts"
 
-  className: "row glimpses "
+  className: "row-fluid glimpses "
   
   columnIds: ["#col1", "#col2", "#col3", "#col4", "#col5"]
 
-  min_number_of_columns:  3
-  max_number_of_columns:  5 
   number_of_columns:      0
 
-  post_width:             275
+  post_width:             285 # post width is 275, this gives 5 px margin on each side
 
   three_column_template:  JST["backbone/templates/posts/three_column_index"]
   four_column_template:   JST["backbone/templates/posts/four_column_index"]
