@@ -3,7 +3,7 @@
     <div class="container-fluid">
       <a class="brand" href="#">MapleSyrup</a>&nbsp;&nbsp;
       <% if current_company %>
-        <a class="brand companyName" href="#"> for <%= current_company.name %></a>
+        <a class="brand companyName" href="/#companies/<%= current_company.id %>"> for <%= current_company.name %></a>
       <% end %>
       <p class="navbar-text pull-right">
         <% if current_user %>
