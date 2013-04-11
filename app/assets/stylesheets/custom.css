@@ -66,10 +66,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 #company-header-image
 {
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
+  -webkit-background-size: contain;
+  -moz-background-size: contain;
+  -o-background-size: contain;
+  background-size: contain;
   height: 400px;
 }
 
