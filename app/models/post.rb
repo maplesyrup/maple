@@ -69,6 +69,7 @@ class Post < ActiveRecord::Base
       posts_json[idx][:image_url] = post.image.url(:medium)
       posts_json[idx][:total_votes] = post.votes_for
       posts_json[idx][:voted_on] = post.voted_on(options[:user])
+      posts_json[idx][:timestamp] = post.created_at.to_i
     end
     posts_json.to_json
   end

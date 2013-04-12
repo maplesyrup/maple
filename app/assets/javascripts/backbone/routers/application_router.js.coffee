@@ -36,4 +36,4 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
 
   dashboard: ->
     company = @companies.get @current_company.id
-    $("#maple-main-container").html( new Maple.Views.CompanyDashboardView({ model: company }).el )
+    $("#maple-main-container").html( new Maple.Views.CompaniesDashboardView({ model: company }).el )

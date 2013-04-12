@@ -1,4 +1,4 @@
-class Maple.Views.CompanyGraphView extends Backbone.View
+class Maple.Views.CompaniesDashboardGraphView extends Backbone.View
 
   initialize: ->
     @render()
@@ -36,7 +36,7 @@ class Maple.Views.CompanyGraphView extends Backbone.View
 
     line = d3.svg.line()
         .x (d) ->
-          return x(d.get("created_at"))
+          return x(new Date(d.get("timestamp") * 1000))
         .y (d) ->
           return y(d.get("total_votes"))
 
@@ -49,11 +49,9 @@ class Maple.Views.CompanyGraphView extends Backbone.View
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     x.domain(d3.extent @collection.models, (d) ->
-      console.log(d.get("created_at"))
-      return d.get("created_at")
+      return new Date(d.get("timestamp") * 1000)
     )
     y.domain(d3.extent @collection.models, (d) ->
-      console.log(d.get("total_votes"))
       return d.get("total_votes")
     )
 
