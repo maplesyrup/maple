@@ -39,6 +39,7 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
         @companies.add company
 
   showUser: (id) ->
+    @company_pill_view.close()
     user = @users.get id
     if user
       # Use existing model if possible

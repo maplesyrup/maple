@@ -13,7 +13,7 @@ class Maple.Views.UserShowView extends Backbone.View
 		@$el.html(@template(@model.toJSON()))
 		@model.posts.fetch # lazy fetch of associated posts
 			data: 
-				company_id: @model.id
+				user_id: @model.id
 			success: =>
-				#@$el.find("#user-posts-container").html(new Maple.Views.PostsIndexView({ collection: @model.posts }).el)
+				@$el.find("#user-posts-container").html(new Maple.Views.PostsIndexView({ collection: @model.posts }).el)
 		@	   
