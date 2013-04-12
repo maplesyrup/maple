@@ -13,14 +13,14 @@ class Maple.Views.PostsIndexView extends Backbone.View
   
   columnIds: ["#col1", "#col2", "#col3", "#col4", "#col5", "#col6"]
 
-  number_of_columns:      0
+  numberOfColumns:      0
 
-  post_width:             295 # post width is 275, margin of 20px 
+  postWidth:             295 # post width is 275, margin of 20px 
 
-  three_column_template:  JST["backbone/templates/posts/three_column_index"]
-  four_column_template:   JST["backbone/templates/posts/four_column_index"]
-  five_column_template:   JST["backbone/templates/posts/five_column_index"]
-  six_column_template:    JST["backbone/templates/posts/six_column_index"]
+  threeColumnTemplate:  JST["backbone/templates/posts/three_column_index"]
+  fourColumnTemplate:   JST["backbone/templates/posts/four_column_index"]
+  fiveColumnTemplate:   JST["backbone/templates/posts/five_column_index"]
+  sixColumnTemplate:    JST["backbone/templates/posts/six_column_index"]
 
   template: "" 
 
@@ -47,38 +47,38 @@ class Maple.Views.PostsIndexView extends Backbone.View
     @$el.find(colId).append @view.render().el
 
   getColumnId: (index) ->
-    @columnIds[index % @number_of_columns]
+    @columnIds[index % @numberOfColumns]
 
   recalculateColumns: =>
     width = window.innerWidth   
-    columns_that_fit = Math.floor width/@post_width
-    switch columns_that_fit
+    columnsThatFit = Math.floor width/@postWidth
+    switch columnsThatFit
       when 4 
-        if @number_of_columns != 4
-          @$el.width(4 * (@post_width)) 
-          @number_of_columns = 4
-          @template = @four_column_template
+        if @numberOfColumns != 4
+          @$el.width(4 * (@postWidth)) 
+          @numberOfColumns = 4
+          @template = @fourColumnTemplate
           @render()
           @addAll()
       when 5
-        if @number_of_columns != 5
-          @$el.width(5 * (@post_width)) 
-          @number_of_columns = 5
-          @template = @five_column_template
+        if @numberOfColumns != 5
+          @$el.width(5 * (@postWidth)) 
+          @numberOfColumns = 5
+          @template = @fiveColumnTemplate
           @render()
           @addAll()        
       when 6
-        if @number_of_columns != 6
-          @$el.width(6 * (@post_width))
-          @number_of_columns = 6
-          @template = @six_column_template
+        if @numberOfColumns != 6
+          @$el.width(6 * (@postWidth))
+          @numberOfColumns = 6
+          @template = @sixColumnTemplate
           @render()
           @addAll()
       else
-        if @number_of_columns != 3
-          @$el.width(3 * (@post_width)) 
-          @number_of_columns = 3
-          @template = @three_column_template
+        if @numberOfColumns != 3
+          @$el.width(3 * (@postWidth)) 
+          @numberOfColumns = 3
+          @template = @threeColumnTemplate
           @render()
           @addAll()
 
