@@ -26,15 +26,22 @@ class Maple.Views.CompaniesDashboardGraphView extends Backbone.View
     y = d3.scale.linear()
         .range([height, 0])
 
+    x.domain(d3.extent @collection.models, (d) ->
+      return new Date(d.get("timestamp") * 1000)
+    )
+    y.domain(d3.extent @collection.models, (d) ->
+      return d.get("total_votes")
+    )
+
     xAxis = d3.svg.axis().scale(x)
         .orient("bottom").ticks(8)
 
     yAxis = d3.svg.axis().scale(y)
         .orient("left").ticks(5)
 
+
     area = d3.svg.area()
         .x (d) ->
-          console.log(x(new Date(d.get("timestamp") * 1000)))
           return x(new Date(d.get("timestamp") * 1000))
         .y0(height)
         .y1 (d) ->
@@ -52,12 +59,23 @@ class Maple.Views.CompaniesDashboardGraphView extends Backbone.View
         .append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    x.domain(d3.extent @collection.models, (d) ->
-      return new Date(d.get("timestamp") * 1000)
-    )
-    y.domain(d3.extent @collection.models, (d) ->
-      return d.get("total_votes")
-    )
+    tooltip = d3.select("body")
+        .append("class", "tooltip")
+        .style("opacity", 0)
+
+
+    '''
+    svg.append("g")
+        .attr("class", "grid")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis.tickSize(-height, 0, 0).tickFormat(""))
+
+    svg.append("g")
+        .attr("class", "grid")
+        .call(yAxis.tickSize(-width, 0, 0).tickFormat(""))
+    '''
+
+
 
     svg.append("path")
         .datum(@collection.models)
@@ -77,5 +95,27 @@ class Maple.Views.CompaniesDashboardGraphView extends Backbone.View
       .datum(@collection.models)
       .attr("class", "line")
         .attr("d", line)
+
+    svg.selectAll("dot")
+        .data(@collection.models)
+        .enter().append("circle")
+        .attr("class", "outer-circle")
+        .attr("r", 6)
+        .attr("cx", (d) ->
+          return x(new Date(d.get("timestamp") * 1000)))
+        .attr("cy", (d) ->
+          return y(d.get("total_votes")))
+        .on("mouseover", (d) ->
+            console.log("mouseover")
+            tooltip.transition()
+                .duration(200)
+                .style("opacity", .9)
+            tooltip.html("test")
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY) + "px"))
+        .on("mouseout", (d) ->
+            tooltip.transition()
+                .duration(500)
+                .style("opacity", 0))
 
     @
