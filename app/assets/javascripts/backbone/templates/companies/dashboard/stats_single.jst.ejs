@@ -1,17 +1,17 @@
 <div class="row-fluid dashboard-row">
   <div class="span1">
-    <img src="<%= logo_urls.thumb %>" alt="" />
+    <img src="<%= image_url %>" alt="" />
   </div>
-  <div class="span5">
+  <div class="span4">
     <strong><%= content %></strong>
   </div>
-  <div class="span2">
-    test
+  <div class="span3">
+    <%= user.email %>
   </div>
   <div class="span2">
-    April 1, 2013
+    <%= created_at %>
   </div>
   <div class="span2 dashboard-votes">
-    2,303 votes
+    <%= total_votes %>
   </div>
 </div>

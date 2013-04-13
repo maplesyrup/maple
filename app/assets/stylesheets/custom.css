@@ -302,7 +302,7 @@ h4.dashboard-sub {
   margin-bottom: 10px;
 }
 
-.dashboard-stats .total-votes {
+#dashboard-stats .total-votes {
   float: right; 
 }
 

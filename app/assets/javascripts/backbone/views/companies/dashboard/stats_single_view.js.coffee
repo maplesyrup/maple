@@ -6,6 +6,5 @@ class Maple.Views.CompaniesStatSingleView extends Backbone.View
     @render()
 
   render: ->
-    console.log()
     @$el.html(@template(@model.toJSON()))
     @
