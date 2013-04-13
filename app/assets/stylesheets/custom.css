@@ -302,6 +302,11 @@ h4.dashboard-sub {
   margin-bottom: 10px;
 }
 
+#dashboard-graph {
+  padding: 20px;
+  margin-bottom: 40px;
+}
+
 #dashboard-stats .total-votes {
   float: right; 
 }
@@ -326,6 +331,14 @@ h4.dashboard-sub {
   text-transform: uppercase;
   font-weight: bold;
   color: #08c;
+}
+
+.axis {
+  font-weight: bold;
+}
+
+.y {
+  font-size: 20px;
 }
 
 .axis path,

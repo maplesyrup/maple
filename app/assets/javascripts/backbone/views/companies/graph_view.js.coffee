@@ -26,13 +26,11 @@ class Maple.Views.CompaniesDashboardGraphView extends Backbone.View
     y = d3.scale.linear()
         .range([height, 0])
 
-    xAxis = d3.svg.axis()
-        .scale(x)
-        .orient("bottom");
+    xAxis = d3.svg.axis().scale(x)
+        .orient("bottom").ticks(8)
 
-    yAxis = d3.svg.axis()
-        .scale(y)
-        .orient("left")
+    yAxis = d3.svg.axis().scale(y)
+        .orient("left").ticks(5)
 
     area = d3.svg.area()
         .x (d) ->
@@ -40,7 +38,6 @@ class Maple.Views.CompaniesDashboardGraphView extends Backbone.View
           return x(new Date(d.get("timestamp") * 1000))
         .y0(height)
         .y1 (d) ->
-          #console.log(y(d.get("total_votes")))
           return y(d.get("total_votes"))
 
     line = d3.svg.line()
