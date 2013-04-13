@@ -13,10 +13,11 @@ class Maple.Views.CompaniesDashboardView extends Backbone.View
 
   render: ->
     @$el.html(@template(@model.toJSON()))
+    ordered_posts = @model.posts.order_by_created_at()
     @model.posts.fetch
       data:
         company_id: @model.id
-      success: (collection, response) =>
-        @$el.find("#dashboard-graph").html(new Maple.Views.CompaniesDashboardGraphView({ collection: @model.posts }).el)
-        @$el.find("#dashboard-stats").html(new Maple.Views.CompaniesStatsView({ collection: @model.posts }).el)
+      success: =>
+        @$el.find("#dashboard-graph").html(new Maple.Views.CompaniesDashboardGraphView({ collection: ordered_posts }).el)
+        @$el.find("#dashboard-stats").html(new Maple.Views.CompaniesStatsView({ collection: ordered_posts }).el)
     @
