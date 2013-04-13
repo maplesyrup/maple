@@ -339,8 +339,12 @@ h4.dashboard-sub {
   display: none;
 }
 
+.area {
+  fill: lightsteelblue;
+}
+
 .line {
   fill: none;
   stroke: steelblue;
-  stroke-width: 1.5px;
+  stroke-width: 3px;
 }

@@ -34,13 +34,20 @@ class Maple.Views.CompaniesDashboardGraphView extends Backbone.View
         .scale(y)
         .orient("left")
 
+    area = d3.svg.area()
+        .x (d) ->
+          console.log(x(new Date(d.get("timestamp") * 1000)))
+          return x(new Date(d.get("timestamp") * 1000))
+        .y0(height)
+        .y1 (d) ->
+          #console.log(y(d.get("total_votes")))
+          return y(d.get("total_votes"))
+
     line = d3.svg.line()
         .x (d) ->
           return x(new Date(d.get("timestamp") * 1000))
         .y (d) ->
           return y(d.get("total_votes"))
-
-    console.log(@collection.models)
 
     svg = d3.select(@el).append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -54,6 +61,11 @@ class Maple.Views.CompaniesDashboardGraphView extends Backbone.View
     y.domain(d3.extent @collection.models, (d) ->
       return d.get("total_votes")
     )
+
+    svg.append("path")
+        .datum(@collection.models)
+        .attr("class", "area")
+        .attr("d", area)
 
     svg.append("g")
         .attr("class", "x axis")
