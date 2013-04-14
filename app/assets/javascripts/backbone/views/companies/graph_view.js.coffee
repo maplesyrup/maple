@@ -109,7 +109,7 @@ class Maple.Views.CompaniesDashboardGraphView extends Backbone.View
             tooltip.transition()
                 .duration(200)
                 .style("opacity", .9)
-            tooltip.html('<div class="date">' + (new Date(d.get("timestamp") * 1000) + '</div>' + d.get("total_votes") + ' votes')
+            tooltip.html('<div class="date">' + new Date(d.get("timestamp") * 1000).toString("MMMM dd, yyyy") + '</div>' + d.get("total_votes") + ' votes')
                 .style("left", (d3.event.pageX) + "px")
                 .style("top", (d3.event.pageY) + "px"))
         .on("mouseout", (d) ->
