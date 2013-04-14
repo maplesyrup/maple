@@ -60,9 +60,9 @@ class Maple.Views.CompaniesDashboardGraphView extends Backbone.View
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     tooltip = d3.select("body")
-        .append("class", "tooltip")
+        .append("div")
+        .attr("class", "tooltip")
         .style("opacity", 0)
-
 
     '''
     svg.append("g")
@@ -106,16 +106,15 @@ class Maple.Views.CompaniesDashboardGraphView extends Backbone.View
         .attr("cy", (d) ->
           return y(d.get("total_votes")))
         .on("mouseover", (d) ->
-            console.log("mouseover")
             tooltip.transition()
                 .duration(200)
                 .style("opacity", .9)
-            tooltip.html("test")
+            tooltip.html('<div class="date">' + (new Date(d.get("timestamp") * 1000) + '</div>' + d.get("total_votes") + ' votes')
                 .style("left", (d3.event.pageX) + "px")
                 .style("top", (d3.event.pageY) + "px"))
         .on("mouseout", (d) ->
             tooltip.transition()
-                .duration(500)
+                .duration(200)
                 .style("opacity", 0))
 
     @

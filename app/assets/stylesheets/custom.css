@@ -372,16 +372,18 @@ h4.dashboard-sub {
 }
 
 .tooltip {   
-  position: absolute;           
-  text-align: center;           
-  width: 60px;                  
-  height: 28px;                 
-  padding: 2px;             
-  font: 12px sans-serif;        
-  background: lightsteelblue;   
-  border: 0px;      
-  border-radius: 8px;           
-  pointer-events: none;         
+  position: absolute;
+  background-color: #FFFFFF;
+  width: 100px;
+  padding: 2px 5px;
+  font-size: 12px;
+  border: 3px solid steelblue;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.tooltip .date {
+  font-weight: bold;
 }
 
 circle {
