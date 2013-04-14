@@ -10,6 +10,12 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0;
 }
 
+.new-post {
+  font-size: 12px;
+  font-weight: bold;
+  top: -10px;
+}
+
 #logo-placeholder {
   width: 200px;
   height: 200px;
