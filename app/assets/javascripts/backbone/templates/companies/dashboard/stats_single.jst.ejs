@@ -9,7 +9,7 @@
     <%= user.email %>
   </div>
   <div class="span2">
-    <%= created_at %>
+    <%= new Date(timestamp * 1000).toString("MMMM dd, yyyy") %>
   </div>
   <div class="span2 dashboard-votes">
     <%= total_votes %>

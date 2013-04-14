@@ -4,9 +4,8 @@
   </div>
   <div class="span4">
     <select name="date-range" id="filter-date">
-      <option value="day">Today (April 8, 2013)</option>
-      <option value="week">This Week (April 1, 2013 - April 8, 2013)</option>
-      <option value="month">This Month (March 8, 2013 - April 8, 2013)</option>
+      <option value="week" data-range="week">This Week (<%= Date.today().add(-7).days().toString("MMMM dd, yyyy") %> - <%= Date.today().toString("MMMM dd, yyyy") %>)</option>
+      <option value="month" data-range="month">This Month (<%= Date.today().add(-1).months().toString("MMMM dd, yyyy") %> - <%= Date.today().toString("MMMM dd, yyyy") %>)</option>
     </select>
   </div>
 </div>

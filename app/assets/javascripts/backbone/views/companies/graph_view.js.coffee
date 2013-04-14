@@ -75,8 +75,6 @@ class Maple.Views.CompaniesDashboardGraphView extends Backbone.View
         .call(yAxis.tickSize(-width, 0, 0).tickFormat(""))
     '''
 
-
-
     svg.append("path")
         .datum(@collection.models)
         .attr("class", "area")
@@ -94,7 +92,7 @@ class Maple.Views.CompaniesDashboardGraphView extends Backbone.View
     svg.append("path")
       .datum(@collection.models)
       .attr("class", "line")
-        .attr("d", line)
+      .attr("d", line)
 
     svg.selectAll("dot")
         .data(@collection.models)
