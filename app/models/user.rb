@@ -30,7 +30,6 @@ class User < ActiveRecord::Base
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "25x25" }, :default_url => "avatars/:style/missing.png"
 
   acts_as_voter
-  validates :personal_info, :length => { :maximum => 500 }
   validates :name, :uniqueness => true
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
