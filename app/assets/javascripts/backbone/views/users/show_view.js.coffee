@@ -15,5 +15,5 @@ class Maple.Views.UserShowView extends Backbone.View
 			data: 
 				user_id: @model.id
 			success: =>
-				@$el.find("#user-posts-container").html(new Maple.Views.PostsIndexView({ collection: @model.posts }).el)
+				@$el.find("#user-main-container").html(new Maple.Views.PostsIndexView({ collection: @model.posts, parent: "#user-main-container" }).el)
 		@	   
