@@ -33,7 +33,6 @@ class Maple.Views.NewPostView extends Backbone.View
     @collection.savePaperclip(formData, 
       success: (post) =>
         @collection.add([post])
-        #@close()
         $("#mainModal").modal('hide')
         window.router.navigate('/')
       error: (e) =>
