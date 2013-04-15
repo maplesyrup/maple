@@ -193,13 +193,14 @@ h1, h2, h3, h4, h5, h6 {
 Home View
 */
 #posts {
+  float: none;
   margin: 0 auto;
 }
 
 .glimpse-column {
   width: 275px;
   margin-left: 0;
-  margin-right: 20px;
+  margin-right: 20px
 }
 
 .glimpse {
