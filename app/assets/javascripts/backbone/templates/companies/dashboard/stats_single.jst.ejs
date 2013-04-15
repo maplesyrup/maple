@@ -1,0 +1,17 @@
+<div class="row-fluid dashboard-row">
+  <div class="span1">
+    <img src="<%= image_url %>" alt="" />
+  </div>
+  <div class="span4">
+    <strong><%= content %></strong>
+  </div>
+  <div class="span3">
+    <%= user.email %>
+  </div>
+  <div class="span2">
+    <%= new Date(timestamp * 1000).toString("MMMM dd, yyyy") %>
+  </div>
+  <div class="span2 dashboard-votes">
+    <%= total_votes %>
+  </div>
+</div>

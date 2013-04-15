@@ -32,14 +32,14 @@ ActiveRecord::Schema.define(:version => 20130407084918) do
     t.string   "blurb_body",                :default => "Hey, this is our company!",      :null => false
     t.string   "more_info_title",           :default => "More Info",                      :null => false
     t.string   "more_info_body",            :default => "Here's a little more about us.", :null => false
-    t.string   "splash_image_file_name"
-    t.string   "splash_image_content_type"
-    t.integer  "splash_image_file_size"
-    t.datetime "splash_image_updated_at"
     t.string   "logo_file_name"
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
+    t.string   "splash_image_file_name"
+    t.string   "splash_image_content_type"
+    t.integer  "splash_image_file_size"
+    t.datetime "splash_image_updated_at"
   end
 
   create_table "posts", :force => true do |t|
