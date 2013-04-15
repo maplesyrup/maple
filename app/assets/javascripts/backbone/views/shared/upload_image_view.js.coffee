@@ -7,7 +7,15 @@ class Maple.Views.UploadImageView extends Backbone.View
 	# model's url. 
 
 	# for some added flexibility  
-	imageResourceName: 'company[splash_image]'  
+	
+	# the name normally seen on the file ie "company[splash_image]" 
+	inputName: '' 					
+
+	#	where the image will be displayed ie "#image_container"
+	targetImgContainer: ''
+
+	#	name of the resource in the model ie "my-image"
+	resourceName: ''
 
 	tagName: 'div'
 
@@ -30,7 +38,11 @@ class Maple.Views.UploadImageView extends Backbone.View
 		"dragleave #photo-drop-bin" : "toggleFolder"
 		"click	.icon-remove" : "exitView"
 
-	initialize: -> 
+	initialize: ->
+		@inputName = @options.inputName
+		@targetImgContainer = @options.targetImgContainer
+		@resourceName = @options.resourceName
+			
 		@render()
 
 	render: ->
@@ -54,11 +66,11 @@ class Maple.Views.UploadImageView extends Backbone.View
 	previewFile: (file, options) ->		
 
 		reader = new FileReader()
-		reader.onloadstart = ->
+		reader.onloadstart = =>
 			$('.file-loading').toggle()
 
-		reader.onloadend = ->
-			$('#company-header-image').attr("src", reader.result)
+		reader.onloadend = =>
+			$(@targetImgContainer).attr("src", reader.result)
 			$('.file-loading').toggle()
 
 		reader.readAsDataURL(file)
@@ -67,7 +79,7 @@ class Maple.Views.UploadImageView extends Backbone.View
 
 		if @newImgFile
 			formData = new FormData()
-			formData.append @imageResourceName, @newImgFile 
+			formData.append @inputName, @newImgFile 
 
 			@model.savePaperclip(formData,
 			 type: 'PUT',
@@ -90,7 +102,7 @@ class Maple.Views.UploadImageView extends Backbone.View
 		event.preventDefault()	# required for drag and drop. Chrome bug	
 
 	exitView: ->
-		$("#company-header-image").attr("src", @model.get("splash_image"))	
+		$(@targetImgContainer).attr("src", @model.get(@resourceName))	
 		@close()
 
 	close: (event) ->	

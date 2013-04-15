@@ -8,7 +8,7 @@ class Maple.Views.UserShowView extends Backbone.View
   
 	events:
 		"blur [contenteditable]" : "updateContent"	
-
+		"focus [contenteditable]": "editContent"
 	initialize: ->
 		@render()
 
@@ -35,7 +35,6 @@ class Maple.Views.UserShowView extends Backbone.View
 		targetID = target.attr("id")
 		@saveContent(targetID, target.html()) 
 
-###
 	editContent: (event) ->
     event.stopPropagation()
     event.preventDefault()
@@ -43,7 +42,7 @@ class Maple.Views.UserShowView extends Backbone.View
     target = $(event.currentTarget)
     targetID = target.attr("id")
     if targetID == "avatar"
-      @$el.find("#user-select-new-avatar").html( new Maple.Views.UploadImageView({ model: @model }).el)
+      @$el.find("#user-select-new-avatar").html( 
+      	new Maple.Views.UploadImageView({ model: @model, inputName: "user[avatar]", targetImgContainer: "#avatar", resourceName: "avatar"}).el)
     else
       return false
-###
