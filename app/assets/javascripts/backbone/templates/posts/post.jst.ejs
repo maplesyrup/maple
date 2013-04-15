@@ -6,7 +6,7 @@
         <div class="votes">
           <span class="num-votes"><%= total_votes %></span>
           <% if (voted_on == Maple.Post.VOTED.NO) { %>
-            <a class="vote" href="#"><span class="label label-info">Vote</span></a>
+            <a class="vote"><span class="label label-info">Vote</span></a>
           <% } else if (voted_on == Maple.Post.VOTED.YES) { %>
             <span class="label label-inverse">Voted</span>
           <% } %>
@@ -30,10 +30,10 @@
       </span>
       <span class="date"><!--<%= created_at %>--></span>
       <% if (typeof(user) !== "undefined") { %>
-        <span class="author">by <%= user.name %></span>
+        <span class="author">by<a href="/#users/<%=user_id %>"<%= user.name %></a></span>
       <% } %>
       <% if (typeof(company) !== "undefined") { %>
-        <span class="tag"><a href="#"><strong><%= company.name %></strong></a></span>
+        <span class="tag"><a href="/#companies/<%=company_id %>"><strong><%= company.name %></strong></a></span>
       <% } %>
     </div>
     <div class="clearfix"></div>

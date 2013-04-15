@@ -62,4 +62,18 @@ class User < ActiveRecord::Base
     end
   end
 
+  def public_model(options={})
+    # public_model:
+    # Convert the instance User's attributes
+    # into JSON.
+    Jbuilder.encode do |json|
+      json.(self, :id, :name, :created_at, :avatar)
+      json.(self, :posts) if options[:include_posts]
+      json.editable false
+      if options[:user] && options[:user].id == self.id
+        json.editable true
+      end
+    end
+  end
+
 end

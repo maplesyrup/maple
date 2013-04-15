@@ -26,3 +26,8 @@ class Maple.Views.CompaniesIndexView extends Backbone.View
   render: ->
     @$el.html @template()
     @
+
+  close: ->
+    @$el.html("")  
+    @unbind()
+        

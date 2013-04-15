@@ -5,6 +5,30 @@ class UsersController < ApplicationController
 
   def show
   	# get particular user here
+    if current_user && current_user.id == params[:id].to_i
+      render :json => current_user.public_model({:user => current_user, :company => current_company})
+    else 
+      render :json => User.find(params[:id]).public_model({:user => current_user, :company => current_company})
+    end  
+  end
+
+  def update
+    # update user attributes 
+    @user = User.find(params[:id])
+    if current_user && current_user.id == @user.id
+      @user.update_attributes(sanitize(params[:user]))
+      render :json => @user.public_model({:user => current_user, :company => current_company})
+    else
+      render :json => {}, :status => 403 
+    end
+  end
+
+  def sanitize(model)
+    sanitized = {}
+    User.attr_accessible[:default].each do |attr|
+      sanitized[attr] = model[attr] if model[attr]
+    end
+    sanitized
   end
 
   def check_mobile_login

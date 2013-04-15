@@ -43,7 +43,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 56px;
   margin-bottom: 10px;
 }
-.company-nav
+.nav-push-down
 {
   z-index: 1;
 }
@@ -52,6 +52,7 @@ h1, h2, h3, h4, h5, h6 {
 {
   margin-bottom: 40px;
   margin-top : -20px;
+  width: 100%;
 }
 
 #splash-image-field
@@ -59,18 +60,10 @@ h1, h2, h3, h4, h5, h6 {
   display: none;
 }
 
-.full-width
-{
-  margin-left: -20px;
-  width: 103%;
-}
 #company-header-image
 {
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  height: 400px;
+  max-height: 400px;
+  display: block;
 }
 
 .select-new-image-container
@@ -128,13 +121,18 @@ h1, h2, h3, h4, h5, h6 {
   cursor: pointer;
 }
 
-#company-posts-container
+.posts-container
+{
+  padding-top: 20px;
+  background-color: white;   
+}
+.posts-container-inv
 {
   padding-top: 20px;
   background-color: #333333;
 }
 
-.company-nav > .navbar-inner{
+.nav-push-down > .navbar-inner{
   padding-top: 20px;
   padding-bottom: 20px;
   background: rgba(0,0,0,0.4)
@@ -179,6 +177,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .nav {
   border-bottom: 10px;
+}
+
+.center-container{
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .center {
@@ -230,6 +234,10 @@ Home View
 
 .inner-glimpse .outer-feature .inner-feature h4 {
   margin-right: 50px;
+}
+
+.vote {
+  cursor: pointer;
 }
 
 .votes {

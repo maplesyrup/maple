@@ -3,7 +3,7 @@
   <input type="text" name="post[title]" id="post-title" />
 
   <label for="post[content]">Content</label>
-  <input type="text" name="post[content]" id="post-content" />
+  <input type="text" name="post[content]" maxlength="500" id="post-content" />
 
   <select id="company" name="post[company_id]">
   <% for (var i = 0; i < companies.length; i++) { %>

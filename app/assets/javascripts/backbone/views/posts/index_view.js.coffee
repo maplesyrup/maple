@@ -20,6 +20,9 @@ class Maple.Views.PostsIndexView extends Backbone.View
       @.render()
       @.addAll()
 
+    @.collection.on 'add', (model) =>
+      @addOne(model, @collection.length - 1)  
+
     @render()
     @addAll()
 
