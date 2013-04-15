@@ -295,3 +295,108 @@ Login View
   width: 300px;
   padding: 10px;
 }
+
+/*
+Dashboard View
+*/
+#filter-date {
+  font-size: 16px;
+  width: 350px;
+}
+
+h4.dashboard-sub {
+  background-color: #444444;
+  color: #FFFFFF;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+}
+
+#dashboard-graph {
+  padding: 20px;
+  margin-bottom: 40px;
+}
+
+#dashboard-stats .total-votes {
+  float: right; 
+}
+
+.dashboard-row {
+  font-size: 18px;
+  padding: 10px 0;
+  border-bottom: 1px solid #CCCCCC;
+}
+
+.dashboard-header {
+  border-bottom: 1px solid #CCCCCC;
+}
+
+.dashboard-votes {
+  text-align: right;
+  padding-right: 5px;
+}
+
+.col-header {
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #08c;
+}
+
+.axis {
+  font-weight: bold;
+}
+
+.y {
+  font-size: 20px;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.area {
+  fill: lightsteelblue;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 3px;
+}
+
+.grid .tick {
+  stroke: lightgrey;
+  opacity: 0.6;
+}
+
+.grid path {
+  stroke-width: 0;
+}
+
+.tooltip {   
+  position: absolute;
+  background-color: #FFFFFF;
+  width: 100px;
+  padding: 2px 5px;
+  font-size: 12px;
+  border: 3px solid steelblue;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.tooltip .date {
+  font-weight: bold;
+}
+
+circle {
+  fill: white;
+  stroke: steelblue;
+  stroke-width: 3px;
+}

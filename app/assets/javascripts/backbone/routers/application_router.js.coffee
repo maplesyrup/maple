@@ -7,6 +7,7 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     @companies = new Maple.Collections.CompaniesCollection()
     @companies.reset options.companies
 
+    @current_company = options.current_company || {}
     @users = new Maple.Collections.UsersCollection()
     # no user bootstrapping. We'll lazy load instead 
      
@@ -14,6 +15,7 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     '' : 'index'
     'newPost' : 'newPost'
     'companies/:id' : 'showCompany'
+    'dashboard' : 'dashboard'
     'users/:id' : 'showUser'
     '*default' : 'index'
 
@@ -37,6 +39,10 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
       company.fetch success: (data) =>
         $("#maple-main-container").html( new Maple.Views.CompanyShowView({ model: company }).el )
         @companies.add company
+
+  dashboard: ->
+    company = @companies.get @current_company.id
+    $("#maple-main-container").html( new Maple.Views.CompaniesDashboardView({ model: company }).el )
 
   showUser: (id) ->
     user = @users.get id
