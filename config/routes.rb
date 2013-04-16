@@ -24,10 +24,6 @@ Maple::Application.routes.draw do
   resources :companies
   resources :users
 
-  resources :users do
-    resources :follows
-  end
-       
   # Sample resource route with options:
   #   resources :products do
   #     member do

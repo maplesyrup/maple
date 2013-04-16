@@ -93,7 +93,7 @@ class Company < ActiveRecord::Base
       json.array! companies do |json, company|
         json.(company, :id, :name, :splash_image, 
               :blurb_title, :blurb_body, :more_info_title, 
-              :more_info_body, :company_url, :all_follows)
+              :more_info_body, :company_url)
         json.logo_urls do
           json.full company.logo.url
           json.medium company.logo.url(:medium)
