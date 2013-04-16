@@ -21,14 +21,16 @@ class User < ActiveRecord::Base
   before_save :ensure_authentication_token
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :name
+  attr_accessible :email, :password, :password_confirmation, 
+                  :remember_me, :provider, :uid, :name,
+                  :personal_info, :avatar
 
   has_many :posts
 
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "25x25" }, :default_url => "avatars/:style/missing.png"
 
   acts_as_voter
-
+  validates :name, :uniqueness => true
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     # self.find_for_facebook_oauth(auth,
@@ -67,7 +69,7 @@ class User < ActiveRecord::Base
     # Convert the instance User's attributes
     # into JSON.
     Jbuilder.encode do |json|
-      json.(self, :id, :name, :created_at, :avatar)
+      json.(self, :id, :name, :created_at, :avatar, :personal_info)
       json.(self, :posts) if options[:include_posts]
       json.editable false
       if options[:user] && options[:user].id == self.id

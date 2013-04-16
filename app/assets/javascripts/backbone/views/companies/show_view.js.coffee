@@ -75,7 +75,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
     target = $(event.currentTarget)
     targetID = target.attr("id")
     if targetID == "company-header-image"
-      @$el.find("#company-select-new-image").html( new Maple.Views.UploadImageView({ model: @model }).el)
+      @$el.find("#company-select-new-image").html( new Maple.Views.UploadImageView({ model: @model, inputName: "company[splash_image]", targetImgContainer: "#company-header-image", resourceName: "splash_image"}).el)
     else if targetID == "company-submit-logo"
       @submitLogo(event)
     else

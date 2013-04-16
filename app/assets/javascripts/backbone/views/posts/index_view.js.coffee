@@ -9,6 +9,8 @@ class Maple.Views.PostsIndexView extends Backbone.View
 
   id: "posts"
 
+  parent: window
+  
   className: "row glimpses "
   
   columnIds: ["#col1", "#col2", "#col3", "#col4", "#col5", "#col6"]
@@ -33,7 +35,8 @@ class Maple.Views.PostsIndexView extends Backbone.View
       @.addAll()
 
     @.collection.on 'add', (model) =>
-      @addOne(model, @collection.length - 1)  
+      @addOne(model, @collection.length - 1) 
+    @parent = @options.parent || window
     $(window).resize @recalculateColumns
 
     @recalculateColumns()
@@ -50,7 +53,7 @@ class Maple.Views.PostsIndexView extends Backbone.View
     @columnIds[index % @numberOfColumns]
 
   recalculateColumns: =>
-    width = window.innerWidth   
+    width = $(@parent).width()   
     columnsThatFit = Math.floor width/@postWidth
     switch columnsThatFit
       when 4 
