@@ -84,7 +84,7 @@ class Maple.Views.UploadImageView extends Backbone.View
 			@model.savePaperclip(formData,
 			 type: 'PUT',
 				success: (data) =>
-					@model.set({splash_image: data.splash_image})	
+					@model.set(@resourceName, data[@resourceName])	
 					@close(data)
 
 				error: (data) =>
