@@ -74,7 +74,7 @@ class User < ActiveRecord::Base
     company_follows = self.follows_by_type('Company')
     user_follows = self.follows_by_type('User')
     users_following = self.following_by_type('User')
-
+    
     Jbuilder.encode do |json|
       json.(self, :id, :name, :created_at, :avatar, :personal_info, :all_follows)
       json.(self, :posts) if options[:include_posts]
