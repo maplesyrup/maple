@@ -10,7 +10,7 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     @current_company = options.current_company || {}
     @users = new Maple.Collections.UsersCollection()
     # no user bootstrapping. We'll lazy load instead 
-     
+
   routes:
     '' : 'index'
     'newPost' : 'newPost'
@@ -24,7 +24,11 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     @company_pill_view = new Maple.Views.CompaniesIndexView({ collection: @companies})
 
   newPost: ->
-    @view = new Maple.Views.NewPostView({ collection: @posts, companies: @companies })
+    $modal = $("#mainModal")
+    $modal.modal('show').html(new Maple.Views.NewPostView({ collection: @posts, companies: @companies }).el)
+    $modal.on 'hidden', =>
+      @navigate("#", true)
+
 
   showCompany: (id) ->
     @company_pill_view && @company_pill_view.close()

@@ -6,7 +6,7 @@ class Maple.Views.NewPostView extends Backbone.View
     # form elements and close the form
     # after we finish submitting it.
 
-  className: 'newPost'
+  id: 'newPost'
 
   tagName: 'div'
 
@@ -21,7 +21,7 @@ class Maple.Views.NewPostView extends Backbone.View
 
   render: ->
     @$el.html @template({ companies: @companies.toJSON() })
-    $("body").append @$el
+    @
 
 
   save: (e) =>
@@ -33,7 +33,7 @@ class Maple.Views.NewPostView extends Backbone.View
     @collection.savePaperclip(formData, 
       success: (post) =>
         @collection.add([post])
-        @close()
+        $("#mainModal").modal('hide')
         window.router.navigate('/')
       error: (e) =>
         console.log(e))   
