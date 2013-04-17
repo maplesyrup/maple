@@ -8,8 +8,14 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     @companies.reset options.companies
 
     @current_company = options.current_company || {}
+    
     @users = new Maple.Collections.UsersCollection()
-    # no user bootstrapping. We'll lazy load instead 
+    
+    @session = new Maple.Models.Session()
+    @session.set(options.current_session)
+     
+    # no users bootstrapping 
+    # We'll lazy load instead 
      
   routes:
     '' : 'index'

@@ -7,6 +7,6 @@ class ApplicationController < ActionController::Base
   end
 
   def sessions
-    render :json => { :current_user => current_user.id, :current_company => current_company && current_company.id } 
+    render :json => { :current_user => current_user && current_user.id, :current_company => current_company && current_company.id } 
   end
 end
