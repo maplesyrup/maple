@@ -70,7 +70,7 @@ class Company < ActiveRecord::Base
     Jbuilder.encode do |json|
       json.(self, :id, :name, :splash_image, :blurb_title, 
                   :blurb_body, :more_info_title, :more_info_body, 
-                  :company_url, :all_follows)
+                  :company_url)
       json.logo_urls do
         json.full self.logo.url
         json.medium self.logo.url(:medium)

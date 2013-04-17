@@ -8,7 +8,8 @@ Maple::Application.routes.draw do
   devise_for :companies
 
   get 'application/home'
-
+  get 'application/sessions'
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

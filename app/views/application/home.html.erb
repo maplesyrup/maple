@@ -13,6 +13,10 @@
 <script>
   $(function()
   {
+    // Bootstrap current_state and store for later   
+    window.maple_current_user = <%= current_user %> 
+    window.maple_current_company = <%= current_company %>
+
     window.router = new Maple.Routers.ApplicationRouter({
       posts: <%= Post.public_models(@posts, { :user => current_user }).html_safe %>,
       companies: <%= Company.public_models(@companies, { :user => current_user, :company => current_company }).html_safe %>, 
