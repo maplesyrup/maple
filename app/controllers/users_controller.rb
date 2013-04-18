@@ -23,19 +23,26 @@ class UsersController < ApplicationController
         to_follow && current_user.follow(to_follow)
       end
 
-      user_params[:companies_im_following] && user_params[:companies_im_following].each do |id|
+      user_params[:companies_im_following] ||= [] 
+
+      current_follows = current_user.follows_by_type('Company').map{|company| company.followable_id} 
+      new_follows = user_params[:companies_im_following] - current_follows
+      remove_follows = current_follows - user_params[:companies_im_following]
+      
+
+      new_follows && new_follows.each do |id|
         to_follow = Company.find(id)
-        to_follow && current_user.follow(to_follow)
+        to_follow && current_user.follow(to_follow) 
+      end          
+
+      remove_follows && remove_follows.each do |id|
+        to_remove = Company.find(id)
+        to_remove && current_user.stop_following(to_remove)
       end
 
       attrs_to_update = sanitize(user_params)
       # General attribute update
-      
-      if attrs_to_update.length > 2 
-        @user.update_attributes(attrs_to_update)
-      else
-        @user.update_attribute(attrs_to_update.keys[0], attrs_to_update.values[0])
-      end
+      @user.update_attributes(attrs_to_update)
 
       render :json => @user.public_model({:user => current_user, :company => current_company})
     else

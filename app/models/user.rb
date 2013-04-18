@@ -78,9 +78,9 @@ class User < ActiveRecord::Base
     Jbuilder.encode do |json|
       json.(self, :id, :name, :created_at, :avatar, :personal_info, :all_follows)
       json.(self, :posts) if options[:include_posts]
-      json.companies_im_following company_follows.map{|company| company.id}
-      json.users_im_following user_follows.map{|user| user.id}
-      json.users_following_me users_following.map{|user| user.id} 
+      json.companies_im_following company_follows.map{|company| company.followable_id}
+      json.users_im_following user_follows.map{|user| user.followable_id}
+      json.users_following_me users_following.map{|user| user.follower_id} 
       json.editable false
       if options[:user] && options[:user].id == self.id
         json.editable true

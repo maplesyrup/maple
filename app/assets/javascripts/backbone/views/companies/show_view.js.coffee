@@ -23,9 +23,10 @@ class Maple.Views.CompanyShowView extends Backbone.View
     @render()
 
   render: ->
-    @$el.html(@template(_.extend(@model.toJSON(), @session.toJSON(), 
-      @session.get("user_signed_in") && @session.currentUser.toJSON() || {},
-      @session.get("company_signed_in") && @session.currentCompany.toJSON() || {})))
+    @$el.html(@template(_.extend(@model.toJSON(), @session.toJSON(),
+              "session":
+                "currentUser": @session.currentUser.toJSON(),
+                "currentCompany": @session.currentCompany.toJSON())))
 
     @model.posts.fetch # lazy fetch of associated posts
       data: 
@@ -92,7 +93,15 @@ class Maple.Views.CompanyShowView extends Backbone.View
       if !_.contains(@session.currentUser.get("companies_im_following"), @model.id)
         # user is not already following this company. Follow
         @session.currentUser.get("companies_im_following").push(@model.id)
-        @session.currentUser.patch(["companies_im_following"])
+        $(".follow").html("<button class='btn btn-success pull-right'>
+                            Following 
+                          </button>")
+      else 
+        # user is currently following this company. Unfollow
+        @session.currentUser.get("companies_im_following").pop(@model.id) 
+        $(".follow").html("<button class='btn pull-right'>
+                            <i class='icon-plus'></i> Follow 
+                          </button>")
 
-             
+      @session.currentUser.patch(["companies_im_following"])            
 
