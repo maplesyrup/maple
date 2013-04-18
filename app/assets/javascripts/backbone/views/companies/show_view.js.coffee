@@ -11,8 +11,10 @@ class Maple.Views.CompanyShowView extends Backbone.View
   events:
     "focus [contenteditable]" : "editContent"
     "blur [contenteditable]" : "updateContent"
+    "click .follow" : "follow"
 
   initialize: ->
+    @session = this.options.session || {}
     @model.on "change", =>
       if @model.hasChanged("logo_urls")
         replaceImageTemplate = JST["backbone/templates/helpers/replace_image"]
@@ -21,7 +23,10 @@ class Maple.Views.CompanyShowView extends Backbone.View
     @render()
 
   render: ->
-    @$el.html(@template(@model.toJSON()))
+    @$el.html(@template(_.extend(@model.toJSON(), @session.toJSON(), 
+      @session.get("user_signed_in") && @session.currentUser.toJSON() || {},
+      @session.get("company_signed_in") && @session.currentCompany.toJSON() || {})))
+
     @model.posts.fetch # lazy fetch of associated posts
       data: 
         company_id: @model.id
@@ -80,3 +85,14 @@ class Maple.Views.CompanyShowView extends Backbone.View
       @submitLogo(event)
     else
       return false
+
+  follow: (event) ->
+    if @session.get("user_signed_in")
+      # user is signed in and wants to perform an action
+      if !_.contains(@session.currentUser.get("companies_im_following"), @model.id)
+        # user is not already following this company. Follow
+        @session.currentUser.get("companies_im_following").push(@model.id)
+        @session.currentUser.patch(["companies_im_following"])
+
+             
+

@@ -16,36 +16,27 @@ class UsersController < ApplicationController
     # update user attributes  
     @user = User.find(params[:id])
     if current_user && current_user.id == @user.id
+      user_params = params[:user]
 
-      if params[:relation]
-        # Relationship update 
-        if params[:relation][:begin]
-          if params[:relation][:begin][:user]
-            user_to_follow = User.find(params[:relation][:begin][:user])
-            current_user.follow(user_to_follow)
-          elsif params[:relation][:begin][:company]
-            company_to_follow = Company.find(params[:relation][:begin][:company])
-            current_user.follow(company_to_follow)
-          end 
-        elsif params[:relation][:end]
-          if params[:relation][:end][:user]
-            user_stop_following = User.find(params[:relation][:end][:user])
-            current_user.stop_following(user_stop_following) 
-          elsif params[:relation][:end][:company] 
-            company_stop_following = Company.find(params[:relation][:end][:company]) 
-            current_user.stop_following(company_stop_following)
-          end
-        end
+      user_params[:users_im_following] && user_params[:users_im_following].each do |id|
+        to_follow = User.find(id)
+        to_follow && current_user.follow(to_follow)
       end
 
-      attrs_to_update = sanitize(params[:user])
+      user_params[:companies_im_following] && user_params[:companies_im_following].each do |id|
+        to_follow = Company.find(id)
+        to_follow && current_user.follow(to_follow)
+      end
+
+      attrs_to_update = sanitize(user_params)
       # General attribute update
+      
       if attrs_to_update.length > 2 
         @user.update_attributes(attrs_to_update)
       else
         @user.update_attribute(attrs_to_update.keys[0], attrs_to_update.values[0])
       end
-      
+
       render :json => @user.public_model({:user => current_user, :company => current_company})
     else
       render :json => {}, :status => 403 

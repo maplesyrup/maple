@@ -18,10 +18,15 @@
       posts: <%= Post.public_models(@posts, { :user => current_user }).html_safe %>,
       companies: <%= Company.public_models(@companies, { :user => current_user, :company => current_company }).html_safe %>, 
       <% if current_company %>
-        current_company: <%= current_company.public_model.html_safe %>
+        current_company: <%= current_company.public_model.html_safe %>,
       <% end %>
-      current_session: {"current_user": <%= ( current_user && current_user.id ) || -1 %>,
-                        "current_company": <%= ( current_company && current_company.id ) || -1 %> }
+      <% if current_user %>
+        current_user: <%= current_user.public_model.html_safe %>,
+      <% end %>
+        current_session: {
+          "user_signed_in": <%= user_signed_in? %>,
+          "company_signed_in": <%= company_signed_in? %>
+        }
     }); 
     Backbone.history.start();
   });

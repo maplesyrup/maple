@@ -2,8 +2,15 @@
 	<div class="nav-opaque navbar-inner">
 		<div class="container-fluid">
 			<a class = "brand" href=<%= "/#companies/" + id %> ><%= name %></a>
-			<i class="company-toolbar follow-company pull-right icon-star icon-2x"></i>
-			<i class="company-toolbar company-data pull-right icon-bar-chart icon-2x"></i>	
+			<% if (user_signed_in && _.contains(companies_im_following, id)) { %>	
+				<button class="follow btn btn-success pull-right">
+					<i class="icon-plus"></i> Following 
+				</button>
+			<% } else { %>
+				<button class="follow btn pull-right">
+					<i class="icon-plus"></i> Follow 
+				</button>
+			<% } %>
 		</div>
 	</div>
 </div>
