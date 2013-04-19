@@ -9,10 +9,17 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Lato', "Helvetica", sans-serif;
   margin: 0;
 }
+
 .company-toolbar
 {
  color: white;
  margin-right: 20px;
+}
+
+.new-post {
+  font-size: 12px;
+  font-weight: bold;
+  top: -10px;
 }
 
 .small-photo
@@ -35,6 +42,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 5px;
   min-width: 250px;
 } 
+
 #logo-placeholder {
   width: 200px;
   height: 200px;
@@ -176,6 +184,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 20px;
   font-weight: bold;
   color: #FFFFFF;
+  margin-right: 10px;
 }
 
 .navbar-inverse .companyName
@@ -212,6 +221,13 @@ h1, h2, h3, h4, h5, h6 {
 
 .center {
   text-align: center;
+}
+
+/*
+Header View
+*/
+.navbar-text a {
+  margin-right: 15px;
 }
 
 /*
@@ -299,6 +315,7 @@ Home View
 }
 
 .glimpse-meta .date {
+  font-weight: bold;
   float: right;
 }
 
