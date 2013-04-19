@@ -9,7 +9,7 @@ Maple::Application.routes.draw do
 
   get 'application/home'
   get 'application/sessions'
-  
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
@@ -24,7 +24,8 @@ Maple::Application.routes.draw do
   resources :posts
   resources :companies
   resources :users
-
+  match 'users/follow' => 'users#follow'
+   
   # Sample resource route with options:
   #   resources :products do
   #     member do

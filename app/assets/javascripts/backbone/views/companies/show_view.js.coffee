@@ -92,6 +92,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
       # user is signed in and wants to perform an action
       if !_.contains(@session.currentUser.get("companies_im_following"), @model.id)
         # user is not already following this company. Follow
+
         @session.currentUser.get("companies_im_following").push(@model.id)
         $(".follow").html("<button class='btn btn-success pull-right'>
                             Following 
@@ -103,5 +104,11 @@ class Maple.Views.CompanyShowView extends Backbone.View
                             <i class='icon-plus'></i> Follow 
                           </button>")
 
-      @session.currentUser.patch(["companies_im_following"])            
-
+      @session.currentUser.follow(
+        type: "Company"
+        target: @model.id
+        success:(count) ->
+          console.log "number of users"
+        error: (response) ->
+          console.log "couldn't update"   
+        ) 

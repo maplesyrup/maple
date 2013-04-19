@@ -24,6 +24,25 @@ Backbone.Model::patch = (attribute_whitelist, options)->
 	method = 'update'
 	@sync(method, @, _options)
 
+Backbone.Model::follow = (options) ->
+	# follow
+	#
+	# Purpose: Model action closely matching
+	# Model action on the backend. 
+	# Pass in type and target to options
+	# and follow will send request with params
+	# to back-end
+	
+	$.ajax({
+		url: (options.url) || "users/follow"
+		data: 
+			type: options.type
+			target: options.target
+		success: (data) ->
+			options.success(data)
+		error: (data) ->
+			options.error(data)		 	 		 
+		})
 
 Backbone.Collection::savePaperclip = Backbone.Model::savePaperclip = (form, options) ->
 	# savePaperclip

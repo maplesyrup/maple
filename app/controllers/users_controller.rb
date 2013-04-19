@@ -12,33 +12,32 @@ class UsersController < ApplicationController
     end  
   end
 
+  def follow
+    target = params[:target]
+    type = params[:type]
+    if type && target && user_signed_in?
+      # parameters exist and user is signed in
+      # Convert type to class and find target 
+      type = type.camelize.constantize
+      followed = type.find(target)
+      if followed
+        # Member of class exists 
+        if current_user.following?(followed)
+          current_user.stop_following(followed)
+        else
+          current_user.follow(followed)
+        end   
+      end
+      render :json => {:following => current_user.follow_count}      
+    end
+    render :json => {}, :status => 403 
+  end
+
   def update
     # update user attributes  
     @user = User.find(params[:id])
     if current_user && current_user.id == @user.id
       user_params = params[:user]
-
-      user_params[:users_im_following] && user_params[:users_im_following].each do |id|
-        to_follow = User.find(id)
-        to_follow && current_user.follow(to_follow)
-      end
-
-      user_params[:companies_im_following] ||= [] 
-
-      current_follows = current_user.follows_by_type('Company').map{|company| company.followable_id} 
-      new_follows = user_params[:companies_im_following] - current_follows
-      remove_follows = current_follows - user_params[:companies_im_following]
-      
-
-      new_follows && new_follows.each do |id|
-        to_follow = Company.find(id)
-        to_follow && current_user.follow(to_follow) 
-      end          
-
-      remove_follows && remove_follows.each do |id|
-        to_remove = Company.find(id)
-        to_remove && current_user.stop_following(to_remove)
-      end
 
       attrs_to_update = sanitize(user_params)
       # General attribute update
