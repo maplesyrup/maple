@@ -309,6 +309,7 @@ Home View
 }
 
 .glimpse-meta .date {
+  font-weight: bold;
   float: right;
 }
 
