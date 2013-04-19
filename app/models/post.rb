@@ -62,16 +62,18 @@ class Post < ActiveRecord::Base
     # Returned JSON includes the author, company,
     # full_image_url, image_url, total_votes
     # and voted_on
-    posts_json = posts.as_json({:include => {:user => { :only => [:uid, :email] }, :company => { :only => :name} }, :methods => [:image_url, :total_votes]})
 
-    posts.each_with_index do |post, idx|
-      posts_json[idx][:full_image_url] = post.image.url
-      posts_json[idx][:image_url] = post.image.url(:medium)
-      posts_json[idx][:total_votes] = post.votes_for
-      posts_json[idx][:voted_on] = post.voted_on(options[:user])
-      posts_json[idx][:timestamp] = post.created_at.to_i
+    Jbuilder.encode do |json|
+      json.array! posts do |json, post|
+        json.(post, :id, :company, :company_id, :content, :created_at, :title, :user)
+        json.full_image_url post.image.url
+        json.image_url post.image.url(:medium)
+        json.total_votes post.votes_for
+        json.voted_on post.voted_on(options[:user])
+        json.timestamp post.created_at.to_i
+        json.user_id post.user.id
+      end
     end
-    posts_json.to_json
   end
 
   def self.paged_posts(options = {})
