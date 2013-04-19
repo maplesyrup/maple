@@ -23,8 +23,9 @@ Maple::Application.routes.draw do
 
   resources :posts
   resources :companies
+
+  put 'users/follow' => 'users#follow'
   resources :users
-  match 'users/follow' => 'users#follow'
    
   # Sample resource route with options:
   #   resources :products do

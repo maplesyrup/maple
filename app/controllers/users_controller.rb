@@ -15,6 +15,7 @@ class UsersController < ApplicationController
   def follow
     target = params[:target]
     type = params[:type]
+
     if type && target && user_signed_in?
       # parameters exist and user is signed in
       # Convert type to class and find target 
@@ -29,8 +30,9 @@ class UsersController < ApplicationController
         end   
       end
       render :json => {:following => current_user.follow_count}      
+    else
+      render :json => {}, :status => 403 
     end
-    render :json => {}, :status => 403 
   end
 
   def update

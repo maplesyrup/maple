@@ -35,6 +35,7 @@ Backbone.Model::follow = (options) ->
 	
 	$.ajax({
 		url: (options.url) || "users/follow"
+		type: 'PUT'
 		data: 
 			type: options.type
 			target: options.target
