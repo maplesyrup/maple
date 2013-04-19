@@ -21,7 +21,7 @@
       <% if (!user.uid) { %>
         <img src="/assets/<%= user.profile_image %>" />
       <% } else { %>
-        <img src="<%= user.profile_image %>" />
+        <img src="http://graph.facebook.com/<%= user.uid %>/picture" />
       <% } %>
     <% } %>
     <div class="glimpse-meta">
