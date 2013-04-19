@@ -1,3 +1,5 @@
+include ActionView::Helpers::DateHelper
+
 class Post < ActiveRecord::Base
   include Tire::Model::Search
   include Tire::Model::Callbacks
@@ -72,6 +74,7 @@ class Post < ActiveRecord::Base
         json.voted_on post.voted_on(options[:user])
         json.timestamp post.created_at.to_i
         json.user_id post.user.id
+        json.relative_time time_ago_in_words(post.created_at)
       end
     end
   end

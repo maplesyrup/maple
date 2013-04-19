@@ -4,6 +4,8 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     @posts = new Maple.Collections.PostsCollection()
     @posts.reset options.posts
 
+    console.log(@posts)
+
     @companies = new Maple.Collections.CompaniesCollection()
     @companies.reset options.companies
 
