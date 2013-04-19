@@ -15,7 +15,6 @@ class UsersController < ApplicationController
   def follow
     target = params[:target]
     type = params[:type]
-
     if type && target && user_signed_in?
       # parameters exist and user is signed in
       # Convert type to class and find target 
