@@ -43,12 +43,15 @@ class UsersController < ApplicationController
     user = user.fetch
 
     unless user
-      auth = params[:auth]
-      user = User.create(name:auth.extra.raw_info.name,
-                           provider:auth.provider,
-                           uid:auth.uid,
-                           email:auth.info.email,
-                           password:Devise.friendly_token[0,20])
+      @user = User.find_for_facebook_oauth(env["omniauth.auth"], current_user)
+
+      if @user.persisted?
+        flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Facebook"
+        sign_in_and_redirect @user, :event => :authentication
+      else
+        session["devise.facebook_data"] = env["omniauth.auth"]
+        redirect_to new_user_registration_url
+      end
     end
 
     logged_in_user = User.find_by_uid(user.identifier)
