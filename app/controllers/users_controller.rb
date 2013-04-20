@@ -49,6 +49,7 @@ class UsersController < ApplicationController
                            uid:auth.uid,
                            email:auth.info.email,
                            password:Devise.friendly_token[0,20])
+    end
 
     logged_in_user = User.find_by_uid(user.identifier)
 
