@@ -12,16 +12,38 @@ class UsersController < ApplicationController
     end  
   end
 
+  def follow
+    target = params[:target]
+    type = params[:type]
+    if type && target && user_signed_in?
+      # parameters exist and user is signed in
+      # Convert type to class and find target 
+      type = type.camelize.constantize
+      followed = type.find(target)
+      if followed
+        # Member of class exists 
+        if current_user.following?(followed)
+          current_user.stop_following(followed)
+        else
+          current_user.follow(followed)
+        end   
+      end
+      render :json => {:following => current_user.follow_count}      
+    else
+      render :json => {}, :status => 403 
+    end
+  end
+
   def update
-    # update user attributes 
+    # update user attributes  
     @user = User.find(params[:id])
     if current_user && current_user.id == @user.id
-      attrs_to_update = sanitize(params[:user])
-      if attrs_to_update.length > 2 
-        @user.update_attributes(attrs_to_update)
-      else
-        @user.update_attribute(attrs_to_update.keys[0], attrs_to_update.values[0])
-      end
+      user_params = params[:user]
+
+      attrs_to_update = sanitize(user_params)
+      # General attribute update
+      @user.update_attributes(attrs_to_update)
+
       render :json => @user.public_model({:user => current_user, :company => current_company})
     else
       render :json => {}, :status => 403 
