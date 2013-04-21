@@ -39,20 +39,16 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     $modal.on 'hidden', =>
       @navigate("#", true)
 
-
   showCompany: (id) ->
     @company_pill_view && @company_pill_view.close()
-    company = @companies.get id 
-    if company
-      # Use existing model if possible
-      $("#maple-main-container").html( new Maple.Views.CompanyShowView({ model: company, session: @session}).el )  
-    
-    else
-      # Fetch model and add to collection
-      company = new Maple.Models.Company({ id: id })
-      company.fetch success: (data) =>
-        $("#maple-main-container").html( new Maple.Views.CompanyShowView({ model: company, session: @session}).el )
-        @companies.add company
+    @companies.access {
+      id: id
+      success: (company) =>
+        $("#maple-main-container").html new Maple.Views.CompanyShowView({ 
+          model: company,
+          session: @session,
+          }).el  
+      }
 
   dashboard: ->
     company = @companies.get @current_company.id
@@ -60,14 +56,11 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
 
   showUser: (id) ->
     @company_pill_view && @company_pill_view.close()
-    user = @users.get id
-    if user
-      # Use existing model if possible
-      $("#maple-main-container").html( new Maple.Views.UserShowView({ model: user, session: @session}).el )
-
-    else
-      # Fetch model and add to collection
-      user = new Maple.Models.User({ id: id })
-      user.fetch success: (data) =>
-        $("#maple-main-container").html( new Maple.Views.UserShowView({ model: user, session: @session}).el )
-        @users.add user 
+    @users.access {
+      id: id
+      success: (user) =>
+        $("#maple-main-container").html new Maple.Views.UserShowView({ 
+          model: user, 
+          session: @session
+          }).el
+    }
