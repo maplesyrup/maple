@@ -46,12 +46,14 @@ class Post < ActiveRecord::Base
     # Returned JSON includes the author, company,
     # full_image_url, image_url, total_votes,
     # and voted_on
+
     post_json = self.as_json(:include => [:user, :company])
 
     post_json[:full_image_url] = self.image.url
     post_json[:image_url] = self.image.url(:medium)
     post_json[:total_votes] = self.votes_for
     post_json[:voted_on] = self.voted_on(options[:user])
+    post_json[:relative_time] = time_ago_in_words(self.created_at)
 
     post_json.to_json
   end

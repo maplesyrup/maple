@@ -8,8 +8,18 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     @companies.reset options.companies
 
     @current_company = options.current_company || {}
-    @users = new Maple.Collections.UsersCollection()
-    # no user bootstrapping. We'll lazy load instead 
+
+    @session = new Maple.Models.Session()
+    @session.set(options.current_session)
+    if options.current_company
+      @session.currentCompany.set(options.current_company)
+    else if options.current_user
+      @session.currentUser.set(options.current_user)
+
+    @users = new Maple.Collections.UsersCollection() 
+    
+    # no users bootstrapping 
+    # We'll lazy load instead 
 
   routes:
     '' : 'index'
@@ -35,13 +45,13 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     company = @companies.get id 
     if company
       # Use existing model if possible
-      $("#maple-main-container").html( new Maple.Views.CompanyShowView({ model: company }).el )  
+      $("#maple-main-container").html( new Maple.Views.CompanyShowView({ model: company, session: @session}).el )  
     
     else
       # Fetch model and add to collection
       company = new Maple.Models.Company({ id: id })
       company.fetch success: (data) =>
-        $("#maple-main-container").html( new Maple.Views.CompanyShowView({ model: company }).el )
+        $("#maple-main-container").html( new Maple.Views.CompanyShowView({ model: company, session: @session}).el )
         @companies.add company
 
   dashboard: ->
@@ -53,11 +63,11 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     user = @users.get id
     if user
       # Use existing model if possible
-      $("#maple-main-container").html( new Maple.Views.UserShowView({ model: user }).el )
+      $("#maple-main-container").html( new Maple.Views.UserShowView({ model: user, session: @session}).el )
 
     else
       # Fetch model and add to collection
       user = new Maple.Models.User({ id: id })
       user.fetch success: (data) =>
-        $("#maple-main-container").html( new Maple.Views.UserShowView({ model: user }).el )
+        $("#maple-main-container").html( new Maple.Views.UserShowView({ model: user, session: @session}).el )
         @users.add user 
