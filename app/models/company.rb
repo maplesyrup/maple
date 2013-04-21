@@ -26,6 +26,8 @@ class Company < ActiveRecord::Base
 
   has_many :posts
 
+  acts_as_followable
+
   mapping do
     indexes :_id, index: :not_analyzed
     indexes :blurb_title
@@ -66,7 +68,9 @@ class Company < ActiveRecord::Base
     # Convert the instance Company's attributes
     # into JSON.
     Jbuilder.encode do |json|
-      json.(self, :id, :name, :splash_image, :blurb_title, :blurb_body, :more_info_title, :more_info_body, :company_url)
+      json.(self, :id, :name, :splash_image, :blurb_title, 
+                  :blurb_body, :more_info_title, :more_info_body, 
+                  :company_url)
       json.logo_urls do
         json.full self.logo.url
         json.medium self.logo.url(:medium)
@@ -87,7 +91,9 @@ class Company < ActiveRecord::Base
     # them into JSON.
     Jbuilder.encode do |json|
       json.array! companies do |json, company|
-        json.(company, :id, :name, :splash_image, :blurb_title, :blurb_body, :more_info_title, :more_info_body, :company_url)
+        json.(company, :id, :name, :splash_image, 
+              :blurb_title, :blurb_body, :more_info_title, 
+              :more_info_body, :company_url)
         json.logo_urls do
           json.full company.logo.url
           json.medium company.logo.url(:medium)

@@ -12,7 +12,7 @@
           <% else %>
             <%= image_tag current_user.avatar.url(:thumb), :size => current_user.avatar.styles[:thumb].geometry  %>
           <% end %>
-          <a href="#" class="navbar-link"><%= current_user.name %></a>
+          <a href="/#users/<%= current_user.id %>" class="navbar-link"><%= current_user.name %></a>
           <a href="#newPost" class="new-post navbar-link"><i class="icon-edit"></i> Submit Ad </a>
           <%= link_to "Logout", destroy_user_session_path, {:class => "navbar-link", :method => :delete} %>
         <% elsif current_company %>
