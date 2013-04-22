@@ -71,5 +71,7 @@ class Maple.Views.UserShowView extends Backbone.View
     event.stopPropagation()
     event.preventDefault()
 
-    target = $(event.currentTarget)
-    targetID = target.attr("id")
+    target = $(event.target)
+    collectionType = target.attr("id")
+    @populateCollection(collectionType)
+
