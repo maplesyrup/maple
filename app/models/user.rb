@@ -67,6 +67,27 @@ class User < ActiveRecord::Base
     end
   end
 
+  def self.public_models(users, options={})
+    Jbuilder.encode do |json|
+      json.array! users do |json, user|
+
+        company_follows = user.follows_by_type('Company')
+        user_follows = user.follows_by_type('User')
+        users_following = user.following_by_type('User')   
+
+        json.(user, :id, :name, :created_at, :avatar, :personal_info, :all_follows)
+        json.(user, :posts) if options[:include_posts]
+        json.companies_im_following company_follows.map{|company| company.followable_id}
+        json.users_im_following user_follows.map{|u| u.followable_id}
+        json.users_following_me users_following.map{|u| u.follower_id} 
+        json.editable false
+        if options[:user] && options[:user].id == user.id
+          json.editable true
+        end
+      end
+    end 
+  end
+   
   def public_model(options={})
     # public_model:
     # Convert the instance User's attributes

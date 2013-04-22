@@ -9,7 +9,7 @@ class Maple.Views.UserShowView extends Backbone.View
   events:
     "blur [contenteditable]" : "updateContent"	
     "focus [contenteditable]": "editContent"
-    "click .activity-filter" : "refilterCollection"
+    "click .collection-filter" : "refilterCollection"
 
   initialize: ->
     @render()
@@ -73,7 +73,7 @@ class Maple.Views.UserShowView extends Backbone.View
 
     target = $(event.target)
     collectionType = target.attr("id")
-    
+
     $(event.currentTarget).find(".active").removeClass("active")
     $(event.target).addClass("active")
 
