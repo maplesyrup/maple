@@ -17,15 +17,16 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :token_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:facebook]
-         
+
   before_save :ensure_authentication_token
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, 
+  attr_accessible :email, :password, :password_confirmation,
                   :remember_me, :provider, :uid, :name,
                   :personal_info, :avatar
 
   has_many :posts
+  after_destroy :update_posts
 
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "25x25" }, :default_url => "avatars/:style/missing.png"
 
@@ -34,6 +35,12 @@ class User < ActiveRecord::Base
   acts_as_follower
 
   validates :name, :uniqueness => true
+
+  def update_posts
+    user_deleted = User.where(:name => 'user_deleted').first
+    self.posts.map { |post| post.user = user_deleted }
+    self.posts.each &:save
+  end
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     # self.find_for_facebook_oauth(auth,
@@ -57,7 +64,7 @@ class User < ActiveRecord::Base
   def self.new_with_session(params, session)
     # self.new_with_session(params, session):
     # Parameters: "params" - extra parameters,
-    # "session" - 
+    # "session" -
     # Use the session's Facebook email as the User's
     # email if the User does not have an email
     super.tap do |user|
@@ -80,7 +87,7 @@ class User < ActiveRecord::Base
       json.(self, :posts) if options[:include_posts]
       json.companies_im_following company_follows.map{|company| company.followable_id}
       json.users_im_following user_follows.map{|user| user.followable_id}
-      json.users_following_me users_following.map{|user| user.follower_id} 
+      json.users_following_me users_following.map{|user| user.follower_id}
       json.editable false
       if options[:user] && options[:user].id == self.id
         json.editable true
