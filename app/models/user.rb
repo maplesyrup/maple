@@ -26,7 +26,6 @@ class User < ActiveRecord::Base
                   :personal_info, :avatar
 
   has_many :posts
-  after_destroy :update_posts
 
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "25x25" }, :default_url => "avatars/:style/missing.png"
 
@@ -35,12 +34,6 @@ class User < ActiveRecord::Base
   acts_as_follower
 
   validates :name, :uniqueness => true
-
-  def update_posts
-    user_deleted = User.where(:name => 'user_deleted').first
-    self.posts.map { |post| post.user = user_deleted }
-    self.posts.each &:save
-  end
 
   def self.find_for_facebook_oauth(auth, signed_in_resource=nil)
     # self.find_for_facebook_oauth(auth,

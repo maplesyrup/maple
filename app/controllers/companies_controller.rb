@@ -18,7 +18,7 @@ class CompaniesController < ApplicationController
   		render :json => Company.find(params[:id]).public_model({:user => current_user, :company => current_company})
     end
   end
-  
+
   def update
     @company = Company.find(params[:id])
     if current_company && current_company.id == @company.id
@@ -26,8 +26,14 @@ class CompaniesController < ApplicationController
       render :json => @company.public_model({:user => current_user, :company => current_company})
       #render :json => {}, :status => 200
     else
-      render :json => {}, :status => 403 
+      render :json => {}, :status => 403
     end
+  end
+
+  def destroy
+    company = Company.delete(params[:id])
+
+    return :json => company.public_model
   end
 
   def sanitize(model)
