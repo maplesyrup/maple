@@ -24,11 +24,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
     @render()
 
   render: ->
-    @$el.html(@template(_.extend(@model.toJSON(), @session.toJSON(),
-              "session":
-                "currentUser": @session.currentUser.toJSON(),
-                "currentCompany": @session.currentCompany.toJSON())))
-
+    @$el.html(@template(_.extend(@model.toJSON(), @session.toJSON())))
     @populateCollection("company-posts")
     @
 
@@ -126,7 +122,8 @@ class Maple.Views.CompanyShowView extends Backbone.View
       when "company-followers"
         @model.followers.fetch
           data:
-            followable_id: @model.id  
+            followable_id: @model.id
+            type: 'Company'
           success: =>
             @$el.find("#company-posts-container").html new Maple.Views.MultiColumnView(
               collection: @model.followers

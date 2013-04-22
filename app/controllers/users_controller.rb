@@ -3,8 +3,9 @@ class UsersController < ApplicationController
   	# get all users here
     options = {}
 
-    following = Company.find(params[:followable_id])
-    .followers if params[:followable_id].present?
+    following = params[:type].camelize.constantize.
+    find(params[:followable_id]).
+    followers if params[:followable_id].present?
 
     render :json => User.public_models(following) if params[:followable_id].present?
 

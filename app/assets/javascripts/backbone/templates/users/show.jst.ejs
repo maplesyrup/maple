@@ -13,6 +13,19 @@
 					<%= personal_info %>	
 				</p>		
 			</div>
+			<% if (session.currentUser.id !== id) { %>	
+			<div class="follow pull-right">
+				<% if (user_signed_in && _.contains(session.currentUser.users_im_following, id)) { %>
+					<button class="btn btn-success pull-right">
+						Following 
+					</button>
+				<% } else { %>
+					<button class="btn pull-right">
+						<i class="icon-plus"></i> Follow 
+					</button>
+				<% } %>
+			</div>
+			<% } %>
 		</div>
 	</div>
 </div>

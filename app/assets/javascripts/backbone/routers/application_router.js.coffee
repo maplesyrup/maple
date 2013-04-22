@@ -40,7 +40,10 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
 
   newPost: ->
     $modal = $("#mainModal")
-    $modal.modal('show').html(new Maple.Views.NewPostView({ collection: @posts, companies: @companies }).el)
+    $modal.modal('show').html new Maple.Views.NewPostView(
+      collection: @posts
+      companies: @companies).el
+    
     $modal.on 'hidden', =>
       @navigate("#", true)
 
