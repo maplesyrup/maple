@@ -73,5 +73,9 @@ class Maple.Views.UserShowView extends Backbone.View
 
     target = $(event.target)
     collectionType = target.attr("id")
+    
+    $(event.currentTarget).find(".active").removeClass("active")
+    $(event.target).addClass("active")
+
     @populateCollection(collectionType)
 

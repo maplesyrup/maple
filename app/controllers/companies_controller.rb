@@ -10,7 +10,9 @@ class CompaniesController < ApplicationController
     follows_by_type('Company').
     map(&:followable_id) if params[:follower].present?   
 
-    options = { :followed => followed } if !followed.nil?   
+    options = { :followed => followed } if !followed.nil?
+    options = { :followed => [-1] } if !followed.nil? && followed.empty?
+    
     companies = Company.paged_companies(options)
 
   	render :json => Company.public_models(companies)
