@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130407084918) do
+ActiveRecord::Schema.define(:version => 20130416202630) do
 
   create_table "companies", :force => true do |t|
     t.string   "name"
@@ -40,7 +40,21 @@ ActiveRecord::Schema.define(:version => 20130407084918) do
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
+    t.string   "iframe_auth_token"
   end
+
+  create_table "follows", :force => true do |t|
+    t.integer  "followable_id",                      :null => false
+    t.string   "followable_type",                    :null => false
+    t.integer  "follower_id",                        :null => false
+    t.string   "follower_type",                      :null => false
+    t.boolean  "blocked",         :default => false, :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+  end
+
+  add_index "follows", ["followable_id", "followable_type"], :name => "fk_followables"
+  add_index "follows", ["follower_id", "follower_type"], :name => "fk_follows"
 
   create_table "posts", :force => true do |t|
     t.string   "title"
@@ -55,9 +69,22 @@ ActiveRecord::Schema.define(:version => 20130407084918) do
     t.integer  "company_id"
   end
 
+  create_table "relationships", :force => true do |t|
+    t.integer  "follower_id"
+    t.integer  "followed_id"
+    t.string   "followed_type"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "relationships", ["followed_id"], :name => "index_relationships_on_followed_id"
+  add_index "relationships", ["followed_type"], :name => "index_relationships_on_followed_type"
+  add_index "relationships", ["follower_id", "followed_id", "followed_type"], :name => "relationship_index", :unique => true
+  add_index "relationships", ["follower_id"], :name => "index_relationships_on_follower_id"
+
   create_table "users", :force => true do |t|
-    t.string   "email",                  :default => "", :null => false
-    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "email",                  :default => "",                   :null => false
+    t.string   "encrypted_password",     :default => "",                   :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -67,8 +94,8 @@ ActiveRecord::Schema.define(:version => 20130407084918) do
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.string   "authentication_token"
-    t.datetime "created_at",                             :null => false
-    t.datetime "updated_at",                             :null => false
+    t.datetime "created_at",                                               :null => false
+    t.datetime "updated_at",                                               :null => false
     t.string   "avatar_file_name"
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"
@@ -77,6 +104,7 @@ ActiveRecord::Schema.define(:version => 20130407084918) do
     t.string   "uid"
     t.string   "name"
     t.string   "type"
+    t.text     "personal_info",          :default => "A little about me."
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

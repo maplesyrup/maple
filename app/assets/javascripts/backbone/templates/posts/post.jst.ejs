@@ -6,7 +6,7 @@
         <div class="votes">
           <span class="num-votes"><%= total_votes %></span>
           <% if (voted_on == Maple.Post.VOTED.NO) { %>
-            <a class="vote" href="#"><span class="label label-info">Vote</span></a>
+            <a class="vote"><span class="label label-info">Vote</span></a>
           <% } else if (voted_on == Maple.Post.VOTED.YES) { %>
             <span class="label label-inverse">Voted</span>
           <% } %>
@@ -21,19 +21,19 @@
       <% if (!user.uid) { %>
         <img src="/assets/<%= user.profile_image %>" />
       <% } else { %>
-        <img src="<%= user.profile_image %>" />
+        <img src="http://graph.facebook.com/<%= user.uid %>/picture" />
       <% } %>
     <% } %>
     <div class="glimpse-meta">
       <span class="content">
         <%= content %>
       </span>
-      <span class="date"><!--<%= created_at %>--></span>
+      <span class="date"><%= relative_time %> ago</span>
       <% if (typeof(user) !== "undefined") { %>
-        <span class="author">by <%= user.name %></span>
+        <span class="author">by <a href="/#users/<%= user.id %>"><%= user.name %></a></span>
       <% } %>
       <% if (typeof(company) !== "undefined") { %>
-        <span class="tag"><a href="#"><strong><%= company.name %></strong></a></span>
+        <span class="tag"><a href="/#companies/<%=company_id %>"><strong><%= company.name %></strong></a></span>
       <% } %>
     </div>
     <div class="clearfix"></div>

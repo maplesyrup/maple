@@ -1,3 +1,5 @@
+include ActionView::Helpers::DateHelper
+
 class Post < ActiveRecord::Base
   include Tire::Model::Search
   include Tire::Model::Callbacks
@@ -44,12 +46,14 @@ class Post < ActiveRecord::Base
     # Returned JSON includes the author, company,
     # full_image_url, image_url, total_votes,
     # and voted_on
+
     post_json = self.as_json(:include => [:user, :company])
 
     post_json[:full_image_url] = self.image.url
     post_json[:image_url] = self.image.url(:medium)
     post_json[:total_votes] = self.votes_for
     post_json[:voted_on] = self.voted_on(options[:user])
+    post_json[:relative_time] = time_ago_in_words(self.created_at)
 
     post_json.to_json
   end
@@ -62,15 +66,19 @@ class Post < ActiveRecord::Base
     # Returned JSON includes the author, company,
     # full_image_url, image_url, total_votes
     # and voted_on
-    posts_json = posts.as_json({:include => {:user => { :only => [:uid, :email] }, :company => { :only => :name} }, :methods => [:image_url, :total_votes]})
 
-    posts.each_with_index do |post, idx|
-      posts_json[idx][:full_image_url] = post.image.url
-      posts_json[idx][:image_url] = post.image.url(:medium)
-      posts_json[idx][:total_votes] = post.votes_for
-      posts_json[idx][:voted_on] = post.voted_on(options[:user])
+    Jbuilder.encode do |json|
+      json.array! posts do |json, post|
+        json.(post, :id, :company, :company_id, :content, :created_at, :title, :user)
+        json.full_image_url post.image.url
+        json.image_url post.image.url(:medium)
+        json.total_votes post.votes_for
+        json.voted_on post.voted_on(options[:user])
+        json.timestamp post.created_at.to_i
+        json.user_id post.user.id
+        json.relative_time time_ago_in_words(post.created_at)
+      end
     end
-    posts_json.to_json
   end
 
   def self.paged_posts(options = {})

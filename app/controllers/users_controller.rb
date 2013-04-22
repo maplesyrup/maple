@@ -12,11 +12,38 @@ class UsersController < ApplicationController
     end  
   end
 
+  def follow
+    target = params[:target]
+    type = params[:type]
+    if type && target && user_signed_in?
+      # parameters exist and user is signed in
+      # Convert type to class and find target 
+      type = type.camelize.constantize
+      followed = type.find(target)
+      if followed
+        # Member of class exists 
+        if current_user.following?(followed)
+          current_user.stop_following(followed)
+        else
+          current_user.follow(followed)
+        end   
+      end
+      render :json => {:following => current_user.follow_count}      
+    else
+      render :json => {}, :status => 403 
+    end
+  end
+
   def update
-    # update user attributes 
+    # update user attributes  
     @user = User.find(params[:id])
     if current_user && current_user.id == @user.id
-      @user.update_attributes(sanitize(params[:user]))
+      user_params = params[:user]
+
+      attrs_to_update = sanitize(user_params)
+      # General attribute update
+      @user.update_attributes(attrs_to_update)
+
       render :json => @user.public_model({:user => current_user, :company => current_company})
     else
       render :json => {}, :status => 403 
@@ -36,6 +63,18 @@ class UsersController < ApplicationController
 
     user = FbGraph::User.me(token)
     user = user.fetch
+
+    unless user
+      @user = User.find_for_facebook_oauth(env["omniauth.auth"], current_user)
+
+      if @user.persisted?
+        flash[:notice] = I18n.t "devise.omniauth_callbacks.success", :kind => "Facebook"
+        sign_in_and_redirect @user, :event => :authentication
+      else
+        session["devise.facebook_data"] = env["omniauth.auth"]
+        redirect_to new_user_registration_url
+      end
+    end
 
     logged_in_user = User.find_by_uid(user.identifier)
 

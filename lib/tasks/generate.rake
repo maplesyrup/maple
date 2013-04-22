@@ -4,6 +4,7 @@ namespace :generate do
 
   desc 'Load a variable number of posts for either a specific user or random ones'
   task :posts => :environment do
+    # usage: rake generate:posts n=40 <uid=2134321> <cid=213321>
     uid = ENV['uid']
     cid = ENV['cid']
     n_posts = ENV['n'].to_i

@@ -22,8 +22,10 @@ Maple::Application.routes.draw do
 
   resources :posts
   resources :companies
-  resources :users
 
+  put 'users/follow' => 'users#follow'
+  resources :users
+   
   # Sample resource route with options:
   #   resources :products do
   #     member do

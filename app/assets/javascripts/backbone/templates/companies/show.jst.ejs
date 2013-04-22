@@ -2,12 +2,23 @@
 	<div class="nav-opaque navbar-inner">
 		<div class="container-fluid">
 			<a class = "brand" href=<%= "/#companies/" + id %> ><%= name %></a>
+				<div class="follow">
+				<% if (user_signed_in && _.contains(session.currentUser.companies_im_following, id)) { %>
+					<button class="btn btn-success pull-right">
+						Following 
+					</button>
+				<% } else { %>
+					<button class="btn pull-right">
+						<i class="icon-plus"></i> Follow 
+					</button>
+				<% } %>
+				</div>
 		</div>
 	</div>
 </div>
 
-<div class="container-fluid full-width" id="company-splash-image">
-	<div id="company-header-image" class="full-width" contenteditable="<%= editable %>" style="<%=' background: url(' + splash_image +') no-repeat center center'%>">
+<div class="container-fluid" id="company-splash-image">
+	<img id="company-header-image" class="center-container" contenteditable="<%= editable %>" src="<%= splash_image %>">
 	</div>
 	<div id="company-select-new-image"></div>
 </div>

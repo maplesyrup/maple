@@ -13,6 +13,7 @@ gem 'thumbs_up'
 gem "jbuilder", "~> 1.0.2"
 gem "tire"
 gem 'randexp'
+gem 'acts_as_follower'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'

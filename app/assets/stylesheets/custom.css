@@ -10,6 +10,39 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0;
 }
 
+.company-toolbar
+{
+ color: white;
+ margin-right: 20px;
+}
+
+.new-post {
+  font-size: 12px;
+  font-weight: bold;
+  top: -10px;
+}
+
+.small-photo
+{
+  height: 200px; 
+}
+#user-info-container
+{
+  float: none;
+  display: inline-block;
+  margin:0 auto;
+  text-align: left;  
+}
+#user-info-container > img
+{
+  margin-right: 20px;
+}
+#user-info-container > div > p
+{
+  margin-top: 5px;
+  min-width: 250px;
+} 
+
 #logo-placeholder {
   width: 200px;
   height: 200px;
@@ -52,6 +85,7 @@ h1, h2, h3, h4, h5, h6 {
 {
   margin-bottom: 40px;
   margin-top : -20px;
+  width: 100%;
 }
 
 #splash-image-field
@@ -59,18 +93,10 @@ h1, h2, h3, h4, h5, h6 {
   display: none;
 }
 
-.full-width
-{
-  margin-left: -20px;
-  width: 103%;
-}
 #company-header-image
 {
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  height: 400px;
+  max-height: 400px;
+  display: block;
 }
 
 .select-new-image-container
@@ -158,6 +184,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 20px;
   font-weight: bold;
   color: #FFFFFF;
+  margin-right: 10px;
 }
 
 .navbar-inverse .companyName
@@ -186,21 +213,35 @@ h1, h2, h3, h4, h5, h6 {
   border-bottom: 10px;
 }
 
+.center-container{
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .center {
   text-align: center;
+}
+
+/*
+Header View
+*/
+.navbar-text a {
+  margin-right: 15px;
 }
 
 /*
 Home View
 */
 #posts {
+  float: none;
   margin: 0 auto;
 }
 
 .glimpse-column {
   width: 275px;
   margin-left: 0;
-  margin-right: 20px;
+  margin-right: 20px
 }
 
 .glimpse {
@@ -237,6 +278,10 @@ Home View
   margin-right: 50px;
 }
 
+.vote {
+  cursor: pointer;
+}
+
 .votes {
   float: right;
 }
@@ -270,6 +315,7 @@ Home View
 }
 
 .glimpse-meta .date {
+  font-weight: bold;
   float: right;
 }
 
@@ -291,4 +337,109 @@ Login View
   font-size: 18px;
   width: 300px;
   padding: 10px;
+}
+
+/*
+Dashboard View
+*/
+#filter-date {
+  font-size: 16px;
+  width: 350px;
+}
+
+h4.dashboard-sub {
+  background-color: #444444;
+  color: #FFFFFF;
+  padding: 5px 10px;
+  margin-bottom: 10px;
+}
+
+#dashboard-graph {
+  padding: 20px;
+  margin-bottom: 40px;
+}
+
+#dashboard-stats .total-votes {
+  float: right; 
+}
+
+.dashboard-row {
+  font-size: 18px;
+  padding: 10px 0;
+  border-bottom: 1px solid #CCCCCC;
+}
+
+.dashboard-header {
+  border-bottom: 1px solid #CCCCCC;
+}
+
+.dashboard-votes {
+  text-align: right;
+  padding-right: 5px;
+}
+
+.col-header {
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #08c;
+}
+
+.axis {
+  font-weight: bold;
+}
+
+.y {
+  font-size: 20px;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.area {
+  fill: lightsteelblue;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 3px;
+}
+
+.grid .tick {
+  stroke: lightgrey;
+  opacity: 0.6;
+}
+
+.grid path {
+  stroke-width: 0;
+}
+
+.tooltip {   
+  position: absolute;
+  background-color: #FFFFFF;
+  width: 100px;
+  padding: 2px 5px;
+  font-size: 12px;
+  border: 3px solid steelblue;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.tooltip .date {
+  font-weight: bold;
+}
+
+circle {
+  fill: white;
+  stroke: steelblue;
+  stroke-width: 3px;
 }

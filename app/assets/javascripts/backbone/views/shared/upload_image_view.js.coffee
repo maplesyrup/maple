@@ -7,7 +7,15 @@ class Maple.Views.UploadImageView extends Backbone.View
 	# model's url. 
 
 	# for some added flexibility  
-	imageResourceName: 'company[splash_image]'  
+	
+	# the name normally seen on the file ie "company[splash_image]" 
+	inputName: '' 					
+
+	#	where the image will be displayed ie "#image_container"
+	targetImgContainer: ''
+
+	#	name of the resource in the model ie "my-image"
+	resourceName: ''
 
 	tagName: 'div'
 
@@ -16,17 +24,25 @@ class Maple.Views.UploadImageView extends Backbone.View
 	template: JST['backbone/templates/shared/upload_image']
 	
 	events:
-		"drop #photo-drop-bin" : "handleDrop"	 	
+		# File reading events
+		"drop #photo-drop-bin" : "handleDrop"	 
+		"change #splash-image-field" : "handleClick"
+		"click 	.company-image-folder": "selectImageFromFile"
+		"click #save-image-button" : "saveImage"
+
+		# UI Events
 		"dragover #photo-drop-bin" : "handleDragover"
 		"mouseover #photo-drop-bin" : "toggleFolder"
 		"mouseout #photo-drop-bin" : "toggleFolder"
 		"dragenter #photo-drop-bin" : "toggleFolder"
 		"dragleave #photo-drop-bin" : "toggleFolder"
 		"click	.icon-remove" : "exitView"
-		"click 	.company-image-folder": "selectImageFromFile"
-		"click #save-image-button" : "saveImage"
 
-	initialize: -> 
+	initialize: ->
+		@inputName = @options.inputName
+		@targetImgContainer = @options.targetImgContainer
+		@resourceName = @options.resourceName
+			
 		@render()
 
 	render: ->
@@ -40,15 +56,43 @@ class Maple.Views.UploadImageView extends Backbone.View
 		e.dataTransfer.dropEffect = 'copy'
 
 		@newImgFile = e.dataTransfer.files[0]
+		@previewFile(@newImgFile)				
+
+	handleClick: (data) ->
+		@newImgFile = data.target.files[0]
+		if @newImgFile
+			@previewFile(@newImgFile)
+
+	previewFile: (file, options) ->		
 
 		reader = new FileReader()
-		reader.onloadstart = ->
+		reader.onloadstart = =>
 			$('.file-loading').toggle()
 
-		reader.onloadend = ->
-			$('#company-header-image').css('background', 'url(' + reader.result + ') no-repeat center center')
+		reader.onloadend = =>
+			$(@targetImgContainer).attr("src", reader.result)
 			$('.file-loading').toggle()
-		reader.readAsDataURL(@newImgFile)	
+
+		reader.readAsDataURL(file)
+
+	saveImage: (event) ->
+
+		if @newImgFile
+			formData = new FormData()
+			formData.append @inputName, @newImgFile 
+
+			@model.savePaperclip(formData,
+			 type: 'PUT',
+				success: (data) =>
+					@model.set(@resourceName, data[@resourceName])	
+					@close(data)
+
+				error: (data) =>
+					console.log "an error occured while saving"
+					@exitView())	
+
+	selectImageFromFile: (event) ->
+		$("#splash-image-field").click()
 	
 	toggleFolder: (event) ->
 		$("#opened-folder").toggle()
@@ -57,27 +101,10 @@ class Maple.Views.UploadImageView extends Backbone.View
 	handleDragover: (event) ->
 		event.preventDefault()	# required for drag and drop. Chrome bug	
 
-	saveImage: (event) ->
+	exitView: ->
+		$(@targetImgContainer).attr("src", @model.get(@resourceName))	
+		@close()
 
-		if @newImgFile
-			formData = new FormData()
-			formData.append @imageResourceName, @newImgFile 
-
-		else
-			formData = new FormData($("#add-splash-image")[0])
-
-		@model.savePaperclip(formData,
-		 type: 'PUT',
-			success: (data) =>
-				@exitView()
-
-			error: (data) =>
-				console.log "an error occured"
-				@exitView())
-
-	selectImageFromFile: (event) ->
-		$("#splash-image-field").click()
-			
-	exitView: (event) -> 
+	close: (event) ->	
 		@remove()		
 		@unbind()
