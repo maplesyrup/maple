@@ -30,7 +30,12 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     '*default' : 'index'
 
   index: ->
-    $("#maple-main-container").html(new Maple.Views.PostsIndexView({ collection: @posts, parent: "#maple-main-container"}).el)
+    $("#maple-main-container").html new Maple.Views.MultiColumnView(
+      collection: @posts
+      parent: "#maple-main-container"
+      modelView: Maple.Views.PostView
+      ).el
+    
     @company_pill_view = new Maple.Views.CompaniesIndexView({ collection: @companies})
 
   newPost: ->

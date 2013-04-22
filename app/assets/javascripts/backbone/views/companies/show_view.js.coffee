@@ -32,7 +32,11 @@ class Maple.Views.CompanyShowView extends Backbone.View
       data: 
         company_id: @model.id
       success: =>
-        @$el.find("#company-posts-container").html(new Maple.Views.PostsIndexView({ collection: @model.posts }).el)
+        @$el.find("#company-posts-container").html new Maple.Views.MultiColumnView( 
+          collection: @model.posts
+          parent: "#company-posts-container"
+          modelView: Maple.Views.PostView
+        ).el
     @
 
   submitLogo: (event) ->
