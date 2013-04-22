@@ -20,3 +20,6 @@
 
 # Ignore the public files
 /public/assets/*
+
+# Ignore the Facebook config file
+/config/facebook.yml
