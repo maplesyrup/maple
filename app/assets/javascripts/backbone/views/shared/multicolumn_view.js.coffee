@@ -1,4 +1,4 @@
-class Maple.Views.PostsIndexView extends Backbone.View
+class Maple.Views.MultiColumnView extends Backbone.View
   # Associates the current View with
   # the #posts DOM element.
   # For every Post in the Collection,
@@ -19,10 +19,10 @@ class Maple.Views.PostsIndexView extends Backbone.View
 
   postWidth:             295 # post width is 275, margin of 20px 
 
-  threeColumnTemplate:  JST["backbone/templates/posts/three_column_index"]
-  fourColumnTemplate:   JST["backbone/templates/posts/four_column_index"]
-  fiveColumnTemplate:   JST["backbone/templates/posts/five_column_index"]
-  sixColumnTemplate:    JST["backbone/templates/posts/six_column_index"]
+  threeColumnTemplate:  JST["backbone/templates/shared/three_column_index"]
+  fourColumnTemplate:   JST["backbone/templates/shared/four_column_index"]
+  fiveColumnTemplate:   JST["backbone/templates/shared/five_column_index"]
+  sixColumnTemplate:    JST["backbone/templates/shared/six_column_index"]
 
   template: "" 
 
@@ -36,7 +36,10 @@ class Maple.Views.PostsIndexView extends Backbone.View
 
     @.collection.on 'add', (model) =>
       @addOne(model, @collection.length - 1) 
+    
     @parent = @options.parent || window
+    @modelView = @options.modelView
+
     $(window).resize @recalculateColumns
 
     @recalculateColumns()
@@ -46,7 +49,8 @@ class Maple.Views.PostsIndexView extends Backbone.View
 
   addOne: (model, index) ->
     colId = @.getColumnId(index)
-    @view = new Maple.Views.PostView({ model: model })
+
+    @view = new @modelView({ model: model })
     @$el.find(colId).append @view.render().el
 
   getColumnId: (index) ->

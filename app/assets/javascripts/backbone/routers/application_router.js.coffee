@@ -30,29 +30,33 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     '*default' : 'index'
 
   index: ->
-    $("#maple-main-container").html(new Maple.Views.PostsIndexView({ collection: @posts, parent: "#maple-main-container"}).el)
+    $("#maple-main-container").html new Maple.Views.MultiColumnView(
+      collection: @posts
+      parent: "#maple-main-container"
+      modelView: Maple.Views.PostView
+      ).el
+    
     @company_pill_view = new Maple.Views.CompaniesIndexView({ collection: @companies})
 
   newPost: ->
     $modal = $("#mainModal")
-    $modal.modal('show').html(new Maple.Views.NewPostView({ collection: @posts, companies: @companies }).el)
+    $modal.modal('show').html new Maple.Views.NewPostView(
+      collection: @posts
+      companies: @companies).el
+    
     $modal.on 'hidden', =>
       @navigate("#", true)
 
-
   showCompany: (id) ->
     @company_pill_view && @company_pill_view.close()
-    company = @companies.get id 
-    if company
-      # Use existing model if possible
-      $("#maple-main-container").html( new Maple.Views.CompanyShowView({ model: company, session: @session}).el )  
-    
-    else
-      # Fetch model and add to collection
-      company = new Maple.Models.Company({ id: id })
-      company.fetch success: (data) =>
-        $("#maple-main-container").html( new Maple.Views.CompanyShowView({ model: company, session: @session}).el )
-        @companies.add company
+    @companies.access {
+      id: id
+      success: (company) =>
+        $("#maple-main-container").html new Maple.Views.CompanyShowView({ 
+          model: company,
+          session: @session,
+          }).el  
+      }
 
   dashboard: (id) ->
     company = @companies.get id
@@ -60,14 +64,11 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
 
   showUser: (id) ->
     @company_pill_view && @company_pill_view.close()
-    user = @users.get id
-    if user
-      # Use existing model if possible
-      $("#maple-main-container").html( new Maple.Views.UserShowView({ model: user, session: @session}).el )
-
-    else
-      # Fetch model and add to collection
-      user = new Maple.Models.User({ id: id })
-      user.fetch success: (data) =>
-        $("#maple-main-container").html( new Maple.Views.UserShowView({ model: user, session: @session}).el )
-        @users.add user 
+    @users.access {
+      id: id
+      success: (user) =>
+        $("#maple-main-container").html new Maple.Views.UserShowView({ 
+          model: user, 
+          session: @session
+          }).el
+    }

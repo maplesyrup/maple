@@ -64,3 +64,26 @@ Backbone.Collection::savePaperclip = Backbone.Model::savePaperclip = (form, opti
 			error: (data) ->
 				(options && options.error(data))	
 		})	  
+
+Backbone.Collection::access = (options) ->
+	# Access
+	#
+	# Access function combines the get and 
+	# fetch into one method that
+	# gets the model from the collection if 
+	# it exists or fetches the model from 
+	# the server. 
+
+	ret = @get(options.id)
+	if ret
+		options.success(ret)
+	if not ret
+		ret = new @model({ "id": options.id})
+		ret.fetch {
+			success: (data) =>
+				@add ret 
+				options.success && options.success(ret)
+			error: (data) ->
+				options.error && options.error(data)
+			}
+	@
