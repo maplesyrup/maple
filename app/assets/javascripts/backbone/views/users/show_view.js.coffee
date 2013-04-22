@@ -9,23 +9,14 @@ class Maple.Views.UserShowView extends Backbone.View
   events:
     "blur [contenteditable]" : "updateContent"	
     "focus [contenteditable]": "editContent"
-    "click .activity-filter" : "refilterThumbs"
+    "click .activity-filter" : "refilterCollection"
 
   initialize: ->
     @render()
 
   render: ->
     @$el.html(@template(@model.toJSON()))
-    @model.posts.fetch # lazy fetch of associated posts
-      data: 
-        user_id: @model.id
-      success: =>
-        @$el.find("#user-main-container").html new Maple.Views.MultiColumnView(
-          collection: @model.posts
-          parent: "#user-main-container"
-          thumbView: Maple.Views.PostView
-        ).el
-    @
+    @populateCollection("user-posts")
 
   saveContent: (id, content) ->
     if id ==  "personal-info"
@@ -52,26 +43,33 @@ class Maple.Views.UserShowView extends Backbone.View
         new Maple.Views.UploadImageView({ model: @model, inputName: "user[avatar]", targetImgContainer: "#avatar", resourceName: "avatar"}).el)
     else
       return false
-  ###
-  populateThumbs: (thumbType) ->
-    collection, parent, thumbView
-    switch thumbType
+
+  populateCollection: (collectionType) ->
+    switch collectionType
       when "user-posts"
-        collection = @model.posts
-        parent = "#user-main-container"
-        thumbView = Maple.Views.PostView
-      when "user-likes"
-
+        @model.posts.fetch # lazy fetch of associated posts
+          data: 
+            user_id: @model.id
+          success: =>
+            @$el.find("#user-main-container").html new Maple.Views.MultiColumnView(
+              collection: @model.posts
+              parent: "#user-main-container"
+              modelView: Maple.Views.PostView
+            ).el
       when "user-following"
-         
-      when "user-followers"
-        collection = @model
-  ###
+        @model.companies_following.fetch
+          data:
+            follower: @model.id  
+          success: =>
+            @$el.find("#user-main-container").html new Maple.Views.MultiColumnView(
+              collection: @model.companies_following
+              parent: "#user-main-container"
+              modelView: Maple.Views.CompanyView
+            ).el
 
-  refilterThumbs: (event) -> 
+  refilterCollection: (event) -> 
     event.stopPropagation()
     event.preventDefault()
 
     target = $(event.currentTarget)
     targetID = target.attr("id")
-    @model.posts.access({"id": 1})

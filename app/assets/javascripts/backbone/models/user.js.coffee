@@ -5,7 +5,9 @@ class Maple.Models.User extends Backbone.Model
   initialize: ->
     @posts = new	Maple.Collections.PostsCollection
     @posts.url = '/posts'	
-
+    @companies_following = new Maple.Collections.CompaniesCollection
+    @users_following = new Maple.Collections.UsersCollection
+          
 class Maple.Collections.UsersCollection extends Backbone.Collection
   model: Maple.Models.User
   url: '/users'

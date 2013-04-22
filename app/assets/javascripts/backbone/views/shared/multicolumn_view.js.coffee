@@ -38,7 +38,7 @@ class Maple.Views.MultiColumnView extends Backbone.View
       @addOne(model, @collection.length - 1) 
     
     @parent = @options.parent || window
-    @thumbView = @options.thumbView
+    @modelView = @options.modelView
 
     $(window).resize @recalculateColumns
 
@@ -50,7 +50,7 @@ class Maple.Views.MultiColumnView extends Backbone.View
   addOne: (model, index) ->
     colId = @.getColumnId(index)
 
-    @view = new @thumbView({ model: model })
+    @view = new @modelView({ model: model })
     @$el.find(colId).append @view.render().el
 
   getColumnId: (index) ->
