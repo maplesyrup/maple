@@ -25,7 +25,7 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     '' : 'index'
     'newPost' : 'newPost'
     'companies/:id' : 'showCompany'
-    'dashboard' : 'dashboard'
+    'companies/:id/dashboard' : 'dashboard'
     'users/:id' : 'showUser'
     '*default' : 'index'
 
@@ -54,8 +54,8 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
         $("#maple-main-container").html( new Maple.Views.CompanyShowView({ model: company, session: @session}).el )
         @companies.add company
 
-  dashboard: ->
-    company = @companies.get @current_company.id
+  dashboard: (id) ->
+    company = @companies.get id
     $("#maple-main-container").html( new Maple.Views.CompaniesDashboardView({ model: company }).el )
 
   showUser: (id) ->

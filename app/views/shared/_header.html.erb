@@ -17,7 +17,7 @@
           <%= link_to "Logout", destroy_user_session_path, {:class => "navbar-link", :method => :delete} %>
         <% elsif current_company %>
           <a href="#" class="navbar-link"><%= current_company.email %></a>
-          <a href="#dashboard" class="navbar-link">Dashboard</a>
+          <a href="/#companies/<%= current_company.id %>/dashboard" class="navbar-link">Dashboard</a>
           <%= link_to "Logout", destroy_company_session_path, {:class => "navbar-link", :method => :delete} %>
         <% else %>
           <%= link_to "Login", new_user_session_path, :class => "navbar-link" %>
