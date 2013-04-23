@@ -7,8 +7,8 @@ class CompaniesController < ApplicationController
     options = {}
 
     followed = User.find(params[:follower]).
-    follows_by_type('Company').
-    map(&:followable_id) if params[:follower].present?   
+      follows_by_type('Company').
+      map(&:followable_id) if params[:follower].present?   
 
     options = { :followed => followed } if !followed.nil?
     options = { :followed => [-1] } if !followed.nil? && followed.empty?
