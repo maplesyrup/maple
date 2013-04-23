@@ -1,6 +1,14 @@
 class UsersController < ApplicationController
   def index
   	# get all users here
+    options = {}
+
+    following = params[:type].camelize.constantize.
+    find(params[:followable_id]).
+    followers if params[:followable_id].present?
+
+    render :json => User.public_models(following) if params[:followable_id].present?
+
   end
 
   def show
