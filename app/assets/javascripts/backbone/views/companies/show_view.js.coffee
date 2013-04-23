@@ -12,6 +12,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
     "focus [contenteditable]" : "editContent"
     "blur [contenteditable]" : "updateContent"
     "click .follow" : "follow"
+    "click .collection-filter" : "refilterCollection"
 
   initialize: ->
     @session = this.options.session || {}
@@ -23,16 +24,8 @@ class Maple.Views.CompanyShowView extends Backbone.View
     @render()
 
   render: ->
-    @$el.html(@template(_.extend(@model.toJSON(), @session.toJSON(),
-              "session":
-                "currentUser": @session.currentUser.toJSON(),
-                "currentCompany": @session.currentCompany.toJSON())))
-
-    @model.posts.fetch # lazy fetch of associated posts
-      data: 
-        company_id: @model.id
-      success: =>
-        @$el.find("#company-posts-container").html(new Maple.Views.PostsIndexView({ collection: @model.posts }).el)
+    @$el.html(@template(_.extend(@model.toJSON(), @session.toJSON())))
+    @populateCollection("company-posts")
     @
 
   submitLogo: (event) ->
@@ -112,3 +105,41 @@ class Maple.Views.CompanyShowView extends Backbone.View
         error: (response) ->
           console.log "couldn't update"   
         ) 
+
+  populateCollection: (collectionType) ->
+    switch collectionType
+      when "company-posts"
+        @model.posts.fetch # lazy fetch of associated posts
+          data: 
+            company_id: @model.id
+          success: =>
+            @$el.find("#company-posts-container").html new Maple.Views.MultiColumnView(
+              collection: @model.posts
+              parent: "#company-posts-container"
+              modelView: Maple.Views.PostView
+            ).el
+
+      when "company-followers"
+        @model.followers.fetch
+          data:
+            followable_id: @model.id
+            type: 'Company'
+          success: =>
+            @$el.find("#company-posts-container").html new Maple.Views.MultiColumnView(
+              collection: @model.followers
+              parent: "#company-posts-container"
+              modelView: Maple.Views.UserView
+            ).el
+
+  refilterCollection: (event) -> 
+    event.stopPropagation()
+    event.preventDefault()
+
+    target = $(event.target)
+    collectionType = target.attr("id")
+
+    $(event.currentTarget).find(".active").removeClass("active")
+    $(event.target).addClass("active")
+
+    @populateCollection(collectionType)
+     

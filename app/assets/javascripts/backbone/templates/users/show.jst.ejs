@@ -13,6 +13,19 @@
 					<%= personal_info %>	
 				</p>		
 			</div>
+			<% if (session.currentUser.id !== id) { %>	
+			<div class="follow pull-right">
+				<% if (user_signed_in && _.contains(session.currentUser.users_im_following, id)) { %>
+					<button class="btn btn-success pull-right">
+						Following 
+					</button>
+				<% } else { %>
+					<button class="btn pull-right">
+						<i class="icon-plus"></i> Follow 
+					</button>
+				<% } %>
+			</div>
+			<% } %>
 		</div>
 	</div>
 </div>
@@ -22,11 +35,11 @@
 
 <div class="container-fluid">
 	<div class="center">
-		<div class="btn-group center-container">
-	  	<button class="btn active">Posts</button>
-  		<button class="btn">Likes</button>
-  		<button class="btn">Following</button>
-  		<button class="btn">Followers</button>
+		<div class="btn-group center-container collection-filter">
+	  	<button id="user-posts" class="btn active">Posts</button>
+  		<button id="user-likes" class="btn">Likes</button>
+  		<button id="user-following" class="btn">Following</button>
+  		<button id="user-followers" class="btn">Followers</button>
 		</div>
 	</div>
 </div>
