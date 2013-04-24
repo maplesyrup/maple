@@ -74,14 +74,6 @@ class PostsController < ApplicationController
 
     render :json => post
   end
-
-  def show
-    # route post/:id will return 
-    # json for the requested post
-
-    post = Post.find_by_id(params[:id])
-    render :json => post.public_model   
-  end 
   
   def sanitize(model)
     sanitized = {}
