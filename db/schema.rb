@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130424180442) do
+ActiveRecord::Schema.define(:version => 20130424182212) do
 
   create_table "campaigns", :force => true do |t|
     t.string   "title"
@@ -91,6 +91,16 @@ ActiveRecord::Schema.define(:version => 20130424180442) do
   add_index "relationships", ["followed_type"], :name => "index_relationships_on_followed_type"
   add_index "relationships", ["follower_id", "followed_id", "followed_type"], :name => "relationship_index", :unique => true
   add_index "relationships", ["follower_id"], :name => "index_relationships_on_follower_id"
+
+  create_table "rewards", :force => true do |t|
+    t.integer  "campaign_id"
+    t.string   "title"
+    t.text     "description"
+    t.integer  "monetary_reward"
+    t.string   "swag_award"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "",                   :null => false

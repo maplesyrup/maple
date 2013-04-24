@@ -24,8 +24,9 @@ class Company < ActiveRecord::Base
 
 	before_save :ensure_authentication_token
 
-  has_many :posts
-
+  has_many :posts, :campaigns
+  validates_associated :campaigns
+  
   acts_as_followable
 
   mapping do
