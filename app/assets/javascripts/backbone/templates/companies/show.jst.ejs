@@ -2,6 +2,7 @@
 	<div class="nav-opaque navbar-inner">
 		<div class="container-fluid">
 			<a class = "brand" href=<%= "/#companies/" + id %> ><%= name %></a>
+			<% if (!company_signed_in) { %> 
 				<div class="follow">
 				<% if (user_signed_in && _.contains(session.currentUser.companies_im_following, id)) { %>
 					<button class="btn btn-success pull-right">
@@ -13,6 +14,7 @@
 					</button>
 				<% } %>
 				</div>
+			<% } %>
 		</div>
 	</div>
 </div>

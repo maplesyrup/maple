@@ -60,7 +60,7 @@ class Maple.Views.UserShowView extends Backbone.View
               modelView: Maple.Views.PostView
             ).el
 
-      when "user-following"
+      when "user-following-companies"
         @model.companies_following.fetch
           data:
             follower: @model.id  
@@ -69,6 +69,17 @@ class Maple.Views.UserShowView extends Backbone.View
               collection: @model.companies_following
               parent: "#user-main-container"
               modelView: Maple.Views.CompanyView
+            ).el
+
+      when "user-following-users"
+        @model.users_following.fetch
+          data:
+            follower: @model.id  
+          success: =>
+            @$el.find("#user-main-container").html new Maple.Views.MultiColumnView(
+              collection: @model.users_following
+              parent: "#user-main-container"
+              modelView: Maple.Views.UserView
             ).el
 
       when "user-followers"
@@ -90,7 +101,7 @@ class Maple.Views.UserShowView extends Backbone.View
     target = $(event.target)
     collectionType = target.attr("id")
 
-    $(event.currentTarget).find(".active").removeClass("active")
+    $(".collection-filter").find(".active").removeClass("active")
     $(event.target).addClass("active")
 
     @populateCollection(collectionType)

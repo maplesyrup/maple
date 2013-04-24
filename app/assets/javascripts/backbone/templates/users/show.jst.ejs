@@ -13,7 +13,7 @@
 					<%= personal_info %>	
 				</p>		
 			</div>
-			<% if (session.currentUser.id !== id) { %>	
+			<% if (session.currentUser.id !== id && !company_signed_in) { %>	
 			<div class="follow pull-right">
 				<% if (user_signed_in && _.contains(session.currentUser.users_im_following, id)) { %>
 					<button class="btn btn-success pull-right">
@@ -38,9 +38,18 @@
 		<div class="btn-group center-container collection-filter">
 	  	<button id="user-posts" class="btn active">Posts</button>
   		<button id="user-likes" class="btn">Likes</button>
-  		<button id="user-following" class="btn">Following</button>
   		<button id="user-followers" class="btn">Followers</button>
 		</div>
+		<div class="dropdown btn-group">
+    	<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+    		Following 
+        <span class="caret"></span>
+    	</a>
+    	<ul class="dropdown-menu">
+        <li><a href="#" class="collection-filter" id="user-following-companies">Companies</a></li>
+        <li><a href="#" class="collection-filter" id="user-following-users">Users</a></li>
+    </ul>
+</div>
 	</div>
 </div>
 <div id="user-main-container" class="container-fluid nav-escape-above">
