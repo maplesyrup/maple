@@ -5,7 +5,7 @@ class CompaniesController < ApplicationController
     #
     # This will get all the companies (30 at a time)
     options = {}
-
+    
     followed = User.find(params[:follower]).
       follows_by_type('Company').
       map(&:followable_id) if params[:follower].present?   
