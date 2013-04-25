@@ -4,6 +4,7 @@ class Campaign < ActiveRecord::Base
   
   belongs_to :company
   has_many :rewards
+  has_many :posts
 
   validates :starttime, :presence => true
   validates :title, :presence => true
@@ -11,5 +12,6 @@ class Campaign < ActiveRecord::Base
    
   validates :endtime, :presence => true
   validates_associated :rewards
-        
+  validates_associated :posts
+
 end
