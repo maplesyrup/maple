@@ -29,6 +29,11 @@
 		<div class="span8 company-blurb">
 			<div class="hero-unit">
 				<div contenteditable="<%= editable %>" id="logo-placeholder">
+					<% if (logos !== "undefined") { %>
+						<img src="<%= logos[logos.length - 1].medium %>" />
+					<% } else { %>
+						?
+					<% } %>
 				</div>
 				<div class="company-content">
 				<h1 contenteditable="<%= editable %>" id="company-blurb-title"> 

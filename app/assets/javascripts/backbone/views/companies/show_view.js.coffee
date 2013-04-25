@@ -15,7 +15,6 @@ class Maple.Views.CompanyShowView extends Backbone.View
     "click .collection-filter" : "refilterCollection"
 
   initialize: ->
-    console.log(@model)
     @session = this.options.session || {}
     @model.on "change", =>
       if @model.hasChanged("logo_urls")
