@@ -76,14 +76,13 @@ class Company < ActiveRecord::Base
     Jbuilder.encode do |json|
       json.(self, :id, :name, :splash_image, :blurb_title, 
                   :blurb_body, :more_info_title, :more_info_body, 
-                  :company_url, :assets)
-      '''
-      json.logo_urls do
-        json.full self.logo.url
-        json.medium self.logo.url(:medium)
-        json.thumb self.logo.url(:thumb)
+                  :company_url)
+      json.logos self.assets do |asset|
+        json.(asset, :id, :created_at)
+        json.full asset.image.url
+        json.medium asset.image.url(:medium)
+        json.thumb asset.image.url(:thumb)
       end
-      '''
       json.(self, :posts) if options[:include_posts]
       json.editable false
       if options[:company] && options[:company].id == self.id
@@ -101,14 +100,13 @@ class Company < ActiveRecord::Base
       json.array! companies do |json, company|
         json.(company, :id, :name, :splash_image, 
               :blurb_title, :blurb_body, :more_info_title, 
-              :more_info_body, :company_url, :assets)
-        '''
-        json.logo_urls do
-          json.full company.logo.url
-          json.medium company.logo.url(:medium)
-          json.thumb company.logo.url(:thumb)
+              :more_info_body, :company_url)
+        json.logos company.assets do |asset|
+          json.(asset, :id, :created_at)
+          json.full asset.image.url
+          json.medium asset.image.url(:medium)
+          json.thumb asset.image.url(:thumb)
         end
-        '''
         json.editable false
         if options[:company] && options[:company].id == company.id
           json.editable true
