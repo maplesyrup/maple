@@ -11,9 +11,9 @@ class Company < ActiveRecord::Base
 
 	attr_accessible :splash_image, :blurb_title, :blurb_body,
       :more_info_title, :more_info_body, :company_url,
-      :email, :password, :password_confirmation, :remember_me, :provider, :logo, :id, :name, :encrypted_password
+      :email, :password, :password_confirmation, :remember_me, :provider, :id, :name, :encrypted_password, :logos_attributes
 
-  has_attached_file :logo, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "posts/:style/missing.png"
+  #has_attached_file :logo, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "posts/:style/missing.png"
 
   has_attached_file :splash_image, :default_url => "http://www.hybridlava.com/wp-content/uploads/Wide_wallPAPER011.jpg"
 
@@ -24,7 +24,10 @@ class Company < ActiveRecord::Base
 
 	before_save :ensure_authentication_token
 
+  has_many :logos, :as => :attachable
   has_many :posts
+
+  accepts_nested_attributes_for :logos, :allow_destory => true
 
   acts_as_followable
 
