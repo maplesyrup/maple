@@ -91,7 +91,7 @@ class User < ActiveRecord::Base
     # into JSON.
     company_follows = self.follows_by_type('Company')
     user_follows = self.follows_by_type('User')
-    users_following = self.following_by_type('User')
+    users_following = self.followers_by_type('User')
 
     Jbuilder.encode do |json|
       json.(self, :id, :name, :created_at, :avatar, :personal_info, :all_follows)
