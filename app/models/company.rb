@@ -11,7 +11,7 @@ class Company < ActiveRecord::Base
 
 	attr_accessible :splash_image, :blurb_title, :blurb_body,
       :more_info_title, :more_info_body, :company_url,
-      :email, :password, :password_confirmation, :remember_me, :provider, :id, :name, :encrypted_password, :logos_attributes
+      :email, :password, :password_confirmation, :remember_me, :provider, :id, :name, :encrypted_password, :assets_attributes
 
   #has_attached_file :logo, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "posts/:style/missing.png"
 
@@ -24,10 +24,10 @@ class Company < ActiveRecord::Base
 
 	before_save :ensure_authentication_token
 
-  has_many :logos, :as => :attachable
+  has_many :assets, :as => :attachable
   has_many :posts
 
-  accepts_nested_attributes_for :logos, :allow_destory => true
+  accepts_nested_attributes_for :assets, :allow_destroy => true
 
   acts_as_followable
 
@@ -76,12 +76,14 @@ class Company < ActiveRecord::Base
     Jbuilder.encode do |json|
       json.(self, :id, :name, :splash_image, :blurb_title, 
                   :blurb_body, :more_info_title, :more_info_body, 
-                  :company_url)
+                  :company_url, :assets)
+      '''
       json.logo_urls do
         json.full self.logo.url
         json.medium self.logo.url(:medium)
         json.thumb self.logo.url(:thumb)
       end
+      '''
       json.(self, :posts) if options[:include_posts]
       json.editable false
       if options[:company] && options[:company].id == self.id
@@ -99,12 +101,14 @@ class Company < ActiveRecord::Base
       json.array! companies do |json, company|
         json.(company, :id, :name, :splash_image, 
               :blurb_title, :blurb_body, :more_info_title, 
-              :more_info_body, :company_url)
+              :more_info_body, :company_url, :assets)
+        '''
         json.logo_urls do
           json.full company.logo.url
           json.medium company.logo.url(:medium)
           json.thumb company.logo.url(:thumb)
         end
+        '''
         json.editable false
         if options[:company] && options[:company].id == company.id
           json.editable true
