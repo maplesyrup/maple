@@ -11,7 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130416202630) do
+ActiveRecord::Schema.define(:version => 20130425004859) do
+
+  create_table "campaigns", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.datetime "starttime"
+    t.datetime "endtime"
+    t.integer  "company_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "companies", :force => true do |t|
     t.string   "name"
@@ -67,6 +77,7 @@ ActiveRecord::Schema.define(:version => 20130416202630) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.integer  "company_id"
+    t.integer  "campaign_id"
   end
 
   create_table "relationships", :force => true do |t|
@@ -81,6 +92,16 @@ ActiveRecord::Schema.define(:version => 20130416202630) do
   add_index "relationships", ["followed_type"], :name => "index_relationships_on_followed_type"
   add_index "relationships", ["follower_id", "followed_id", "followed_type"], :name => "relationship_index", :unique => true
   add_index "relationships", ["follower_id"], :name => "index_relationships_on_follower_id"
+
+  create_table "rewards", :force => true do |t|
+    t.integer  "campaign_id"
+    t.string   "title"
+    t.text     "description"
+    t.integer  "monetary_reward"
+    t.string   "swag_award"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "",                   :null => false

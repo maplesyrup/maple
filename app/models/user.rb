@@ -26,6 +26,7 @@ class User < ActiveRecord::Base
                   :personal_info, :avatar
 
   has_many :posts
+  has_and_belongs_to_many :rewards
 
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "25x25" }, :default_url => "avatars/:style/missing.png"
 
