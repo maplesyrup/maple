@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130425004859) do
+ActiveRecord::Schema.define(:version => 20130425022232) do
 
   create_table "campaigns", :force => true do |t|
     t.string   "title"
@@ -21,6 +21,17 @@ ActiveRecord::Schema.define(:version => 20130425004859) do
     t.integer  "company_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+  end
+
+  create_table "comments", :force => true do |t|
+    t.text     "content"
+    t.integer  "commentable_id"
+    t.string   "commentable_type"
+    t.integer  "flag"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.integer  "commenter_id"
+    t.string   "commenter_type"
   end
 
   create_table "companies", :force => true do |t|

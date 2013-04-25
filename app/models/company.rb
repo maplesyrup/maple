@@ -26,7 +26,9 @@ class Company < ActiveRecord::Base
 
   has_many :posts
   has_many :campaigns
-    
+  has_many :comments, :as => :commenter
+  
+  validates_associated :comments 
   validates_associated :campaigns
 
   acts_as_followable
