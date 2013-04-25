@@ -13,8 +13,6 @@ class Company < ActiveRecord::Base
       :more_info_title, :more_info_body, :company_url,
       :email, :password, :password_confirmation, :remember_me, :provider, :id, :name, :encrypted_password, :assets_attributes
 
-  #has_attached_file :logo, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "posts/:style/missing.png"
-
   has_attached_file :splash_image, :default_url => "http://www.hybridlava.com/wp-content/uploads/Wide_wallPAPER011.jpg"
 
 	devise :database_authenticatable, :token_authenticatable,
