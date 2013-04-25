@@ -18,6 +18,9 @@ class Post < ActiveRecord::Base
   belongs_to :company
 
   acts_as_voteable
+  
+  has_many :comments, :as => :commentable
+  validates_associated :comments 
 
   mapping do
     indexes :_id, index: :not_analyzed
