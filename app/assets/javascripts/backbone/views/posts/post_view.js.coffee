@@ -11,6 +11,7 @@ class Maple.Views.PostView extends Backbone.View
 
   events:
     "click .vote": "vote"
+    "click .maple-post": "showPost"
 
   initialize: ->
     @.model.bind 'change', =>
@@ -30,6 +31,14 @@ class Maple.Views.PostView extends Backbone.View
         console.log("There was an error")
 
     @.model.set({'total_votes': num_votes + 1, 'voted_on': Maple.Post.VOTED.YES})
+
+  showPost: (event)->
+    event.stopPropagation()
+    event.preventDefault()
+
+    $("#mainModal").modal('show').html new Maple.Views.PostShowView(
+      model: @model
+      ).el 
 
   render: ->
     @$el.html(@template(@model.toJSON()))
