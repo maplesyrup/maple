@@ -12,8 +12,10 @@ class Maple.Views.PostView extends Backbone.View
   events:
     "click .vote": "vote"
     "click .maple-post": "showPost"
+    "click .delete-post": "deletePost"
 
   initialize: ->
+    @session = @options.session
     @.model.bind 'change', =>
       if(@.model.hasChanged('total_votes'))
         @.render()
@@ -38,10 +40,17 @@ class Maple.Views.PostView extends Backbone.View
 
     $("#mainModal").modal('show').html new Maple.Views.PostShowView(
       model: @model
-      ).el 
+      ).el
+
+  deletePost: (event) =>
+    event.stopPropagation()
+    event.preventDefault()
+
+    @model.destroy()
+
 
   render: ->
-    @$el.html(@template(@model.toJSON()))
+    @$el.html(@template($.extend(@model.toJSON(), @session.toJSON())))
     @
 
   close: ->

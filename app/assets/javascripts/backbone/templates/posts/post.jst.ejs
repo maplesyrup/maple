@@ -37,5 +37,10 @@
       <% } %>
     </div>
     <div class="clearfix"></div>
+    <% if (user_signed_in && session.currentUser.id === user.id) { %>
+    <button class="btn delete-post">
+      <i class="icon-trash"></i>
+    </button>
+    <% } %>
   </div>
 </div>

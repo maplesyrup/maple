@@ -76,7 +76,7 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    post = Post.delete(params[:id])
+    post = Post.destroy(params[:id])
 
     return :json => post.public_model
   end
