@@ -17,7 +17,7 @@
   </div>
 
   <div class="glimpse-info">
-    <% if (typeof(user) !== "undefined") { %>
+    <% if (typeof(user) !== "undefined" && user) { %>
       <% if (!user.uid) { %>
         <img src="/assets/<%= user.profile_image %>" />
       <% } else { %>
@@ -29,15 +29,17 @@
         <%= content %>
       </span>
       <span class="date"><%= relative_time %> ago</span>
-      <% if (typeof(user) !== "undefined") { %>
+      <% if (typeof(user) !== "undefined" && user) { %>
         <span class="author">by <a href="/#users/<%= user.id %>"><%= user.name %></a></span>
+      <% } else { %>
+        <span class="author">author_deleted</span>
       <% } %>
       <% if (typeof(company) !== "undefined") { %>
         <span class="tag"><a href="/#companies/<%=company_id %>"><strong><%= company.name %></strong></a></span>
       <% } %>
     </div>
     <div class="clearfix"></div>
-    <% if (user_signed_in && session.currentUser.id === user.id) { %>
+    <% if (user && user_signed_in && session.currentUser.id === user.id) { %>
     <button class="btn delete-post">
       <i class="icon-trash"></i>
     </button>

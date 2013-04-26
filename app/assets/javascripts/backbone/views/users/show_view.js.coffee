@@ -11,6 +11,7 @@ class Maple.Views.UserShowView extends Backbone.View
     "focus [contenteditable]": "editContent"
     "click .collection-filter" : "refilterCollection"
     "click .follow" : "follow"
+    "click .delete-user" : "onDeleteUser"
 
   initialize: ->
     @render()
@@ -19,6 +20,16 @@ class Maple.Views.UserShowView extends Backbone.View
     @$el.html(@template(_.extend(@model.toJSON(), Maple.session.toJSON())))
     @populateCollection("user-posts")
     @
+
+  onDeleteUser: (event) =>
+    confirmDelete = confirm("Are you sure you want to delete your account?")
+
+    if (confirmDelete)
+      @model.destroy()
+
+      # For now this is necessary because we don't use backbone for the header,
+      # thus we need to refresh the whole page :/
+      window.location.href = '/'
 
   saveContent: (id, content) ->
     if id ==  "personal-info"
