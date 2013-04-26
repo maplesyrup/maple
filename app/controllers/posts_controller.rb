@@ -80,6 +80,7 @@ class PostsController < ApplicationController
 
     return :json => post.public_model
   end
+
   def sanitize(model)
     sanitized = {}
     Post.attr_accessible[:default].each do |attr|

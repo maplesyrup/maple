@@ -2,6 +2,7 @@
 	<div class="nav-opaque navbar-inner">
 		<div class="container-fluid">
 			<a class = "brand" href=<%= "/#companies/" + id %> ><%= name %></a>
+			<% if (!company_signed_in) { %> 
 				<div class="follow">
 				<% if (user_signed_in && _.contains(session.currentUser.companies_im_following, id)) { %>
 					<button class="btn btn-success pull-right">
@@ -13,6 +14,7 @@
 					</button>
 				<% } %>
 				</div>
+			<% } %>
 		</div>
 	</div>
 </div>
@@ -64,7 +66,17 @@
 	</div>
 </div>
 
-<div id="company-posts-container" class="container-fluid posts-container-inv">
+<hr>
+<div class="container-fluid">
+	<div class="center">
+		<div class="btn-group center-container collection-filter">
+	  	<button id="company-posts" class="btn active">Posts</button>
+  		<button id="company-followers" class="btn">Followers</button>
+		</div>
+	</div>
+</div>
+<div class="nav-escape-above"></div>
+<div id="company-posts-container" class="container-fluid posts-container-inv nav-escape-above">
 </div>
 
 <% if (editable) { %>

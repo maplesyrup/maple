@@ -1,10 +1,10 @@
 <div class="glimpse">
   <div class="inner-glimpse">
-    <a href="#" class="open-img" data-img='<%= full_image_url %>'><img src="<%= image_url %>" /></a>
+    <a href="#" class="open-img" data-img='<%= full_image_url %>'><img class="maple-post" src="<%= image_url %>" /></a>
     <div class="outer-feature">
       <div class="inner-feature">
         <div class="votes">
-          <span class="num-votes"><%= total_votes %></span>
+          <span class="num-votes"><%= total_votes %> votes</span>
           <% if (voted_on == Maple.Post.VOTED.NO) { %>
             <a class="vote"><span class="label label-info">Vote</span></a>
           <% } else if (voted_on == Maple.Post.VOTED.YES) { %>

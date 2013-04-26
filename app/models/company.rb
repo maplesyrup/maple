@@ -26,6 +26,12 @@ class Company < ActiveRecord::Base
 
   has_many :posts
 
+  has_many :campaigns
+  has_many :comments, :as => :commenter
+  
+  validates_associated :comments 
+  validates_associated :campaigns
+
   acts_as_followable
 
   mapping do
@@ -60,6 +66,9 @@ class Company < ActiveRecord::Base
       query do
         string "#{options[:crumb]}:#{options[:query]}", default_operator: 'AND'
       end
+
+      filter :terms, { :id => options[:followed] } if options[:followed].present? 
+        
     end
   end
 

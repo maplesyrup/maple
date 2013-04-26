@@ -1,17 +1,10 @@
-class Maple.Views.PostView extends Backbone.View
-  # Renders a View for a Single Post.
-  # Binds a click event on the vote
-  # button to send a POST request and
-  # register the vote.
-  # Events modifying the underlying
-  # model's attributes will rerender
-  # the View.
+class Maple.Views.CompanyView extends Backbone.View
+  # Renders a View for a Single company. 
 
-  template: JST["backbone/templates/posts/post"]
+  template: JST["backbone/templates/companies/company_thumb"]
 
   events:
     "click .vote": "vote"
-    "click .maple-post": "showPost"
 
   initialize: ->
     @.model.bind 'change', =>
@@ -31,14 +24,6 @@ class Maple.Views.PostView extends Backbone.View
         console.log("There was an error")
 
     @.model.set({'total_votes': num_votes + 1, 'voted_on': Maple.Post.VOTED.YES})
-
-  showPost: (event)->
-    event.stopPropagation()
-    event.preventDefault()
-
-    $("#mainModal").modal('show').html new Maple.Views.PostShowView(
-      model: @model
-      ).el 
 
   render: ->
     @$el.html(@template(@model.toJSON()))
