@@ -26,6 +26,9 @@ class User < ActiveRecord::Base
                   :personal_info, :avatar
 
   has_many :posts
+  has_many :comments, :as => :commenter
+
+  validates_associated :comments
 
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "25x25" }, :default_url => "avatars/:style/missing.png"
 
@@ -91,7 +94,7 @@ class User < ActiveRecord::Base
     # into JSON.
     company_follows = self.follows_by_type('Company')
     user_follows = self.follows_by_type('User')
-    users_following = self.following_by_type('User')
+    users_following = self.followers_by_type('User')
 
     Jbuilder.encode do |json|
       json.(self, :id, :name, :created_at, :avatar, :personal_info, :all_follows)

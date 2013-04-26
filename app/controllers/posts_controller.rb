@@ -74,7 +74,7 @@ class PostsController < ApplicationController
 
     render :json => post
   end
-
+  
   def sanitize(model)
     sanitized = {}
     Post.attr_accessible[:default].each do |attr|

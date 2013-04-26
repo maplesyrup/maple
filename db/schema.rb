@@ -12,7 +12,6 @@
 # It's strongly recommended to check this file into your version control system.
 
 ActiveRecord::Schema.define(:version => 20130425045808) do
-
   create_table "assets", :force => true do |t|
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
@@ -22,6 +21,26 @@ ActiveRecord::Schema.define(:version => 20130425045808) do
     t.datetime "image_updated_at"
     t.integer  "attachable_id"
     t.string   "attachable_type"
+
+  create_table "campaigns", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.datetime "starttime"
+    t.datetime "endtime"
+    t.integer  "company_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "comments", :force => true do |t|
+    t.text     "content"
+    t.integer  "commentable_id"
+    t.string   "commentable_type"
+    t.integer  "flag"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+    t.integer  "commenter_id"
+    t.string   "commenter_type"
   end
 
   create_table "companies", :force => true do |t|
@@ -77,6 +96,30 @@ ActiveRecord::Schema.define(:version => 20130425045808) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.integer  "company_id"
+    t.integer  "campaign_id"
+  end
+
+  create_table "relationships", :force => true do |t|
+    t.integer  "follower_id"
+    t.integer  "followed_id"
+    t.string   "followed_type"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "relationships", ["followed_id"], :name => "index_relationships_on_followed_id"
+  add_index "relationships", ["followed_type"], :name => "index_relationships_on_followed_type"
+  add_index "relationships", ["follower_id", "followed_id", "followed_type"], :name => "relationship_index", :unique => true
+  add_index "relationships", ["follower_id"], :name => "index_relationships_on_follower_id"
+
+  create_table "rewards", :force => true do |t|
+    t.integer  "campaign_id"
+    t.string   "title"
+    t.text     "description"
+    t.integer  "monetary_reward"
+    t.string   "swag_award"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   create_table "users", :force => true do |t|
