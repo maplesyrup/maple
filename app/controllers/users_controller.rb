@@ -75,7 +75,7 @@ class UsersController < ApplicationController
   def destroy
     user = User.destroy(params[:id])
 
-    return :json => user.public_model
+    render :json => user.public_model
   end
 
   def check_mobile_login

@@ -1,23 +1,22 @@
 class Maple.Views.UserShowView extends Backbone.View
 
   tagName: 'div'
-  
+
   className: 'company'
 
   template: JST["backbone/templates/users/show"]
-  
+
   events:
-    "blur [contenteditable]" : "updateContent"	
+    "blur [contenteditable]" : "updateContent"
     "focus [contenteditable]": "editContent"
     "click .collection-filter" : "refilterCollection"
     "click .follow" : "follow"
 
   initialize: ->
-    @session = this.options.session || {}
     @render()
 
   render: ->
-    @$el.html(@template(_.extend(@model.toJSON(), @session.toJSON())))
+    @$el.html(@template(_.extend(@model.toJSON(), Maple.session.toJSON())))
     @populateCollection("user-posts")
     @
 
@@ -25,7 +24,7 @@ class Maple.Views.UserShowView extends Backbone.View
     if id ==  "personal-info"
       @model.set({ personal_info: content })
     else
-      return false 
+      return false
 
     @model.patch(
       ["personal_info"])
@@ -33,16 +32,16 @@ class Maple.Views.UserShowView extends Backbone.View
   updateContent: (event) ->
     target = $(event.currentTarget)
     targetID = target.attr("id")
-    @saveContent(targetID, target.html()) 
+    @saveContent(targetID, target.html())
 
   editContent: (event) ->
     event.stopPropagation()
     event.preventDefault()
-    
+
     target = $(event.currentTarget)
     targetID = target.attr("id")
     if targetID == "avatar"
-      @$el.find("#user-select-new-avatar").html( 
+      @$el.find("#user-select-new-avatar").html(
         new Maple.Views.UploadImageView({ model: @model, inputName: "user[avatar]", targetImgContainer: "#avatar", resourceName: "avatar"}).el)
     else
       return false
@@ -51,7 +50,7 @@ class Maple.Views.UserShowView extends Backbone.View
     switch collectionType
       when "user-posts"
         @model.posts.fetch # lazy fetch of associated posts
-          data: 
+          data:
             user_id: @model.id
           success: =>
             @$el.find("#user-main-container").html new Maple.Views.MultiColumnView(
@@ -63,7 +62,7 @@ class Maple.Views.UserShowView extends Backbone.View
       when "user-following-companies"
         @model.companies_following.fetch
           data:
-            follower: @model.id  
+            follower: @model.id
           success: =>
             @$el.find("#user-main-container").html new Maple.Views.MultiColumnView(
               collection: @model.companies_following
@@ -74,7 +73,7 @@ class Maple.Views.UserShowView extends Backbone.View
       when "user-following-users"
         @model.users_following.fetch
           data:
-            follower: @model.id  
+            follower: @model.id
           success: =>
             @$el.find("#user-main-container").html new Maple.Views.MultiColumnView(
               collection: @model.users_following
@@ -86,7 +85,7 @@ class Maple.Views.UserShowView extends Backbone.View
         @model.followers.fetch
           data:
             followable_id: @model.id
-            type: 'User'    
+            type: 'User'
           success: =>
             @$el.find("#user-main-container").html new Maple.Views.MultiColumnView(
               collection: @model.followers
@@ -94,7 +93,7 @@ class Maple.Views.UserShowView extends Backbone.View
               modelView: Maple.Views.UserView
             ).el
 
-  refilterCollection: (event) -> 
+  refilterCollection: (event) ->
     event.stopPropagation()
     event.preventDefault()
 
@@ -107,28 +106,28 @@ class Maple.Views.UserShowView extends Backbone.View
     @populateCollection(collectionType)
 
   follow: (event) ->
-    if @session.get("user_signed_in")
+    if Maple.session.get("user_signed_in")
       # user is signed in and wants to perform an action
-      if !_.contains(@session.currentUser.get("users_im_following"), @model.id)
+      if !_.contains(Maple.session.currentUser.get("users_im_following"), @model.id)
         # user is not already following this user. Follow
 
-        @session.currentUser.get("users_im_following").push(@model.id)
+        Maple.session.currentUser.get("users_im_following").push(@model.id)
         $(".follow").html("<button class='btn btn-success pull-right'>
-                            Following 
+                            Following
                           </button>")
-      else 
+      else
         # user is currently following this user. Unfollow
-        @session.currentUser.get("users_im_following").pop(@model.id) 
+        Maple.session.currentUser.get("users_im_following").pop(@model.id)
         $(".follow").html("<button class='btn pull-right'>
-                            <i class='icon-plus'></i> Follow 
+                            <i class='icon-plus'></i> Follow
                           </button>")
 
-      @session.currentUser.follow(
+      Maple.session.currentUser.follow(
         type: "User"
         target: @model.id
         success:(count) ->
           console.log "number of users"
         error: (response) ->
-          console.log "couldn't update"   
-        ) 
+          console.log "couldn't update"
+        )
 

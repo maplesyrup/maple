@@ -30,8 +30,6 @@ class Maple.Views.MultiColumnView extends Backbone.View
     "load" : "recalculateColumns"
 
   initialize: ->
-    @session = @options.session
-
     @.collection.bind 'reset', =>
       @.render()
       @.addAll()
@@ -52,7 +50,7 @@ class Maple.Views.MultiColumnView extends Backbone.View
   addOne: (model, index) ->
     colId = @.getColumnId(index)
 
-    @view = new @modelView({ model: model, session: @session })
+    @view = new @modelView({ model: model, session: Maple.session })
     @$el.find(colId).append @view.render().el
 
   getColumnId: (index) ->

@@ -13,12 +13,20 @@ class Maple.Views.PostView extends Backbone.View
     "click .vote": "vote"
     "click .maple-post": "showPost"
     "click .delete-post": "deletePost"
+    "mouseover" : "onMouseover"
+    "mouseout" : "onMouseout"
 
   initialize: ->
-    @session = @options.session
     @.model.bind 'change', =>
       if(@.model.hasChanged('total_votes'))
         @.render()
+
+
+  onMouseover: (e) =>
+    @$el.find('.delete-post').css 'visibility', 'visible'
+
+  onMouseout: (e) =>
+    @$el.find('.delete-post').css 'visibility', 'hidden'
 
   vote: ->
     num_votes = @.model.get('total_votes')
@@ -47,10 +55,11 @@ class Maple.Views.PostView extends Backbone.View
     event.preventDefault()
 
     @model.destroy()
+    @close()
 
 
   render: ->
-    @$el.html(@template($.extend(@model.toJSON(), @session.toJSON())))
+    @$el.html(@template($.extend(@model.toJSON(), Maple.session.toJSON())))
     @
 
   close: ->

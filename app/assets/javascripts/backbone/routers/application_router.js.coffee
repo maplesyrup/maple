@@ -9,12 +9,12 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
 
     @current_company = options.current_company || {}
 
-    @session = new Maple.Models.Session()
-    @session.set(options.current_session)
+    Maple.session = new Maple.Models.Session()
+    Maple.session.set(options.current_session)
     if options.current_company
-      @session.currentCompany.set(options.current_company)
+      Maple.session.currentCompany.set(options.current_company)
     else if options.current_user
-      @session.currentUser.set(options.current_user)
+      Maple.session.currentUser.set(options.current_user)
 
     @users = new Maple.Collections.UsersCollection()
 
@@ -34,7 +34,6 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
       collection: @posts
       parent: "#maple-main-container"
       modelView: Maple.Views.PostView
-      session: @session
       ).el
 
     @company_pill_view = new Maple.Views.CompaniesIndexView({ collection: @companies})
@@ -55,7 +54,6 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
       success: (company) =>
         $("#maple-main-container").html new Maple.Views.CompanyShowView({
           model: company,
-          session: @session,
           }).el
       }
 
@@ -70,6 +68,5 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
       success: (user) =>
         $("#maple-main-container").html new Maple.Views.UserShowView({
           model: user,
-          session: @session
           }).el
     }

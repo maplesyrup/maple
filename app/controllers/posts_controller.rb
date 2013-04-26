@@ -78,7 +78,7 @@ class PostsController < ApplicationController
   def destroy
     post = Post.destroy(params[:id])
 
-    return :json => post.public_model
+    render :json => post.public_model
   end
 
   def sanitize(model)
