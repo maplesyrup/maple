@@ -12,3 +12,8 @@ two:
   name: mama
   email: testmehard@baby.com
   name: usertwo
+
+commenter:
+  id: 1
+  email: commenterone@commenterone.com
+  name: commenterOne
