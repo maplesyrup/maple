@@ -25,6 +25,9 @@ class Company < ActiveRecord::Base
 	before_save :ensure_authentication_token
 
   has_many :posts
+  has_many :campaigns
+    
+  validates_associated :campaigns
 
   has_many :campaigns
   has_many :comments, :as => :commenter
