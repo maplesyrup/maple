@@ -29,10 +29,10 @@
 		<div class="span8 company-blurb">
 			<div class="hero-unit">
 				<div contenteditable="<%= editable %>" id="logo-placeholder">
-					<% if (logo_urls.medium) { %>
-						<img src="<%= logo_urls.medium %>" />
+					<% if (logos !== "undefined") { %>
+						<img src="<%= logos[logos.length - 1].medium %>" />
 					<% } else { %>
-						?
+						<i class="icon-camera-retro icon-large"></i>
 					<% } %>
 				</div>
 				<div class="company-content">
@@ -88,7 +88,7 @@
 
 		<div class="modal-body">
 			<form accept-charset="UTF-8" action="/companies" enctype="multipart/form-data" id="add-company-logo" method="post">
-			  <input type="file" name="company[logo]" id="company-logo-field" />
+			  <input type="file" name="company[assets_attributes][][image]" id="company-logo-field" />
 			 </form>
 		</div>
 
