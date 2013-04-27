@@ -25,16 +25,24 @@ class Maple.Views.CompaniesDashboardView extends Backbone.View
       data:
         company_id: @model.id
       success: =>
+        @renderSummary()        
         @renderGraph()
         @renderStats()
+        @renderContributors()
 
     @
+
+  renderSummary: ->
+    @$el.find("#summary").html(new Maple.Views.DashboardSummaryView({ collection: @options.ordered_posts }).el)
 
   renderGraph: ->
     @$el.find("#dashboard-graph").html(new Maple.Views.CompaniesDashboardGraphView({ collection: @options.ordered_posts }).el)
 
   renderStats: ->
     @$el.find("#dashboard-stats").html(new Maple.Views.CompaniesStatsView({ collection: @options.ordered_posts }).el)
+
+  renderContributors: ->
+    @$el.find("#top-contributors").html(new Maple.Views.DashboardContributorsView({ collection: @options.ordered_posts }).el)
 
   filter: (ev) ->
     dateRange = $(ev.target).find(':selected').data('range')
