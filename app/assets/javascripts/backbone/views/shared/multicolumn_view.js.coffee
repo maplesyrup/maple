@@ -37,6 +37,11 @@ class Maple.Views.MultiColumnView extends Backbone.View
     @.collection.on 'add', (model) =>
       @addOne(model, @collection.length - 1)
 
+    @collection.on 'remove', (model) =>
+      model.destroy()
+      @render()
+      @addAll()
+
     @parent = @options.parent || window
     @modelView = @options.modelView
 
@@ -50,7 +55,11 @@ class Maple.Views.MultiColumnView extends Backbone.View
   addOne: (model, index) ->
     colId = @.getColumnId(index)
 
-    @view = new @modelView({ model: model })
+    @listenTo model, 'destroy', () =>
+      @render
+      @addAll()
+
+    @view = new @modelView({ model: model, collection: @collection })
     @$el.find(colId).append @view.render().el
 
   getColumnId: (index) ->

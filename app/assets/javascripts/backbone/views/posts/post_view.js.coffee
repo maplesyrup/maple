@@ -54,8 +54,7 @@ class Maple.Views.PostView extends Backbone.View
     event.stopPropagation()
     event.preventDefault()
 
-    @model.destroy()
-    @close()
+    @collection.remove(@model)
 
 
   render: ->
