@@ -55,10 +55,6 @@ class Maple.Views.MultiColumnView extends Backbone.View
   addOne: (model, index) ->
     colId = @.getColumnId(index)
 
-    @listenTo model, 'destroy', () =>
-      @render
-      @addAll()
-
     @view = new @modelView({ model: model, collection: @collection })
     @$el.find(colId).append @view.render().el
 

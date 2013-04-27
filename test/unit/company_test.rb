@@ -51,7 +51,7 @@ class CompanyTest < ActiveSupport::TestCase
     assert_equal @microsoft.name, c.results[0].name
   end
 
-  test "Destroy company" do
+  test "Destroy company should not delete post" do
     post = posts(:one)
 
     Post.index.import [post]
@@ -63,6 +63,7 @@ class CompanyTest < ActiveSupport::TestCase
 
     updated_post = Post.find(post.id)
 
+    assert updated_post
     assert !updated_post.company
 
   end

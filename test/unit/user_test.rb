@@ -7,7 +7,7 @@ class UserTest < ActiveSupport::TestCase
     @user2 = users(:two)
   end
 
-  test "User deletion should give post default user" do
+  test "User deletion should not detele post" do
     post = posts(:one)
 
     @user1.posts << post
@@ -17,6 +17,7 @@ class UserTest < ActiveSupport::TestCase
 
     updated_post = Post.find(post.id)
 
+    assert updated_post
     assert !updated_post.user
 
   end
