@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130425022232) do
+ActiveRecord::Schema.define(:version => 20130425045808) do
+  create_table "assets", :force => true do |t|
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.string   "image_file_name"
+    t.string   "image_content_type"
+    t.integer  "image_file_size"
+    t.datetime "image_updated_at"
+    t.integer  "attachable_id"
+    t.string   "attachable_type"
 
   create_table "campaigns", :force => true do |t|
     t.string   "title"
@@ -53,15 +62,14 @@ ActiveRecord::Schema.define(:version => 20130425022232) do
     t.string   "blurb_body",                :default => "Hey, this is our company!",      :null => false
     t.string   "more_info_title",           :default => "More Info",                      :null => false
     t.string   "more_info_body",            :default => "Here's a little more about us.", :null => false
-    t.string   "splash_image_file_name"
-    t.string   "splash_image_content_type"
-    t.integer  "splash_image_file_size"
-    t.datetime "splash_image_updated_at"
     t.string   "logo_file_name"
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
-    t.string   "iframe_auth_token"
+    t.string   "splash_image_file_name"
+    t.string   "splash_image_content_type"
+    t.integer  "splash_image_file_size"
+    t.datetime "splash_image_updated_at"
   end
 
   create_table "follows", :force => true do |t|

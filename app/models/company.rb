@@ -11,9 +11,7 @@ class Company < ActiveRecord::Base
 
 	attr_accessible :splash_image, :blurb_title, :blurb_body,
       :more_info_title, :more_info_body, :company_url,
-      :email, :password, :password_confirmation, :remember_me, :provider, :logo, :id, :name, :encrypted_password
-
-  has_attached_file :logo, :styles => { :medium => "300x300>", :thumb => "100x100>" }, :default_url => "posts/:style/missing.png"
+      :email, :password, :password_confirmation, :remember_me, :provider, :id, :name, :encrypted_password, :assets_attributes
 
   has_attached_file :splash_image, :default_url => "http://www.hybridlava.com/wp-content/uploads/Wide_wallPAPER011.jpg"
 
@@ -24,10 +22,13 @@ class Company < ActiveRecord::Base
 
 	before_save :ensure_authentication_token
 
+  has_many :assets, :as => :attachable
   has_many :posts
   has_many :campaigns
     
   validates_associated :campaigns
+
+  accepts_nested_attributes_for :assets, :allow_destroy => true
 
   has_many :campaigns
   has_many :comments, :as => :commenter
@@ -83,10 +84,11 @@ class Company < ActiveRecord::Base
       json.(self, :id, :name, :splash_image, :blurb_title, 
                   :blurb_body, :more_info_title, :more_info_body, 
                   :company_url)
-      json.logo_urls do
-        json.full self.logo.url
-        json.medium self.logo.url(:medium)
-        json.thumb self.logo.url(:thumb)
+      json.logos self.assets do |asset|
+        json.(asset, :id, :created_at)
+        json.full asset.image.url
+        json.medium asset.image.url(:medium)
+        json.thumb asset.image.url(:thumb)
       end
       json.(self, :posts) if options[:include_posts]
       json.editable false
@@ -106,10 +108,11 @@ class Company < ActiveRecord::Base
         json.(company, :id, :name, :splash_image, 
               :blurb_title, :blurb_body, :more_info_title, 
               :more_info_body, :company_url)
-        json.logo_urls do
-          json.full company.logo.url
-          json.medium company.logo.url(:medium)
-          json.thumb company.logo.url(:thumb)
+        json.logos company.assets do |asset|
+          json.(asset, :id, :created_at)
+          json.full asset.image.url
+          json.medium asset.image.url(:medium)
+          json.thumb asset.image.url(:thumb)
         end
         json.editable false
         if options[:company] && options[:company].id == company.id
