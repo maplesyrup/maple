@@ -17,6 +17,10 @@ class Maple.Views.CompaniesDashboardView extends Backbone.View
     @options.endDate = Date.today()
     @options.ordered_posts = @model.posts.order_by_created_at()
 
+    @dashboardData = @dashboardData || {}
+
+
+
     @render()
 
   render: ->
@@ -25,15 +29,23 @@ class Maple.Views.CompaniesDashboardView extends Backbone.View
       data:
         company_id: @model.id
       success: =>
-        @renderSummary()        
         @renderGraph()
         @renderStats()
+
+    $.ajax({
+      url: @model.url() + '/dashboard'
+      success: (data) =>
+        @dashboardData = data
+        @renderSummary()
         @renderContributors()
+      error: (data) ->
+        console.log("Error retrieving dashboard info")
+    })
 
     @
 
   renderSummary: ->
-    @$el.find("#summary").html(new Maple.Views.DashboardSummaryView({ collection: @options.ordered_posts }).el)
+    @$el.find("#summary").html(new Maple.Views.DashboardSummaryView({ collection: @dashboardData }).el)
 
   renderGraph: ->
     @$el.find("#dashboard-graph").html(new Maple.Views.CompaniesDashboardGraphView({ collection: @options.ordered_posts }).el)
@@ -42,7 +54,7 @@ class Maple.Views.CompaniesDashboardView extends Backbone.View
     @$el.find("#dashboard-stats").html(new Maple.Views.CompaniesStatsView({ collection: @options.ordered_posts }).el)
 
   renderContributors: ->
-    @$el.find("#top-contributors").html(new Maple.Views.DashboardContributorsView({ collection: @options.ordered_posts }).el)
+    @$el.find("#top-contributors").html(new Maple.Views.DashboardContributorsView({ collection: @dashboardData }).el)
 
   filter: (ev) ->
     dateRange = $(ev.target).find(':selected').data('range')

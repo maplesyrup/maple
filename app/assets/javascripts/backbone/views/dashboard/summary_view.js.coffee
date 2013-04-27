@@ -7,7 +7,7 @@ class Maple.Views.DashboardSummaryView extends Backbone.View
     @
 
   render: ->
-    @$el.html(@template())
+    @$el.html(@template(@collection))
     @
 
 
