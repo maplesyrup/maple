@@ -21,12 +21,12 @@ Maple::Application.routes.draw do
   # This route can be invoked with purchase_url(:id => product.id)
 
   resources :posts
-  
   resources :companies, :shallow => true do
     resources :campaigns, :shallow => true, :except => [:new] do
       resources :rewards, :except => [:new]
     end
   end
+  resources :campaigns, :only => :index
 
   put 'users/follow' => 'users#follow'
   resources :users
