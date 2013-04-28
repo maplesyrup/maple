@@ -9,8 +9,11 @@ class Campaign < ActiveRecord::Base
   validates :starttime, :presence => true
   validates :title, :presence => true
   validates :description, :presence => true
-   
+  
+  validates :company_id, :presence => true
+
   validates :endtime, :presence => true
+  
   validates_associated :rewards
   validates_associated :posts
   
@@ -27,4 +30,5 @@ class Campaign < ActiveRecord::Base
       json.(self, :title, :description, :starttime, :endtime, :company_id)
     end
   end
+
 end

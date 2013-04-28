@@ -9,6 +9,7 @@ apple:
   more_info_body: God we make sexy products are so super shiny
 
 microsoft:
+  id: 2
   name: Microsoft
   blurb_title: Shit products
   blurb_body: We are the peasants. Only frustration makes us happy

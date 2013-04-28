@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130425045808) do
+ActiveRecord::Schema.define(:version => 20130428032140) do
 
   create_table "assets", :force => true do |t|
     t.datetime "created_at",         :null => false
@@ -27,11 +27,11 @@ ActiveRecord::Schema.define(:version => 20130425045808) do
   create_table "campaigns", :force => true do |t|
     t.string   "title"
     t.text     "description"
-    t.datetime "starttime"
-    t.datetime "endtime"
     t.integer  "company_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.time     "starttime"
+    t.time     "endtime"
   end
 
   create_table "comments", :force => true do |t|

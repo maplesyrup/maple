@@ -5,6 +5,7 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
+  id: 1
   title: CampaignOne
   description: This is campaign one
   starttime: 123123123
@@ -12,6 +13,7 @@ one:
   company_id: 1  
 
 two:
+  id: 2
   title: CampaignTwo
   description: This is campaign two
   starttime: 123123123
