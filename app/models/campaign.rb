@@ -1,7 +1,22 @@
+class TimeValidator < ActiveModel::Validator
+  def validate(record)
+    if record.starttime.nil? || record.endtime.nil?
+      record.errors[:base] << "Times aren't allowed to be empty"  
+    else
+      if (record.starttime - 120).utc < Time.now
+        record.errors[:base] << "Not allowed to start a campaign in the past" 
+      end
+      if (record.starttime.utc - record.endtime.utc) <= 0
+        record.errors[:base] << "Not allowed to end before you start"
+      end 
+    end
+  end
+end
+
 class Campaign < ActiveRecord::Base
   attr_accessible :title, :description, :starttime, :endtime,
                   :company_id
-  
+ 
   belongs_to :company
   has_many :rewards
   has_many :posts
@@ -10,12 +25,16 @@ class Campaign < ActiveRecord::Base
   validates :title, :presence => true
   validates :description, :presence => true
   
+  validates_with TimeValidator, :field => [:starttime, :endttime]
+
   validates :company_id, :presence => true
 
   validates :endtime, :presence => true
   
   validates_associated :rewards
   validates_associated :posts
+  
+
   
   def self.public_models(campaigns, options={})
     Jbuilder.encode do |json|
@@ -30,5 +49,4 @@ class Campaign < ActiveRecord::Base
       json.(self, :title, :description, :starttime, :endtime, :company_id)
     end
   end
-
-end
+end  
