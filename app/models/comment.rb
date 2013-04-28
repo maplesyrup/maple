@@ -1,5 +1,6 @@
 class Comment < ActiveRecord::Base
-  attr_accessible :content
+  attr_accessible :content, :commentable_id, :commentable_type,
+                  :commenter_id, :comenter_type
   
   belongs_to :commentable, :polymorphic => true
   belongs_to :commenter, :polymorphic => true
@@ -10,5 +11,6 @@ class Comment < ActiveRecord::Base
 
   validates_associated :comments
   validates :commentable_id, :commentable_type, :presence => true
+  validates :commenter_id, :commenter_type, :presence => true
   validates :content, :presence =>true    
 end

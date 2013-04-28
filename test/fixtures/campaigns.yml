@@ -4,17 +4,8 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one:
-  id: 1
-  content: Damn that was a good post
-  commentable_id: 1
-  commentable_type: Post
-  commenter_id: 1
-  commenter_type: User
-
-two: 
-  content: Damn that was a good comment
-  commentable_id: 1
-  commentable_type: Comment
-  commenter_id: 1
-  commenter_type: User
+one: {}
+# column: value
+#
+two: {}
+#  column: value

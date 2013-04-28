@@ -27,8 +27,9 @@ class User < ActiveRecord::Base
 
   has_many :posts
   has_many :comments, :as => :commenter
-
   validates_associated :comments
+
+  has_and_belongs_to_many :rewards
 
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "25x25" }, :default_url => "avatars/:style/missing.png"
 
