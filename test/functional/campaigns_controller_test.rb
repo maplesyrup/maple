@@ -13,11 +13,7 @@ class CampaignsControllerTest < ActionController::TestCase
   test "campaign index" do
     response = get :index
     response = JSON.parse(response.body)
-    assert_equal response.length, 1, "incorrect number of campaigns"
+    assert_equal response.length, 2, "incorrect number of campaigns"
   end
-
-   
-  # test "the truth" do
-  #   assert true
-  # end
+  
 end
