@@ -1,8 +1,8 @@
 class CampaignsController < ApplicationController
   def index
-    campaigns = Campaigns.paginate(:page => params[:page] || 1, :per_page => 30)
+    campaigns = Campaign.paginate(:page => params[:page] || 1, :per_page => 30)
     campaigns = Company.find_by_id(params[:company_id]).campaigns if params[:company_id].present?
-    render :json => public_models(campaigns)
+    render :json => Campaign.public_models(campaigns)
   end
 
   def create
