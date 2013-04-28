@@ -93,8 +93,8 @@ class UsersController < ApplicationController
     logged_in_user = User.find_by_uid(user.identifier)
 
     respond_to do |format|
-      format.json { render :json => logged_in_user.authentication_token}
-      format.html { render :json => logged_in_user.authentication_token}
+      format.json { render :json => logged_in_user}
+      format.html { render :json => logged_in_user}
     end
   end
 
