@@ -53,4 +53,31 @@ class CompaniesController < ApplicationController
     end
     sanitized
   end
+
+  def dashboard
+    company = Company.find(params[:id])
+    num_ads = company.posts.length
+    num_followers = company.followers.length
+    dashboard = { :num_ads => num_ads, :num_followers => num_followers }
+    contributors = []
+
+    company.posts.each do |post|
+      user = post.user
+      found = contributors.select { |c| c[:id] == user.id }
+
+      if found.empty?
+        contributors.push({:id => user.id, :name => user.name, :uid => user.uid, :num_ads => 1, :num_votes => post.votes.size})
+      else
+        found.first[:num_ads] += 1
+        found.first[:num_votes] += post.votes.size
+      end
+
+    end
+
+    contributors.sort_by { |c| c[:num_ads] }
+    dashboard[:contributors] = contributors
+
+    render :json => dashboard
+
+  end
 end

@@ -2,13 +2,7 @@ class Maple.Views.CompaniesStatsView extends Backbone.View
   # Display the textual stats
   # on a company's dashboard
 
-  tagName: "div"
-
-  className: "row-fluid"
-
-  id: "dashboard-stats"
-
-  template: JST["backbone/templates/companies/dashboard/stats_index"]
+  template: JST["backbone/templates/dashboard/stats_index"]
 
   initialize: ->
     @render()

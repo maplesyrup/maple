@@ -1,6 +1,6 @@
 class Maple.Views.CompaniesStatSingleView extends Backbone.View
 
-  template: JST["backbone/templates/companies/dashboard/stats_single"]
+  template: JST["backbone/templates/dashboard/stats_single"]
 
   initialize: ->
     @render()
