@@ -28,7 +28,7 @@ class Maple.Views.MultiColumnView extends Backbone.View
 
   events:
     "load" : "recalculateColumns"
-    "click .load-posts" : "onLoadPosts"
+    "click .load-posts" : "onLoadModels"
 
   initialize: ->
     @.collection.bind 'reset', =>
@@ -65,7 +65,7 @@ class Maple.Views.MultiColumnView extends Backbone.View
     @recalculateColumns()
 
     if (!@options.bootstraped)
-      @collection.fetch()
+      @loadModels()
 
   addAll: ->
     @collection.forEach(@addOne, @)
@@ -79,28 +79,32 @@ class Maple.Views.MultiColumnView extends Backbone.View
   getColumnId: (index) ->
     @columnIds[index % @numberOfColumns]
 
-  onLoadPosts: (e) =>
+  onLoadModels: (e) =>
     return if ($(e.target).hasClass('disabled')) || @loading
 
     # If no page defined, just grab the first one
-    if (@data.page)
-      @data.page += 1
-    else
-      @data.page = 1
 
+    @loadModels()
+
+
+  loadModels: () =>
     @loading = true
 
     prevLength = @collection.length
     @collection.fetch
       data: $.param(@data)
       remove: false
+      update: true
+      add: true
       success: (collection) =>
         @loading = false
+        @data.page += 1
         # If collection has no new models disable button
         if (collection.length == prevLength)
           @$el.find('.load-posts').addClass('disabled')
       error: (err) =>
         @loading = false
+
 
   recalculateColumns: =>
     width = $(@parent).width()
