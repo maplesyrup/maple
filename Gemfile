@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.11'
+gem 'rails-backbone', "~> 0.9.10"
 gem 'devise'
 gem "paperclip", "~> 3.0"
 gem 'aws-sdk'
