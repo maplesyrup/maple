@@ -32,7 +32,7 @@
       <% if (typeof(user) !== "undefined") { %>
         <span class="author">by <a href="/#users/<%= user.id %>"><%= user.name %></a></span>
       <% } %>
-      <% if (typeof(company) !== "undefined") { %>
+      <% if (typeof(company) !== "undefined" && typeof(company.id) !== "undefined" && typeof(company.name) !== "undefined") { %>
         <span class="tag"><a href="/#companies/<%=company_id %>"><strong><%= company.name %></strong></a></span>
       <% } %>
     </div>
