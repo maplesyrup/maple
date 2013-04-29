@@ -36,7 +36,6 @@ class Maple.Views.MultiColumnView extends Backbone.View
       @.addAll()
 
     @.collection.on 'add', (model) =>
-      console.log(@collection.indexOf(model))
       @addOne(model, @collection.indexOf(model))
 
     @collection.on 'remove', (model) =>
@@ -81,8 +80,6 @@ class Maple.Views.MultiColumnView extends Backbone.View
 
   onLoadModels: (e) =>
     return if ($(e.target).hasClass('disabled')) || @loading
-
-    # If no page defined, just grab the first one
 
     @loadModels()
 
