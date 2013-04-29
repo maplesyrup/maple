@@ -18,9 +18,9 @@ class Post < ActiveRecord::Base
   belongs_to :company
 
   acts_as_voteable
-  
+
   has_many :comments, :as => :commentable
-  validates_associated :comments 
+  validates_associated :comments
 
   mapping do
     indexes :_id, index: :not_analyzed
@@ -78,7 +78,7 @@ class Post < ActiveRecord::Base
         json.total_votes post.votes_for
         json.voted_on post.voted_on(options[:user])
         json.timestamp post.created_at.to_i
-        json.user_id post.user.id
+        json.user_id post.user.id if post.user
         json.relative_time time_ago_in_words(post.created_at)
       end
     end

@@ -38,11 +38,11 @@ class PostsController < ApplicationController
     # This route will return all the posts and filter if there are
     # options specified. Currently we can filter by company
     options = {}
-    
+
     options[:company_id] = params[:company_id]
-    options[:user_id] = params[:user_id]   
+    options[:user_id] = params[:user_id]
     options[:page] = (params[:page] || 1).to_i
-    
+
     posts = Post.paged_posts(options)
 
     render :json => Post.public_models(posts, {:user => current_user})
@@ -69,7 +69,13 @@ class PostsController < ApplicationController
 
     render :json => post
   end
-  
+
+  def destroy
+    post = Post.destroy(params[:id])
+
+    render :json => post.public_model
+  end
+
   def sanitize(model)
     sanitized = {}
     Post.attr_accessible[:default].each do |attr|
@@ -85,7 +91,7 @@ class PostsController < ApplicationController
     if !user.nil?
       user = user.fetch
       logged_in_user = User.find_by_uid(user.identifier)
-      sign_in(:user, logged_in_user)   
+      sign_in(:user, logged_in_user)
     end
   end
 end
