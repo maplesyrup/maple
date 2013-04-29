@@ -47,10 +47,15 @@ class Maple.Views.MultiColumnView extends Backbone.View
     @parent = @options.parent || window
     @modelView = @options.modelView
 
-    @data =
-      page: 1
+    @loading = false
+
+    @data = (@options.data || {})
+
+    _.defaults(@data, {
+      page: 1,
       sort:
         by: 'total_votes'
+    })
 
     @collection.comparator = (post) =>
       post.get(@data.sort.by)
@@ -58,6 +63,9 @@ class Maple.Views.MultiColumnView extends Backbone.View
     $(window).resize @recalculateColumns
 
     @recalculateColumns()
+
+    if (!@options.bootstraped)
+      @collection.fetch()
 
   addAll: ->
     @collection.forEach(@addOne, @)
@@ -72,20 +80,27 @@ class Maple.Views.MultiColumnView extends Backbone.View
     @columnIds[index % @numberOfColumns]
 
   onLoadPosts: (e) =>
+    return if ($(e.target).hasClass('disabled')) || @loading
+
     # If no page defined, just grab the first one
     if (@data.page)
       @data.page += 1
     else
       @data.page = 1
 
+    @loading = true
+
     prevLength = @collection.length
     @collection.fetch
       data: $.param(@data)
       remove: false
       success: (collection) =>
+        @loading = false
         # If collection has no new models disable button
         if (collection.length == prevLength)
           @$el.find('.load-posts').addClass('disabled')
+      error: (err) =>
+        @loading = false
 
   recalculateColumns: =>
     width = $(@parent).width()
