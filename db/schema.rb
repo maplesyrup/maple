@@ -11,7 +11,8 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130425045808) do
+ActiveRecord::Schema.define(:version => 20130428032140) do
+
   create_table "assets", :force => true do |t|
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
@@ -21,6 +22,16 @@ ActiveRecord::Schema.define(:version => 20130425045808) do
     t.datetime "image_updated_at"
     t.integer  "attachable_id"
     t.string   "attachable_type"
+  end
+
+  create_table "campaigns", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "company_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.time     "starttime"
+    t.time     "endtime"
   end
 
   create_table "comments", :force => true do |t|
@@ -87,6 +98,17 @@ ActiveRecord::Schema.define(:version => 20130425045808) do
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.integer  "company_id"
+    t.integer  "campaign_id"
+  end
+
+  create_table "rewards", :force => true do |t|
+    t.integer  "campaign_id"
+    t.string   "title"
+    t.text     "description"
+    t.integer  "monetary_reward"
+    t.string   "swag_award"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
   end
 
   create_table "rewards_users", :id => false, :force => true do |t|
@@ -105,6 +127,7 @@ ActiveRecord::Schema.define(:version => 20130425045808) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.string   "authentication_token"
     t.datetime "created_at",                                               :null => false
     t.datetime "updated_at",                                               :null => false
     t.string   "avatar_file_name"
@@ -113,8 +136,7 @@ ActiveRecord::Schema.define(:version => 20130425045808) do
     t.datetime "avatar_updated_at"
     t.string   "provider"
     t.string   "uid"
-    t.string   "name",                                                     :null => false
-    t.string   "authentication_token"
+    t.string   "name"
     t.string   "type"
     t.text     "personal_info",          :default => "A little about me."
   end
