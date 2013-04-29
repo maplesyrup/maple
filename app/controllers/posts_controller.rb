@@ -1,17 +1,12 @@
 class PostsController < ApplicationController
 
+  before_filter :check_for_token
+
   def create
     # post posts/:id
     #
     # This route will create a new ad with the given id. It will
     # also log in mobile users that are posting an ad.
-
-    if params[:token]
-      user = FbGraph::User.me(params[:token])
-      user = user.fetch
-      logged_in_user = User.find_by_uid(user.identifier)
-      sign_in(:user, logged_in_user)
-    end
 
     post = Post.new(sanitize(params[:post]))
 
@@ -89,4 +84,14 @@ class PostsController < ApplicationController
     sanitized
   end
 
+  private
+
+  def check_for_token
+    user = FbGraph::User.me(params[:token]) unless params[:token].nil?
+    if !user.nil?
+      user = user.fetch
+      logged_in_user = User.find_by_uid(user.identifier)
+      sign_in(:user, logged_in_user)
+    end
+  end
 end
