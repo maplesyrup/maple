@@ -20,11 +20,8 @@ class CampaignsControllerTest < ActionController::TestCase
     response = post :create, :company_id => 1, 
         :campaign => 
           {:title => "test", :description => "Yo yo yo", 
-            :starttime => Time.new, :endtime => Time.new}
+            :starttime => Time.now.utc, :endtime => (Time.now + 120).utc}
    
-    require 'pry'
-    binding.pry
-
     response = JSON.parse(response.body)       
     assert_equal response["title"], "test", "incorrect response"
 
