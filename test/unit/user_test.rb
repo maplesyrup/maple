@@ -1,9 +1,27 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  def setup
+    # Have to delete index before each test
+    @user1 = users(:one)
+    @user2 = users(:two)
+  end
+
+  test "User deletion should not detele post" do
+    post = posts(:one)
+
+    @user1.posts << post
+    @user1.save
+
+    User.destroy(@user1.id)
+
+    updated_post = Post.find(post.id)
+
+    assert updated_post
+    assert !updated_post.user
+
+  end
+
   test "follow with stable data" do
 
     user = users(:one)
@@ -16,17 +34,17 @@ class UserTest < ActiveSupport::TestCase
     assert_equal users(:one).follows_by_type('User').length, 1, "Incorrect number of user follows"
 
     assert_equal users(:two).followers[0], users(:one), "Follower is not correct"
-    assert_equal companies(:apple).followers[0], users(:one), "Follower is not correct"     
-    assert_equal users(:one).follows[0].followable_id, users(:two).id, "Follows is incorrect"    
+    assert_equal companies(:apple).followers[0], users(:one), "Follower is not correct"
+    assert_equal users(:one).follows[0].followable_id, users(:two).id, "Follows is incorrect"
   end
 
   test "follow with unstable data" do
     user = users(:one)
     user.follow(users(:one))
 
-    assert_equal users(:one).follows.length, 0, "Users should not be allowed to follow themselves" 
-    
-    assert_raise StandardError do 
+    assert_equal users(:one).follows.length, 0, "Users should not be allowed to follow themselves"
+
+    assert_raise StandardError do
       user.follow(companies(:one))
     end
     assert_equal users(:one).follows.length, 0, "User followed company that doesn't exist"
@@ -36,7 +54,7 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  test "unfollow with stable data" do 
+  test "unfollow with stable data" do
     user = users(:one)
     user.follow(users(:two))
     user.follow(companies(:apple))
@@ -63,7 +81,7 @@ class UserTest < ActiveSupport::TestCase
     assert_equal user.follows_by_type('User').length, 0, "incorrect number of follows for user"
     assert_equal user.follows_by_type('Company').length, 1, "Incorrect number of follows for company"
     assert_equal users(:two).followers.length, 0, "Incorrect number of followers"
-      
+
   end
 
   test "unfollow with unstable data" do

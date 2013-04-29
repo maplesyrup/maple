@@ -15,7 +15,6 @@ class Maple.Views.CompanyShowView extends Backbone.View
     "click .collection-filter" : "refilterCollection"
 
   initialize: ->
-    @session = this.options.session || {}
     @model.on "change", =>
       if @model.hasChanged("logo_urls")
         replaceImageTemplate = JST["backbone/templates/helpers/replace_image"]
@@ -24,7 +23,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
     @render()
 
   render: ->
-    @$el.html(@template(_.extend(@model.toJSON(), @session.toJSON())))
+    @$el.html(@template(_.extend(@model.toJSON(), Maple.session.toJSON())))
     @populateCollection("company-posts")
     @
 
@@ -33,14 +32,14 @@ class Maple.Views.CompanyShowView extends Backbone.View
     event.stopPropagation()
 
     formData = new FormData($('#add-company-logo')[0])
-    
+
     @model.savePaperclip(formData,
-      type: 'PUT' 
+      type: 'PUT'
       success: (company) =>
         @model.set(company)
         $("#uploadLogoModal").modal('hide')
       error: (e) =>
-        console.log(e))  
+        console.log(e))
 
   saveContent: (id, content) ->
     if id ==  "company-blurb-title"
@@ -54,23 +53,23 @@ class Maple.Views.CompanyShowView extends Backbone.View
     else if id == "company-logo-field"
       @model.set({ logo: content })
     else
-      return false 
+      return false
 
     @model.patch(
-      ["blurb_title", 
-      "blurb_body", 
-      "more_info_title", 
+      ["blurb_title",
+      "blurb_body",
+      "more_info_title",
       "more_info_body"])
-  
+
   updateContent: (event) ->
     target = $(event.currentTarget)
     targetID = target.attr("id")
-    @saveContent(targetID, target.html()) 
-      
+    @saveContent(targetID, target.html())
+
   editContent: (event) ->
     event.stopPropagation()
     event.preventDefault()
-    
+
     target = $(event.currentTarget)
     targetID = target.attr("id")
     if targetID == "company-header-image"
@@ -81,36 +80,36 @@ class Maple.Views.CompanyShowView extends Backbone.View
       return false
 
   follow: (event) ->
-    if @session.get("user_signed_in")
+    if Maple.session.get("user_signed_in")
       # user is signed in and wants to perform an action
-      if !_.contains(@session.currentUser.get("companies_im_following"), @model.id)
+      if !_.contains(Maple.session.currentUser.get("companies_im_following"), @model.id)
         # user is not already following this company. Follow
 
-        @session.currentUser.get("companies_im_following").push(@model.id)
+        Maple.session.currentUser.get("companies_im_following").push(@model.id)
         $(".follow").html("<button class='btn btn-success pull-right'>
-                            Following 
+                            Following
                           </button>")
-      else 
+      else
         # user is currently following this company. Unfollow
-        @session.currentUser.get("companies_im_following").pop(@model.id) 
+        Maple.session.currentUser.get("companies_im_following").pop(@model.id)
         $(".follow").html("<button class='btn pull-right'>
-                            <i class='icon-plus'></i> Follow 
+                            <i class='icon-plus'></i> Follow
                           </button>")
 
-      @session.currentUser.follow(
+      Maple.session.currentUser.follow(
         type: "Company"
         target: @model.id
         success:(count) ->
           console.log "number of users"
         error: (response) ->
-          console.log "couldn't update"   
-        ) 
+          console.log "couldn't update"
+        )
 
   populateCollection: (collectionType) ->
     switch collectionType
       when "company-posts"
         @model.posts.fetch # lazy fetch of associated posts
-          data: 
+          data:
             company_id: @model.id
           success: =>
             @$el.find("#company-posts-container").html new Maple.Views.MultiColumnView(
@@ -131,7 +130,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
               modelView: Maple.Views.UserView
             ).el
 
-  refilterCollection: (event) -> 
+  refilterCollection: (event) ->
     event.stopPropagation()
     event.preventDefault()
 
@@ -142,4 +141,4 @@ class Maple.Views.CompanyShowView extends Backbone.View
     $(event.target).addClass("active")
 
     @populateCollection(collectionType)
-     
+

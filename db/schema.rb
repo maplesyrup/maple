@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(:version => 20130425045808) do
     t.datetime "image_updated_at"
     t.integer  "attachable_id"
     t.string   "attachable_type"
+  end
 
   create_table "comments", :force => true do |t|
     t.text     "content"
@@ -88,6 +89,11 @@ ActiveRecord::Schema.define(:version => 20130425045808) do
     t.integer  "company_id"
   end
 
+  create_table "rewards_users", :id => false, :force => true do |t|
+    t.integer "user_id",   :null => false
+    t.integer "reward_id", :null => false
+  end
+
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "",                   :null => false
     t.string   "encrypted_password",     :default => "",                   :null => false
@@ -99,7 +105,6 @@ ActiveRecord::Schema.define(:version => 20130425045808) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.string   "authentication_token"
     t.datetime "created_at",                                               :null => false
     t.datetime "updated_at",                                               :null => false
     t.string   "avatar_file_name"
@@ -108,7 +113,8 @@ ActiveRecord::Schema.define(:version => 20130425045808) do
     t.datetime "avatar_updated_at"
     t.string   "provider"
     t.string   "uid"
-    t.string   "name"
+    t.string   "name",                                                     :null => false
+    t.string   "authentication_token"
     t.string   "type"
     t.text     "personal_info",          :default => "A little about me."
   end
