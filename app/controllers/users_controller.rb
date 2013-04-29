@@ -21,9 +21,9 @@ class UsersController < ApplicationController
   	# get particular user here
     if current_user && current_user.id == params[:id].to_i
       render :json => current_user.public_model({:user => current_user, :company => current_company})
-    else 
+    else
       render :json => User.find(params[:id]).public_model({:user => current_user, :company => current_company})
-    end  
+    end
   end
 
   def follow
@@ -31,25 +31,25 @@ class UsersController < ApplicationController
     type = params[:type]
     if type && target && user_signed_in?
       # parameters exist and user is signed in
-      # Convert type to class and find target 
+      # Convert type to class and find target
       type = type.camelize.constantize
       followed = type.find(target)
       if followed
-        # Member of class exists 
+        # Member of class exists
         if current_user.following?(followed)
           current_user.stop_following(followed)
         else
           current_user.follow(followed)
-        end   
+        end
       end
-      render :json => {:following => current_user.follow_count}      
+      render :json => {:following => current_user.follow_count}
     else
-      render :json => {}, :status => 403 
+      render :json => {}, :status => 403
     end
   end
 
   def update
-    # update user attributes  
+    # update user attributes
     @user = User.find(params[:id])
     if current_user && current_user.id == @user.id
       user_params = params[:user]
@@ -60,7 +60,7 @@ class UsersController < ApplicationController
 
       render :json => @user.public_model({:user => current_user, :company => current_company})
     else
-      render :json => {}, :status => 403 
+      render :json => {}, :status => 403
     end
   end
 
@@ -70,6 +70,12 @@ class UsersController < ApplicationController
       sanitized[attr] = model[attr] if model[attr]
     end
     sanitized
+  end
+
+  def destroy
+    user = User.destroy(params[:id])
+
+    render :json => user.public_model
   end
 
   def check_mobile_login

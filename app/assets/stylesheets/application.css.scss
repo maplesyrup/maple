@@ -120,7 +120,13 @@ Home View
 .glimpse-info {
   background-color: #FFFFFF;
   border-top: 1px solid #CCCCCC;
-  padding: 5px;
+
+  .delete-post {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 0;
+    margin: -6px
+  }
 }
 
 .glimpse-info img {
@@ -128,7 +134,7 @@ Home View
 }
 
 .glimpse-meta {
-  margin-left: 60px; 
+  margin-left: 60px;
   font-size: 12px;
 }
 
@@ -164,3 +170,4 @@ Login View
   width: 300px;
   padding: 10px;
 }
+

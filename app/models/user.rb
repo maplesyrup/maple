@@ -17,11 +17,11 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :token_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:facebook]
-         
+
   before_save :ensure_authentication_token
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, 
+  attr_accessible :email, :password, :password_confirmation,
                   :remember_me, :provider, :uid, :name,
                   :personal_info, :avatar
 
@@ -61,7 +61,7 @@ class User < ActiveRecord::Base
   def self.new_with_session(params, session)
     # self.new_with_session(params, session):
     # Parameters: "params" - extra parameters,
-    # "session" - 
+    # "session" -
     # Use the session's Facebook email as the User's
     # email if the User does not have an email
     super.tap do |user|
@@ -77,7 +77,7 @@ class User < ActiveRecord::Base
 
         company_follows = user.follows_by_type('Company')
         user_follows = user.follows_by_type('User')
-        users_following = user.following_by_type('User')   
+        users_following = user.following_by_type('User')
 
         json.(user, :id, :name, :created_at, :avatar, :personal_info, :all_follows)
         json.(user, :posts) if options[:include_posts]
@@ -86,9 +86,9 @@ class User < ActiveRecord::Base
           json.editable true
         end
       end
-    end 
+    end
   end
-   
+
   def public_model(options={})
     # public_model:
     # Convert the instance User's attributes
@@ -102,7 +102,7 @@ class User < ActiveRecord::Base
       json.(self, :posts) if options[:include_posts]
       json.companies_im_following company_follows.map{|company| company.followable_id}
       json.users_im_following user_follows.map{|user| user.followable_id}
-      json.users_following_me users_following.map{|user| user.id} 
+      json.users_following_me users_following.map{|user| user.id}
       json.editable false
       if options[:user] && options[:user].id == self.id
         json.editable true
