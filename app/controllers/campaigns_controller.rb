@@ -9,7 +9,7 @@ class CampaignsController < ApplicationController
   def create
     if company_signed_in? && params[:company_id].to_i == current_company.id 
       campaign = Company.find_by_id(params[:company_id])
-                .campaigns.new(params[:campaign])
+                .campaigns.new(sanitize(params[:campaign]))
       campaign.save
       render :json => campaign.public_model  
     else
@@ -37,7 +37,7 @@ class CampaignsController < ApplicationController
     if company_signed_in?
       to_update = Campaign.find_by_id(params[:id])
       if to_update.company_id == current_company.id
-        to_update.update_attributes(params[:campaign])
+        to_update.update_attributes(sanitize(params[:campaign]))
         render :json => to_update.public_model
       else
         render :json => {}, :status => 403
@@ -51,4 +51,12 @@ class CampaignsController < ApplicationController
     campaign = Campaign.find_by_id(params[:id])
     render :json => campaign.public_model  
   end 
+  
+  def sanitize(model)
+    sanitized = {}
+    Campaign.attr_accessible[:default].each do |attr|
+      sanitized[attr] = model[attr] if model[attr]
+    end
+    sanitized
+  end
 end
