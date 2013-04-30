@@ -19,8 +19,8 @@ class Campaign < ActiveRecord::Base
   attr_accessible :title, :description, :starttime, :endtime,
                   :company_id
  
-  belongs_to :company, :dependent => :destroy
-  has_many :rewards
+  belongs_to :company
+  has_many :rewards, :dependent => :destroy
   has_many :posts
 
   validates :starttime, :presence => true
