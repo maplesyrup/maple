@@ -37,8 +37,7 @@ class CampaignTest < ActiveSupport::TestCase
   
     campaign = Campaign.new(:title => "test", 
       :description => "test", :company_id => 1, 
-      :starttime => (Time.now.utc), :endtime => Time.now.utc)
-
+      :starttime => Time.now.utc, :endtime => (Time.now.utc - 1))
     assert !campaign.save, "Able to save an endtime that is <= the given starttime"
   end
 

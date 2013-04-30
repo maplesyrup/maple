@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130428032140) do
+ActiveRecord::Schema.define(:version => 20130429063243) do
 
   create_table "assets", :force => true do |t|
     t.datetime "created_at",         :null => false
@@ -30,8 +30,8 @@ ActiveRecord::Schema.define(:version => 20130428032140) do
     t.integer  "company_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
-    t.time     "starttime"
-    t.time     "endtime"
+    t.datetime "starttime"
+    t.datetime "endtime"
   end
 
   create_table "comments", :force => true do |t|
@@ -64,15 +64,14 @@ ActiveRecord::Schema.define(:version => 20130428032140) do
     t.string   "blurb_body",                :default => "Hey, this is our company!",      :null => false
     t.string   "more_info_title",           :default => "More Info",                      :null => false
     t.string   "more_info_body",            :default => "Here's a little more about us.", :null => false
-    t.string   "splash_image_file_name"
-    t.string   "splash_image_content_type"
-    t.integer  "splash_image_file_size"
-    t.datetime "splash_image_updated_at"
     t.string   "logo_file_name"
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
     t.datetime "logo_updated_at"
-    t.string   "iframe_auth_token"
+    t.string   "splash_image_file_name"
+    t.string   "splash_image_content_type"
+    t.integer  "splash_image_file_size"
+    t.datetime "splash_image_updated_at"
   end
 
   create_table "follows", :force => true do |t|
@@ -102,19 +101,6 @@ ActiveRecord::Schema.define(:version => 20130428032140) do
     t.integer  "campaign_id"
   end
 
-  create_table "relationships", :force => true do |t|
-    t.integer  "follower_id"
-    t.integer  "followed_id"
-    t.string   "followed_type"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
-  end
-
-  add_index "relationships", ["followed_id"], :name => "index_relationships_on_followed_id"
-  add_index "relationships", ["followed_type"], :name => "index_relationships_on_followed_type"
-  add_index "relationships", ["follower_id", "followed_id", "followed_type"], :name => "relationship_index", :unique => true
-  add_index "relationships", ["follower_id"], :name => "index_relationships_on_follower_id"
-
   create_table "rewards", :force => true do |t|
     t.integer  "campaign_id"
     t.string   "title"
@@ -123,6 +109,11 @@ ActiveRecord::Schema.define(:version => 20130428032140) do
     t.string   "swag_award"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+  end
+
+  create_table "rewards_users", :id => false, :force => true do |t|
+    t.integer "user_id",   :null => false
+    t.integer "reward_id", :null => false
   end
 
   create_table "users", :force => true do |t|

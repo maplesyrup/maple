@@ -3,10 +3,12 @@ class TimeValidator < ActiveModel::Validator
     if record.starttime.nil? || record.endtime.nil?
       record.errors[:base] << "Times aren't allowed to be empty"  
     else
-      if (record.starttime - 120).utc < Time.now
+      if record.starttime.utc < 2.minutes.ago.utc
+        # Validator give 2 min leeway to record verification in the event 
+        # of a slow connection 
         record.errors[:base] << "Not allowed to start a campaign in the past" 
       end
-      if (record.starttime.utc - record.endtime.utc) <= 0
+      if record.endtime.utc <= record.starttime.utc
         record.errors[:base] << "Not allowed to end before you start"
       end 
     end
@@ -39,14 +41,14 @@ class Campaign < ActiveRecord::Base
   def self.public_models(campaigns, options={})
     Jbuilder.encode do |json|
       json.array! campaigns do |json, campaign|
-        json.(campaign, :title, :description, :starttime, :endtime, :company_id)
+        json.(campaign, :id, :title, :description, :starttime, :endtime, :company_id)
       end
     end
   end
 
   def public_model(options={})
     Jbuilder.encode do |json|
-      json.(self, :title, :description, :starttime, :endtime, :company_id)
+      json.(self, :id, :title, :description, :starttime, :endtime, :company_id)
     end
   end
 end  
