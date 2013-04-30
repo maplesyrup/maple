@@ -19,7 +19,7 @@ class Campaign < ActiveRecord::Base
   attr_accessible :title, :description, :starttime, :endtime,
                   :company_id
  
-  belongs_to :company
+  belongs_to :company, :dependent => :destroy
   has_many :rewards
   has_many :posts
 
