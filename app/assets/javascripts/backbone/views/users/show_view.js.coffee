@@ -60,49 +60,41 @@ class Maple.Views.UserShowView extends Backbone.View
   populateCollection: (collectionType) ->
     switch collectionType
       when "user-posts"
-        @model.posts.fetch # lazy fetch of associated posts
+        @$el.find("#user-main-container").html new Maple.Views.MultiColumnView(
+          collection: @model.posts
+          parent: "#user-main-container"
+          modelView: Maple.Views.PostView
           data:
             user_id: @model.id
-          success: =>
-            @$el.find("#user-main-container").html new Maple.Views.MultiColumnView(
-              collection: @model.posts
-              parent: "#user-main-container"
-              modelView: Maple.Views.PostView
-            ).el
+        ).el
 
       when "user-following-companies"
-        @model.companies_following.fetch
+        @$el.find("#user-main-container").html new Maple.Views.MultiColumnView(
+          collection: @model.companies_following
+          parent: "#user-main-container"
+          modelView: Maple.Views.CompanyView
           data:
             follower: @model.id
-          success: =>
-            @$el.find("#user-main-container").html new Maple.Views.MultiColumnView(
-              collection: @model.companies_following
-              parent: "#user-main-container"
-              modelView: Maple.Views.CompanyView
-            ).el
+        ).el
 
       when "user-following-users"
-        @model.users_following.fetch
+        @$el.find("#user-main-container").html new Maple.Views.MultiColumnView(
+          collection: @model.users_following
+          parent: "#user-main-container"
+          modelView: Maple.Views.UserView
           data:
             follower: @model.id
-          success: =>
-            @$el.find("#user-main-container").html new Maple.Views.MultiColumnView(
-              collection: @model.users_following
-              parent: "#user-main-container"
-              modelView: Maple.Views.UserView
-            ).el
+        ).el
 
       when "user-followers"
-        @model.followers.fetch
+        @$el.find("#user-main-container").html new Maple.Views.MultiColumnView(
+          collection: @model.followers
+          parent: "#user-main-container"
+          modelView: Maple.Views.UserView
           data:
             followable_id: @model.id
             type: 'User'
-          success: =>
-            @$el.find("#user-main-container").html new Maple.Views.MultiColumnView(
-              collection: @model.followers
-              parent: "#user-main-container"
-              modelView: Maple.Views.UserView
-            ).el
+        ).el
 
   refilterCollection: (event) ->
     event.stopPropagation()

@@ -108,27 +108,23 @@ class Maple.Views.CompanyShowView extends Backbone.View
   populateCollection: (collectionType) ->
     switch collectionType
       when "company-posts"
-        @model.posts.fetch # lazy fetch of associated posts
+        @$el.find("#company-posts-container").html new Maple.Views.MultiColumnView(
+          collection: @model.posts
+          parent: "#company-posts-container"
+          modelView: Maple.Views.PostView
           data:
             company_id: @model.id
-          success: =>
-            @$el.find("#company-posts-container").html new Maple.Views.MultiColumnView(
-              collection: @model.posts
-              parent: "#company-posts-container"
-              modelView: Maple.Views.PostView
-            ).el
+        ).el
 
       when "company-followers"
-        @model.followers.fetch
+        @$el.find("#company-posts-container").html new Maple.Views.MultiColumnView(
+          collection: @model.followers
+          parent: "#company-posts-container"
+          modelView: Maple.Views.UserView
           data:
             followable_id: @model.id
             type: 'Company'
-          success: =>
-            @$el.find("#company-posts-container").html new Maple.Views.MultiColumnView(
-              collection: @model.followers
-              parent: "#company-posts-container"
-              modelView: Maple.Views.UserView
-            ).el
+        ).el
 
   refilterCollection: (event) ->
     event.stopPropagation()
