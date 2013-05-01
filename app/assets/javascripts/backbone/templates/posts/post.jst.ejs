@@ -34,7 +34,14 @@
       <% } %>
       <% if (typeof(company) !== "undefined" && typeof(company.id) !== "undefined" && typeof(company.name) !== "undefined") { %>
         <span class="tag"><a href="/#companies/<%=company_id %>"><strong><%= company.name %></strong></a></span>
-      <% } %>
+      <% } %><br />
+      <a href="https://www.facebook.com/dialog/feed?
+  app_id=<%= window.config.FACEBOOK_APP_ID %>&
+  link=http://<%= window.config.HOSTNAME %>/&
+  name=Additt&
+  caption=<%= title %>&
+  description=<%= content %>&
+  redirect_uri=http://<%= window.config.HOSTNAME %>/">Share on Facebook</a>
     </div>
     <div class="clearfix"></div>
   </div>
