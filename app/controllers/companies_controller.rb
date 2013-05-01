@@ -5,14 +5,14 @@ class CompaniesController < ApplicationController
     #
     # This will get all the companies (30 at a time)
     options = {}
-    
+
     followed = User.find(params[:follower]).
       follows_by_type('Company').
-      map(&:followable_id) if params[:follower].present?   
+      map(&:followable_id) if params[:follower].present?
 
     options = { :followed => followed } if !followed.nil?
     options = { :followed => [-1] } if !followed.nil? && followed.empty?
-    
+
     companies = Company.paged_companies(options)
 
   	render :json => Company.public_models(companies)
@@ -28,7 +28,7 @@ class CompaniesController < ApplicationController
   		render :json => Company.find(params[:id]).public_model({:user => current_user, :company => current_company})
     end
   end
-  
+
   def update
     @company = Company.find(params[:id])
     if current_company && current_company.id == @company.id
@@ -36,8 +36,14 @@ class CompaniesController < ApplicationController
       render :json => @company.public_model({:user => current_user, :company => current_company})
       #render :json => {}, :status => 200
     else
-      render :json => {}, :status => 403 
+      render :json => {}, :status => 403
     end
+  end
+
+  def destroy
+    company = Company.delete(params[:id])
+
+    render :json => company.public_model
   end
 
   def sanitize(model)

@@ -2,15 +2,15 @@
 	<div class="nav-opaque navbar-inner">
 		<div class="container-fluid">
 			<a class = "brand" href=<%= "/#companies/" + id %> ><%= name %></a>
-			<% if (!company_signed_in) { %> 
+			<% if (!company_signed_in) { %>
 				<div class="follow">
 				<% if (user_signed_in && _.contains(session.currentUser.companies_im_following, id)) { %>
 					<button class="btn btn-success pull-right">
-						Following 
+						Following
 					</button>
 				<% } else { %>
 					<button class="btn pull-right">
-						<i class="icon-plus"></i> Follow 
+						<i class="icon-plus"></i> Follow
 					</button>
 				<% } %>
 				</div>
@@ -29,24 +29,24 @@
 		<div class="span8 company-blurb">
 			<div class="hero-unit">
 				<div contenteditable="<%= editable %>" id="logo-placeholder">
-					<% if (logos !== "undefined") { %>
+          <% console.log(logos); if (logos && logos.length > 0) { %>
 						<img src="<%= logos[logos.length - 1].medium %>" />
 					<% } else { %>
 						<i class="icon-camera-retro icon-large"></i>
 					<% } %>
 				</div>
 				<div class="company-content">
-				<h1 contenteditable="<%= editable %>" id="company-blurb-title"> 
-					<%= blurb_title %> 
+				<h1 contenteditable="<%= editable %>" id="company-blurb-title">
+					<%= blurb_title %>
 				</h1>
 				<p class="lead" id="company-blurb-body" contenteditable="<%= editable %>">
-					<%= blurb_body %>	
+					<%= blurb_body %>
 				</p>
 			</div>
 		</div>
 			<div class="content">
-				<h2 id="company-more-info-title" contenteditable="<%= editable %>"> 
-					<%= more_info_title %> 
+				<h2 id="company-more-info-title" contenteditable="<%= editable %>">
+					<%= more_info_title %>
 				</h2>
 				<p id="company-more-info-body" contenteditable="<%= editable %>">
 					<%= more_info_body %>
@@ -54,7 +54,7 @@
 			</div>
 		</div>
 		<div class="span4 sponsored-challenges">
-			<h1> 
+			<h1>
 				Current Contest
 			</h1>
 			<p>
@@ -83,7 +83,7 @@
 	<div id="uploadLogoModal" class="modal hide">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	    <h3>Upload Company Logo</h3>	
+	    <h3>Upload Company Logo</h3>
 		</div>
 
 		<div class="modal-body">

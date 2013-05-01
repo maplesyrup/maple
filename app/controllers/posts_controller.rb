@@ -1,17 +1,12 @@
 class PostsController < ApplicationController
 
+  before_filter :check_for_token
+
   def create
     # post posts/:id
     #
     # This route will create a new ad with the given id. It will
     # also log in mobile users that are posting an ad.
-
-    if params[:token]
-      user = FbGraph::User.me(params[:token])
-      user = user.fetch
-      logged_in_user = User.find_by_uid(user.identifier)
-      sign_in(:user, logged_in_user)
-    end
 
     post = Post.new(sanitize(params[:post]))
 
@@ -42,13 +37,7 @@ class PostsController < ApplicationController
     #
     # This route will return all the posts and filter if there are
     # options specified. Currently we can filter by company
-    options = {}
-    
-    options[:company_id] = params[:company_id]
-    options[:user_id] = params[:user_id]   
-    options[:page] = (params[:page] || 1).to_i
-    
-    posts = Post.paged_posts(options)
+    posts = Post.paged_posts(params)
 
     render :json => Post.public_models(posts, {:user => current_user})
   end
@@ -74,12 +63,29 @@ class PostsController < ApplicationController
 
     render :json => post
   end
-  
+
+  def destroy
+    post = Post.destroy(params[:id])
+
+    render :json => post.public_model
+  end
+
   def sanitize(model)
     sanitized = {}
     Post.attr_accessible[:default].each do |attr|
       sanitized[attr] = model[attr] if model[attr]
     end
     sanitized
+  end
+
+  private
+
+  def check_for_token
+    user = FbGraph::User.me(params[:token]) unless params[:token].nil?
+    if !user.nil?
+      user = user.fetch
+      logged_in_user = User.find_by_uid(user.identifier)
+      sign_in(:user, logged_in_user)
+    end
   end
 end

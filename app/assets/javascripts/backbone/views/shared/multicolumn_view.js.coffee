@@ -10,24 +10,25 @@ class Maple.Views.MultiColumnView extends Backbone.View
   id: "posts"
 
   parent: window
-  
+
   className: "row glimpses "
-  
+
   columnIds: ["#col1", "#col2", "#col3", "#col4", "#col5", "#col6"]
 
   numberOfColumns:      0
 
-  postWidth:             295 # post width is 275, margin of 20px 
+  postWidth:             295 # post width is 275, margin of 20px
 
   threeColumnTemplate:  JST["backbone/templates/shared/three_column_index"]
   fourColumnTemplate:   JST["backbone/templates/shared/four_column_index"]
   fiveColumnTemplate:   JST["backbone/templates/shared/five_column_index"]
   sixColumnTemplate:    JST["backbone/templates/shared/six_column_index"]
 
-  template: "" 
+  template: ""
 
   events:
     "load" : "recalculateColumns"
+    "click .load-posts" : "onLoadModels"
 
   initialize: ->
     @.collection.bind 'reset', =>
@@ -35,14 +36,35 @@ class Maple.Views.MultiColumnView extends Backbone.View
       @.addAll()
 
     @.collection.on 'add', (model) =>
-      @addOne(model, @collection.length - 1) 
-    
+      @addOne(model, @collection.indexOf(model))
+
+    @collection.on 'remove', (model) =>
+      model.destroy()
+      @render()
+      @addAll()
+
     @parent = @options.parent || window
     @modelView = @options.modelView
+
+    @loading = false
+
+    @data = (@options.data || {})
+
+    _.defaults(@data, {
+      page: 1,
+      sort:
+        by: 'total_votes'
+    })
+
+    @collection.comparator = (post) =>
+      post.get(@data.sort.by)
 
     $(window).resize @recalculateColumns
 
     @recalculateColumns()
+
+    if (!@options.bootstrapped)
+      @loadModels()
 
   addAll: ->
     @collection.forEach(@addOne, @)
@@ -50,30 +72,55 @@ class Maple.Views.MultiColumnView extends Backbone.View
   addOne: (model, index) ->
     colId = @.getColumnId(index)
 
-    @view = new @modelView({ model: model })
+    @view = new @modelView({ model: model, collection: @collection })
     @$el.find(colId).append @view.render().el
 
   getColumnId: (index) ->
     @columnIds[index % @numberOfColumns]
 
+  onLoadModels: (e) =>
+    return if ($(e.target).hasClass('disabled')) || @loading
+
+    @loadModels()
+
+
+  loadModels: () =>
+    @loading = true
+
+    prevLength = @collection.length
+    @collection.fetch
+      data: $.param(@data)
+      remove: false
+      update: true
+      add: true
+      success: (collection) =>
+        @loading = false
+        @data.page += 1
+        # If collection has no new models disable button
+        if (collection.length == prevLength)
+          @$el.find('.load-posts').addClass('disabled')
+      error: (err) =>
+        @loading = false
+
+
   recalculateColumns: =>
-    width = $(@parent).width()   
+    width = $(@parent).width()
     columnsThatFit = Math.floor width/@postWidth
     switch columnsThatFit
-      when 4 
+      when 4
         if @numberOfColumns != 4
-          @$el.width(4 * (@postWidth)) 
+          @$el.width(4 * (@postWidth))
           @numberOfColumns = 4
           @template = @fourColumnTemplate
           @render()
           @addAll()
       when 5
         if @numberOfColumns != 5
-          @$el.width(5 * (@postWidth)) 
+          @$el.width(5 * (@postWidth))
           @numberOfColumns = 5
           @template = @fiveColumnTemplate
           @render()
-          @addAll()        
+          @addAll()
       when 6
         if @numberOfColumns != 6
           @$el.width(6 * (@postWidth))
@@ -83,7 +130,7 @@ class Maple.Views.MultiColumnView extends Backbone.View
           @addAll()
       else
         if @numberOfColumns != 3
-          @$el.width(3 * (@postWidth)) 
+          @$el.width(3 * (@postWidth))
           @numberOfColumns = 3
           @template = @threeColumnTemplate
           @render()
