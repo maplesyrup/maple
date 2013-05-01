@@ -4,16 +4,16 @@
 #
 one: 
   id: 1
-  swag_award: lots of cat hugs
-  monetary_reward: 1
-  description: This award goes to anyone with 2 upvotes 
+  reward: Many cats
+  description: for the cat afficionado in all of us 
   title: Minimum cat award
   campaign_id: 1  
-   
+  min_votes: 5 
+
 two: 
   id: 2
-  swag_award: even more cat hugs!
-  monetary_reward: 1 
-  description: this award goes to anyone with 10 upvotes
+  reward: Many cats
+  description: For all you cat lovers out there 
   title: gold member cat award
-  campaign_id: 1 
+  campaign_id: 1
+  min_votes: 10 

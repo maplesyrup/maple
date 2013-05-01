@@ -71,7 +71,7 @@ class PostsController < ApplicationController
     post = Post.find_by_id(params[:post_id])
 
     current_user.vote_for(post)
-
+    
     render :json => post
   end
   
