@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130430023731) do
+ActiveRecord::Schema.define(:version => 20130501203523) do
 
   create_table "assets", :force => true do |t|
     t.datetime "created_at",         :null => false
@@ -99,6 +99,11 @@ ActiveRecord::Schema.define(:version => 20130430023731) do
     t.datetime "image_updated_at"
     t.integer  "company_id"
     t.integer  "campaign_id"
+  end
+
+  create_table "posts_rewards", :id => false, :force => true do |t|
+    t.integer "post_id",   :null => false
+    t.integer "reward_id", :null => false
   end
 
   create_table "rewards", :force => true do |t|

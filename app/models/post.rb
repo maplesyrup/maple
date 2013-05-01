@@ -21,6 +21,8 @@ class Post < ActiveRecord::Base
 
   has_many :comments, :as => :commentable
   validates_associated :comments
+  
+  has_and_belongs_to_many :rewards
 
   mapping do
     indexes :_id, index: :not_analyzed
