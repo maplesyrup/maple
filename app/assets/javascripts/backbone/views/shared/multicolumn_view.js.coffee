@@ -63,7 +63,7 @@ class Maple.Views.MultiColumnView extends Backbone.View
 
     @recalculateColumns()
 
-    if (!@options.bootstraped)
+    if (!@options.bootstrapped)
       @loadModels()
 
   addAll: ->

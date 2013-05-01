@@ -34,7 +34,7 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
       collection: @posts
       parent: "#maple-main-container"
       modelView: Maple.Views.PostView
-      bootstraped: true
+      bootstrapped: true
     ).el
 
     @company_pill_view = new Maple.Views.CompaniesIndexView({ collection: @companies})
