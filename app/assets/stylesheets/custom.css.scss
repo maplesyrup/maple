@@ -24,14 +24,14 @@ h1, h2, h3, h4, h5, h6 {
 
 .small-photo
 {
-  height: 200px; 
+  height: 200px;
 }
 #user-info-container
 {
   float: none;
   display: inline-block;
   margin:0 auto;
-  text-align: left;  
+  text-align: left;
 }
 #user-info-container > img
 {
@@ -41,7 +41,7 @@ h1, h2, h3, h4, h5, h6 {
 {
   margin-top: 5px;
   min-width: 250px;
-} 
+}
 
 #logo-placeholder {
   width: 200px;
@@ -102,7 +102,7 @@ h1, h2, h3, h4, h5, h6 {
 .select-new-image-container
 {
   height: 150px;
-  border-bottom: 4px dashed #777; 
+  border-bottom: 4px dashed #777;
 }
 
 .select-new-image-option
@@ -129,7 +129,7 @@ h1, h2, h3, h4, h5, h6 {
 
 #closed-folder
 {
-  
+
 }
 
 .file-loading
@@ -139,7 +139,7 @@ h1, h2, h3, h4, h5, h6 {
 
 #loaded-image
 {
-  max-height: 100px  
+  max-height: 100px
 }
 
 [contenteditable="true"]
@@ -149,7 +149,7 @@ h1, h2, h3, h4, h5, h6 {
 
 [contenteditable="true"]:hover
 {
-  outline: 3px dashed #0090D2; 
+  outline: 3px dashed #0090D2;
   background-color: #fff;
   cursor: pointer;
 }
@@ -157,7 +157,7 @@ h1, h2, h3, h4, h5, h6 {
 .posts-container
 {
   padding-top: 20px;
-  background-color: white;   
+  background-color: white;
 }
 .posts-container-inv
 {
@@ -294,6 +294,16 @@ Home View
   background-color: #FFFFFF;
   border-top: 1px solid #CCCCCC;
   padding: 5px;
+
+  .delete-post {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-left: none;
+    border-bottom: none;
+    visibility: hidden;
+    margin: -5px;
+  }
 }
 
 .glimpse-info img {
@@ -301,7 +311,7 @@ Home View
 }
 
 .glimpse-meta {
-  margin-left: 60px; 
+  margin-left: 60px;
   font-size: 12px;
 }
 
@@ -360,7 +370,7 @@ h4.dashboard-sub {
 }
 
 #dashboard-stats .total-votes {
-  float: right; 
+  float: right;
 }
 
 .dashboard-row {
@@ -376,6 +386,59 @@ h4.dashboard-sub {
 .dashboard-votes {
   text-align: right;
   padding-right: 5px;
+}
+
+.dashboard-elem {
+  border: 1px solid #CCCCCC;
+  background-color: #EEEEEE;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.dashboard-elem h3 {
+  margin-bottom: 10px;
+}
+
+.dashboard-elem .top-user {
+  position: relative;
+  margin: 5px 5px 15px 5px;
+  padding: 10px 10px 10px 70px;
+  border: 1px solid #CCCCCC;
+  background-color: #DDDDDD;
+}
+
+.dashboard-elem .top-user img {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.block {
+  display: block;
+}
+
+.top-user-name {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.num {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.uppercase {
+  text-transform: uppercase; 
+}
+
+.light-text {
+  color: #777;
+}
+
+#summary span {
+  font-size: 20px;
+  display: block;
+  line-height: 150%;
 }
 
 .col-header {
@@ -423,7 +486,7 @@ h4.dashboard-sub {
   stroke-width: 0;
 }
 
-.tooltip {   
+.tooltip {
   position: absolute;
   background-color: #FFFFFF;
   width: 100px;

@@ -5,14 +5,14 @@ class CompaniesController < ApplicationController
     #
     # This will get all the companies (30 at a time)
     options = {}
-    
+
     followed = User.find(params[:follower]).
       follows_by_type('Company').
-      map(&:followable_id) if params[:follower].present?   
+      map(&:followable_id) if params[:follower].present?
 
     options = { :followed => followed } if !followed.nil?
     options = { :followed => [-1] } if !followed.nil? && followed.empty?
-    
+
     companies = Company.paged_companies(options)
 
   	render :json => Company.public_models(companies)
@@ -28,7 +28,7 @@ class CompaniesController < ApplicationController
   		render :json => Company.find(params[:id]).public_model({:user => current_user, :company => current_company})
     end
   end
-  
+
   def update
     @company = Company.find(params[:id])
     if current_company && current_company.id == @company.id
@@ -36,8 +36,14 @@ class CompaniesController < ApplicationController
       render :json => @company.public_model({:user => current_user, :company => current_company})
       #render :json => {}, :status => 200
     else
-      render :json => {}, :status => 403 
+      render :json => {}, :status => 403
     end
+  end
+
+  def destroy
+    company = Company.delete(params[:id])
+
+    render :json => company.public_model
   end
 
   def sanitize(model)
@@ -46,5 +52,32 @@ class CompaniesController < ApplicationController
       sanitized[attr] = model[attr] if model[attr]
     end
     sanitized
+  end
+
+  def dashboard
+    company = Company.find(params[:id])
+    num_ads = company.posts.length
+    num_followers = company.followers.length
+    dashboard = { :num_ads => num_ads, :num_followers => num_followers }
+    contributors = []
+
+    company.posts.each do |post|
+      user = post.user
+      found = contributors.select { |c| c[:id] == user.id }
+
+      if found.empty?
+        contributors.push({:id => user.id, :name => user.name, :uid => user.uid, :num_ads => 1, :num_votes => post.votes.size})
+      else
+        found.first[:num_ads] += 1
+        found.first[:num_votes] += post.votes.size
+      end
+
+    end
+
+    contributors.sort_by { |c| c[:num_ads] }
+    dashboard[:contributors] = contributors
+
+    render :json => dashboard
+
   end
 end
