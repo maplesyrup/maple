@@ -18,7 +18,6 @@
   {
     window.config = <%= @CONSTANTS.to_json.html_safe %>;
     window.config.HOSTNAME = window.location.host;
-    console.log(window.config);
 
     // Bootstrap current_state and store for later   
     window.router = new Maple.Routers.ApplicationRouter({

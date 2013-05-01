@@ -101,6 +101,19 @@ ActiveRecord::Schema.define(:version => 20130425045808) do
     t.integer  "campaign_id"
   end
 
+  create_table "relationships", :force => true do |t|
+    t.integer  "follower_id"
+    t.integer  "followed_id"
+    t.string   "followed_type"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "relationships", ["followed_id"], :name => "index_relationships_on_followed_id"
+  add_index "relationships", ["followed_type"], :name => "index_relationships_on_followed_type"
+  add_index "relationships", ["follower_id", "followed_id", "followed_type"], :name => "relationship_index", :unique => true
+  add_index "relationships", ["follower_id"], :name => "index_relationships_on_follower_id"
+
   create_table "rewards", :force => true do |t|
     t.integer  "campaign_id"
     t.string   "title"
