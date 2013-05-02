@@ -16,6 +16,7 @@ class Post < ActiveRecord::Base
 
   belongs_to :user
   belongs_to :company
+  belongs_to :campaign
 
   acts_as_voteable
 
@@ -122,4 +123,22 @@ class Post < ActiveRecord::Base
     VOTED::UNAVAILABLE
   end
 
+  def update_rewards 
+    if self.campaign   
+      self.campaign.rewards.each do |reward|
+        unless self.rewards.include?(reward)
+          if reward.qualifies_for?(self)
+            # Post qualifies for an award that it doesn't already have.
+            # Add it to the collection of awards owned by the post
+            # Add it to the collection of awards owned by the user
+           
+            self.rewards << reward        
+            
+            self.user.rewards << reward 
+            reward.one_less
+          end
+        end
+      end
+    end
+  end
 end

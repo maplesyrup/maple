@@ -66,7 +66,8 @@ class PostsController < ApplicationController
     post = Post.find_by_id(params[:post_id])
 
     current_user.vote_for(post)
-    
+    post.update_rewards 
+
     render :json => post
   end
 

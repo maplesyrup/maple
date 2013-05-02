@@ -90,4 +90,8 @@ class CampaignsControllerTest < ActionController::TestCase
     response = JSON.parse(response.body)
     assert_equal response[1]["title"], "CompanyOneIsAwesome", "didn't persist changes in database" 
   end 
+
+  test "rewards index" do
+    
+  end
 end
