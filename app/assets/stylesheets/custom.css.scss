@@ -238,6 +238,14 @@ Home View
   margin: 0 auto;
 }
 
+.columns, .footer {
+  width: 100%;
+}
+
+.footer {
+  margin: 6px;
+}
+
 .glimpse-column {
   width: 275px;
   margin-left: 0;
@@ -428,7 +436,7 @@ h4.dashboard-sub {
 }
 
 .uppercase {
-  text-transform: uppercase; 
+  text-transform: uppercase;
 }
 
 .light-text {

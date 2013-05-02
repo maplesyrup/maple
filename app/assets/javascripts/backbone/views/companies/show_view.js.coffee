@@ -13,12 +13,13 @@ class Maple.Views.CompanyShowView extends Backbone.View
     "blur [contenteditable]" : "updateContent"
     "click .follow" : "follow"
     "click .collection-filter" : "refilterCollection"
+    "click #company-submit-logo" : "submitLogo"
 
   initialize: ->
     @model.on "change", =>
-      if @model.hasChanged("logo_urls")
+      if @model.hasChanged("logos")
         replaceImageTemplate = JST["backbone/templates/helpers/replace_image"]
-        @$el.find("#logo-placeholder").html(replaceImageTemplate({url: @model.get("logo_urls").medium}))
+        @$el.find("#logo-placeholder").html(replaceImageTemplate({url: @model.get("logos")[@model.get("logos").length - 1].medium}))
 
     @render()
 
@@ -108,27 +109,23 @@ class Maple.Views.CompanyShowView extends Backbone.View
   populateCollection: (collectionType) ->
     switch collectionType
       when "company-posts"
-        @model.posts.fetch # lazy fetch of associated posts
+        @$el.find("#company-posts-container").html new Maple.Views.MultiColumnView(
+          collection: @model.posts
+          parent: "#company-posts-container"
+          modelView: Maple.Views.PostView
           data:
             company_id: @model.id
-          success: =>
-            @$el.find("#company-posts-container").html new Maple.Views.MultiColumnView(
-              collection: @model.posts
-              parent: "#company-posts-container"
-              modelView: Maple.Views.PostView
-            ).el
+        ).el
 
       when "company-followers"
-        @model.followers.fetch
+        @$el.find("#company-posts-container").html new Maple.Views.MultiColumnView(
+          collection: @model.followers
+          parent: "#company-posts-container"
+          modelView: Maple.Views.UserView
           data:
             followable_id: @model.id
             type: 'Company'
-          success: =>
-            @$el.find("#company-posts-container").html new Maple.Views.MultiColumnView(
-              collection: @model.followers
-              parent: "#company-posts-container"
-              modelView: Maple.Views.UserView
-            ).el
+        ).el
 
   refilterCollection: (event) ->
     event.stopPropagation()
