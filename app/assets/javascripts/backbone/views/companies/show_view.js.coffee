@@ -13,12 +13,13 @@ class Maple.Views.CompanyShowView extends Backbone.View
     "blur [contenteditable]" : "updateContent"
     "click .follow" : "follow"
     "click .collection-filter" : "refilterCollection"
+    "click #company-submit-logo" : "submitLogo"
 
   initialize: ->
     @model.on "change", =>
-      if @model.hasChanged("logo_urls")
+      if @model.hasChanged("logos")
         replaceImageTemplate = JST["backbone/templates/helpers/replace_image"]
-        @$el.find("#logo-placeholder").html(replaceImageTemplate({url: @model.get("logo_urls").medium}))
+        @$el.find("#logo-placeholder").html(replaceImageTemplate({url: @model.get("logos")[@model.get("logos").length - 1].medium}))
 
     @render()
 
