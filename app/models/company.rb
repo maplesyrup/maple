@@ -82,13 +82,14 @@ class Company < ActiveRecord::Base
     # into JSON.
     Jbuilder.encode do |json|
       json.(self, :id, :name, :splash_image, :blurb_title, 
-                  :blurb_body, :more_info_title, :more_info_body, 
+                  :blurb_body, :more_info_title, :more_info_body,
                   :company_url)
       json.logos self.assets do |asset|
         json.(asset, :id, :created_at)
         json.full asset.image.url
         json.medium asset.image.url(:medium)
         json.thumb asset.image.url(:thumb)
+        json.selected asset.selected
       end
       json.(self, :posts) if options[:include_posts]
       json.editable false
@@ -113,6 +114,7 @@ class Company < ActiveRecord::Base
           json.full asset.image.url
           json.medium asset.image.url(:medium)
           json.thumb asset.image.url(:thumb)
+          json.selected asset.selected
         end
         json.editable false
         if options[:company] && options[:company].id == company.id

@@ -514,3 +514,17 @@ circle {
   stroke: steelblue;
   stroke-width: 3px;
 }
+
+#multiple-logo-panel img {
+  border: 3px solid #CCCCCC;
+  margin: 10px;
+}
+
+#multiple-logo-panel img:hover {
+  cursor: pointer;
+  border: 3px solid #EEC900;
+}
+
+#multiple-logo-panel .selected {
+  border: 3px solid #EEC900;
+}

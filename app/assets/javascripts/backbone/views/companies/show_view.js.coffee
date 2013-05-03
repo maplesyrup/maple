@@ -14,6 +14,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
     "click .follow" : "follow"
     "click .collection-filter" : "refilterCollection"
     "click #company-submit-logo" : "submitLogo"
+    "click .multiple-logo-image" : "selectLogo"
 
   initialize: ->
     @model.on "change", =>
@@ -21,12 +22,18 @@ class Maple.Views.CompanyShowView extends Backbone.View
         replaceImageTemplate = JST["backbone/templates/helpers/replace_image"]
         @$el.find("#logo-placeholder").html(replaceImageTemplate({url: @model.get("logos")[@model.get("logos").length - 1].medium}))
 
+    console.log(@model.get("logos"))
+
     @render()
 
   render: ->
     @$el.html(@template(_.extend(@model.toJSON(), Maple.session.toJSON())))
     @populateCollection("company-posts")
     @
+
+  selectLogo: (event) ->
+    @selectedLogo = $(event.currentTarget)
+    @selectedLogo.addClass("selected")
 
   submitLogo: (event) ->
     event.preventDefault()
