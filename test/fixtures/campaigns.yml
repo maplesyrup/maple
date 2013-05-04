@@ -4,8 +4,18 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+one:
+  id: 1
+  title: CampaignOne
+  description: This is campaign one
+  starttime: 123123123
+  endtime: 234234234
+  company_id: 1  
+
+two:
+  id: 2
+  title: CampaignTwo
+  description: This is campaign two
+  starttime: 123123123
+  endtime: 234234234
+  company_id: 2
