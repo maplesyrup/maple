@@ -21,15 +21,9 @@ class CampaignsControllerTest < ActionController::TestCase
         :campaign => 
           {:title => "test", :description => "Yo yo yo", 
             :starttime => Time.now.utc, :endtime => (Time.now + 120).utc}
-    assert_response 403, "Shouldn't be able to create a campaign without being logged in" 
+    assert_response 302, "Shouldn't be able to create a campaign without being logged in" 
    
     sign_in companies(:apple)
-    response = post :create, :company_id => 2, 
-        :campaign => 
-          {:title => "test", :description => "Yo yo yo", 
-            :starttime => Time.now.utc, :endtime => (Time.now + 120).utc}
-    assert_response 403, "Shouldn't be able to create a campaign for a company that isn't you" 
-
     response = post :create, :company_id => 1, 
         :campaign => 
           {:title => "test", :description => "Yo yo yo", 
@@ -45,12 +39,10 @@ class CampaignsControllerTest < ActionController::TestCase
 
   test "campaign destroy" do
     response = delete :destroy, :id => 1
-    assert_response 403, "shouldn't be able to delete a post without being logged in"
+    assert_response 302, "shouldn't be able to delete a post without being logged in"
 
     sign_in companies(:apple)
-    response = delete :destroy, :id => 2
-    assert_response 403, "Shouldn't be able to delete someone elses campaign"
-
+    
     response = delete :destroy, :id => 1
     response = JSON.parse(response.body)
     assert_equal response["id"], 1, "Didn't delete the correct post"
@@ -69,11 +61,9 @@ class CampaignsControllerTest < ActionController::TestCase
 
   test "campaign update" do
     response = put :update, :id => 1
-    assert_response 403, "Shouldn't be able to update campaign without login"
+    assert_response 302, "Shouldn't be able to update campaign without login"
 
     sign_in companies(:apple)
-    response = put :update, :id => 2
-    assert_response 403, "Shouldn't be able to update another company's campaign"
 
     response = post :create, :company_id => 1, 
         :campaign => 

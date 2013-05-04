@@ -51,7 +51,7 @@ class Maple.Views.MultiColumnView extends Backbone.View
     @data = (@options.data || {})
 
     _.defaults(@data, {
-      page: 1,
+      page: if @options.bootstrapped then 2 else 1,
       sort:
         by: 'total_votes'
     })
