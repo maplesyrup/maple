@@ -56,6 +56,8 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
         $("#maple-main-container").html new Maple.Views.CompanyShowView({
           model: company,
           }).el
+      error: (company, xhr, options) =>
+        Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
       }
 
   dashboard: (id) ->
@@ -70,4 +72,6 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
         $("#maple-main-container").html new Maple.Views.UserShowView({
           model: user,
           }).el
+      error: (user, xhr, options) =>
+        Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
     }

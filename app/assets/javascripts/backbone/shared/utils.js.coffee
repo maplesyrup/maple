@@ -61,8 +61,8 @@ Backbone.Collection::savePaperclip = Backbone.Model::savePaperclip = (form, opti
 			contentType: false
 			success: (data) ->
 				(options	&& options.success(data))
-			error: (data) ->
-				(options && options.error(data))
+			error: (xhr) ->
+				(options && options.error(xhr))
 		})
 
 Backbone.Collection::access = (options) ->

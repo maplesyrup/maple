@@ -37,8 +37,8 @@ class Maple.Views.PostView extends Backbone.View
       data: "post_id=" + @.model.get('id')
       success: =>
         console.log("Success")
-      error: =>
-        console.log("There was an error")
+      error: (xhr) =>
+        Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
 
     @.model.set({'total_votes': num_votes + 1, 'voted_on': Maple.Post.VOTED.YES})
 
