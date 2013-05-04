@@ -7,7 +7,34 @@ class PostsControllerTest < ActionController::TestCase
   def setup
     @user = users(:one)
     @company = companies(:apple)
+    @post = posts(:two)
     sign_in @user
+  end
+  
+  test "upvote rewards" do
+    @post.user = @user
+    @post.save
+
+    response = post :vote_up, :post_id => @post.id     
+    sign_out @user
+      
+    sign_in users(:two)
+    response = post :vote_up, :post_id => @post.id 
+    assert_equal @post.rewards.count, 1, "Post wasn't assigned a reward"
+    assert_equal @post.user.rewards.count, 1, "User wasn't assigned a reward"
+    
+    assert_equal @post.rewards[0].quantity, 0, "Reward quantity not updated"
+    assert_equal @post.plusminus, @post.rewards[0].min_votes, "Post doesn't have enough votes to win this award"
+    
+    response = post :vote_up, :post_id => posts(:one).id    
+    assert_equal posts(:one).rewards.count, 0, "Post shoudn't be allowed to win any award as it doesn't have enough upvotes to qualify"
+
+    sign_out users(:one)
+    sign_in @user 
+    response = post :vote_up, :post_id => posts(:one).id
+    
+    assert_equal posts(:one).rewards.count, 0, "Post shouldn't be able to win any awards the quantity of the award is at 0" 
+    
   end
 
   test "uploads image as post" do
@@ -34,4 +61,5 @@ class PostsControllerTest < ActionController::TestCase
     assert_equal post_json["image_file_name"], image.original_filename
 
   end
+  
 end
