@@ -9,3 +9,4 @@ window.Maple =
   Collections: {}
   Routers: {}
   Views: {}
+  Utils: {}

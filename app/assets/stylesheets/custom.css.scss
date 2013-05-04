@@ -509,6 +509,12 @@ h4.dashboard-sub {
   font-weight: bold;
 }
 
+.alert-container {
+  position: fixed;
+  top: 50px;
+  z-index: 999;
+}
+
 circle {
   fill: white;
   stroke: steelblue;

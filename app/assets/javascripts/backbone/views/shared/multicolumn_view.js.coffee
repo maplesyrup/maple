@@ -99,8 +99,9 @@ class Maple.Views.MultiColumnView extends Backbone.View
         # If collection has no new models disable button
         if (collection.length == prevLength)
           @$el.find('.load-posts').addClass('disabled')
-      error: (err) =>
+      error: (collection, xhr, options) =>
         @loading = false
+        Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
 
 
   recalculateColumns: =>
