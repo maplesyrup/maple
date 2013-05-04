@@ -37,7 +37,7 @@ class PostsController < ApplicationController
     #
     # This route will return all the posts and filter if there are
     # options specified. Currently we can filter by company
-    posts = Post.paged_posts(params)
+    posts = Post.paged_posts(params).erreadk
 
     render :json => Post.public_models(posts, {:user => current_user})
   end

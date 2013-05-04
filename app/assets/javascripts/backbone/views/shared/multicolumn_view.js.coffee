@@ -65,6 +65,8 @@ class Maple.Views.MultiColumnView extends Backbone.View
 
     if (!@options.bootstrapped)
       @loadModels()
+    else
+      @data.page = 2
 
   addAll: ->
     @collection.forEach(@addOne, @)
@@ -101,6 +103,7 @@ class Maple.Views.MultiColumnView extends Backbone.View
           @$el.find('.load-posts').addClass('disabled')
       error: (err) =>
         @loading = false
+        Maple.Utils.alert({ err: 'Failed to load models' })
 
 
   recalculateColumns: =>
