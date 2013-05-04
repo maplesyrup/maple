@@ -1,5 +1,4 @@
 class CompaniesController < ApplicationController
-
   def index
     # get companies
     #
