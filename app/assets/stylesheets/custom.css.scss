@@ -533,6 +533,7 @@ circle {
   $num-columns: 4;
 
   background-color: $secondary-background;
+  display: none;
 
   #discover-companies-inner {
     width: $width;
