@@ -31,13 +31,23 @@ class CompaniesController < ApplicationController
 
   def update
     @company = Company.find(params[:id])
-    if current_company && current_company.id == @company.id
-      @company.update_attributes(sanitize(params[:company]))
-      render :json => @company.public_model({:user => current_user, :company => current_company})
-      #render :json => {}, :status => 200
-    else
-      render :json => {}, :status => 403
+
+    if params[:logo_id]
+      @company.assets.each do |asset|
+        if asset.id == params[:logo_id].to_i
+          asset.selected = true
+        else
+          asset.selected = false
+        end
+        asset.save
+      end
     end
+    
+    if current_company && current_company.id == @company.id && params[:company]
+      @company.update_attributes(sanitize(params[:company]))
+    end
+
+    render :json => @company.public_model({:user => current_user, :company => current_company})
   end
 
   def destroy

@@ -20,9 +20,9 @@ class Maple.Views.CompanyShowView extends Backbone.View
     @model.on "change", =>
       if @model.hasChanged("logos")
         replaceImageTemplate = JST["backbone/templates/helpers/replace_image"]
-        @$el.find("#logo-placeholder").html(replaceImageTemplate({url: @model.get("logos")[@model.get("logos").length - 1].medium}))
-
-    console.log(@model.get("logos"))
+        updatedLogo = @model.get("logos").filter (logo) ->
+          return logo.selected
+        @$el.find("#logo-placeholder").html(replaceImageTemplate({url: updatedLogo[0].medium}))
 
     @render()
 
@@ -32,8 +32,20 @@ class Maple.Views.CompanyShowView extends Backbone.View
     @
 
   selectLogo: (event) ->
+    $(".selected").removeClass("selected")
     @selectedLogo = $(event.currentTarget)
     @selectedLogo.addClass("selected")
+
+    $.ajax
+      type: "PUT"
+      url: @model.url()
+      data: "logo_id=" + @selectedLogo.data("id")
+      success: (company) =>
+        @model.set(company)
+        $("#uploadLogoModal").modal('hide')
+      error: =>
+        console.log("There was an error")
+
 
   submitLogo: (event) ->
     event.preventDefault()
@@ -44,6 +56,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
     @model.savePaperclip(formData,
       type: 'PUT'
       success: (company) =>
+        console.log(company)
         @model.set(company)
         $("#uploadLogoModal").modal('hide')
       error: (e) =>

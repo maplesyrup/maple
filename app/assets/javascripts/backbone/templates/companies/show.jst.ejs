@@ -30,7 +30,12 @@
 			<div class="hero-unit">
 				<div contenteditable="<%= editable %>" id="logo-placeholder">
           <% if (logos && logos.length > 0) { %>
-						<img src="<%= logos[logos.length - 1].medium %>" />
+						<img src="<% for (var i = 0; i < logos.length; i++) { %>
+							<% if (logos[i].selected) { %>
+								<%= logos[i].medium %>
+							<% } %>
+						<% } %>
+						" />
 					<% } else { %>
 						<i class="icon-camera-retro icon-large"></i>
 					<% } %>
@@ -90,7 +95,7 @@
 			<div id="multiple-logo-panel">
 			<% for (var i = 0; i < logos.length; i++) { %>
 				
-				<img class="multiple-logo-image" src="<%= logos[i].thumb %>" />
+				<img class="multiple-logo-image <% if (logos[i].selected) { %>selected<% } %>" data-id="<%=logos[i].id %>" src="<%= logos[i].thumb %>" />
 
 			<% } %>
 			</div>
