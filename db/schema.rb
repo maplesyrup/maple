@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130501203523) do
+ActiveRecord::Schema.define(:version => 20130502044203) do
 
   create_table "assets", :force => true do |t|
     t.datetime "created_at",         :null => false
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(:version => 20130501203523) do
     t.datetime "image_updated_at"
     t.integer  "attachable_id"
     t.string   "attachable_type"
+    t.boolean  "selected"
   end
 
   create_table "campaigns", :force => true do |t|
