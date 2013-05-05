@@ -39,8 +39,8 @@ class Maple.Views.CompanyShowView extends Backbone.View
       success: (company) =>
         @model.set(company)
         $("#uploadLogoModal").modal('hide')
-      error: (e) =>
-        console.log(e))
+      error: (xhr) =>
+        Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText }))
 
   saveContent: (id, content) ->
     if id ==  "company-blurb-title"
@@ -103,7 +103,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
         success:(count) ->
           console.log "number of users"
         error: (response) ->
-          console.log "couldn't update"
+          Maple.Utils.alert({ err: response })
         )
 
   populateCollection: (collectionType) ->
