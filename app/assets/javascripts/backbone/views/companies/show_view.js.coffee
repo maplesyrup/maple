@@ -56,7 +56,6 @@ class Maple.Views.CompanyShowView extends Backbone.View
     @model.savePaperclip(formData,
       type: 'PUT'
       success: (company) =>
-        console.log(company)
         @model.set(company)
         $("#uploadLogoModal").modal('hide')
       error: (e) =>
