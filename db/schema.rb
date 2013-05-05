@@ -11,8 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130502044203) do
-
+ActiveRecord::Schema.define(:version => 20130501203523) do
   create_table "assets", :force => true do |t|
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
@@ -28,11 +27,11 @@ ActiveRecord::Schema.define(:version => 20130502044203) do
   create_table "campaigns", :force => true do |t|
     t.string   "title"
     t.text     "description"
-    t.datetime "starttime"
-    t.datetime "endtime"
     t.integer  "company_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.datetime "starttime"
+    t.datetime "endtime"
   end
 
   create_table "comments", :force => true do |t|
@@ -102,14 +101,20 @@ ActiveRecord::Schema.define(:version => 20130502044203) do
     t.integer  "campaign_id"
   end
 
+  create_table "posts_rewards", :id => false, :force => true do |t|
+    t.integer "post_id",   :null => false
+    t.integer "reward_id", :null => false
+  end
+
   create_table "rewards", :force => true do |t|
     t.integer  "campaign_id"
     t.string   "title"
     t.text     "description"
-    t.integer  "monetary_reward"
-    t.string   "swag_award"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "quantity"
+    t.string   "reward"
+    t.integer  "min_votes"
   end
 
   create_table "rewards_users", :id => false, :force => true do |t|

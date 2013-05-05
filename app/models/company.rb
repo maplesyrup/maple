@@ -1,7 +1,7 @@
 class Company < ActiveRecord::Base
   include Tire::Model::Search
   include Tire::Model::Callbacks
-
+ 
   # A Company has the following fields:
   # id, name, created_at, email,
   # encrypted_password, authentication_token,

@@ -3,10 +3,13 @@
 one:
   title: MyString
   content: MyString
+  campaign_id: 1
 
 two:
+  id: 2
   title: MyString
   content: MyString
+  campaign_id: 1
 
 commentable:
   id: 1

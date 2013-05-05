@@ -20,3 +20,7 @@
 
 # Ignore the public files
 /public/assets/*
+
+# Ignore swp files
+*.swp
+*.swo
