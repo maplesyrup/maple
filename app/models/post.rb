@@ -44,6 +44,9 @@ class Post < ActiveRecord::Base
 
   GRAVITY = 1.1
 
+  # This is our ranking algorithm. The more votes the post has, the score will go up linearly.
+  # The longer the post has been up, the score will go down exponentially. It's based off this
+  # site: http://amix.dk/blog/post/19574
   ALGORITHM = "_score *
     ((doc['total_votes'].value + 1) /
     pow(((time() - doc['created_at'].date.getMillis()) / 100000) + 1, #{GRAVITY}))"
