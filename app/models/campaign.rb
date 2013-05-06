@@ -41,14 +41,18 @@ class Campaign < ActiveRecord::Base
   def self.public_models(campaigns, options={})
     Jbuilder.encode do |json|
       json.array! campaigns do |json, campaign|
-        json.(campaign, :id, :title, :description, :starttime, :endtime, :company_id)
+        json.(campaign, :id, :title, :description, :company_id)
+        json.starttime campaign.starttime.to_i
+        json.endtime campaign.endtime.to_i
       end
     end
   end
 
   def public_model(options={})
     Jbuilder.encode do |json|
-      json.(self, :id, :title, :description, :starttime, :endtime, :company_id)
+      json.(self, :id, :title, :description, :company_id)
+      json.starttime self.starttime.to_i
+      json.endtime self.endtime.to_i
     end
   end
 end  

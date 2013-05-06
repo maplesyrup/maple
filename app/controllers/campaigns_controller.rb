@@ -3,7 +3,8 @@ class CampaignsController < ApplicationController
 
   def index
     campaigns = Campaign.paginate(:page => params[:page] || 1, :per_page => 30)
-    campaigns = Company.find_by_id(params[:company_id]).campaigns if params[:company_id].present?
+    campaigns = Company.find_by_id(params[:company_id]).campaigns.
+      find(:all, :order => "starttime") if params[:company_id].present?
 
     render :json => Campaign.public_models(campaigns)
   end
