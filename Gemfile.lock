@@ -188,6 +188,8 @@ GEM
       multi_json (~> 1.0)
       rake
       rest-client (~> 1.6)
+    tire-contrib (0.1.1)
+      tire
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
@@ -226,5 +228,6 @@ DEPENDENCIES
   thin
   thumbs_up
   tire
+  tire-contrib
   uglifier (>= 1.0.3)
   will_paginate (~> 3.0)

@@ -12,6 +12,7 @@ gem "fb_graph", "~> 2.6.5"
 gem 'thumbs_up'
 gem "jbuilder", "~> 1.0.2"
 gem "tire"
+gem "tire-contrib"
 gem 'randexp'
 gem 'acts_as_follower'
 
