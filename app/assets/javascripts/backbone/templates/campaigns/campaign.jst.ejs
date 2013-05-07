@@ -1,1 +1,61 @@
-<h2> Hello, World </h2>
+<hr>
+<h3 class="center"> <%= title %> </h3></br>
+  <p class="pul-left"> <%= description %></p> 
+<hr>
+<ul class="nav nav-tabs nav-stacked">    
+  <li id="back-to-campaigns">
+    <a href="#">
+     <i class="icon-reply"></i>&nbsp;<span>Back to Campaigns </span>
+    </a>
+  </li>
+  <% if (company_signed_in === true && 
+      id === session.currentCompany.id ) { %>
+    <li><a href="#new-reward-modal" data-toggle="modal">
+      <i class="icon-plus"></i>&nbsp;<span>New Reward </span>
+      </a>
+    </li> 
+  <% } %>
+  <% rewards.forEach(function(reward){ %> 
+    <li class="reward-glimpse" reward-id="<%=reward.id%>">
+      <a href="#">
+        <h3> <%= reward.title %> </h3>
+        <p>
+          <%= reward.description %>
+        </p>
+      </a>
+    </li> 
+  <% }) %>
+</ul>     
+
+<div id="new-reward-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">New Reward</h3>
+  </div>
+
+  <div class="modal-body">
+
+    <form enctype="multipart/form-data" method="post" name="campaign" id="new-reward-form">
+      Title</br> 
+      <input type="text" name="title"></br>
+      Description</br> 
+      <textarea name="description"></textarea>&nbsp;&nbsp<small> Extra info or requirements to qualify</small></br>
+      Reward</br>
+      <input type="text" name="reward" value="What's the reward?">&nbsp;&nbsp<small>1 tshirt, 10 dollars etc. </small></br>
+      Minium Qualifying Votes</br>
+      <input type="number" name="min-votes" min="0">&nbsp;&nbsp;<small> Users will automatically win an award if they achieve this minimum. (Not Required)</small></br> 
+      Quantity</br>
+      <input type="number" name="quantity" min="1">&nbsp;&nbsp;<small>How many of these do you have to give away?</small></br>
+      <div id="reward-alert" class="alert" style="display:none">
+      </div>
+    </form>
+  </div> 
+
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn btn-primary" id="create-award">Create Award</button>
+  </div>
+</div>
+
+
+

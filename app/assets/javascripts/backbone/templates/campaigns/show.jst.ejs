@@ -56,7 +56,7 @@
       </li> 
     <% } %>
     <% campaigns.current.forEach(function(campaign){ %> 
-      <li>
+      <li class="campaign-glimpse" campaign-id="<%=campaign.id%>">
         <a href="#">
           <h3> <%= campaign.title %> </h3>
           <p>
@@ -77,7 +77,7 @@
       </li> 
     <% } %>
     <% campaigns.future.forEach(function(campaign){ %>
-      <li> 
+      <li class="campaign-glimpse" campaign-id="<%= campaign.id %>"> 
         <a href="#">
           <h3> <%= campaign.title %> </h3>
           <p>
@@ -97,7 +97,7 @@
       </li> 
     <% } %>
     <% campaigns.past.forEach(function(campaign){ %>
-      <li>
+      <li class="campaign-glimpse" campaign-id="<%= campaign.id %>">
         <a href="#">
           <h3> <%= campaign.title %> </h3>
           <p>

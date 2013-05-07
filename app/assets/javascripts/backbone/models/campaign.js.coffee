@@ -15,7 +15,6 @@ class Maple.Models.Campaign extends Backbone.Model
 
   initialize: -> 
     @rewards = new Maple.Collections.RewardsCollection
-    @rewards.url = '/campaigns/' + @id + '/rewards'
 
 class Maple.Collections.CampaignsCollection extends Backbone.Collection
   model: Maple.Models.Campaign
