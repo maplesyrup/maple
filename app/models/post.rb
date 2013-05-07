@@ -1,3 +1,4 @@
+require 'tire/queries/custom_filters_score'
 include ActionView::Helpers::DateHelper
 
 class Post < ActiveRecord::Base
@@ -22,7 +23,7 @@ class Post < ActiveRecord::Base
 
   has_many :comments, :as => :commentable
   validates_associated :comments
-  
+
   has_and_belongs_to_many :rewards
 
   mapping do
@@ -40,6 +41,15 @@ class Post < ActiveRecord::Base
     YES = 'yes'
     UNAVAILABLE = 'unavailable'
   end
+
+  GRAVITY = 1.1
+
+  # This is our ranking algorithm. The more votes the post has, the score will go up linearly.
+  # The longer the post has been up, the score will go down exponentially. It's based off this
+  # site: http://amix.dk/blog/post/19574
+  ALGORITHM = "_score *
+    ((doc['total_votes'].value + 1) /
+    pow(((time() - doc['created_at'].date.getMillis()) / 100000) + 1, #{GRAVITY}))"
 
   def to_indexed_json
     self.public_model
@@ -103,7 +113,9 @@ class Post < ActiveRecord::Base
 
     s = self.search(load: true, page: options[:page], per_page: 30) do
       query do
-        string "#{options[:crumb]}:#{options[:query]}", default_operator: 'AND'
+        custom_score :script => ALGORITHM do
+          string "#{options[:crumb]}:#{options[:query]}", default_operator: 'AND'
+        end
       end
 
       filter :term, { :company_id => options[:company_id] } if options[:company_id].present?
@@ -123,18 +135,18 @@ class Post < ActiveRecord::Base
     VOTED::UNAVAILABLE
   end
 
-  def update_rewards 
-    if self.campaign   
+  def update_rewards
+    if self.campaign
       self.campaign.rewards.each do |reward|
         unless self.rewards.include?(reward)
           if reward.qualifies_for?(self)
             # Post qualifies for an award that it doesn't already have.
             # Add it to the collection of awards owned by the post
             # Add it to the collection of awards owned by the user
-           
-            self.rewards << reward        
-            
-            self.user.rewards << reward 
+
+            self.rewards << reward
+
+            self.user.rewards << reward
             reward.one_less
           end
         end
