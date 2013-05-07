@@ -9,7 +9,7 @@
     </a>
   </li>
   <% if (company_signed_in === true && 
-      id === session.currentCompany.id ) { %>
+      company_id === session.currentCompany.id ) { %>
     <li><a href="#new-reward-modal" data-toggle="modal">
       <i class="icon-plus"></i>&nbsp;<span>New Reward </span>
       </a>

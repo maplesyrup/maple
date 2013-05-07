@@ -1,7 +1,5 @@
 class Maple.Views.CampaignShowView extends Backbone.View
   # Displays a campaign
- 
-  el: '#campaign-container'
 
   template: JST["backbone/templates/campaigns/show"]
   
@@ -105,10 +103,9 @@ class Maple.Views.CampaignShowView extends Backbone.View
     event.stopPropagation()
 
     model = @collection.get(target.attr("campaign-id"))
-    new Maple.Views.CampaignView(
+    @$el.html new Maple.Views.CampaignView(
       model: model
-    )
+    ).el
     
   close: ->
     @unbind()
-    @remove()

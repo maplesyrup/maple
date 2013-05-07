@@ -1,7 +1,5 @@
 class Maple.Views.CampaignView extends Backbone.View
-  
-  el: '#campaign-container'
- 
+
   template: JST["backbone/templates/campaigns/campaign"]
 
   events:
@@ -33,6 +31,7 @@ class Maple.Views.CampaignView extends Backbone.View
   blurCampaign: (event) ->
     event.preventDefault()
     event.stopPropagation()
+
     @close()
     Maple.mapleEvents.trigger("blurCampaign")
 
@@ -83,4 +82,5 @@ class Maple.Views.CampaignView extends Backbone.View
       )
 
   close: ->
+    @remove()
     @unbind()
