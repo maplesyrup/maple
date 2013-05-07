@@ -27,6 +27,7 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     'companies/:id' : 'showCompany'
     'companies/:id/dashboard' : 'dashboard'
     'users/:id' : 'showUser'
+    'about' : 'about'
     '*default' : 'index'
 
   index: ->
@@ -38,6 +39,9 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     ).el
 
     @company_pill_view = new Maple.Views.CompaniesIndexView({ collection: @companies})
+
+  about: ->
+    $("#maple-main-container").html( new Maple.Views.AboutView().el )
 
   newPost: ->
     $modal = $("#mainModal")

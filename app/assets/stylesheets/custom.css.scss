@@ -573,3 +573,39 @@ circle {
   }
 
 }
+
+.guide {
+  margin-top: 30px;
+
+  .guide-user {
+    border-right: 1px solid $border-color;
+    padding-right: 30px;
+  }
+
+  .guide-company {
+    padding-left: 20px;
+  }
+
+  .header {
+    text-align: center;
+  }
+
+  .step-container {
+    margin: 20px 0;
+
+    .step-header {
+      margin: 10px 0;
+
+      .step-number, .step-summary {
+        font-size: 22px;
+        font-weight: bold;
+      }
+
+      .step-summary {
+        font-weight: 400;
+      }
+    }
+  }
+
+
+}
