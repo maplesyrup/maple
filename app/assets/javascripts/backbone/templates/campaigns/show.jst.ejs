@@ -51,7 +51,7 @@
     <% if (company_signed_in === true && 
         id === session.currentCompany.id ) { %>
       <li><a href="#new-campaign-modal" data-toggle="modal">
-        <i class="icon-plus icon-large"></i><span>New Campaign </span>
+        <i class="icon-plus"></i>&nbsp;<span>New Campaign </span>
         </a>
       </li> 
     <% } %>
@@ -72,7 +72,7 @@
     <% if (company_signed_in === true && 
         id === session.currentCompany.id ) { %>
       <li><a href="#new-campaign-modal" data-toggle="modal">
-        <i class="icon-plus icon-large"></i><span>New Campaign </span>
+        <i class="icon-plus"></i>&nbsp;<span>New Campaign </span>
         </a>
       </li> 
     <% } %>
@@ -88,6 +88,23 @@
     <% }) %>
   </div>
   <div class="tab-pane" id="tab3">
-    <p> Hello, I'm in Section 3. </p>
+    <ul class="nav nav-tabs nav-stacked">
+    <% if (company_signed_in === true && 
+        id === session.currentCompany.id ) { %> 
+      <li><a href="#new-campaign-modal" data-toggle="modal">
+        <i class="icon-plus"></i>&nbsp;<span>New Campaign </span>
+        </a>
+      </li> 
+    <% } %>
+    <% campaigns.past.forEach(function(campaign){ %>
+      <li>
+        <a href="#">
+          <h3> <%= campaign.title %> </h3>
+          <p>
+            <%= campaign.description %>
+          </p>
+        </a>
+      </li>
+    <% }) %> 
   </div>
 </div>

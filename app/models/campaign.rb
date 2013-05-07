@@ -27,6 +27,7 @@ class Campaign < ActiveRecord::Base
   validates :title, :presence => true
   validates :description, :presence => true
   
+
   validates_with TimeValidator, :field => [:starttime, :endttime]
 
   validates :company_id, :presence => true
@@ -55,4 +56,4 @@ class Campaign < ActiveRecord::Base
       json.endtime self.endtime.to_i
     end
   end
-end  
+end

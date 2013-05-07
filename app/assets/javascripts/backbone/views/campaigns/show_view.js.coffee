@@ -22,16 +22,20 @@ class Maple.Views.CampaignShowView extends Backbone.View
         past: @pastCampaigns.toJSON()
       Maple.session.toJSON())))  
     @
+  
+  filterCollection: ->
+    @currentCampaigns = @collection.current()
+    @pastCampaigns = @collection.past()
+    @futureCampaigns = @collection.future()
 
   reloadCollection: ->
     @collection.fetch
       success: =>
-        @currentCampaigns = @collection.current()
-        @pastCampaigns = @collection.past()
-        @futureCampaigns = @collection.future()
+        @filterCollection() 
         @render()
       data: 
         company_id: @model.id
+
   parseDatetime: (event) -> 
     parsed = Date.parse($(event.target).val())
     if parsed != null 
@@ -68,3 +72,21 @@ class Maple.Views.CampaignShowView extends Backbone.View
         .css('display', 'block')
     else
       $("#campaign-alert").css('display', 'none') 
+      newCampaign = new Maple.Models.Campaign()
+      newCampaign.save({
+        title: title
+        description: description
+        starttime: starttime
+        endtime: endtime
+        time_type: 'jstime'
+        },
+        {
+        success: (model) =>
+          $("#new-campaign-modal").modal('hide')
+          @collection.add(model)
+          @filterCollection()
+          @render()
+        error: (error) =>
+          console.log error
+        }
+      )

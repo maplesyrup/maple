@@ -1,7 +1,7 @@
 class Maple.Utils 
   @fromRubyDateTime = (integer_time) ->
     new Date(integer_time * 1000)
-
+    
 Backbone.Model::patch = (attribute_whitelist, options)->
 	# Patch
 	#	
