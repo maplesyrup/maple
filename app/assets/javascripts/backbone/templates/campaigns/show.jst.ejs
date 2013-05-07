@@ -18,18 +18,27 @@
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <h3 id="myModalLabel">New Campaign</h3>
   </div>
+
   <div class="modal-body">
-  <form>
-    Title</br> 
-    <input type="text" name="title"></br>
-    Description</br> 
-    <textarea name="description"></textarea></br>
-    Starting </br>
-    <input type="datetime-local" name="starttime"></br>
-    Ending </br>
-    <input type="datetime-local" name="endtime"></br>
-  </form>
-  </div>
+
+    <form enctype="multipart/form-data" method="post" name="campaign" id="new-campaign-form">
+      Title</br> 
+      <input type="text" name="title"></br>
+      Description</br> 
+      <textarea name="description"></textarea></br>
+      Starting </br>
+      <input type="text" id="starttime">&nbsp;<i class="icon-calendar icon-2x"></i>&nbsp;&nbsp;<small> eg: today, tomorrow, July 4, etc. </small></br>
+      <h6 id="starttimeinput"></h6></br>
+      Ending </br>
+      <input type="text" id="endtime">&nbsp;<i class="icon-calendar icon-2x"></i></br>
+      <h6 id="endtimeinput"></h6></br>
+
+      <div id="campaign-alert" class="alert" style="display:none">
+      </div>
+
+    </form>
+  </div> 
+
   <div class="modal-footer">
     <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
     <button class="btn btn-primary" id="create-campaign">Create Campaign</button>

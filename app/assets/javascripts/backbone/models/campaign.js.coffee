@@ -1,6 +1,17 @@
 class Maple.Models.Campaign extends Backbone.Model
   paramRoot: 'campaign'
   urlRoot: '/campaigns'
+  validate: (attrs, options) ->
+    if !attrs.starttime 
+      "Campaign must have a starting time" 
+    if !attrs.endtime 
+      "Campaign must have an end time"
+    if !attrs.title
+      "Campaign must have a title"
+    if !attrs.description
+      "Campaign must have a description"
+    if new Date(attrs.starttime) > new Date(attrs.endtime)
+      "Campaign can't start after it finishes"
 
   initialize: -> 
     @rewards = new Maple.Collections.RewardsCollection
