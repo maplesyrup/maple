@@ -21,6 +21,7 @@ Maple::Application.routes.draw do
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)
+  resources :token_authentications, :only => [:create, :destroy]
 
   resources :posts
   resources :companies, :shallow => true do
@@ -32,7 +33,7 @@ Maple::Application.routes.draw do
 
   put 'users/follow' => 'users#follow'
   resources :users
-   
+
   # Sample resource route with options:
   #   resources :products do
   #     member do
