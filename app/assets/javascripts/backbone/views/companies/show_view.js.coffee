@@ -39,7 +39,6 @@ class Maple.Views.CompanyShowView extends Backbone.View
     @model.save(
       {logo_id: @selectedLogo.data("id")}, 
       {success: (company) =>
-        console.log("success")
         $("#uploadLogoModal").modal('hide')
       error: (xhr) =>
         Maple.Utils.alert({ err: 'Unable to select logo'})})
