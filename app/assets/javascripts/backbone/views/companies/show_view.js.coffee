@@ -36,16 +36,13 @@ class Maple.Views.CompanyShowView extends Backbone.View
     @selectedLogo = $(event.currentTarget)
     @selectedLogo.addClass("selected")
 
-    $.ajax
-      type: "PUT"
-      url: @model.url()
-      data: "logo_id=" + @selectedLogo.data("id")
-      success: (company) =>
-        @model.set(company)
+    @model.save(
+      {logo_id: @selectedLogo.data("id")}, 
+      {success: (company) =>
+        console.log("success")
         $("#uploadLogoModal").modal('hide')
-      error: =>
-        console.log("There was an error")
-
+      error: (xhr) =>
+        Maple.Utils.alert({ err: 'Unable to select logo'})})
 
   submitLogo: (event) ->
     event.preventDefault()

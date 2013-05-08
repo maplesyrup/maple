@@ -1,4 +1,6 @@
 class CompaniesController < ApplicationController
+  before_filter :authenticate_company!, :except => [:index, :show, :dashboard]
+
   def index
     # get companies
     #
@@ -31,18 +33,12 @@ class CompaniesController < ApplicationController
   def update
     @company = Company.find(params[:id])
 
-    if params[:logo_id]
+    if params[:company][:logo_id]
       @company.assets.each do |asset|
-        if asset.id == params[:logo_id].to_i
-          asset.selected = true
-        else
-          asset.selected = false
-        end
+        asset.selected = asset.id == params[:company][:logo_id].to_i
         asset.save
       end
-    end
-    
-    if current_company && current_company.id == @company.id && params[:company]
+    else
       @company.update_attributes(sanitize(params[:company]))
     end
 
