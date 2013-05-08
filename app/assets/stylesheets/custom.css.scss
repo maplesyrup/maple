@@ -1,6 +1,19 @@
-/*
-Shared Styles
-*/
+/* Variables */
+$secondary-background: #EEEEEE;
+$border-color: #CCCCCC;
+$spacing: 10px;
+$more-spacing: 20px;
+$small-font-size: 12px;
+$medium-font-size: 14px;
+$large-font-size: 18px;
+
+/* Shared Mixins */
+@mixin ul-reset {
+  margin: 0;
+  list-style: none;
+}
+
+/* Main */
 body {
   font-family: 'Open Sans', 'Arial', sans-serif;
 }
@@ -223,16 +236,12 @@ h1, h2, h3, h4, h5, h6 {
   text-align: center;
 }
 
-/*
-Header View
-*/
+/* Header View */
 .navbar-text a {
   margin-right: 15px;
 }
 
-/*
-Home View
-*/
+/* Home View */
 #posts {
   float: none;
   margin: 0 auto;
@@ -341,9 +350,7 @@ Home View
   clear: both;
 }
 
-/*
-Login View
-*/
+/* Login View */
 .account-form {
   text-align: center;
   margin: 30px;
@@ -357,9 +364,7 @@ Login View
   padding: 10px;
 }
 
-/*
-Dashboard View
-*/
+/* Dashboard View */
 #filter-date {
   font-size: 16px;
   width: 350px;
@@ -528,3 +533,94 @@ circle {
 #multiple-logo-panel .selected {
   border: 3px solid #EEC900;
 }
+
+.alert-container {
+  position: fixed;
+  top: 50px;
+  z-index: 999;
+}
+
+/* Discover Companies */
+#discover-companies {
+  $width: 900px;
+  $height: 200px;
+  $num-columns: 4;
+
+  background-color: $secondary-background;
+  display: none;
+
+  #discover-companies-inner {
+    width: $width;
+    height: $height;
+    padding: $more-spacing $spacing;
+    margin: 0 auto;
+  }
+
+  .search {
+    column-span: all;
+    -moz-column-span: all;
+    -webkit-column-span: all;
+    margin-bottom: $spacing;
+  }
+
+  #discover-companies-search {
+    width: $width;
+  }
+
+  .discover-companies-columns {
+    columns: $num-columns;
+    -moz-column-count: $num-columns;
+    -webkit-column-count: $num-columns;
+
+    column-gap: $spacing;
+    -moz-column-gap: $spacing;
+    -webkit-column-gap: $spacing;
+  }
+
+  ul {
+    @include ul-reset;
+  }
+
+  li a {
+    font-size: $small-font-size;
+    font-weight: bold;
+  }
+
+}
+
+.guide {
+  margin-top: 30px;
+
+  .guide-user {
+    border-right: 1px solid $border-color;
+    padding-right: 30px;
+  }
+
+  .guide-company {
+    padding-left: 20px;
+  }
+
+  .header {
+    text-align: center;
+  }
+
+  .step-container {
+    margin: 20px 0;
+
+    .step-header {
+      margin: 10px 0;
+
+      .step-number, .step-summary {
+        font-size: 22px;
+        font-weight: bold;
+      }
+
+      .step-summary {
+        font-weight: 400;
+      }
+    }
+  }
+
+
+}
+>>>>>>> upstream/master

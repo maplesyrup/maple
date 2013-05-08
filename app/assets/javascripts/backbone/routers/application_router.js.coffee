@@ -27,6 +27,7 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     'companies/:id' : 'showCompany'
     'companies/:id/dashboard' : 'dashboard'
     'users/:id' : 'showUser'
+    'about' : 'about'
     '*default' : 'index'
 
   index: ->
@@ -38,6 +39,9 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     ).el
 
     @company_pill_view = new Maple.Views.CompaniesIndexView({ collection: @companies})
+
+  about: ->
+    $("#maple-main-container").html( new Maple.Views.AboutView().el )
 
   newPost: ->
     $modal = $("#mainModal")
@@ -56,6 +60,8 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
         $("#maple-main-container").html new Maple.Views.CompanyShowView({
           model: company,
           }).el
+      error: (company, xhr, options) =>
+        Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
       }
 
   dashboard: (id) ->
@@ -70,4 +76,6 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
         $("#maple-main-container").html new Maple.Views.UserShowView({
           model: user,
           }).el
+      error: (user, xhr, options) =>
+        Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
     }

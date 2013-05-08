@@ -131,6 +131,6 @@ class Maple.Views.UserShowView extends Backbone.View
         success:(count) ->
           console.log "number of users"
         error: (response) ->
-          console.log "couldn't update"
+          Maple.Utils.alert({ err: response })
         )
 
