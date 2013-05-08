@@ -4,8 +4,8 @@
       <a class="brand" href="/">Additt</a>&nbsp;&nbsp;
       <% if current_company %>
         <a class="brand companyName" href="/#companies/<%= current_company.id %>"> for <%= current_company.name %></a>
-        <a href="#" class="brand navbar-link" id="find-companies"><i class="icon-double-angle-down"></i> Discover Companies</a>
       <% end %>
+      <a href="#" class="brand navbar-link" id="find-companies"><i class="icon-double-angle-down"></i> Discover Companies</a>
       <p class="navbar-text pull-right">
         <% if current_user %>
           <% if current_user.provider == "facebook" %>

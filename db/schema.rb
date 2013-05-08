@@ -23,7 +23,6 @@ ActiveRecord::Schema.define(:version => 20130501203523) do
     t.datetime "image_updated_at"
     t.integer  "attachable_id"
     t.string   "attachable_type"
-    t.boolean  "selected"
   end
 
   create_table "campaigns", :force => true do |t|
