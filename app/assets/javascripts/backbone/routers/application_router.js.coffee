@@ -28,6 +28,7 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     'companies/:id/dashboard' : 'dashboard'
     'users/:id' : 'showUser'
     'about' : 'about'
+    'faq' : 'faq'
     '*default' : 'index'
 
   index: ->
@@ -42,6 +43,9 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
 
   about: ->
     $("#maple-main-container").html( new Maple.Views.AboutView().el )
+
+  faq: ->
+    $("#maple-main-container").html( new Maple.Views.FaqView().el )
 
   newPost: ->
     $modal = $("#mainModal")
