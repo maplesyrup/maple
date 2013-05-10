@@ -30,7 +30,7 @@
 			<div class="hero-unit">
 				<div contenteditable="<%= editable %>" id="logo-placeholder">
           <% console.log(logos); if (logos && logos.length > 0) { %>
-						<img src="<%= logos[logos.length - 1].medium %>" />
+						<img src="<%= logos[logos.length - 1].medium %>" class="logo-thumb"/>
 					<% } else { %>
 						<i class="icon-camera-retro icon-large"></i>
 					<% } %>

@@ -55,10 +55,15 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 5px;
   min-width: 250px;
 }
-
+.logo-thumb {
+  max-width: 200px;
+  max-height: 200px;
+  margin: 5px;
+}
 #logo-placeholder {
   width: 200px;
-  height: 200px;
+  min-height: 200px;
+  max-height: 250px;
   margin-bottom: 20px;
   float: left;
   border: 1px solid #CCCCCC;
