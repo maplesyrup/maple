@@ -29,6 +29,8 @@ class CompaniesController < ApplicationController
   end
 
   def update
+    require 'pry'
+    binding.pry
     @company = Company.find(params[:id])
     if current_company && current_company.id == @company.id
       @company.update_attributes(sanitize(params[:company]))

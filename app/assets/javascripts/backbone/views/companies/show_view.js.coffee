@@ -53,6 +53,8 @@ class Maple.Views.CompanyShowView extends Backbone.View
       @model.set({ more_info_body: content })
     else if id == "company-logo-field"
       @model.set({ logo: content })
+    else if id == "company-splash-image"
+      @model.set({ splash_image: content})
     else
       return false
 

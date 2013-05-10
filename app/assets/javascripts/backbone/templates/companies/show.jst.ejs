@@ -97,5 +97,25 @@
 		</div>
 
 	</div>
+
+	<div id="uploadSplashModal" class="modal hide">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	    <h3>Upload Splash Image </h3>
+		</div>
+
+		<div class="modal-body">
+			<form accept-charset="UTF-8" action="/companies" enctype="multipart/form-data" id="add-company-logo" method="post">
+			  <input type="file" name="company[assets_attributes][][splash-image]" id="company-splash-image" />
+			 </form>
+		</div>
+
+		<div class="modal-footer">
+			<a href="#" id="company-submit-logo" class="btn btn-primary">Upload</a>
+		</div>
+
+	</div>
+
+
 <% } %>
 
