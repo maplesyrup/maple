@@ -24,3 +24,6 @@
 # Ignore swp files
 *.swp
 *.swo
+
+# Heroku Procfile
+Procfile
