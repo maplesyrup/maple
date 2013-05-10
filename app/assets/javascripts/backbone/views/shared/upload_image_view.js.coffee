@@ -82,13 +82,13 @@ class Maple.Views.UploadImageView extends Backbone.View
 			formData.append @inputName, @newImgFile
 
 			@model.savePaperclip(formData,
-			  type: 'PUT',
-				success: (data) =>
-					@model.set(@resourceName, data[@resourceName])
-					@close(data)
+        type: 'PUT'
+        success: (data) =>
+          @model.set(@resourceName, data[@resourceName])
+          @close(data)
         error: (xhr) =>
           Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
-					@exitView())
+          @exitView())
 
 	selectImageFromFile: (event) ->
 		$("#splash-image-field").click()
