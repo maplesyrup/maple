@@ -58,8 +58,8 @@ h1, h2, h3, h4, h5, h6 {
 .logo-thumb {
   max-width: 200px;
   max-height: 200px;
-  margin: 5px;
 }
+
 #logo-placeholder {
   width: 200px;
   min-height: 200px;
@@ -523,6 +523,20 @@ circle {
   fill: white;
   stroke: steelblue;
   stroke-width: 3px;
+}
+
+#multiple-logo-panel img {
+  border: 3px solid #CCCCCC;
+  margin: 10px;
+}
+
+#multiple-logo-panel img:hover {
+  cursor: pointer;
+  border: 3px solid #EEC900;
+}
+
+#multiple-logo-panel .selected {
+  border: 3px solid #EEC900;
 }
 
 .alert-container {
