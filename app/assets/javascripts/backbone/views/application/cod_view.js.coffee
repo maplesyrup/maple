@@ -6,15 +6,14 @@ class Maple.Views.CodView extends Backbone.View
     $.ajax(
       type: 'GET'
       url: '/stats'
-      success: (results) ->
-        console.log(results)
+      success: (results) =>
+        @render(results)
       error: (e) ->
-        console.log(e)
+        Maple.Utils.alert({ err: "Could not fetch stats" })
     )
-    
-    @render()
+
     @
 
-  render: ->
-    @$el.html @template()
+  render: (data) ->
+    @$el.html @template(data)
     @

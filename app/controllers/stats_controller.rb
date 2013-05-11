@@ -12,7 +12,7 @@ class StatsController < ApplicationController
         :ads => percent_difference(last_week[:ads], this_week[:ads]),
         :users => percent_difference(last_week[:users], this_week[:users]),
         :companies => percent_difference(last_week[:companies], this_week[:companies]),
-        :campaign => percent_difference(last_week[:campaign], this_week[:campaign])
+        :campaigns => percent_difference(last_week[:campaigns], this_week[:campaigns])
       }
     }
 
@@ -27,7 +27,7 @@ class StatsController < ApplicationController
       :ads => Post.where("created_at <= (?)", end_date).length,
       :users => User.where("created_at <= (?)", end_date).length,
       :companies => Company.where("created_at <= (?)", end_date).length,
-      :campaign => Campaign.where("created_at <= (?)", end_date).length
+      :campaigns => Campaign.where("created_at <= (?)", end_date).length
     }
     return data
   end
