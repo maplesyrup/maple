@@ -4,7 +4,8 @@ Maple::Application.routes.draw do
 
   post "posts/vote_up"
 
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks",
+                                       :sessions => "sessions" }
   devise_for :companies
 
   get 'application/home'
@@ -21,6 +22,7 @@ Maple::Application.routes.draw do
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)
+  resources :token_authentications, :only => [:create, :destroy]
 
   resources :posts
   resources :companies, :shallow => true do
@@ -31,8 +33,12 @@ Maple::Application.routes.draw do
   resources :campaigns, :only => :index
 
   put 'users/follow' => 'users#follow'
+
   resources :users
-   
+  devise_scope :user do
+    resources :sessions, :only => [:create, :destroy]
+  end
+
   # Sample resource route with options:
   #   resources :products do
   #     member do

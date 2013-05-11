@@ -1,7 +1,5 @@
 class PostsController < ApplicationController
 
-  before_filter :check_for_token
-
   def create
     # post posts/:id
     #
@@ -60,7 +58,7 @@ class PostsController < ApplicationController
     post = Post.find_by_id(params[:post_id])
 
     current_user.vote_for(post)
-    post.update_rewards 
+    post.update_rewards
 
     render :json => post
   end
@@ -79,14 +77,4 @@ class PostsController < ApplicationController
     sanitized
   end
 
-  private
-
-  def check_for_token
-    user = FbGraph::User.me(params[:token]) unless params[:token].nil?
-    if !user.nil?
-      user = user.fetch
-      logged_in_user = User.find_by_uid(user.identifier)
-      sign_in(:user, logged_in_user)
-    end
-  end
 end
