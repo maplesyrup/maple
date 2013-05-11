@@ -47,7 +47,10 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     $(mainContainer).html( new Maple.Views.AboutView().el )
 
   cod: ->
-    $(mainContainer).html new Maple.Views.CodView().el
+    $(mainContainer).html new Maple.Views.CodView(
+      companies: @companies
+      ads: @posts
+    ).el
 
   newPost: ->
     $modal = $("#mainModal")
