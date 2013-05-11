@@ -30,6 +30,8 @@ Maple::Application.routes.draw do
   end
   resources :campaigns, :only => :index
 
+  resources :stats, :only => :index
+
   put 'users/follow' => 'users#follow'
   resources :users
    
