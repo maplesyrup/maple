@@ -4,7 +4,8 @@ Maple::Application.routes.draw do
 
   post "posts/vote_up"
 
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks",
+                                       :sessions => "sessions" }
   devise_for :companies
 
   get 'application/home'
@@ -32,7 +33,11 @@ Maple::Application.routes.draw do
   resources :campaigns, :only => :index
 
   put 'users/follow' => 'users#follow'
+
   resources :users
+  devise_scope :user do
+    resources :sessions, :only => [:create, :destroy]
+  end
 
   # Sample resource route with options:
   #   resources :products do
