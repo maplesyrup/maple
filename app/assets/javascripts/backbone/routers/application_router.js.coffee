@@ -1,5 +1,7 @@
 class Maple.Routers.ApplicationRouter extends Backbone.Router
 
+  mainContainer = "#maple-main-container"
+
   initialize: (options) ->
     @posts = new Maple.Collections.PostsCollection()
     @posts.reset options.posts
@@ -28,12 +30,13 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     'companies/:id/dashboard' : 'dashboard'
     'users/:id' : 'showUser'
     'about' : 'about'
+    'cod': 'cod'
     '*default' : 'index'
 
   index: ->
-    $("#maple-main-container").html new Maple.Views.MultiColumnView(
+    $(mainContainer).html new Maple.Views.MultiColumnView(
       collection: @posts
-      parent: "#maple-main-container"
+      parent: mainContainer
       modelView: Maple.Views.PostView
       bootstrapped: true
     ).el
@@ -41,13 +44,17 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     @company_pill_view = new Maple.Views.CompaniesIndexView({ collection: @companies})
 
   about: ->
-    $("#maple-main-container").html( new Maple.Views.AboutView().el )
+    $(mainContainer).html( new Maple.Views.AboutView().el )
+
+  cod: ->
+    $(mainContainer).html new Maple.Views.CodView().el
 
   newPost: ->
     $modal = $("#mainModal")
     $modal.modal('show').html new Maple.Views.NewPostView(
       collection: @posts
-      companies: @companies).el
+      companies: @companies
+    ).el
 
     $modal.on 'hidden', =>
       @navigate("#", true)
@@ -57,7 +64,7 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     @companies.access {
       id: id
       success: (company) =>
-        $("#maple-main-container").html new Maple.Views.CompanyShowView({
+        $(mainContainer).html new Maple.Views.CompanyShowView({
           model: company,
           }).el
       error: (company, xhr, options) =>
@@ -66,14 +73,14 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
 
   dashboard: (id) ->
     company = @companies.get id
-    $("#maple-main-container").html( new Maple.Views.CompaniesDashboardView({ model: company }).el )
+    $(mainContainer).html( new Maple.Views.CompaniesDashboardView({ model: company }).el )
 
   showUser: (id) ->
     @company_pill_view && @company_pill_view.close()
     @users.access {
       id: id
       success: (user) =>
-        $("#maple-main-container").html new Maple.Views.UserShowView({
+        $(mainContainer).html new Maple.Views.UserShowView({
           model: user,
           }).el
       error: (user, xhr, options) =>
