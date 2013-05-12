@@ -3,4 +3,5 @@ module ApplicationHelper
     return '' if not Rails.env.production?
     render 'shared/google_analytics'
   end
+
 end
