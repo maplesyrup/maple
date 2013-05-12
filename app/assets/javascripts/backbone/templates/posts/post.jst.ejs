@@ -18,9 +18,9 @@
 
   <div class="glimpse-info">
     <% if (typeof(user) !== "undefined" && user) { %>
-      <% if (!user.uid) { %>
-        <img src="/assets/<%= user.profile_image %>" />
-      <% } else { %>
+      <% if (user.avatar_thumb && user.avatar_thumb != "avatars/thumb/missing.png") { %>
+        <img src="<%= user.avatar_thumb %>" />
+      <% } else if (user.uid) { %>
         <img src="http://graph.facebook.com/<%= user.uid %>/picture" />
       <% } %>
     <% } %>
