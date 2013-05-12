@@ -97,7 +97,8 @@
 			</div>
 			<form accept-charset="UTF-8" action="/companies" enctype="multipart/form-data" id="add-company-logo" method="post">
 			  <input type="file" name="company[assets_attributes][][image]" id="company-logo-field" />
-			 </form>
+			  <input type="hidden" name="company[assets_attributes][][selected]" value="true" />
+			</form>
 		</div>
 
 		<div class="modal-footer">

@@ -19,6 +19,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
   initialize: ->
     @model.on "change", =>
       if @model.hasChanged("logos")
+        console.log(@model)
         replaceImageTemplate = JST["backbone/templates/helpers/replace_image"]
         updatedLogo = @model.get("logos").filter (logo) ->
           return logo.selected

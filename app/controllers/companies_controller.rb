@@ -31,12 +31,21 @@ class CompaniesController < ApplicationController
   end
 
   def update
+    puts params[:company]
     if params[:company][:logo_id]
       current_company.assets.each do |asset|
         asset.selected = asset.id == params[:company][:logo_id].to_i
         asset.save
       end
     else
+
+      if params[:company][:assets_attributes][0][:selected]
+        current_company.assets.each do |asset|
+          asset.selected = false
+          asset.save
+        end
+      end
+
       current_company.update_attributes(sanitize(params[:company]))
     end
 
