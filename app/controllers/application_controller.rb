@@ -7,8 +7,8 @@ class ApplicationController < ActionController::Base
     @companies = Company.paged_companies
   end
 
-  def percent_difference(prev, now)
-    pct = (((now - prev) / now.to_f) * 100).round(2)
+  def percent_change(prev, now)
+    pct = (((now - prev) / prev.to_f) * 100).round(2)
     return pct.nan? ? 0 : pct
   end
 end

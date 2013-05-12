@@ -9,10 +9,10 @@ class StatsController < ApplicationController
       :last_week => last_week,
       :this_week => this_week,
       :increase => {
-        :ads => percent_difference(last_week[:ads], this_week[:ads]),
-        :users => percent_difference(last_week[:users], this_week[:users]),
-        :companies => percent_difference(last_week[:companies], this_week[:companies]),
-        :campaigns => percent_difference(last_week[:campaigns], this_week[:campaigns])
+        :ads => percent_change(last_week[:ads], this_week[:ads]),
+        :users => percent_change(last_week[:users], this_week[:users]),
+        :companies => percent_change(last_week[:companies], this_week[:companies]),
+        :campaigns => percent_change(last_week[:campaigns], this_week[:campaigns])
       }
     }
 
