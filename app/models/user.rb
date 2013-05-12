@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation,
                   :remember_me, :provider, :uid, :name,
-                  :personal_info, :avatar
+                  :personal_info, :avatar, :authentication_token
 
   has_many :posts
   has_many :comments, :as => :commenter
@@ -100,6 +100,8 @@ class User < ActiveRecord::Base
     Jbuilder.encode do |json|
       json.(self, :id, :name, :created_at, :avatar, :personal_info, :all_follows)
       json.(self, :posts) if options[:include_posts]
+      json.(self, :authentication_token) if options[:authentication_token]
+      json.(self, :email) if options[:email]
       json.companies_im_following company_follows.map{|company| company.followable_id}
       json.users_im_following user_follows.map{|user| user.followable_id}
       json.users_following_me users_following.map{|user| user.id}

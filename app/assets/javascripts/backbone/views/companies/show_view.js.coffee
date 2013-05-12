@@ -15,12 +15,15 @@ class Maple.Views.CompanyShowView extends Backbone.View
     "click .collection-filter" : "refilterCollection"
     "click #company-submit-logo" : "submitLogo"
     "click #company-submit-splash-image" : "submitSplash"
+    "click .multiple-logo-image" : "selectLogo"
 
   initialize: ->
     @model.on "change", =>
       if @model.hasChanged("logos")
         replaceImageTemplate = JST["backbone/templates/helpers/replace_image"]
-        @$el.find("#logo-placeholder").html(replaceImageTemplate({url: @model.get("logos")[@model.get("logos").length - 1].medium}))
+        updatedLogo = @model.get("logos").filter (logo) ->
+          return logo.selected
+        @$el.find("#logo-placeholder").html(replaceImageTemplate({url: updatedLogo[0].medium}))
 
     @render()
 
@@ -44,6 +47,17 @@ class Maple.Views.CompanyShowView extends Backbone.View
       error: (xhr) =>
         Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText }))
         
+  selectLogo: (event) ->
+    $(".selected").removeClass("selected")
+    @selectedLogo = $(event.currentTarget)
+    @selectedLogo.addClass("selected")
+
+    @model.save(
+      {logo_id: @selectedLogo.data("id")}, 
+      {success: (company) =>
+        $("#uploadLogoModal").modal('hide')
+      error: (xhr) =>
+        Maple.Utils.alert({ err: 'Unable to select logo'})})
 
   submitLogo: (event) ->
     event.preventDefault()

@@ -60,7 +60,7 @@ Backbone.Collection::savePaperclip = Backbone.Model::savePaperclip = (form, opti
 			cache: false
 			contentType: false
 			success: (data) ->
-				(options	&& options.success(data))
+				(options && options.success	&& options.success(data))
 			error: (xhr) ->
 				(options && options.error(xhr))
 		})

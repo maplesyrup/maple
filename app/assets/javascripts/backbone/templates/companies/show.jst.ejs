@@ -8,7 +8,11 @@
 					<button class="btn btn-success pull-right">
 						Following
 					</button>
-				<% } else { %>
+				<% } else if (!user_signed_in){ %>
+          <a href="/users/sign_in" class="btn pull-right">
+            <i class="icon-plus"></i> Follow 
+          </a>
+          <% } else { %>
 					<button class="btn pull-right">
 						<i class="icon-plus"></i> Follow
 					</button>
@@ -29,8 +33,13 @@
 		<div class="span8 company-blurb">
 			<div class="hero-unit">
 				<div contenteditable="<%= editable %>" id="logo-placeholder">
-          <% console.log(logos); if (logos && logos.length > 0) { %>
-						<img src="<%= logos[logos.length - 1].medium %>" />
+          <% if (logos && logos.length > 0) { %>
+						<img src="<% for (var i = 0; i < logos.length; i++) { %>
+							<% if (logos[i].selected) { %>
+								<%= logos[i].medium %>
+							<% } %>
+						<% } %>
+						" class="logo-thumb center">
 					<% } else { %>
 						<i class="icon-camera-retro icon-large"></i>
 					<% } %>
@@ -87,6 +96,13 @@
 		</div>
 
 		<div class="modal-body">
+			<div id="multiple-logo-panel">
+			<% for (var i = 0; i < logos.length; i++) { %>
+				
+				<img class="multiple-logo-image <% if (logos[i].selected) { %>selected<% } %>" data-id="<%=logos[i].id %>" src="<%= logos[i].thumb %>" />
+
+			<% } %>
+			</div>
 			<form accept-charset="UTF-8" action="/companies" enctype="multipart/form-data" id="add-company-logo" method="post">
 			  <input type="file" name="company[assets_attributes][][image]" id="company-logo-field" />
 			 </form>
