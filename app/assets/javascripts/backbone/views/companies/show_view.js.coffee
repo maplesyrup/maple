@@ -14,6 +14,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
     "click .follow" : "follow"
     "click .collection-filter" : "refilterCollection"
     "click #company-submit-logo" : "submitLogo"
+    "click #company-submit-splash-image" : "submitSplash"
 
   initialize: ->
     @model.on "change", =>
@@ -27,6 +28,22 @@ class Maple.Views.CompanyShowView extends Backbone.View
     @$el.html(@template(_.extend(@model.toJSON(), Maple.session.toJSON())))
     @populateCollection("company-posts")
     @
+
+  submitSplash: (event) ->
+    event.preventDefault()
+    event.stopPropagation()
+    
+    formData = new FormData($("#add-company-splash")[0])
+
+    @model.savePaperclip(formData,
+      type: 'PUT'
+      success: (company) =>
+        @model.set(company)
+        $("#company-header-image").attr("src", @model.get("splash_image"))
+        $("#uploadSplashModal").modal('hide')
+      error: (xhr) =>
+        Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText }))
+        
 
   submitLogo: (event) ->
     event.preventDefault()
@@ -53,8 +70,6 @@ class Maple.Views.CompanyShowView extends Backbone.View
       @model.set({ more_info_body: content })
     else if id == "company-logo-field"
       @model.set({ logo: content })
-    else if id == "company-splash-image"
-      @model.set({ splash_image: content})
     else
       return false
 
@@ -76,7 +91,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
     target = $(event.currentTarget)
     targetID = target.attr("id")
     if targetID == "company-header-image"
-      @$el.find("#company-select-new-image").html( new Maple.Views.UploadImageView({ model: @model, inputName: "company[splash_image]", targetImgContainer: "#company-header-image", resourceName: "splash_image"}).el)
+      $("#uploadSplashModal").modal('show')  
     else if targetID == "company-submit-logo"
       @submitLogo(event)
     else
