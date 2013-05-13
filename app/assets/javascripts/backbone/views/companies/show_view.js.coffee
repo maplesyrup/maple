@@ -55,6 +55,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
       success: (company) =>
         @model.set(company)
         $("#uploadLogoModal").modal('hide')
+        @render()
       error: (xhr) =>
         Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText }))
 
