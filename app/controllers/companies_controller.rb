@@ -38,7 +38,7 @@ class CompaniesController < ApplicationController
       end
     else
 
-      if params[:company][:assets_attributes][0][:selected]
+      if params[:company][:assets_attributes] && params[:company][:assets_attributes][0][:selected]
         current_company.assets.each do |asset|
           asset.selected = false
           asset.save
