@@ -267,6 +267,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .columns, .footer {
   width: 100%;
+  margin-left: 0;
 }
 
 .footer {
@@ -274,15 +275,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .glimpse-column {
-  width: 275px;
+  width: 250px;
   margin-left: 0;
   margin-right: 20px
 }
 
 .glimpse {
   background-color: #EEEEEE;
-  border: 1px solid #CCCCCC;
-  width: 275px;
+  width: 250px;
   margin: 0px 20px 20px 0px;
 }
 
@@ -290,7 +290,22 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
   text-align: center;
   margin: 0 auto;
-  padding: 10px 0;
+}
+
+.rounded-top {
+  -moz-border-radius-topright: 3px;
+  -moz-border-radius-topleft: 3px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+.subtle-shadow {
+  -webkit-box-shadow: 2px 3px 5px 1px #999;
+     -moz-box-shadow: 2px 3px 5px 1px #999;
+          box-shadow: 2px 3px 5px 1px #999;
+}
+.outer-feature {
+  visibility: hidden;
 }
 
 .inner-glimpse .outer-feature {
@@ -327,7 +342,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .glimpse-info {
   background-color: #FFFFFF;
-  border-top: 1px solid #CCCCCC;
+  border: 1px solid #CCCCCC;
   padding: 5px;
 
   .delete-post {
