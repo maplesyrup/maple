@@ -280,16 +280,36 @@ h1, h2, h3, h4, h5, h6 {
   margin-right: 20px
 }
 
+.header-feature {
+  visibility: hidden;
+  position: absolute; 
+  top: 0;
+  left: 0; 
+  width: 100%;
+}
+
+.header-inner {
+  margin: 5px; 
+}
+
 .glimpse {
   background-color: #EEEEEE;
   width: 250px;
   margin: 0px 20px 20px 0px;
 }
 
+.glimpse a {
+  text-decoration: none;
+}
+
 .inner-glimpse {
   position: relative;
   text-align: center;
   margin: 0 auto;
+}
+
+.hr-thin {
+  margin: 10px 0;
 }
 
 .rounded-top {
@@ -339,21 +359,17 @@ h1, h2, h3, h4, h5, h6 {
 .votes .num-votes {
   font-weight: bold;
 }
-
+.wrap-text{
+  word-wrap: break-word;
+}
 .glimpse-info {
   background-color: #FFFFFF;
   border: 1px solid #CCCCCC;
-  padding: 5px;
+  padding: 10px;
+}
 
-  .delete-post {
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
-    border-bottom-right-radius: 0;
-    border-left: none;
-    border-bottom: none;
-    visibility: hidden;
-    margin: -5px;
-  }
+.delete-post {
+  visibility: hidden;
 }
 
 .glimpse-info img {
@@ -361,8 +377,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .glimpse-meta {
-  margin-left: 60px;
+  margin-left: 20px;
   font-size: 12px;
+  float: left;
 }
 
 .glimpse-meta .content {

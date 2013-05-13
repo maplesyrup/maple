@@ -23,11 +23,13 @@ class Maple.Views.PostView extends Backbone.View
 
   onMouseover: (e) =>
     @$el.find('.delete-post').css 'visibility', 'visible'
-    @$el.find('.outer-feature').css 'visibility', 'visible' 
+    @$el.find('.outer-feature').css 'visibility', 'visible'
+    @$el.find('.header-feature').css 'visibility', 'visible'
 
   onMouseout: (e) =>
     @$el.find('.delete-post').css 'visibility', 'hidden'
     @$el.find('.outer-feature').css 'visibility', 'hidden'
+    @$el.find('.header-feature').css 'visibility', 'hidden'
 
   vote: ->
     num_votes = @.model.get('total_votes')
