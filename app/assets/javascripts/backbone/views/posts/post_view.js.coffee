@@ -11,7 +11,6 @@ class Maple.Views.PostView extends Backbone.View
 
   events:
     "click .vote": "vote"
-    "click .maple-post": "showPost"
     "click .delete-post": "deletePost"
     "mouseover" : "onMouseover"
     "mouseout" : "onMouseout"
@@ -41,14 +40,6 @@ class Maple.Views.PostView extends Backbone.View
         Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
 
     @.model.set({'total_votes': num_votes + 1, 'voted_on': Maple.Post.VOTED.YES})
-
-  showPost: (event)->
-    event.stopPropagation()
-    event.preventDefault()
-
-    $("#mainModal").modal('show').html new Maple.Views.PostShowView(
-      model: @model
-      ).el
 
   deletePost: (event) =>
     event.stopPropagation()
