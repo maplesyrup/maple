@@ -8,7 +8,11 @@
 					<button class="btn btn-success pull-right">
 						Following
 					</button>
-				<% } else { %>
+				<% } else if (!user_signed_in){ %>
+          <a href="/users/sign_in" class="btn pull-right">
+            <i class="icon-plus"></i> Follow 
+          </a>
+          <% } else { %>
 					<button class="btn pull-right">
 						<i class="icon-plus"></i> Follow
 					</button>
@@ -19,8 +23,8 @@
 	</div>
 </div>
 
-<div class="container-fluid" id="company-splash-image">
-	<img id="company-header-image" class="center-container" contenteditable="<%= editable %>" src="<%= splash_image %>">
+<div class="container-fluid" id="company-splash-image" contenteditable="<%= editable %>" >
+	<img id="company-header-image" class="center-container" src="<%= splash_image %>">
 	</div>
 	<div id="company-select-new-image"></div>
 </div>
@@ -29,8 +33,13 @@
 		<div class="span8 company-blurb">
 			<div class="hero-unit">
 				<div contenteditable="<%= editable %>" id="logo-placeholder">
-          <% console.log(logos); if (logos && logos.length > 0) { %>
-						<img src="<%= logos[logos.length - 1].medium %>" />
+          <% if (logos && logos.length > 0) { %>
+						<img src="<% for (var i = 0; i < logos.length; i++) { %>
+							<% if (logos[i].selected) { %>
+								<%= logos[i].medium %>
+							<% } %>
+						<% } %>
+						" class="logo-thumb center">
 					<% } else { %>
 						<i class="icon-camera-retro icon-large"></i>
 					<% } %>
@@ -75,19 +84,43 @@
 	<div id="uploadLogoModal" class="modal hide">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	    <h3>Upload Company Logo</h3>
+	    <h3>Select Company Logo</h3>
 		</div>
 
 		<div class="modal-body">
-			<form accept-charset="UTF-8" action="/companies" enctype="multipart/form-data" id="add-company-logo" method="post">
-			  <input type="file" name="company[assets_attributes][][image]" id="company-logo-field" />
-			 </form>
+			<div id="multiple-logo-panel">
+			<% for (var i = 0; i < logos.length; i++) { %>
+				
+				<img class="multiple-logo-image <% if (logos[i].selected) { %>selected<% } %>" data-id="<%=logos[i].id %>" src="<%= logos[i].thumb %>" />
+
+			<% } %>
+			</div>
+
 		</div>
 
 		<div class="modal-footer">
+			<form accept-charset="UTF-8" action="/companies" enctype="multipart/form-data" id="add-company-logo" method="post">
+			  <input id="upload-logo-field" type="file" name="company[assets_attributes][][image]" id="company-logo-field" />
+			  <input type="hidden" name="company[assets_attributes][][selected]" value="true" />
+			</form>
 			<a href="#" id="company-submit-logo" class="btn btn-primary">Upload</a>
 		</div>
 
+	</div>
+
+	<div id="uploadSplashModal" class="modal hide">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	    <h3>Upload Splash Image </h3>
+		</div>
+		<div class="modal-body">
+			<form accept-charset="UTF-8" action="/companies" enctype="multipart/form-data" id="add-company-splash" method="post">
+			  <input type="file" name="company[splash_image]" id="company-splash-image-field" />
+			 </form>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn btn-primary" id="company-submit-splash-image">Upload</a>
+		</div>
 	</div>
 <% } %>
 

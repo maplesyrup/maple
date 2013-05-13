@@ -1,6 +1,19 @@
-/*
-Shared Styles
-*/
+/* Variables */
+$secondary-background: #EEEEEE;
+$border-color: #CCCCCC;
+$spacing: 10px;
+$more-spacing: 20px;
+$small-font-size: 12px;
+$medium-font-size: 14px;
+$large-font-size: 18px;
+
+/* Shared Mixins */
+@mixin ul-reset {
+  margin: 0;
+  list-style: none;
+}
+
+/* Main */
 body {
   font-family: 'Open Sans', 'Arial', sans-serif;
 }
@@ -9,7 +22,9 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Lato', "Helvetica", sans-serif;
   margin: 0;
 }
-
+.dark-background {
+  background-color: $border-color;
+}
 
 .company-toolbar
 {
@@ -43,10 +58,15 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 5px;
   min-width: 250px;
 }
+.logo-thumb {
+  max-width: 200px;
+  max-height: 200px;
+}
 
 #logo-placeholder {
   width: 200px;
-  height: 200px;
+  min-height: 200px;
+  max-height: 250px;
   margin-bottom: 20px;
   float: left;
   border: 1px solid #CCCCCC;
@@ -61,6 +81,10 @@ h1, h2, h3, h4, h5, h6 {
 .company-content {
   margin-left: 220px;
   margin-bottom: 60px;
+}
+
+#add-company-logo {
+  float: left
 }
 
 .modal h1 {
@@ -100,12 +124,20 @@ h1, h2, h3, h4, h5, h6 {
   display: block;
 }
 
+.big-margin-top
+{
+  margin-top: 10%;
+}
+
 .select-new-image-container
 {
   height: 150px;
   border-bottom: 4px dashed #777;
 }
-
+.image-medium {
+  max-width: 400x;
+  max-height: 400px;
+}
 .select-new-image-option
 {
   margin-top: 20px;
@@ -223,17 +255,12 @@ h1, h2, h3, h4, h5, h6 {
 .center {
   text-align: center;
 }
-
-/*
-Header View
-*/
+/* Header View */
 .navbar-text a {
   margin-right: 15px;
 }
 
-/*
-Home View
-*/
+/* Home View */
 #posts {
   float: none;
   margin: 0 auto;
@@ -342,9 +369,7 @@ Home View
   clear: both;
 }
 
-/*
-Login View
-*/
+/* Login View */
 .account-form {
   text-align: center;
   margin: 30px;
@@ -358,9 +383,7 @@ Login View
   padding: 10px;
 }
 
-/*
-Dashboard View
-*/
+/* Dashboard View */
 #filter-date {
   font-size: 16px;
   width: 350px;
@@ -514,4 +537,112 @@ circle {
   fill: white;
   stroke: steelblue;
   stroke-width: 3px;
+}
+
+#multiple-logo-panel img {
+  border: 3px solid #CCCCCC;
+  margin: 10px;
+}
+
+#multiple-logo-panel img:hover {
+  cursor: pointer;
+  border: 3px solid #EEC900;
+}
+
+#multiple-logo-panel .selected {
+  border: 3px solid #EEC900;
+}
+
+.alert-container {
+  position: fixed;
+  top: 50px;
+  z-index: 999;
+}
+
+/* Discover Companies */
+#discover-companies {
+  $width: 900px;
+  $height: 200px;
+  $num-columns: 4;
+
+  background-color: $secondary-background;
+  display: none;
+
+  #discover-companies-inner {
+    width: $width;
+    height: $height;
+    padding: $more-spacing $spacing;
+    margin: 0 auto;
+  }
+
+  .search {
+    column-span: all;
+    -moz-column-span: all;
+    -webkit-column-span: all;
+    margin-bottom: $spacing;
+  }
+
+  #discover-companies-search {
+    width: $width;
+  }
+
+  .discover-companies-columns {
+    columns: $num-columns;
+    -moz-column-count: $num-columns;
+    -webkit-column-count: $num-columns;
+
+    column-gap: $spacing;
+    -moz-column-gap: $spacing;
+    -webkit-column-gap: $spacing;
+  }
+
+  ul {
+    @include ul-reset;
+  }
+
+  li a {
+    font-size: $small-font-size;
+    font-weight: bold;
+  }
+
+}
+
+.guide {
+  margin-top: 30px;
+
+  .guide-user {
+    border-right: 1px solid $border-color;
+    padding-right: 30px;
+  }
+
+  .guide-company {
+    padding-left: 20px;
+  }
+
+  .header {
+    text-align: center;
+  }
+
+  .step-container {
+    margin: 20px 0;
+
+    .step-header {
+      margin: 10px 0;
+
+      .step-number, .step-summary {
+        font-size: 22px;
+        font-weight: bold;
+      }
+
+      .step-summary {
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+.faq-container {
+  .faq-footer {
+    margin-top: 30px;
+  }
 }

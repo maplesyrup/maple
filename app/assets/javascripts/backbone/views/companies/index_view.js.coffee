@@ -6,28 +6,44 @@ class Maple.Views.CompaniesIndexView extends Backbone.View
   # and append it to the end of the
   # .companies DOM element.
 
-  el: ".companies"
+  el: "#discover-companies"
+
+  listEl: "#discover-companies-list"
+
+  searchEl: "#discover-companies-search"
 
   template: JST["backbone/templates/companies/index"]
 
+  events:
+    "keyup #discover-companies-search" : "filter"
+
   initialize: ->
+    @filteredCollection = @collection
+    $("#find-companies").live "click", =>
+      @$el.toggle("1000")
     @render()
     @addAll()
 
   addAll: ->
-    @collection.forEach(@addOne, @)
+    $(@listEl).html("")
+    @filteredCollection.forEach(@addOne, @)
 
   addOne: (model, index) ->
     @view = new Maple.Views.CompaniesPillView({ model: model })
-
-    @$el.append @view.render().el
-
+     
+    $(@listEl).append @view.render().el
 
   render: ->
     @$el.html @template()
     @
 
+  filter: (e) ->
+    query = $(@searchEl).val()
+    @filteredCollection = @collection.search(query)
+    @addAll()
+
   close: ->
-    @$el.html("")  
     @unbind()
+    $("#find-companies").die("click")
+    @$el.html("")  
         

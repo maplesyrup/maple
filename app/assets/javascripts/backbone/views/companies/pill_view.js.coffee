@@ -1,14 +1,13 @@
 class Maple.Views.CompaniesPillView extends Backbone.View
-	
-	tagName: 'li'
-	
-	className: 'company'
+ 
+  tagName: 'li'
 
-	template: JST['backbone/templates/companies/pill']
+  template: JST['backbone/templates/companies/pill']
 
-	initialize: ->
-		@render()
+  initialize: ->
+    @render()
 
-	render: ->
-	    @$el.html(@template(@model.toJSON()))
-	    @
+  render: ->
+    @$el.html(@template(@model.toJSON()))
+    @
+

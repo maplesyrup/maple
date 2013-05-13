@@ -11,15 +11,20 @@ class Maple.Views.CompanyShowView extends Backbone.View
   events:
     "focus [contenteditable]" : "editContent"
     "blur [contenteditable]" : "updateContent"
+    "keyup [contenteditable]" : "stripContent"
     "click .follow" : "follow"
     "click .collection-filter" : "refilterCollection"
     "click #company-submit-logo" : "submitLogo"
+    "click #company-submit-splash-image" : "submitSplash"
+    "click .multiple-logo-image" : "selectLogo"
 
   initialize: ->
     @model.on "change", =>
       if @model.hasChanged("logos")
         replaceImageTemplate = JST["backbone/templates/helpers/replace_image"]
-        @$el.find("#logo-placeholder").html(replaceImageTemplate({url: @model.get("logos")[@model.get("logos").length - 1].medium}))
+        updatedLogo = @model.get("logos").filter (logo) ->
+          return logo.selected
+        @$el.find("#logo-placeholder").html(replaceImageTemplate({url: updatedLogo[0].medium}))
 
     @render()
 
@@ -32,19 +37,50 @@ class Maple.Views.CompanyShowView extends Backbone.View
     ).el
     @
 
+  submitSplash: (event) ->
+    event.preventDefault()
+    event.stopPropagation()
+    
+    formData = new FormData($("#add-company-splash")[0])
+
+    @model.savePaperclip(formData,
+      type: 'PUT'
+      success: (company) =>
+        @model.set(company)
+        $("#company-header-image").attr("src", @model.get("splash_image"))
+        $("#uploadSplashModal").modal('hide')
+      error: (xhr) =>
+        Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText }))
+        
+  selectLogo: (event) ->
+    $(".selected").removeClass("selected")
+    @selectedLogo = $(event.currentTarget)
+    @selectedLogo.addClass("selected")
+
+    @model.save(
+      {logo_id: @selectedLogo.data("id")}, 
+      {success: (company) =>
+        $("#uploadLogoModal").modal('hide')
+      error: (xhr) =>
+        Maple.Utils.alert({ err: 'Unable to select logo'})})
+
   submitLogo: (event) ->
     event.preventDefault()
     event.stopPropagation()
 
     formData = new FormData($('#add-company-logo')[0])
 
-    @model.savePaperclip(formData,
-      type: 'PUT'
-      success: (company) =>
-        @model.set(company)
-        $("#uploadLogoModal").modal('hide')
-      error: (e) =>
-        console.log(e))
+    if ($("#upload-logo-field").val())
+      @model.savePaperclip(formData,
+        type: 'PUT'
+        success: (company) =>
+          @model.set(company)
+          @render()
+        error: (xhr) =>
+          Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText }))
+    else
+      Maple.Utils.alert({ err: 'You forgot to select a file.' })
+    $("#uploadLogoModal").modal('hide')  
 
   saveContent: (id, content) ->
     if id ==  "company-blurb-title"
@@ -71,14 +107,18 @@ class Maple.Views.CompanyShowView extends Backbone.View
     targetID = target.attr("id")
     @saveContent(targetID, target.html())
 
+  stripContent: (event) ->
+    target = $(event.currentTarget)
+    target.html(target.text())
+
   editContent: (event) ->
     event.stopPropagation()
     event.preventDefault()
 
     target = $(event.currentTarget)
     targetID = target.attr("id")
-    if targetID == "company-header-image"
-      @$el.find("#company-select-new-image").html( new Maple.Views.UploadImageView({ model: @model, inputName: "company[splash_image]", targetImgContainer: "#company-header-image", resourceName: "splash_image"}).el)
+    if targetID == "company-splash-image"
+      $("#uploadSplashModal").modal('show')  
     else if targetID == "company-submit-logo"
       @submitLogo(event)
     else
@@ -107,7 +147,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
         success:(count) ->
           console.log "number of users"
         error: (response) ->
-          console.log "couldn't update"
+          Maple.Utils.alert({ err: response })
         )
 
   populateCollection: (collectionType) ->

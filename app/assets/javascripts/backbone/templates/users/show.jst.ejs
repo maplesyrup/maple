@@ -6,7 +6,7 @@
 					<%if (name) { %>
 				<h2> <%= name %> </h2>
 					<%} else { %>
-					<h2> Calvin Fernandez </h2>
+					<h2>Name Unavailable</h2>
 					<%}%>
 				<hr>
 				<p id="personal-info" contenteditable="<%= editable %>">
@@ -19,7 +19,11 @@
 					<button class="btn btn-success pull-right">
 						Following
 					</button>
-				<% } else { %>
+				<% } else if (!user_signed_in) { %>
+          <a href="/users/sign_in" class="btn pull-right">
+            <i class="icon-plus"></i> Follow
+          </a>
+        <% } else { %>
 					<button class="btn pull-right">
 						<i class="icon-plus"></i> Follow
 					</button>

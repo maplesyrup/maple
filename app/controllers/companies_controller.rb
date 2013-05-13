@@ -1,4 +1,6 @@
 class CompaniesController < ApplicationController
+  before_filter :authenticate_company!, :except => [:index, :show, :dashboard]
+
   def index
     # get companies
     #
@@ -29,14 +31,24 @@ class CompaniesController < ApplicationController
   end
 
   def update
-    @company = Company.find(params[:id])
-    if current_company && current_company.id == @company.id
-      @company.update_attributes(sanitize(params[:company]))
-      render :json => @company.public_model({:user => current_user, :company => current_company})
-      #render :json => {}, :status => 200
+    if params[:company][:logo_id]
+      current_company.assets.each do |asset|
+        asset.selected = asset.id == params[:company][:logo_id].to_i
+        asset.save
+      end
     else
-      render :json => {}, :status => 403
+
+      if params[:company][:assets_attributes] && params[:company][:assets_attributes][0][:selected]
+        current_company.assets.each do |asset|
+          asset.selected = false
+          asset.save
+        end
+      end
+
+      current_company.update_attributes(sanitize(params[:company]))
     end
+
+    render :json => current_company.public_model({:user => current_user, :company => current_company})
   end
 
   def destroy

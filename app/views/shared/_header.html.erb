@@ -1,16 +1,17 @@
 <div id="navigation" class="navbar navbar-inverse navbar-fixed-top">
   <div class="navbar-inner">
     <div class="container-fluid">
-      <a class="brand" href="/">MapleSyrup</a>&nbsp;&nbsp;
+      <a class="brand" href="/">Additt</a>&nbsp;&nbsp;
       <% if current_company %>
         <a class="brand companyName" href="/#companies/<%= current_company.id %>"> for <%= current_company.name %></a>
       <% end %>
+      <a href="#" class="brand navbar-link" id="find-companies"><i class="icon-double-angle-down"></i> Discover Companies</a>
       <p class="navbar-text pull-right">
         <% if current_user %>
-          <% if current_user.provider == "facebook" %>
-            <%= image_tag "http://graph.facebook.com/#{current_user.uid}/picture", :size => current_user.avatar.styles[:thumb].geometry  %>
+          <% if (current_user.provider == "facebook" && !current_user.avatar) %>
+            <%= image_tag "http://graph.facebook.com/#{current_user.uid}/picture", :size => current_user.avatar.styles[:header_thumb].geometry  %>
           <% else %>
-            <%= image_tag current_user.avatar.url(:thumb), :size => current_user.avatar.styles[:thumb].geometry  %>
+            <%= image_tag current_user.avatar.url(:thumb), :size => current_user.avatar.styles[:header_thumb].geometry  %>
           <% end %>
           <a href="/#users/<%= current_user.id %>" class="navbar-link"><%= current_user.name %></a>
           <a href="#newPost" class="new-post navbar-link"><i class="icon-edit"></i> Submit Ad </a>
@@ -23,6 +24,8 @@
           <%= link_to "Login", new_user_session_path, :class => "navbar-link" %>
           <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook), :class => "navbar-link" %>
         <% end %>
+        <a href="/#about" class="navbar-link">About</a>
+        <a href="/#faq" class="navbar-link">FAQ</a>
       </p>
     </div>
   </div>

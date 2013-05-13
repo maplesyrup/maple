@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Maple Syrup</title>
+  <title>Additt</title>
   <%= stylesheet_link_tag "bootstrap.min", "font-awesome.min" %>
 
-  <!--
-  <link rel="stylesheet" type="text/css" href="/assets/bootstrap.min.css" />
--->
+  <%= favicon_link_tag '/assets/additt_icon.png', :rel => 'icon', :type => 'image/png' %>
   <link rel="stylesheet" type="text/css" href="/assets/custom.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -21,6 +19,7 @@
 
 <%= yield %>
 
-  
+<%= render_google_analytics %>
+
 </body>
 </html>

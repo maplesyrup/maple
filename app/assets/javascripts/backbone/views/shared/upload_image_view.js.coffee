@@ -1,15 +1,15 @@
 class Maple.Views.UploadImageView extends Backbone.View
-	#	Class for displaying image upload UI 
+	#	Class for displaying image upload UI
 	#
-	# Functionality: 
+	# Functionality:
 	# The view will save
-	# the changed resource using the 
-	# model's url. 
+	# the changed resource using the
+	# model's url.
 
-	# for some added flexibility  
-	
-	# the name normally seen on the file ie "company[splash_image]" 
-	inputName: '' 					
+	# for some added flexibility
+
+	# the name normally seen on the file ie "company[splash_image]"
+	inputName: ''
 
 	#	where the image will be displayed ie "#image_container"
 	targetImgContainer: ''
@@ -22,10 +22,10 @@ class Maple.Views.UploadImageView extends Backbone.View
 	className: 'maple-image-upload-container'
 
 	template: JST['backbone/templates/shared/upload_image']
-	
+
 	events:
 		# File reading events
-		"drop #photo-drop-bin" : "handleDrop"	 
+		"drop #photo-drop-bin" : "handleDrop"
 		"change #splash-image-field" : "handleClick"
 		"click 	.company-image-folder": "selectImageFromFile"
 		"click #save-image-button" : "saveImage"
@@ -42,7 +42,7 @@ class Maple.Views.UploadImageView extends Backbone.View
 		@inputName = @options.inputName
 		@targetImgContainer = @options.targetImgContainer
 		@resourceName = @options.resourceName
-			
+
 		@render()
 
 	render: ->
@@ -56,14 +56,14 @@ class Maple.Views.UploadImageView extends Backbone.View
 		e.dataTransfer.dropEffect = 'copy'
 
 		@newImgFile = e.dataTransfer.files[0]
-		@previewFile(@newImgFile)				
+		@previewFile(@newImgFile)
 
 	handleClick: (data) ->
 		@newImgFile = data.target.files[0]
 		if @newImgFile
 			@previewFile(@newImgFile)
 
-	previewFile: (file, options) ->		
+	previewFile: (file, options) ->
 
 		reader = new FileReader()
 		reader.onloadstart = =>
@@ -79,32 +79,31 @@ class Maple.Views.UploadImageView extends Backbone.View
 
 		if @newImgFile
 			formData = new FormData()
-			formData.append @inputName, @newImgFile 
+			formData.append @inputName, @newImgFile
 
 			@model.savePaperclip(formData,
-			 type: 'PUT',
-				success: (data) =>
-					@model.set(@resourceName, data[@resourceName])	
-					@close(data)
-
-				error: (data) =>
-					console.log "an error occured while saving"
-					@exitView())	
+        type: 'PUT'
+        success: (data) =>
+          @model.set(@resourceName, data[@resourceName])
+          @close(data)
+        error: (xhr) =>
+          Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
+          @exitView())
 
 	selectImageFromFile: (event) ->
 		$("#splash-image-field").click()
-	
+
 	toggleFolder: (event) ->
 		$("#opened-folder").toggle()
 		$("#closed-folder").toggle()
-	
+
 	handleDragover: (event) ->
-		event.preventDefault()	# required for drag and drop. Chrome bug	
+		event.preventDefault()	# required for drag and drop. Chrome bug
 
 	exitView: ->
-		$(@targetImgContainer).attr("src", @model.get(@resourceName))	
+		$(@targetImgContainer).attr("src", @model.get(@resourceName))
 		@close()
 
-	close: (event) ->	
-		@remove()		
+	close: (event) ->
+		@remove()
 		@unbind()

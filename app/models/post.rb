@@ -1,3 +1,4 @@
+require 'tire/queries/custom_filters_score'
 include ActionView::Helpers::DateHelper
 
 class Post < ActiveRecord::Base
@@ -12,7 +13,7 @@ class Post < ActiveRecord::Base
 
   attr_accessible :content, :title, :image, :company_id
 
-  has_attached_file :image, :styles => { :medium => "250x250>", :thumb => "100x100>" }, :default_url => "posts/:style/missing.png"
+  has_attached_file :image, :styles => { :large => "400x400>", :medium => "250x250>", :thumb => "100x100>"}, :default_url => "posts/:style/missing.png"
 
   belongs_to :user
   belongs_to :company
@@ -22,7 +23,7 @@ class Post < ActiveRecord::Base
 
   has_many :comments, :as => :commentable
   validates_associated :comments
-  
+
   has_and_belongs_to_many :rewards
 
   mapping do
@@ -41,6 +42,15 @@ class Post < ActiveRecord::Base
     UNAVAILABLE = 'unavailable'
   end
 
+  GRAVITY = 1.1
+
+  # This is our ranking algorithm. The more votes the post has, the score will go up linearly.
+  # The longer the post has been up, the score will go down exponentially. It's based off this
+  # site: http://amix.dk/blog/post/19574
+  ALGORITHM = "_score *
+    ((doc['total_votes'].value + 1) /
+    pow(((time() - doc['created_at'].date.getMillis()) / 100000) + 1, #{GRAVITY}))"
+
   def to_indexed_json
     self.public_model
   end
@@ -53,7 +63,7 @@ class Post < ActiveRecord::Base
     # full_image_url, image_url, total_votes,
     # and voted_on
 
-    post_json = self.as_json(:include => [:user, :company])
+    post_json = self.as_json(:include => [:company, :user])
 
     post_json[:full_image_url] = self.image.url
     post_json[:image_url] = self.image.url(:medium)
@@ -75,7 +85,11 @@ class Post < ActiveRecord::Base
 
     Jbuilder.encode do |json|
       json.array! posts do |json, post|
-        json.(post, :id, :company, :company_id, :content, :created_at, :title, :user)
+        json.(post, :id, :company, :company_id, :content, :created_at, :title)
+        json.user do
+          json.(post.user, :id, :created_at, :email, :uid, :provider, :name)
+          json.avatar_thumb post.user.avatar.url(:thumb)
+        end
         json.full_image_url post.image.url
         json.image_url post.image.url(:medium)
         json.total_votes post.votes_for
@@ -103,7 +117,9 @@ class Post < ActiveRecord::Base
 
     s = self.search(load: true, page: options[:page], per_page: 30) do
       query do
-        string "#{options[:crumb]}:#{options[:query]}", default_operator: 'AND'
+        custom_score :script => ALGORITHM do
+          string "#{options[:crumb]}:#{options[:query]}", default_operator: 'AND'
+        end
       end
 
       filter :term, { :company_id => options[:company_id] } if options[:company_id].present?
@@ -123,18 +139,18 @@ class Post < ActiveRecord::Base
     VOTED::UNAVAILABLE
   end
 
-  def update_rewards 
-    if self.campaign   
+  def update_rewards
+    if self.campaign
       self.campaign.rewards.each do |reward|
         unless self.rewards.include?(reward)
           if reward.qualifies_for?(self)
             # Post qualifies for an award that it doesn't already have.
             # Add it to the collection of awards owned by the post
             # Add it to the collection of awards owned by the user
-           
-            self.rewards << reward        
-            
-            self.user.rewards << reward 
+
+            self.rewards << reward
+
+            self.user.rewards << reward
             reward.one_less
           end
         end

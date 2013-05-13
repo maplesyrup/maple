@@ -31,6 +31,9 @@ class Maple.Views.CompaniesDashboardView extends Backbone.View
       success: =>
         @renderGraph()
         @renderStats()
+      error: (model, xhr, options) =>
+        Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
+
 
     $.ajax({
       url: @model.url() + '/dashboard'
@@ -38,8 +41,8 @@ class Maple.Views.CompaniesDashboardView extends Backbone.View
         @dashboardData = data
         @renderSummary()
         @renderContributors()
-      error: (data) ->
-        console.log("Error retrieving dashboard info")
+      error: (xhr) ->
+        Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
     })
 
     @
