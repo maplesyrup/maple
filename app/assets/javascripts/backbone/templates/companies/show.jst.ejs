@@ -84,7 +84,7 @@
 	<div id="uploadLogoModal" class="modal hide">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	    <h3>Upload Company Logo</h3>
+	    <h3>Select Company Logo</h3>
 		</div>
 
 		<div class="modal-body">
@@ -95,13 +95,14 @@
 
 			<% } %>
 			</div>
-			<form accept-charset="UTF-8" action="/companies" enctype="multipart/form-data" id="add-company-logo" method="post">
-			  <input type="file" name="company[assets_attributes][][image]" id="company-logo-field" />
-			  <input type="hidden" name="company[assets_attributes][][selected]" value="true" />
-			</form>
+
 		</div>
 
 		<div class="modal-footer">
+			<form accept-charset="UTF-8" action="/companies" enctype="multipart/form-data" id="add-company-logo" method="post">
+			  <input id="upload-logo-field" type="file" name="company[assets_attributes][][image]" id="company-logo-field" />
+			  <input type="hidden" name="company[assets_attributes][][selected]" value="true" />
+			</form>
 			<a href="#" id="company-submit-logo" class="btn btn-primary">Upload</a>
 		</div>
 

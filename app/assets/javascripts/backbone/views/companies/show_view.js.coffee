@@ -19,7 +19,6 @@ class Maple.Views.CompanyShowView extends Backbone.View
   initialize: ->
     @model.on "change", =>
       if @model.hasChanged("logos")
-        console.log(@model)
         replaceImageTemplate = JST["backbone/templates/helpers/replace_image"]
         updatedLogo = @model.get("logos").filter (logo) ->
           return logo.selected
@@ -50,14 +49,17 @@ class Maple.Views.CompanyShowView extends Backbone.View
 
     formData = new FormData($('#add-company-logo')[0])
 
-    @model.savePaperclip(formData,
-      type: 'PUT'
-      success: (company) =>
-        @model.set(company)
-        $("#uploadLogoModal").modal('hide')
-        @render()
-      error: (xhr) =>
-        Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText }))
+    if ($("#upload-logo-field").val())
+      @model.savePaperclip(formData,
+        type: 'PUT'
+        success: (company) =>
+          @model.set(company)
+          @render()
+        error: (xhr) =>
+          Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText }))
+    else
+      Maple.Utils.alert({ err: 'You forgot to select a file.' })
+    $("#uploadLogoModal").modal('hide')  
 
   saveContent: (id, content) ->
     if id ==  "company-blurb-title"

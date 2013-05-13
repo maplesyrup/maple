@@ -31,7 +31,6 @@ class CompaniesController < ApplicationController
   end
 
   def update
-    puts params[:company]
     if params[:company][:logo_id]
       current_company.assets.each do |asset|
         asset.selected = asset.id == params[:company][:logo_id].to_i
