@@ -53,7 +53,12 @@ class Maple.Views.UserShowView extends Backbone.View
     targetID = target.attr("id")
     if targetID == "avatar"
       @$el.find("#user-select-new-avatar").html(
-        new Maple.Views.UploadImageView({ model: @model, inputName: "user[avatar]", targetImgContainer: "#avatar", resourceName: "avatar"}).el)
+        new Maple.Views.UploadImageView({
+          model: @model,
+          inputName: "user[avatar]",
+          targetImgContainer: "#avatar",
+          resourceName: "avatar"
+        }).el)
     else
       return false
 
