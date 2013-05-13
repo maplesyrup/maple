@@ -8,10 +8,10 @@
       <a href="#" class="brand navbar-link" id="find-companies"><i class="icon-double-angle-down"></i> Discover Companies</a>
       <p class="navbar-text pull-right">
         <% if current_user %>
-          <% if current_user.provider == "facebook" %>
-            <%= image_tag "http://graph.facebook.com/#{current_user.uid}/picture", :size => current_user.avatar.styles[:thumb].geometry  %>
+          <% if (current_user.provider == "facebook" && !current_user.avatar) %>
+            <%= image_tag "http://graph.facebook.com/#{current_user.uid}/picture", :size => current_user.avatar.styles[:header_thumb].geometry  %>
           <% else %>
-            <%= image_tag current_user.avatar.url(:thumb), :size => current_user.avatar.styles[:thumb].geometry  %>
+            <%= image_tag current_user.avatar.url(:thumb), :size => current_user.avatar.styles[:header_thumb].geometry  %>
           <% end %>
           <a href="/#users/<%= current_user.id %>" class="navbar-link"><%= current_user.name %></a>
           <a href="#newPost" class="new-post navbar-link"><i class="icon-edit"></i> Submit Ad </a>

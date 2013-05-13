@@ -63,7 +63,7 @@ class Post < ActiveRecord::Base
     # full_image_url, image_url, total_votes,
     # and voted_on
 
-    post_json = self.as_json(:include => [:user, :company])
+    post_json = self.as_json(:include => [:company, :user])
 
     post_json[:full_image_url] = self.image.url
     post_json[:image_url] = self.image.url(:medium)
@@ -85,7 +85,11 @@ class Post < ActiveRecord::Base
 
     Jbuilder.encode do |json|
       json.array! posts do |json, post|
-        json.(post, :id, :company, :company_id, :content, :created_at, :title, :user)
+        json.(post, :id, :company, :company_id, :content, :created_at, :title)
+        json.user do
+          json.(post.user, :id, :created_at, :email, :uid, :provider, :name)
+          json.avatar_thumb post.user.avatar.url(:thumb)
+        end
         json.full_image_url post.image.url
         json.image_url post.image.url(:medium)
         json.total_votes post.votes_for

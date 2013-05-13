@@ -1,0 +1,40 @@
+<h1>Contract of Deliverables Tracker</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Last Week</th>
+      <th>This Week</th>
+      <th>% Increase</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>Ads</td>
+      <td><%= last_week.ads %></td>
+      <td><%= this_week.ads %></td>
+      <td><%= increase.ads %>%</td>
+    </tr>
+    <tr>
+      <td>Users</td>
+      <td><%= last_week.users %></td>
+      <td><%= this_week.users %></td>
+      <td><%= increase.users %>%</td>
+    </tr>
+    <tr>
+      <td>Companies</td>
+      <td><%= last_week.companies %></td>
+      <td><%= this_week.companies %></td>
+      <td><%= increase.companies %>%</td>
+    </tr>
+    <tr>
+      <td>Campaigns</td>
+      <td><%= last_week.campaigns %></td>
+      <td><%= this_week.campaigns %></td>
+      <td><%= increase.campaigns %>%</td>
+    </tr>
+  </tbody>
+
+</table>

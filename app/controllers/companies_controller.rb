@@ -37,6 +37,14 @@ class CompaniesController < ApplicationController
         asset.save
       end
     else
+
+      if params[:company][:assets_attributes] && params[:company][:assets_attributes][0][:selected]
+        current_company.assets.each do |asset|
+          asset.selected = false
+          asset.save
+        end
+      end
+
       current_company.update_attributes(sanitize(params[:company]))
     end
 
