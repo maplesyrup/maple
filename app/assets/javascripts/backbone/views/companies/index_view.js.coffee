@@ -30,7 +30,7 @@ class Maple.Views.CompaniesIndexView extends Backbone.View
 
   addOne: (model, index) ->
     @view = new Maple.Views.CompaniesPillView({ model: model })
-
+     
     $(@listEl).append @view.render().el
 
   render: ->
@@ -43,6 +43,7 @@ class Maple.Views.CompaniesIndexView extends Backbone.View
     @addAll()
 
   close: ->
-    @$el.html("")  
     @unbind()
+    $("#find-companies").die("click")
+    @$el.html("")  
         
