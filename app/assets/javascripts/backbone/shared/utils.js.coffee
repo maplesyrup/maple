@@ -1,7 +1,3 @@
-class Maple.Utils 
-  @fromRubyDateTime = (integer_time) ->
-    new Date(integer_time * 1000)
-    
 Backbone.Model::patch = (attribute_whitelist, options)->
 	# Patch
 	#
@@ -96,3 +92,6 @@ Maple.Utils =
   alert: (err) ->
     el = (new Maple.Views.AlertView(err)).render().el
     $(el).css 'left', ($(document).width() / 2) - ($(el).width() / 2)
+
+  fromRubyDateTime: (integer_time) ->
+    new Date(integer_time * 1000)
