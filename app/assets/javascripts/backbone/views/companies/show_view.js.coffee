@@ -104,7 +104,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
 
     target = $(event.currentTarget)
     targetID = target.attr("id")
-    if targetID == "company-header-image"
+    if targetID == "company-splash-image"
       $("#uploadSplashModal").modal('show')  
     else if targetID == "company-submit-logo"
       @submitLogo(event)
