@@ -19,7 +19,7 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
       Maple.session.currentUser.set(options.current_user)
 
     @users = new Maple.Collections.UsersCollection()
-
+    
     # no users bootstrapping
     # We'll lazy load instead
 
