@@ -13,7 +13,7 @@ class Post < ActiveRecord::Base
 
   attr_accessible :content, :title, :image, :company_id
 
-  has_attached_file :image, :styles => { :medium => "250x250>", :thumb => "100x100>" }, :default_url => "posts/:style/missing.png"
+  has_attached_file :image, :styles => { :large => "400x400>", :medium => "250x250>", :thumb => "100x100>"}, :default_url => "posts/:style/missing.png"
 
   belongs_to :user
   belongs_to :company
