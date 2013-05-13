@@ -11,6 +11,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
   events:
     "focus [contenteditable]" : "editContent"
     "blur [contenteditable]" : "updateContent"
+    "keyup [contenteditable]" : "stripContent"
     "click .follow" : "follow"
     "click .collection-filter" : "refilterCollection"
     "click #company-submit-logo" : "submitLogo"
@@ -65,13 +66,17 @@ class Maple.Views.CompanyShowView extends Backbone.View
 
     formData = new FormData($('#add-company-logo')[0])
 
-    @model.savePaperclip(formData,
-      type: 'PUT'
-      success: (company) =>
-        @model.set(company)
-        $("#uploadLogoModal").modal('hide')
-      error: (xhr) =>
-        Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText }))
+    if ($("#upload-logo-field").val())
+      @model.savePaperclip(formData,
+        type: 'PUT'
+        success: (company) =>
+          @model.set(company)
+          @render()
+        error: (xhr) =>
+          Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText }))
+    else
+      Maple.Utils.alert({ err: 'You forgot to select a file.' })
+    $("#uploadLogoModal").modal('hide')  
 
   saveContent: (id, content) ->
     if id ==  "company-blurb-title"
@@ -97,6 +102,10 @@ class Maple.Views.CompanyShowView extends Backbone.View
     target = $(event.currentTarget)
     targetID = target.attr("id")
     @saveContent(targetID, target.html())
+
+  stripContent: (event) ->
+    target = $(event.currentTarget)
+    target.html(target.text())
 
   editContent: (event) ->
     event.stopPropagation()
