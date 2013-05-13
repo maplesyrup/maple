@@ -37,9 +37,6 @@ Maple::Application.routes.draw do
   put 'users/follow' => 'users#follow'
 
   resources :users
-  devise_scope :user do
-    resources :sessions, :only => [:create, :destroy]
-  end
 
   # Sample resource route with options:
   #   resources :products do
