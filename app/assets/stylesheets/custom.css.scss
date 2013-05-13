@@ -22,7 +22,9 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Lato', "Helvetica", sans-serif;
   margin: 0;
 }
-
+.dark-background {
+  background-color: $border-color;
+}
 .company-toolbar
 {
  color: white;
@@ -121,12 +123,20 @@ h1, h2, h3, h4, h5, h6 {
   display: block;
 }
 
+.big-margin-top
+{
+  margin-top: 10%;
+}
+
 .select-new-image-container
 {
   height: 150px;
   border-bottom: 4px dashed #777;
 }
-
+.image-medium {
+  max-width: 400x;
+  max-height: 400px;
+}
 .select-new-image-option
 {
   margin-top: 20px;
@@ -244,7 +254,6 @@ h1, h2, h3, h4, h5, h6 {
 .center {
   text-align: center;
 }
-
 /* Header View */
 .navbar-text a {
   margin-right: 15px;
