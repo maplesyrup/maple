@@ -10,7 +10,6 @@ class Maple.Views.AboutView extends Backbone.View
     @render()
 
   render: ->
-    console.log('render that bitch')
     @$el.html @template()
     @
 
