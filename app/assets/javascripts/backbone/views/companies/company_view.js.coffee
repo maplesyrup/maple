@@ -4,32 +4,46 @@ class Maple.Views.CompanyView extends Backbone.View
   template: JST["backbone/templates/companies/company_thumb"]
 
   events:
-    "click .vote": "vote"
+    "click .follow-company-thumb": "follow"
 
   initialize: ->
-    @.model.bind 'change', =>
-      if(@.model.hasChanged('total_votes'))
-        @.render()
-
-  vote: ->
-    num_votes = @.model.get('total_votes')
-
-    $.ajax
-      type: "POST"
-      url: "/posts/vote_up"
-      data: "post_id=" + @.model.get('id')
-      success: =>
-        console.log("Success")
-      error: (xhr) =>
-        Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
-
-    @.model.set({'total_votes': num_votes + 1, 'voted_on': Maple.Post.VOTED.YES})
+    @render()
 
   render: ->
-    @$el.html(@template(@model.toJSON()))
+    @$el.html(@template(_.extend(@model.toJSON(), Maple.session.toJSON())))
     @
 
   close: ->
     @remove
     @unbind
     @.model.unbind
+  
+  follow: (event) ->
+    if Maple.session.get("user_signed_in")
+      # user is signed in and wants to perform an action
+      target = $(event.currentTarget)
+      index = _.indexOf(Maple.session.currentUser.get("companies_im_following"), @model.id) 
+      if index == -1 
+        # user is not already following this company. Follow
+
+        Maple.session.currentUser.get("companies_im_following").push(@model.id)
+        target.html("<button class='btn btn-success pull-right'>
+                            Following
+                          </button>")
+      else
+        # user is currently following this company. Unfollow
+        Maple.session.currentUser.get("companies_im_following").splice(index, 1)
+        target.html("<button class='btn pull-right'>
+                            <i class='icon-plus'></i> Follow
+                          </button>")
+
+      Maple.session.currentUser.follow(
+        type: "Company"
+        target: @model.id
+        success:(count) ->
+          console.log "number of users"
+        error: (response) ->
+          Maple.Utils.alert({ err: response })
+        )
+
+
