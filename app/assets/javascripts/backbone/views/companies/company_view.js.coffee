@@ -5,6 +5,8 @@ class Maple.Views.CompanyView extends Backbone.View
 
   events:
     "click .follow-company-thumb": "follow"
+    "mouseover" : "onMouseover"
+    "mouseout" : "onMouseout"
 
   initialize: ->
     @render()
@@ -12,6 +14,14 @@ class Maple.Views.CompanyView extends Backbone.View
   render: ->
     @$el.html(@template(_.extend(@model.toJSON(), Maple.session.toJSON())))
     @
+
+  onMouseover: (e) =>
+    @$el.find('.outer-feature').css 'visibility', 'visible'
+    @$el.find('.header-feature').css 'visibility', 'visible'
+
+  onMouseout: (e) =>
+    @$el.find('.outer-feature').css 'visibility', 'hidden'
+    @$el.find('.header-feature').css 'visibility', 'hidden'
 
   close: ->
     @remove

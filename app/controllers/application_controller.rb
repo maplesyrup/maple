@@ -5,11 +5,6 @@ class ApplicationController < ActionController::Base
     @CONSTANTS = { :FACEBOOK_APP_ID => FACEBOOK_APP_ID }
     @posts = Post.paged_posts({ :sort => { :by => 'total_votes' } })
     @companies = Company.paged_companies
-
-    if !current_user && !current_company  
-      render :template => "application/splash"
-    end
-
   end
 
   def percent_change(prev, now)
