@@ -1,7 +1,30 @@
 <hr>
 <h3 class="center"> <%= title %> </h3></br>
   <p class="pul-left"> <%= description %></p> 
-<hr>
+  <%
+    var start = Maple.Utils.fromRubyDateTime(starttime),
+        end   = Maple.Utils.fromRubyDateTime(endtime),
+        start_month = start.getUTCMonth(),
+        start_day   = start.getUTCDate(),
+        start_year  = start.getUTCFullYear(), 
+        end_month   = end.getUTCMonth(), 
+        end_day     = end.getUTCDate(),  
+        end_year    = end.getUTCFullYear();
+    
+    var start_verb = "Starting";
+    var end_verb = "Ending";
+    if (Date.now() > start){
+      start_verb = "Started";
+    }
+    if (Date.now() > end){
+      end_verb = "Ended";
+    } 
+  %>
+  <div class="clearfix"></div>
+  </br>
+  <span><small class="muted"><%= start_verb + ": " + start_month + "/" + start_day + "/" + start_year %></small></span> 
+  <span><small class="muted"><%= end_verb + ": " + end_month + "/" + end_day + "/" + end_year %></small></span>
+<hr class="hr-thin">
 <ul class="nav nav-tabs nav-stacked">    
   <li id="back-to-campaigns">
     <a href="#">
