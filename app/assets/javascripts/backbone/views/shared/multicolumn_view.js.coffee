@@ -17,7 +17,7 @@ class Maple.Views.MultiColumnView extends Backbone.View
 
   numberOfColumns:      0
 
-  postWidth:             295 # post width is 275, margin of 20px
+  postWidth:             270 # post width is 250, margin of 20px
 
   threeColumnTemplate:  JST["backbone/templates/shared/three_column_index"]
   fourColumnTemplate:   JST["backbone/templates/shared/four_column_index"]
