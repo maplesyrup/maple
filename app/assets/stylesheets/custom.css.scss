@@ -313,6 +313,10 @@ h1, h2, h3, h4, h5, h6 {
   margin: 10px 0;
 }
 
+a hr{
+  text-decoration: none; 
+}
+
 .rounded-top {
   -moz-border-radius-topright: 3px;
   -moz-border-radius-topleft: 3px;

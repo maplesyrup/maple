@@ -62,6 +62,18 @@
           <p>
             <%= campaign.description %>
           </p>
+          <div class="clear-fix"></div>
+          <hr class="hr-thin">
+          <% 
+            var end = Maple.Utils.fromRubyDateTime(campaign.endtime);
+            var now = Date.now();
+            var span = new TimeSpan(end - now);      
+          %> 
+          <span>
+            <small>
+              Ends in <%= span.getDays() %> days, <%= span.getHours() %> hours, <%= span.getMinutes() %> minutes. 
+            </small>
+          </span>
         </a>
       </li> 
     <% }) %>
@@ -82,7 +94,19 @@
           <h3> <%= campaign.title %> </h3>
           <p>
             <%= campaign.description %>
-          </p>
+          </p> 
+          <div class="clear-fix"></div>
+          <hr class="hr-thin">
+          <% 
+            var start = Maple.Utils.fromRubyDateTime(campaign.starttime);
+            var now = Date.now();
+            var span = new TimeSpan(start - now);      
+          %> 
+          <span>
+            <small>
+              Starts in <%= span.getDays() %> days, <%= span.getHours() %> hours, <%= span.getMinutes() %> minutes. 
+            </small>
+          </span>
          </a> 
       </li> 
     <% }) %>
@@ -103,6 +127,18 @@
           <p>
             <%= campaign.description %>
           </p>
+          <div class="clear-fix"></div>
+          <hr class="hr-thin">
+          <% 
+            var end = Maple.Utils.fromRubyDateTime(campaign.endtime);
+            var now = Date.now();
+            var span = new TimeSpan(now - end);      
+          %> 
+          <span>
+            <small>
+              Ended <%= span.getDays() %> days ago. 
+            </small>
+          </span>
         </a>
       </li>
     <% }) %> 

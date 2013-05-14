@@ -63,20 +63,20 @@ class Maple.Views.CampaignShowView extends Backbone.View
     endtime = new Date($("#endtimeinput").html()).getTime()
     
     alertContainer = $("#campaign-alert")
-    if @isEmpty(title) 
-      @flashAlert(alertContainer, "Title can't be blank") 
-    else if @isEmpty(description) 
-      @flashAlert(alertContainer, "Description can't be blank") 
-    else if @isEmpty(starttime) 
-      @flashAlert(alertContainer, "Start can't be blank") 
-    else if @isEmpty(endtime) 
-      @flashAlert(alertContainer, "End can't be blank") 
-    else if starttime > endtime 
-      @flashAlert(alertContainer, "Campaign can't start after it ends") 
+    if @isEmpty(title)
+      @flashAlert(alertContainer, "Title can't be blank")
+    else if @isEmpty(description)
+      @flashAlert(alertContainer, "Description can't be blank")
+    else if @isEmpty(starttime)
+      @flashAlert(alertContainer, "Start can't be blank")
+    else if @isEmpty(endtime)
+      @flashAlert(alertContainer, "End can't be blank")
+    else if starttime > endtime
+      @flashAlert(alertContainer, "Campaign can't start after it ends")
     else if starttime < ( new Date().getTime() - 60000 )
-      @flashAlert(alertContainer, "Campaign can't start in the past") 
+      @flashAlert(alertContainer, "Campaign can't start in the past")
     else
-      $("#campaign-alert").css('display', 'none') 
+      $("#campaign-alert").css('display', 'none')
       newCampaign = new Maple.Models.Campaign()
       newCampaign.save({
         title: title
@@ -97,7 +97,7 @@ class Maple.Views.CampaignShowView extends Backbone.View
       )
 
   focusCampaign: (event) ->
-    target = $(event.currentTarget) 
+    target = $(event.currentTarget)
    
     event.preventDefault()
     event.stopPropagation()
