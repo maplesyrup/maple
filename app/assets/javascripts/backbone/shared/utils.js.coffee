@@ -53,7 +53,7 @@ Backbone.Collection::savePaperclip = Backbone.Model::savePaperclip = (form, opti
 	# so that paperclip can use them
 
 	$.ajax({
-			url: @url()
+			url: jQuery.isFunction(@url) && @url() || @url
 			type: (options && options.type) || 'POST'
 			data: form
 			processData: false

@@ -5,10 +5,12 @@ class Maple.Views.CampaignView extends Backbone.View
   events:
     "click #back-to-campaigns" : "blurCampaign"
     "click #create-award" : "createAward"
+    "click #submit-to-campaign" : "newPost"
 
-  initialize: -> 
+  initialize: (options) ->
+    @company = options.company || {}
     @reloadCollection()
-  
+     
   render: ->
     @$el.html(@template(
       _.extend(@model.toJSON(),
@@ -54,15 +56,15 @@ class Maple.Views.CampaignView extends Backbone.View
     
     alertContainer = $("#reward-alert")
 
-    if @isEmpty(title) 
+    if @isEmpty(title)
       @flashAlert(alertContainer, "Title can't be blank")
-    else if @isEmpty(reward) 
-      @flashAlert(alertContainer, "Reward can't be blank") 
+    else if @isEmpty(reward)
+      @flashAlert(alertContainer, "Reward can't be blank")
     else if @isEmpty(quantity)
       @flashAlert(alertContainer, "Quantity Can't be blank")
     else
       alertContainer.css('display', 'none')
-      newReward = new Maple.Models.Reward() 
+      newReward = new Maple.Models.Reward()
       newReward.save({
         title: title
         description: description
@@ -75,11 +77,23 @@ class Maple.Views.CampaignView extends Backbone.View
         success: (model) =>
           $("#new-reward-modal").modal('hide')
           @model.rewards.add(model)
-          @render() 
+          @render()
         error: (error) =>
           console.log error
         }
       )
+  
+  newPost: (event) ->
+    if Maple.session.get("user_signed_in")
+      # if user not signed in allow regular redirect to occur 
+      event.preventDefault()
+      event.stopPropagation()
+      $modal = $("#mainModal")
+      $modal.modal('show').html new Maple.Views.NewPostView(
+        company: @company
+        campaign: @model
+        collection: @company.posts
+      ).el
 
   close: ->
     @remove()

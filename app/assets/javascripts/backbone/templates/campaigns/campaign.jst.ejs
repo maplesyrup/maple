@@ -25,12 +25,26 @@
   <span><small class="muted"><%= start_verb + ": " + start_month + "/" + start_day + "/" + start_year %></small></span> 
   <span><small class="muted"><%= end_verb + ": " + end_month + "/" + end_day + "/" + end_year %></small></span>
 <hr class="hr-thin">
+<div class="well well-small center">
+  <h4> Rewards </h4>
+</div> 
 <ul class="nav nav-tabs nav-stacked">    
   <li id="back-to-campaigns">
     <a href="#">
      <i class="icon-reply"></i>&nbsp;<span>Back to Campaigns </span>
     </a>
   </li>
+  <% if (company_signed_in === false) { %>
+    <li id="submit-to-campaign">
+      <% if (user_signed_in === true) { %>
+        <a href="#">
+      <% } else { %> 
+        <a href="users/sign_in">
+      <% } %>
+        <i class="icon-edit"></i>&nbsp;<span>Submit Ad to Campaign</span>
+      </a>
+    </li>
+  <% } %>
   <% if (company_signed_in === true && 
       company_id === session.currentCompany.id ) { %>
     <li><a href="#new-reward-modal" data-toggle="modal">

@@ -32,7 +32,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
     @$el.html(@template(_.extend(@model.toJSON(), Maple.session.toJSON())))
     @populateCollection("company-posts")
     @$el.find(".campaign").html new Maple.Views.CampaignShowView(
-      model: @model 
+      model: @model
       collection: @model.campaigns
     ).el
     @

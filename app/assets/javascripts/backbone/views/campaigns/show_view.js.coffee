@@ -6,8 +6,8 @@ class Maple.Views.CampaignShowView extends Backbone.View
   events:
     "click .campaign-glimpse" : "focusCampaign"
     "click #create-campaign" : "createCampaign"
-    "keyup #starttime" : "parseDatetime" 
-    "keyup #endtime" : "parseDatetime"  
+    "keyup #starttime" : "parseDatetime"
+    "keyup #endtime" : "parseDatetime"
 
   initialize: ->
     # Listener for tabbing between campaign and campaign show 
@@ -21,7 +21,7 @@ class Maple.Views.CampaignShowView extends Backbone.View
         current: @currentCampaigns.toJSON()
         future: @futureCampaigns.toJSON()
         past: @pastCampaigns.toJSON()
-      Maple.session.toJSON())))  
+      Maple.session.toJSON())))
     @
   
   filterCollection: ->
@@ -32,17 +32,17 @@ class Maple.Views.CampaignShowView extends Backbone.View
   reloadCollection: ->
     @collection.fetch
       success: =>
-        @filterCollection() 
+        @filterCollection()
         @render()
-      data: 
+      data:
         company_id: @model.id
 
-  parseDatetime: (event) -> 
+  parseDatetime: (event) ->
     parsed = Date.parse($(event.target).val())
-    if parsed != null 
+    if parsed != null
       if event.target.id == "starttime"
         $("#starttimeinput").html(parsed.toString())
-      else 
+      else
         $("#endtimeinput").html(parsed.toString())
   
   flashAlert: (container, message) ->
@@ -105,6 +105,7 @@ class Maple.Views.CampaignShowView extends Backbone.View
     model = @collection.get(target.attr("campaign-id"))
     @$el.html new Maple.Views.CampaignView(
       model: model
+      company: @model
     ).el
     
   close: ->
