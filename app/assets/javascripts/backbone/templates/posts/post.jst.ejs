@@ -1,6 +1,32 @@
-<div class="glimpse">
-  <div class="inner-glimpse">
-    <a href="#" class="open-img" data-img='<%= full_image_url %>'><img class="maple-post" src="<%= image_url %>" /></a>
+<div class="glimpse rounded-top subtle-shadow">
+  <div class="inner-glimpse rounded-top">
+
+    <div class="header-feature">
+      <div class="header-inner">
+        <div class="pull-right">
+          <% if (user && user_signed_in && session.currentUser.id === user.id) { %>
+            <a href="#">
+              <button class="btn delete-post">
+                <i class="icon-trash"></i>
+              </button>
+            </a>
+          <% } %>
+        </div>
+        <div class="pull-left">
+          <a href="https://www.facebook.com/dialog/feed?
+            app_id=<%= window.config.FACEBOOK_APP_ID %>&
+            link=http://<%= window.config.HOSTNAME %>/&
+            name=Additt&
+            caption=<%= title %>&
+            description=<%= content %>&
+            redirect_uri=http://<%= window.config.HOSTNAME %>/">
+            <i class="icon-facebook-sign icon-2x"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <a href="#" class="open-img" data-img='<%= full_image_url %>'><img class="rounded-top" src="<%= image_url %>" /></a>
     <div class="outer-feature">
       <div class="inner-feature">
         <div class="votes">
@@ -13,43 +39,49 @@
         </div>
         <h4><%= title %></h4>
       </div>
+      
     </div>
   </div>
 
+
   <div class="glimpse-info">
-    <% if (typeof(user) !== "undefined" && user) { %>
-      <% if (user.avatar_thumb && user.avatar_thumb != "avatars/thumb/missing.png") { %>
-        <img src="<%= user.avatar_thumb %>" />
-      <% } else if (user.uid) { %>
-        <img src="http://graph.facebook.com/<%= user.uid %>/picture" />
-      <% } %>
-    <% } %>
-    <div class="glimpse-meta">
-      <span class="content">
-        <%= content %>
-      </span>
-      <span class="date"><%= relative_time %> ago</span>
-      <% if (typeof(user) !== "undefined" && user) { %>
-        <span class="author">by <a href="/#users/<%= user.id %>"><%= user.name %></a></span>
-      <% } else { %>
-        <span class="author">author_deleted</span>
-      <% } %>
-      <% if (typeof(company) !== "undefined" && typeof(company.id) !== "undefined" && typeof(company.name) !== "undefined") { %>
-        <span class="tag"><a href="/#companies/<%=company_id %>"><strong><%= company.name %></strong></a></span>
-      <% } %><br />
-      <a href="https://www.facebook.com/dialog/feed?
-  app_id=<%= window.config.FACEBOOK_APP_ID %>&
-  link=http://<%= window.config.HOSTNAME %>/&
-  name=Additt&
-  caption=<%= title %>&
-  description=<%= content %>&
-  redirect_uri=http://<%= window.config.HOSTNAME %>/">Share on Facebook</a>
+    <div class="content">
+      <p class="wrap-text">         
+        <small>
+          <%= content %>
+        </small>
+      </p>
     </div>
-    <div class="clearfix"></div>
-    <% if (user && user_signed_in && session.currentUser.id === user.id) { %>
-    <button class="btn delete-post">
-      <i class="icon-trash"></i>
-    </button>
-    <% } %>
+    <hr class="hr-thin">
+
+    <div class="pull-left">   
+      <% if (typeof(user) !== "undefined" && user) { %>
+        <% if (user.avatar_thumb && user.avatar_thumb != "avatars/thumb/missing.png") { %>
+          <img class="pull-left" src="<%= user.avatar_thumb %>" />
+        <% } else if (user.uid) { %>
+          <img class="pull-left" src="http://graph.facebook.com/<%= user.uid %>/picture" />
+        <% } %>
+      <% } %>
+
+      <div class="glimpse-meta">
+        <% if (typeof(user) !== "undefined" && user) { %>
+          <span class="author">by <a href="/#users/<%= user.id %>"><%= user.name %></a></span>
+        <% } else { %>
+          <span class="author">author_deleted</span>
+        <% } %>
+        <span class="date">
+          <small>
+            <%= relative_time %> ago
+          </small>
+        </span>
+      </div>
+    </div>
+
+      <div class="clearfix"></div>
+    <hr class="hr-thin">
+
+      <% if (typeof(company) !== "undefined" && typeof(company.id) !== "undefined" && typeof(company.name) !== "undefined") { %>
+        <span class="tag">For <a href="/#companies/<%=company_id %>"><strong><%= company.name %></strong></a></span>
+      <% } %>
   </div>
 </div>
