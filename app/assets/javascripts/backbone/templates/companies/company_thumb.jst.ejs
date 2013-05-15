@@ -1,34 +1,36 @@
-<div class="glimpse">
+<div class="glimpse rounded-top subtle-shadow">
   <div class="inner-glimpse">
+
+    <div class="header-feature">
+      <div class="header-inner">
+        <div class="pull-right">
+          <% if (!company_signed_in) { %>
+				    <div class="follow-company-thumb">
+				      <% if (user_signed_in && _.contains(session.currentUser.companies_im_following, id)) { %>
+					      <button class="btn btn-success pull-right">
+						      <small>Following</small>
+					      </button>
+				      <% } else if (!user_signed_in){ %>
+                <a href="/users/sign_in" class="btn pull-right">
+                  <i class="icon-plus"></i> <small>Follow</small>
+                </a>
+              <% } else { %>
+					      <button class="btn pull-right">
+						      <i class="icon-plus"></i> Follow
+					      </button>
+				      <% } %>
+				    </div>
+          <% } %>
+        </div>
+      </div>
+    </div>
     <div class="outer-feature">
       <div class="inner-feature">
         <h4><%= name %></h4>
       </div> 
     </div>
     <a href="/#companies/<%= id %>">
-      <img src="<%= splash_image %>">
+      <img src="<%= splash_image %>" class="rounded-top">
     </a> 
   </div>
-  <div class="glimpse-info">
-    <div class="glimpse-meta">
-			<% if (!company_signed_in) { %>
-				<div class="follow-company-thumb">
-				<% if (user_signed_in && _.contains(session.currentUser.companies_im_following, id)) { %>
-					<button class="btn btn-success pull-right">
-						Following
-					</button>
-				<% } else if (!user_signed_in){ %>
-          <a href="/users/sign_in" class="btn pull-right">
-            <i class="icon-plus"></i> Follow 
-          </a>
-          <% } else { %>
-					<button class="btn pull-right">
-						<i class="icon-plus"></i> Follow
-					</button>
-				<% } %>
-				</div>
-      <% } %>
-    </div>
-  </div>
-  <div class="clearfix"></div>
 </div>

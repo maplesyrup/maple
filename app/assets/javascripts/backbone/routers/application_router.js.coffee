@@ -35,14 +35,19 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     '*default' : 'index'
 
   index: ->
-    $(mainContainer).html new Maple.Views.MultiColumnView(
-      collection: @posts
-      parent: mainContainer
-      modelView: Maple.Views.PostView
-      bootstrapped: true
-    ).el
+    if Maple.session.get("user_signed_in") || Maple.session.get("company_signed_in")
+      $(mainContainer).html new Maple.Views.MultiColumnView(
+        collection: @posts
+        parent: mainContainer
+        modelView: Maple.Views.PostView
+        bootstrapped: true
+      ).el
 
+    else
+      $(mainContainer).html new Maple.Views.SplashView().el
+    
     @company_pill_view = new Maple.Views.CompaniesIndexView({ collection: @companies})
+
 
   about: ->
     $(mainContainer).html( new Maple.Views.AboutView().el )

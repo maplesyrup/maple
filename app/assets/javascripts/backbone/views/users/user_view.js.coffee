@@ -4,6 +4,8 @@ class Maple.Views.UserView extends Backbone.View
   template: JST["backbone/templates/users/user_thumb"]
   events:
     "click .follow-user-thumb" : "follow"
+    "mouseover" : "onMouseover"
+    "mouseout" : "onMouseout"
 
   initialize: ->
     @render()
@@ -11,6 +13,15 @@ class Maple.Views.UserView extends Backbone.View
   render: ->
     @$el.html(@template(_.extend(@model.toJSON(), Maple.session.toJSON())))
     @
+
+  onMouseover: (e) =>
+    @$el.find('.outer-feature').css 'visibility', 'visible'
+    @$el.find('.header-feature').css 'visibility', 'visible'
+
+  onMouseout: (e) =>
+    @$el.find('.outer-feature').css 'visibility', 'hidden'
+    @$el.find('.header-feature').css 'visibility', 'hidden'
+
 
   follow: (event) ->
     if Maple.session.get("user_signed_in")
