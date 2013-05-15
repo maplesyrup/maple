@@ -77,11 +77,22 @@
       </div>
     </div>
 
-      <div class="clearfix"></div>
+    <div class="clearfix"></div>
     <hr class="hr-thin">
 
       <% if (typeof(company) !== "undefined" && typeof(company.id) !== "undefined" && typeof(company.name) !== "undefined") { %>
         <span class="tag">For <a href="/#companies/<%=company_id %>"><strong><%= company.name %></strong></a></span>
+         <% if (typeof(campaign) !== "undefined") { %> 
+          <span class="tag">'s campaign <strong><%= campaign.title %></strong></span>
+         <% } %>
       <% } %>
+    <% if (typeof(rewards) !== "undefined") { %>  
+      <div class="clearfix"></div>
+      <hr class="hr-thin">
+      <div class="well">       
+        <h5> Treasure Chest </h5>
+        <i class="icon-trophy"></i>&nbsp;x&nbsp;<%= rewards.length %>
+      </div>
+    <% } %>
   </div>
 </div>
