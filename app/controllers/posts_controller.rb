@@ -5,8 +5,6 @@ class PostsController < ApplicationController
     #
     # This route will create a new ad with the given id. It will
     # also log in mobile users that are posting an ad.
-    require 'pry'
-    binding.pry
     post = Post.new(sanitize(params[:post]))
 
     success = false
