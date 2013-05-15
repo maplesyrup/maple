@@ -82,7 +82,7 @@
 
       <% if (typeof(company) !== "undefined" && typeof(company.id) !== "undefined" && typeof(company.name) !== "undefined") { %>
         <span class="tag">For <a href="/#companies/<%=company_id %>"><strong><%= company.name %></strong></a></span>
-         <% if (typeof(campaign) !== "undefined") { %> 
+         <% if (typeof(campaign) !== "undefined" && campaign.tagName === undefined) { %> 
           <span class="tag">'s campaign <strong><%= campaign.title %></strong></span>
          <% } %>
       <% } %>
