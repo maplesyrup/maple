@@ -1,7 +1,7 @@
 <div class="glimpse rounded-top subtle-shadow">
   <div class="inner-glimpse rounded-top">
 
-    <div class="header-feature">
+    <div class="header-feature pull-up">
       <div class="header-inner">
         <div class="pull-right">
           <% if (user && user_signed_in && session.currentUser.id === user.id) { %>
@@ -26,7 +26,7 @@
       </div>
     </div>
     
-    <a href="#" class="open-img" data-img='<%= full_image_url %>'><img class="rounded-top" src="<%= image_url %>" /></a>
+    <a href="#" class="open-img" data-img='<%= full_image_url %>'><img class="rounded-top hover-lighten" src="<%= image_url %>" /></a>
     <div class="outer-feature">
       <div class="inner-feature">
         <div class="votes">
