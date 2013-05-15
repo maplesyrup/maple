@@ -36,15 +36,15 @@ class RewardsControllerTest < ActionController::TestCase
   
   test "create" do
     reward = {:title => "herro", :description => "hello again", :campaign_id => 1, :reward => "tits"}  
-    
-    response = put :create, :campaign_id => campaigns(:one).id, :reward => reward
+    reward2 = {:title => "herro", :description => "hello again", :campaign_id => 2, :reward => "tits"} 
+
+    response = put :create, :reward => reward
     assert_response 403, "shouldn't be able to create a reward if you aren't logged in"
-
     sign_in companies(:apple)
-
-    response = put :create, :campaign_id => campaigns(:two).id, :reward => reward
+    
+    response = put :create, :reward => reward2
     assert_response 403, "shouldn't be able to create a reward for another company"
-
+    
     response = put :create, :campaign_id => campaigns(:one).id, :reward => reward  
     response = JSON.parse(response.body)
     assert_equal response["title"], "herro", "didn't return the correct reward"

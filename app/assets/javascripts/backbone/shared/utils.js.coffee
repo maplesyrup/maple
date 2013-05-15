@@ -53,7 +53,7 @@ Backbone.Collection::savePaperclip = Backbone.Model::savePaperclip = (form, opti
 	# so that paperclip can use them
 
 	$.ajax({
-			url: @url()
+			url: jQuery.isFunction(@url) && @url() || @url
 			type: (options && options.type) || 'POST'
 			data: form
 			processData: false
@@ -92,3 +92,6 @@ Maple.Utils =
   alert: (err) ->
     el = (new Maple.Views.AlertView(err)).render().el
     $(el).css 'left', ($(document).width() / 2) - ($(el).width() / 2)
+
+  fromRubyDateTime: (integer_time) ->
+    new Date(integer_time * 1000)
