@@ -19,6 +19,12 @@ class Post < ActiveRecord::Base
   belongs_to :company
   belongs_to :campaign
 
+  validates :title, :presence => true
+  validates :content, :presence => true
+  validates :company_id, :presence => true
+  validates :user_id, :presence => true
+  validates_attachment_presence :image
+
   acts_as_voteable
 
   has_many :comments, :as => :commentable
