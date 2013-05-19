@@ -25,12 +25,12 @@ Maple::Application.routes.draw do
   resources :token_authentications, :only => [:create, :destroy]
 
   resources :posts
-  resources :companies, :shallow => true do
-    resources :campaigns, :shallow => true, :except => [:new] do
-      resources :rewards, :except => [:new]
-    end
-  end
-  resources :campaigns, :only => :index
+  
+  resources :campaigns 
+  
+  resources :rewards
+  
+  resources :companies
 
   resources :stats, :only => :index
 

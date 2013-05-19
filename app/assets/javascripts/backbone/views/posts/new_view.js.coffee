@@ -15,12 +15,21 @@ class Maple.Views.NewPostView extends Backbone.View
   events:
     'click #post-submit' : 'save'
 
-  initialize:(options) ->
+  initialize: (options) ->
     @companies =  options.companies
+    @company = options.company
+    @campaign = options.campaign
+
     @render()
 
   render: ->
-    @$el.html @template({ companies: @companies.toJSON() })
+    @$el.html @template(_.extend(
+      companies:
+        @companies && @companies.toJSON()
+      company:
+        @company && @company.toJSON()
+      campaign:
+        @campaign && @campaign.toJSON()))
     @
 
 
@@ -30,13 +39,13 @@ class Maple.Views.NewPostView extends Backbone.View
 
     formData = new FormData($('#new-post')[0])
    
-    @collection.savePaperclip(formData, 
+    @collection.savePaperclip(formData,
       success: (post) =>
         @collection.add([post])
         $("#mainModal").modal('hide')
         window.router.navigate('/')
       error: (e) =>
-        console.log(e))   
+        console.log(e))
     
   validate: (e) =>
     console.log(e)
