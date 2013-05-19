@@ -1,0 +1,146 @@
+<hr>
+<h3 class="center"> Campaigns </h3>
+<hr>
+<ul class="nav nav-tabs">
+  <li class="active">
+    <a href="#tab1" data-toggle="tab" id="current-campaigns">Current (<%= campaigns.current.length %>) </a>
+  </li>
+  <li>
+    <a href="#tab2" data-toggle="tab" id="future-campaigns">Future (<%= campaigns.future.length %>)</a>
+  </li>
+  <li>
+    <a href="#tab3" data-toggle="tab" id="past-campaigns">Archive (<%= campaigns.past.length %>) </a>
+  </li>
+</ul>
+
+<div id="new-campaign-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">New Campaign</h3>
+  </div>
+
+  <div class="modal-body">
+
+    <form enctype="multipart/form-data" method="post" name="campaign" id="new-campaign-form">
+      Title</br> 
+      <input type="text" name="title"></br>
+      Description</br> 
+      <textarea name="description"></textarea></br>
+      Starting </br>
+      <input type="text" id="starttime">&nbsp;<i class="icon-calendar icon-2x"></i>&nbsp;&nbsp;<small> eg: today, tomorrow, July 4, etc. </small></br>
+      <h6 id="starttimeinput"></h6></br>
+      Ending </br>
+      <input type="text" id="endtime">&nbsp;<i class="icon-calendar icon-2x"></i></br>
+      <h6 id="endtimeinput"></h6></br>
+
+      <div id="campaign-alert" class="alert" style="display:none">
+      </div>
+
+    </form>
+  </div> 
+
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn btn-primary" id="create-campaign">Create Campaign</button>
+  </div>
+</div>
+
+<div class="tab-content">
+  <div class="tab-pane active" id="tab1">
+  <ul class="nav nav-tabs nav-stacked">    
+    <% if (company_signed_in === true && 
+        id === session.currentCompany.id ) { %>
+      <li><a href="#new-campaign-modal" data-toggle="modal">
+        <i class="icon-plus"></i>&nbsp;<span>New Campaign </span>
+        </a>
+      </li> 
+    <% } %>
+    <% campaigns.current.forEach(function(campaign){ %> 
+      <li class="campaign-glimpse" campaign-id="<%=campaign.id%>">
+        <a href="#">
+          <h3> <%= campaign.title %> </h3>
+          <p>
+            <%= campaign.description %>
+          </p>
+          <div class="clear-fix"></div>
+          <hr class="hr-thin">
+          <% 
+            var end = Maple.Utils.fromRubyDateTime(campaign.endtime);
+            var now = Date.now();
+            var span = new TimeSpan(end - now);      
+          %> 
+          <span>
+            <small>
+              Ends in <%= span.getDays() %> days, <%= span.getHours() %> hours, <%= span.getMinutes() %> minutes. 
+            </small>
+          </span>
+        </a>
+      </li> 
+    <% }) %>
+  </ul>     
+  </div>
+  <div class="tab-pane" id="tab2">
+    <ul class="nav nav-tabs nav-stacked">  
+    <% if (company_signed_in === true && 
+        id === session.currentCompany.id ) { %>
+      <li><a href="#new-campaign-modal" data-toggle="modal">
+        <i class="icon-plus"></i>&nbsp;<span>New Campaign </span>
+        </a>
+      </li> 
+    <% } %>
+    <% campaigns.future.forEach(function(campaign){ %>
+      <li class="campaign-glimpse" campaign-id="<%= campaign.id %>"> 
+        <a href="#">
+          <h3> <%= campaign.title %> </h3>
+          <p>
+            <%= campaign.description %>
+          </p> 
+          <div class="clear-fix"></div>
+          <hr class="hr-thin">
+          <% 
+            var start = Maple.Utils.fromRubyDateTime(campaign.starttime);
+            var now = Date.now();
+            var span = new TimeSpan(start - now);      
+          %> 
+          <span>
+            <small>
+              Starts in <%= span.getDays() %> days, <%= span.getHours() %> hours, <%= span.getMinutes() %> minutes. 
+            </small>
+          </span>
+         </a> 
+      </li> 
+    <% }) %>
+  </div>
+  <div class="tab-pane" id="tab3">
+    <ul class="nav nav-tabs nav-stacked">
+    <% if (company_signed_in === true && 
+        id === session.currentCompany.id ) { %> 
+      <li><a href="#new-campaign-modal" data-toggle="modal">
+        <i class="icon-plus"></i>&nbsp;<span>New Campaign </span>
+        </a>
+      </li> 
+    <% } %>
+    <% campaigns.past.forEach(function(campaign){ %>
+      <li class="campaign-glimpse" campaign-id="<%= campaign.id %>">
+        <a href="#">
+          <h3> <%= campaign.title %> </h3>
+          <p>
+            <%= campaign.description %>
+          </p>
+          <div class="clear-fix"></div>
+          <hr class="hr-thin">
+          <% 
+            var end = Maple.Utils.fromRubyDateTime(campaign.endtime);
+            var now = Date.now();
+            var span = new TimeSpan(now - end);      
+          %> 
+          <span>
+            <small>
+              Ended <%= span.getDays() %> days ago. 
+            </small>
+          </span>
+        </a>
+      </li>
+    <% }) %> 
+  </div>
+</div>

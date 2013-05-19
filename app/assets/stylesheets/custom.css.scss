@@ -25,6 +25,7 @@ h1, h2, h3, h4, h5, h6 {
 .dark-background {
   background-color: $border-color;
 }
+
 .company-toolbar
 {
  color: white;
@@ -315,6 +316,10 @@ h1, h2, h3, h4, h5, h6 {
   margin: 10px 0;
 }
 
+a hr{
+  text-decoration: none; 
+}
+
 .rounded-top {
   -moz-border-radius-topright: 3px;
   -moz-border-radius-topleft: 3px;
@@ -326,6 +331,10 @@ h1, h2, h3, h4, h5, h6 {
   -webkit-box-shadow: 2px 3px 5px 1px #999;
      -moz-box-shadow: 2px 3px 5px 1px #999;
           box-shadow: 2px 3px 5px 1px #999;
+}
+
+.pull-up {
+  z-index: 100;
 }
 .outer-feature {
   visibility: hidden;
