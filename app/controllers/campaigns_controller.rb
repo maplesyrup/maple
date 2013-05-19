@@ -1,9 +1,11 @@
 class CampaignsController < ApplicationController
   before_filter :authenticate_company!, :except => [:index, :show]
+  before_filter :to_ruby_time, :only => [:create, :update]  
 
   def index
     campaigns = Campaign.paginate(:page => params[:page] || 1, :per_page => 30)
-    campaigns = Company.find_by_id(params[:company_id]).campaigns if params[:company_id].present?
+    campaigns = Company.find_by_id(params[:company_id]).campaigns.
+      find(:all, :order => "starttime") if params[:company_id].present?
 
     render :json => Campaign.public_models(campaigns)
   end
@@ -46,5 +48,14 @@ class CampaignsController < ApplicationController
       sanitized[attr] = model[attr] if model[attr]
     end
     sanitized
+  end
+
+  def to_ruby_time
+
+    time_type = params[:campaign][:time_type]  
+    if time_type == 'jstime'
+      params[:campaign][:starttime] = Time.at( params[:campaign][:starttime] / 1000 )  
+      params[:campaign][:endtime] = Time.at( params[:campaign][:endtime] / 1000 )
+    end
   end
 end

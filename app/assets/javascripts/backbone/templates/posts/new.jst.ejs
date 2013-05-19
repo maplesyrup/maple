@@ -13,13 +13,23 @@
 
     <label for="post[company]">Select Company</label>
     <select id="company" name="post[company_id]">
-    <% for (var i = 0; i < companies.length; i++) { %>
-      <option value="<%= companies[i].id %>"><%= companies[i].name %></option>
+    <% if (companies) { %>  
+      <% for (var i = 0; i < companies.length; i++) { %>
+        <option value="<%= companies[i].id %>"><%= companies[i].name %></option>
+      <% } %>
+    <% } else if (company) { %>
+      <option value ="<%= company.id %>"><%= company.name %></option>
     <% } %>
     </select>
 
-    <label for="post[image]">Upload Ad</label>
+    <% if (campaign) { %> 
+      <label for="post[campaign_id]">Select Campaign</label>
+      <select name="post[campaign_id]"> 
+        <option value="<%=campaign.id %>"><%= campaign.title %></option>
+      </select>
+    <% } %>
 
+    <label for="post[image]">Upload Ad</label>
     <input type="file" name="post[image]" id="post-image" />
   </form>
 </div>
