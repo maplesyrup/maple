@@ -15,6 +15,20 @@
           <p class="pull-left"> <strong> <%= relative_time %> </strong>
         </div>
       </div>
+      <div class="clearfix"></div>
+      <% if (typeof(rewards) !== "undefined") { %>
+        <div class="clearfix"></div>
+        <hr>
+      <% if (typeof(campaign) !== "undefined" && campaign.tagName === undefined){ %>
+        <p> <strong>Submitted to</strong>&nbsp;<%= campaign.title %></p>
+      <% } %>
+        <div class="pull-left well">
+          <h5> Treasures won </h5>
+          <% _.each(rewards, function(reward) { %>
+            <i class="gold icon-trophy"></i>&nbsp;<small><%= reward.title %></small>
+          <% }); %>
+        </div>
+      <% } %>
     </div>
   </div>
 </div>

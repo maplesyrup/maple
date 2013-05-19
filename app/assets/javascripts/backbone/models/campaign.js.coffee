@@ -13,24 +13,24 @@ class Maple.Models.Campaign extends Backbone.Model
     if new Date(attrs.starttime) > new Date(attrs.endtime)
       "Campaign can't start after it finishes"
 
-  initialize: -> 
+  initialize: ->
     @rewards = new Maple.Collections.RewardsCollection
 
 class Maple.Collections.CampaignsCollection extends Backbone.Collection
   model: Maple.Models.Campaign
   url: '/campaigns'
 
-  orderBy: (options) ->   
-    ordering = options.descending == true ? -1 : 1 
+  orderBy: (options) ->
+    ordering = options.descending == true ? -1 : 1
     _.sortBy(@, (campaign) ->
       campaign.get(options.type || "endtime") * ordering
     )
 
-  current: -> 
+  current: ->
     filtered = @filter((campaign) ->
       now = new Date()
-      Maple.Utils.fromRubyDateTime(campaign.get("starttime")) < now && 
-        Maple.Utils.fromRubyDateTime(campaign.get("endtime")) > now 
+      Maple.Utils.fromRubyDateTime(campaign.get("starttime")) < now &&
+        Maple.Utils.fromRubyDateTime(campaign.get("endtime")) > now
     )
     new Maple.Collections.CampaignsCollection(filtered)
 
@@ -40,8 +40,8 @@ class Maple.Collections.CampaignsCollection extends Backbone.Collection
     )
     new Maple.Collections.CampaignsCollection(filtered)
 
-  past: -> 
+  past: ->
     filtered = @filter((campaign) ->
-      Maple.Utils.fromRubyDateTime(campaign.get("endtime")) <= new Date() 
+      Maple.Utils.fromRubyDateTime(campaign.get("endtime")) <= new Date()
     )
     new Maple.Collections.CampaignsCollection(filtered)
