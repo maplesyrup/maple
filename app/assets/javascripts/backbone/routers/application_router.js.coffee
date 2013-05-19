@@ -29,6 +29,7 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     'companies/:id' : 'showCompany'
     'companies/:id/dashboard' : 'dashboard'
     'users/:id' : 'showUser'
+    'posts/:id' : 'showPost'
     'about' : 'about'
     'faq' : 'faq'
     'cod': 'cod'
@@ -98,3 +99,15 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
       error: (user, xhr, options) =>
         Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
     }
+
+  showPost: (id) ->
+    @posts.access {
+      id: id
+      success: (post) =>
+        $(mainContainer).html new Maple.Views.PostShowView({
+          model: post,
+          }).el
+      error: (post, xhr, options) =>
+        Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
+    }
+
