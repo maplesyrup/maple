@@ -24,12 +24,14 @@ Maple::Application.routes.draw do
   # This route can be invoked with purchase_url(:id => product.id)
   resources :token_authentications, :only => [:create, :destroy]
 
+  resources :log_entries
+
   resources :posts
-  
-  resources :campaigns 
-  
+
+  resources :campaigns
+
   resources :rewards
-  
+
   resources :companies
 
   resources :stats, :only => :index

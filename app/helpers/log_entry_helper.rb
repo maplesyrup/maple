@@ -1,0 +1,2 @@
+module LogEntryHelper
+end
