@@ -10,4 +10,5 @@ FactoryGirl.define do
     f.user_id 1
     f.image { fixture_file_upload(Rails.root.join('spec', 'images', 'rails.png'), 'image/png') }
   end
+
 end
