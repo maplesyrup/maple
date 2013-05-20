@@ -38,6 +38,14 @@ ul, li {
   list-style-type: none;
 }
 
+.comment-flag:hover {
+  opacity: 0.6;
+}
+
+.flagged {
+  color: #da4f49; 
+}
+
 .comment {
   width: 100%;
   float: left;
@@ -63,6 +71,7 @@ ul, li {
 .comment-meta {
   margin-left: 10px;
   float: left;
+  width: 500px;
 }
 .comments * img {
   float: left;

@@ -3,6 +3,7 @@ class Maple.Views.PostShowView extends Backbone.View
   template: JST["backbone/templates/posts/show"]
   events:
     "click #new-comment": "newComment"
+    "click .comment-flag": "flagComment"
 
   initialize: ->
     @model.comments.fetch(
@@ -20,6 +21,12 @@ class Maple.Views.PostShowView extends Backbone.View
         @model.comments.toJSON()
     )))
   
+  flagComment: (event) ->
+    if $(event.target).hasClass("flagged")
+      $(event.target).removeClass("flagged")
+    else
+      $(event.target).addClass("flagged")
+
   newComment: (event) ->
     event.preventDefault()
     event.stopPropagation()
