@@ -49,6 +49,18 @@ class PostsController < ApplicationController
     render :json => post.public_model
   end
 
+  def update
+    if user_signed_in?
+      post = current_user.posts.find_by_id(params[:post][:id])
+      if post
+        post.update_attributes(sanitize(params[:post]))
+        render :json => post.public_model
+      end
+    else
+      redirect_to :controller => 'users', :action => 'login_in' 
+    end
+  end
+
   def vote_up
     # post posts/vote_up
     #

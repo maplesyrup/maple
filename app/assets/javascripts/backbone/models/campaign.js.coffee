@@ -2,9 +2,9 @@ class Maple.Models.Campaign extends Backbone.Model
   paramRoot: 'campaign'
   urlRoot: '/campaigns'
   validate: (attrs, options) ->
-    if !attrs.starttime 
-      "Campaign must have a starting time" 
-    if !attrs.endtime 
+    if !attrs.starttime
+      "Campaign must have a starting time"
+    if !attrs.endtime
       "Campaign must have an end time"
     if !attrs.title
       "Campaign must have a title"

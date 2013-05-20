@@ -19,7 +19,7 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
       Maple.session.currentUser.set(options.current_user)
     
     # Custom event aggregator for inter-view communication
-    Maple.mapleEvents = _.extend({}, Backbone.Events) 
+    Maple.mapleEvents = _.extend({}, Backbone.Events)
 
     @users = new Maple.Collections.UsersCollection()
 

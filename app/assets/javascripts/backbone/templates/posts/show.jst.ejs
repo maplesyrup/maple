@@ -3,6 +3,37 @@
     <div class="span8 center">
       <img src="<%= full_image_url %>" class="img-rounded">
       <hr>
+      <div class="comments">
+        <ul>  
+          <li>
+            <% if (Maple.session.get("user_signed_in")) { %>
+              <img src="<%= Maple.session.currentUser.get("avatar_thumb") %>" class="pull-left">
+            <% } %>
+            <textarea id="new-comment-area" class="pull-left"></textarea><div class="clearfix"></div>
+            <button id="new-comment" class="btn btn-success btn-small pull-right"> Comment </button>
+          
+          </li>
+          <div class="clearfix"></div>
+          <br> 
+          <% if (typeof(comments) !== "undefined") { %>
+            <% _.each(comments, function(comment) { %>
+              <li class="comment">
+                <div class="pull-left">
+                  <% if (typeof(comment.avatar_thumb) !== "undefined") { %>
+                    <img src="<%= comment.avatar_thumb %>">
+                  <% } %>
+                  <div class="comment-meta">
+                    <% if (typeof(comment.commenter_name) !== "undefined") { %>
+                      <strong> <%= comment.commenter_name %> </strong>
+                    <% } %>
+                    <p><small><%= comment.content %></small></p>
+                  </div>
+                </div>
+              </li>
+            <% }) %>
+          <% } %>
+        </ul>
+      </div>
     </div>
     <div class="span4 well">
       <h4> <%= title %> </h4> <br>
@@ -11,7 +42,7 @@
       <div class="pull-left">
         <a href="/#users/<%= user.id %>" class="pull-left"><img src="<%= user.avatar_thumb %>"></a>
         <div class="glimpse-meta">
-          <strong> by <%= user.name %></strong>
+          <strong> by <a href="/#users/<%= user.id %>"><%= user.name %></a></strong>
           <p class="pull-left"> <strong> <%= relative_time %> </strong>
         </div>
       </div>
@@ -25,7 +56,9 @@
         <div class="pull-left well">
           <h5> Treasures won </h5>
           <% _.each(rewards, function(reward) { %>
-            <i class="gold icon-trophy"></i>&nbsp;<small><%= reward.title %></small>
+            <i class="gold icon-trophy"></i>&nbsp;<small><%= reward.title %></small><br>
+            <small><strong>Reward </strong>&nbsp;<%= reward.reward %></small>
+            <blockquote><small><%= reward.description %></small></blockquote> 
           <% }); %>
         </div>
       <% } %>

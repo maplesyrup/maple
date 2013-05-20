@@ -29,7 +29,44 @@ h1, h2, h3, h4, h5, h6 {
 .gold {
   color: #DAA520;  
 }
+ul {
+  margin: 0;
+}
 
+ul, li {
+  text-decoration: none;
+  list-style-type: none;
+}
+
+.comment {
+  width: 100%;
+  float: left;
+  padding-left: 10px;
+  padding-top: 10px;
+  text-align: left;  
+  border-bottom: 1px solid #eee;
+  border-top: 1px solid #fff;
+  background-color: #f5f5f5
+}
+
+.comments {
+  width: 100%;
+  float: left;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.comments * textarea {
+  margin-left: 20px;
+  width: 540px;
+}
+.comment-meta {
+  margin-left: 10px;
+  float: left;
+}
+.comments * img {
+  float: left;
+}
 .company-toolbar
 {
  color: white;

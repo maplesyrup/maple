@@ -34,6 +34,8 @@ Maple::Application.routes.draw do
 
   resources :stats, :only => :index
 
+  resources :comments
+
   put 'users/follow' => 'users#follow'
 
   resources :users

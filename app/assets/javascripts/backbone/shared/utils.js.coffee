@@ -95,3 +95,9 @@ Maple.Utils =
 
   fromRubyDateTime: (integer_time) ->
     new Date(integer_time * 1000)
+
+  emptyString: (str) ->
+    if str && /([^s])/.test(str)
+      false
+    else
+      true
