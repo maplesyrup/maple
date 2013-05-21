@@ -111,6 +111,13 @@ class Maple.Views.UserShowView extends Backbone.View
     $(".collection-filter").find(".active").removeClass("active")
     $(event.target).addClass("active")
 
+    if collectionType == "user-following-companies"
+      $(".following-type").html("Following Companies <span class='caret'></span>")
+    else if collectionType == "user-following-users"
+      $(".following-type").html("Following Users <span class='caret'></span>")
+    else
+      $(".following-type").html("Following <span class='caret'></span>")
+
     @populateCollection(collectionType)
 
   follow: (event) ->
