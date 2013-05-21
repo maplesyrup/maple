@@ -6,7 +6,6 @@ class LogEntriesController < ApplicationController
   end
 
   def index
-    require 'pry';binding.pry
     logs = LogEntry.page(:page => (params[:page] || 1), :per_page => 30)
 
     render :json => logs
