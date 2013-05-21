@@ -16,6 +16,7 @@ gem "tire-contrib"
 gem 'randexp'
 gem 'acts_as_follower'
 
+
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
@@ -40,11 +41,13 @@ group :development, :test do
   gem 'rake'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
+  gem 'capybara-webkit'
+  gem 'selenium-webdriver'
+  gem 'database_cleaner'
 end
 
 group :test do
   gem 'faker'
-  gem 'capybara'
   gem 'guard-rspec'
   gem 'launchy'
 end
