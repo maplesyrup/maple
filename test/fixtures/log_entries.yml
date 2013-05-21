@@ -4,8 +4,9 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
-# column: value
-#
-two: {}
-#  column: value
+one:
+  additt_version: 1.0
+  android_build: "JellyBean"
+  time: "Mon May 04 09:51:52 PST 2009"
+  stack_trace: "Oh shit! Shit is messed up"
+  ad_creation_log: "Houston we have a problem"

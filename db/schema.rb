@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130519201938) do
+ActiveRecord::Schema.define(:version => 20130521205524) do
 
   create_table "assets", :force => true do |t|
     t.datetime "created_at",         :null => false
@@ -93,8 +93,9 @@ ActiveRecord::Schema.define(:version => 20130519201938) do
     t.string   "android_build"
     t.string   "time"
     t.string   "stack_trace"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.string   "ad_creation_log"
   end
 
   create_table "posts", :force => true do |t|
