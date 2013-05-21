@@ -16,7 +16,8 @@ class CompaniesController < ApplicationController
 
     companies = Company.paged_companies(options)
 
-  	render :json => Company.public_models(companies)
+    require 'pry';binding.pry
+  	render :json => Company.public_models(companies, options)
   end
 
   def show
