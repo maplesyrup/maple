@@ -1,0 +1,69 @@
+<div class="container">
+  <div class="row-fluid">
+    <div class="span8 center">
+      <img src="<%= full_image_url %>" class="img-rounded">
+      <hr>
+      <div class="comments">
+        <ul>  
+          <% if (typeof(comments) !== "undefined") { %>
+            <% _.each(comments, function(comment) { %>
+              <li class="comment">
+                <div class="pull-left">
+                  <% if (typeof(comment.avatar_thumb) !== "undefined") { %>
+                    <a href="/#users/<%= comment.commenter_id %>"><img src="<%= comment.avatar_thumb %>"></a>
+                  <% } %>
+                  <div class="comment-meta">
+                    <% if (typeof(comment.commenter_name) !== "undefined") { %>
+                      <a href="/#users/<%= comment.commenter_id %>"><strong> <%= comment.commenter_name %> </strong></a>
+                    <% } %>
+
+                    <span class="muted">
+                      <small><%= comment.relative_time %> ago</small>
+                    </span> 
+                    <i class="icon-flag muted comment-flag"></i> 
+                    <p><small><%= comment.content %></small></p>
+                  </div>
+                </div>
+              </li>
+            <% }) %>
+          <% } %>
+          <li class="comment">
+            <% if (Maple.session.get("user_signed_in")) { %>
+              <img src="<%= Maple.session.currentUser.get("avatar_thumb") %>" class="pull-left">
+            <% } %>
+            <textarea id="new-comment-area" class="pull-left"></textarea><div class="clearfix"></div>
+            <button id="new-comment" class="btn btn-success btn-small pull-right"> Comment </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="span4 well">
+      <h4> <%= title %> </h4> <br>
+      <p> <%= content %></p>
+      <hr>
+      <div class="pull-left">
+        <a href="/#users/<%= user.id %>" class="pull-left"><img src="<%= user.avatar_thumb %>"></a>
+        <div class="glimpse-meta">
+          <strong> by <a href="/#users/<%= user.id %>"><%= user.name %></a></strong>
+          <p class="pull-left"> <strong> <%= relative_time %> </strong>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+      <% if (typeof(rewards) !== "undefined") { %>
+        <div class="clearfix"></div>
+        <hr>
+      <% if (typeof(campaign) !== "undefined" && campaign.tagName === undefined){ %>
+        <p> <strong>Submitted to</strong>&nbsp;<%= campaign.title %></p>
+      <% } %>
+        <div class="pull-left well">
+          <h5> Treasures won </h5>
+          <% _.each(rewards, function(reward) { %>
+            <i class="gold icon-trophy"></i>&nbsp;<small><%= reward.title %></small><br>
+            <small><strong>Reward </strong>&nbsp;<%= reward.reward %></small>
+            <blockquote><small><%= reward.description %></small></blockquote> 
+          <% }); %>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</div>

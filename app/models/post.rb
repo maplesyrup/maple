@@ -12,7 +12,7 @@ class Post < ActiveRecord::Base
   # image_updated_at, company_id.
 
   attr_accessible :content, :title, :image, :company_id, :campaign_id
-
+  
   has_attached_file :image, :styles => { :large => "400x400>", :medium => "250x250>", :thumb => "100x100>"}, :default_url => "posts/:style/missing.png"
 
   belongs_to :user
@@ -100,7 +100,7 @@ class Post < ActiveRecord::Base
         if post.campaign
           json.campaign(post.campaign, :id, :title, :description, :starttime, :endtime, :company_id) 
         end
-
+        
         json.full_image_url post.image.url
         json.image_url post.image.url(:medium)
         json.total_votes post.votes_for

@@ -1,10 +1,13 @@
 class Maple.Models.Post extends Backbone.Model
   paramRoot: 'post'
 
+  initialize: ->
+    @comments = new Maple.Collections.CommentsCollection
+
 class Maple.Collections.PostsCollection extends Backbone.Collection
   model: Maple.Models.Post
   url: -> '/posts/'
-
+          
   comparator: (model) ->
     return model.get('created_at')
 
