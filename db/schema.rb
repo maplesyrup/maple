@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130502044203) do
+ActiveRecord::Schema.define(:version => 20130521205524) do
 
   create_table "assets", :force => true do |t|
     t.datetime "created_at",         :null => false
@@ -88,6 +88,16 @@ ActiveRecord::Schema.define(:version => 20130502044203) do
   add_index "follows", ["followable_id", "followable_type"], :name => "fk_followables"
   add_index "follows", ["follower_id", "follower_type"], :name => "fk_follows"
 
+  create_table "log_entries", :force => true do |t|
+    t.string   "additt_version"
+    t.string   "android_build"
+    t.string   "time"
+    t.string   "stack_trace"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.string   "ad_creation_log"
+  end
+
   create_table "posts", :force => true do |t|
     t.string   "title"
     t.string   "content"
@@ -134,7 +144,6 @@ ActiveRecord::Schema.define(:version => 20130502044203) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.string   "authentication_token"
     t.datetime "created_at",                                               :null => false
     t.datetime "updated_at",                                               :null => false
     t.string   "avatar_file_name"
@@ -143,7 +152,8 @@ ActiveRecord::Schema.define(:version => 20130502044203) do
     t.datetime "avatar_updated_at"
     t.string   "provider"
     t.string   "uid"
-    t.string   "name"
+    t.string   "name",                                                     :null => false
+    t.string   "authentication_token"
     t.string   "type"
     t.text     "personal_info",          :default => "A little about me."
   end
