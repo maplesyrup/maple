@@ -42,14 +42,12 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'capybara-webkit', github: 'thoughtbot/capybara-webkit', branch: 'master'
-  gem 'selenium-webdriver'
   gem 'database_cleaner'
 end
 
 group :test do
   gem 'faker'
   gem 'guard-rspec'
-  gem 'launchy'
 end
 
 group :production do
