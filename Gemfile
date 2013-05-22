@@ -41,7 +41,7 @@ group :development, :test do
   gem 'rake'
   gem 'rspec-rails'
   gem 'factory_girl_rails'
-  gem 'capybara-webkit'
+  gem 'capybara-webkit', github: 'thoughtbot/capybara-webkit', branch: 'master'
   gem 'selenium-webdriver'
   gem 'database_cleaner'
 end

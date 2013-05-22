@@ -10,10 +10,10 @@ module Features
     end
 
     def sign_in
-      user = create(:user)
+      user = FactoryGirl.create(:user)
       visit('/users/sign_in')
-      fill_in('email address', with: user.email)
-      fill_in('password', with: user.password)
+      fill_in('Enter your email address', with: user.email)
+      fill_in('Enter your password', with: user.password)
       click_on("Login")
     end
   end

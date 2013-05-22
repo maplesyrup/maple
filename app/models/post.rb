@@ -88,7 +88,6 @@ class Post < ActiveRecord::Base
     # Returned JSON includes the author, company,
     # full_image_url, image_url, total_votes
     # and voted_on
-
     Jbuilder.encode do |json|
       json.array! posts do |json, post|
         json.(post, :id, :company, :company_id, :content, :created_at, :title)
