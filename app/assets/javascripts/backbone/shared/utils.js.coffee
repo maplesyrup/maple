@@ -97,4 +97,4 @@ Maple.Utils =
     new Date(integer_time * 1000)
 
   emptyString: (str) ->
-    !(str && /([s])/.test(str))
+    !str || /^\s*$/.test(str)

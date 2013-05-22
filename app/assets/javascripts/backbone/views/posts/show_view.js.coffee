@@ -11,8 +11,8 @@ class Maple.Views.PostShowView extends Backbone.View
         post_id: @model.id
       success: =>
         @render()
-      error: =>
-        console.log "error"
+      error: (xhr) =>
+        Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
     )
 
   render: =>
@@ -22,10 +22,7 @@ class Maple.Views.PostShowView extends Backbone.View
     )))
   
   flagComment: (event) ->
-    if $(event.target).hasClass("flagged")
-      $(event.target).removeClass("flagged")
-    else
-      $(event.target).addClass("flagged")
+    $(event.target).toggleClass("flagged")
 
   newComment: (event) ->
     event.preventDefault()
@@ -42,6 +39,6 @@ class Maple.Views.PostShowView extends Backbone.View
           success: (post) =>
             @model.comments.add(post)
             @render()
-          error: (error) =>
-            console.log error
+          error: (xhr) =>
+            Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
         )

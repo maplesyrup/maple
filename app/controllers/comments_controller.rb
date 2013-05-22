@@ -2,7 +2,7 @@ class CommentsController < ApplicationController
   before_filter :authenticate_user!, :except => [:index]
 
   def index
-    comments = {}
+    comments = [] 
     if params[:user_id]      
       comments = User.find_by_id(params[:user_id]).comments
     elsif params[:post_id]
