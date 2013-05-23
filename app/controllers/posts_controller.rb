@@ -57,7 +57,7 @@ class PostsController < ApplicationController
         render :json => post.public_model
       end
     else
-      redirect_to :controller => 'users', :action => 'login_in' 
+      redirect_to :controller => 'users', :action => 'login_in'
     end
   end
 
@@ -70,6 +70,8 @@ class PostsController < ApplicationController
 
     current_user.vote_for(post)
     post.update_rewards
+    post.save
+    Post.index.refresh
 
     render :json => post
   end
