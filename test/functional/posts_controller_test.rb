@@ -65,7 +65,9 @@ class PostsControllerTest < ActionController::TestCase
   test "untags company from post" do
     sign_in @company
 
-    @post.company = @company
+    @company.posts.push(@post)
+    @company.campaigns.clear
+    @company.save
     @post.save
 
     assert @post.company
@@ -80,6 +82,10 @@ class PostsControllerTest < ActionController::TestCase
     p = Post.find(@post.id)
 
     assert p.banned_companies.select { |company| company.id == @company.id }, "Company not found in banned_companies"
+
+    c = Company.find(@company.id)
+
+    assert c.posts.empty?
   end
 
 end

@@ -67,10 +67,13 @@ class PostsController < ApplicationController
     post = Post.find_by_id(params[:id])
 
     if current_company.id == post.company_id
+      current_company.posts.delete(post)
+      post.campaign.posts.delete(post) if post.campaign
+      post.banned_companies << current_company
       post.company = nil
       post.campaign = nil
-      post.banned_companies << current_company
       post.save
+      current_company.save
       render :json => post.public_model
     else
       # Forbidden to modify post
