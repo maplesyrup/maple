@@ -61,6 +61,24 @@ class PostsController < ApplicationController
     end
   end
 
+  def untag
+    authenticate_company!
+
+    post = Post.find_by_id(params[:id])
+
+    if current_company.id == post.company_id
+      post.company = nil
+      post.campaign = nil
+      post.banned_companies << current_company
+      post.save
+      render :json => post.public_model
+    else
+      # Forbidden to modify post
+      render :json => post.public_model,
+             :status => Rack::Utils.status_code(403)
+    end
+  end
+
   def vote_up
     # post posts/vote_up
     #
