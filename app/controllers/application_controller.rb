@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
 
   def home
     @CONSTANTS = { :FACEBOOK_APP_ID => FACEBOOK_APP_ID }
-    @posts = Post.paged_posts({ :sort => { :by => 'total_votes' } })
+    @posts = Post.paged_posts()
     @companies = Company.paged_companies
   end
 

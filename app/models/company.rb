@@ -1,7 +1,7 @@
 class Company < ActiveRecord::Base
   include Tire::Model::Search
   include Tire::Model::Callbacks
- 
+
   # A Company has the following fields:
   # id, name, created_at, email,
   # encrypted_password, authentication_token,
@@ -25,15 +25,15 @@ class Company < ActiveRecord::Base
   has_many :assets, :as => :attachable
   has_many :posts
   has_many :campaigns
-    
+
   validates_associated :campaigns
 
   accepts_nested_attributes_for :assets, :allow_destroy => true
 
   has_many :campaigns
   has_many :comments, :as => :commenter
-  
-  validates_associated :comments 
+
+  validates_associated :comments
   validates_associated :campaigns
 
   acts_as_followable
@@ -71,8 +71,8 @@ class Company < ActiveRecord::Base
         string "#{options[:crumb]}:#{options[:query]}", default_operator: 'AND'
       end
 
-      filter :terms, { :id => options[:followed] } if options[:followed].present? 
-        
+      filter :terms, { :id => options[:followed] } if options[:followed].present?
+
     end
   end
 
@@ -81,7 +81,7 @@ class Company < ActiveRecord::Base
     # Convert the instance Company's attributes
     # into JSON.
     Jbuilder.encode do |json|
-      json.(self, :id, :name, :splash_image, :blurb_title, 
+      json.(self, :id, :name, :splash_image, :blurb_title,
                   :blurb_body, :more_info_title, :more_info_body,
                   :company_url)
       json.logos self.assets do |asset|
@@ -92,11 +92,16 @@ class Company < ActiveRecord::Base
         json.selected asset.selected
       end
       json.(self, :posts) if options[:include_posts]
+      json.(self, :campaigns) if options[:include_campaigns]
       json.editable false
       if options[:company] && options[:company].id == self.id
         json.editable true
       end
     end
+  end
+
+  def current_campaigns
+    self.campaigns.select { |campaign| campaign.starttime <= DateTime.now && campaign.endtime > DateTime.now }
   end
 
   def self.public_models(companies, options={})
@@ -106,8 +111,8 @@ class Company < ActiveRecord::Base
     # them into JSON.
     Jbuilder.encode do |json|
       json.array! companies do |json, company|
-        json.(company, :id, :name, :splash_image, 
-              :blurb_title, :blurb_body, :more_info_title, 
+        json.(company, :id, :name, :splash_image,
+              :blurb_title, :blurb_body, :more_info_title,
               :more_info_body, :company_url)
         json.logos company.assets do |asset|
           json.(asset, :id, :created_at)
@@ -117,6 +122,10 @@ class Company < ActiveRecord::Base
           json.selected asset.selected
         end
         json.editable false
+
+        if options[:include_current_campaigns]
+          json.current_campaigns company.current_campaigns
+        end
         if options[:company] && options[:company].id == company.id
           json.editable true
         end
