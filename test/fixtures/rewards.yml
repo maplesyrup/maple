@@ -10,6 +10,7 @@ one:
   campaign_id: 1  
   quantity: 1
   min_votes: 2 
+  requirement_type: 'MIN_VOTES'
 
 two: 
   id: 2
@@ -18,6 +19,8 @@ two:
   title: gold member cat award
   campaign_id: 1
   min_votes: 10 
+  quantity: 1
+  requirement_type: 'MIN_VOTES'
 
 three:
   id: 3
@@ -26,3 +29,16 @@ three:
   title: Cat cat cat cat cat cat
   campaign_id: 2
   min_votes: 12
+  quantity: 1
+  requirement_type: 'MIN_VOTES'
+
+four:
+  id: 4
+  reward: asdfasdfasdfasdf
+  description: asdfasdfasdfasdfasdfasdf
+  title: asdfasdf asdfasdf asdfasdf asdfasdf
+  campaign_id: 2
+  requirement_type: "TOP_POST"
+  number_of_leaders: 2  
+  min_votes: 2
+  quantity: 2

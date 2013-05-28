@@ -69,10 +69,10 @@ class PostsController < ApplicationController
     post = Post.find_by_id(params[:post_id])
 
     current_user.vote_for(post)
-    post.trigger_rewards
-
     post.save
     Post.index.refresh
+  
+    post.campaign.refresh_rewards if post.campaign
 
     render :json => post
   end

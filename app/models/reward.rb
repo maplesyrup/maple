@@ -1,16 +1,15 @@
 class Reward < ActiveRecord::Base
-  attr_accessible :id, :title, :description, :campaign_id,
-                  :reward, :quantity, :min_votes
+  attr_accessible :id, :title, :description, :campaign_id, :reward, :quantity, :min_votes, :number_of_leaders, :users_can_win, :requirement_type
 
   belongs_to :campaign
-  has_and_belongs_to_many :users 
+
   has_and_belongs_to_many :posts
 
   validates :quantity, :numericality => { :greater_than_or_equal_to => 0 }, :allow_nil => true
   validates :min_votes, :numericality => { :greater_than_or_equal_to => 0 }, :allow_nil =>true
   validates :title, :presence => true
   validates :description, :presence => true
-
+  
   def self.public_models(rewards)
     Jbuilder.encode do |json|
       json.array! rewards do |json, reward|
@@ -26,18 +25,40 @@ class Reward < ActiveRecord::Base
             :min_votes)
     end
   end 
-  
-  def one_less 
-    quantity = self.quantity - 1 
-    self.update_attributes(:quantity => quantity)
+
+  def clear_winners
+    Reward.find(self.id).posts.delete_all 
+    self.save
   end
 
-  def qualifies_for?(post)
-    # This doesn't seem thread safe
-    if self.min_votes <= post.plusminus && self.quantity && self.quantity > 0 
-      true 
-    else
-      false
+  def min_vote_winners
+    top_posts = self.campaign.top_posts(
+      :min_votes => self.min_votes, 
+      :campaign_id => self.campaign_id,
+    ).results
+    top_posts = top_posts.sort_by { |p| Post.find_by_id(p.id.to_i).votes[self.min_votes - 1].created_at }.take(self.quantity)
+  end
+
+  def top_post_winners
+    top_posts = self.campaign.top_posts(
+      :min_votes => self.min_votes, 
+      :campaign_id => self.campaign_id,
+      :limit => self.quantity
+    ).results
+  end
+  
+  def refresh_winners
+    winners = []
+    case self.requirement_type
+    when "MIN_VOTES"
+      winners = self.min_vote_winners
+    when "TOP_POST"
+      self.clear_winners
+      winners = self.top_post_winners  
+    end
+    winners.each do |winner|
+      winner = Post.find_by_id(winner.id)
+      winner.wins self unless winner.has_already_won? self
     end
   end
 end
