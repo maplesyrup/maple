@@ -19,7 +19,8 @@ class Post < ActiveRecord::Base
   belongs_to :company
   belongs_to :campaign
 
-  has_and_belongs_to_many :banned_companies, :class_name => "Company", :uniq => true
+  has_and_belongs_to_many :banned_companies, :class_name => "Company", :uniq => true,
+      :join_table => "banned_companies_posts"
 
   acts_as_voteable
 

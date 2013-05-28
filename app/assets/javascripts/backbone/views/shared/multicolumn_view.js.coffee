@@ -150,5 +150,6 @@ class Maple.Views.MultiColumnView extends Backbone.View
     @
 
   close: ->
+    @collection.off()
     @remove
     @unbind
