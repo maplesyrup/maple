@@ -31,6 +31,8 @@ class Maple.Views.MultiColumnView extends Backbone.View
     "click .load-posts" : "onLoadModels"
 
   initialize: ->
+    @viewManager = new Maple.ViewManager()
+
     @.collection.bind 'reset', =>
       @.render()
       @.addAll()
@@ -71,9 +73,12 @@ class Maple.Views.MultiColumnView extends Backbone.View
 
   addOne: (model, index) ->
     colId = @.getColumnId(index)
-
+    container = @$el.find(colId)
+    
     @view = new @modelView({ model: model, collection: @collection })
-    @$el.find(colId).append @view.render().el
+    @viewManager.appendView(@view, container)
+
+    #@$el.find(colId).append @view.render().el
 
   getColumnId: (index) ->
     @columnIds[index % @numberOfColumns]
@@ -138,9 +143,11 @@ class Maple.Views.MultiColumnView extends Backbone.View
           @addAll()
 
   render: ->
+    @viewManager.closeAll()
     @$el.html @template()
     @
 
   close: ->
-    @remove
-    @unbind
+    @viewManager.closeAll()
+    @remove()
+    @unbind()

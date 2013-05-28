@@ -20,6 +20,7 @@ class Maple.Views.PostView extends Backbone.View
       if(@.model.hasChanged('total_votes'))
         @.render()
 
+    @render()
 
   onMouseover: (e) =>
     @$el.find('.delete-post').css 'visibility', 'visible'
@@ -57,6 +58,6 @@ class Maple.Views.PostView extends Backbone.View
     @
 
   close: ->
-    @remove
-    @unbind
-    @.model.unbind
+    @remove()
+    @unbind()
+    @.model.unbind()
