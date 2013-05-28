@@ -10,7 +10,7 @@ one:
   campaign_id: 1  
   quantity: 1
   min_votes: 2 
-  requirement_type: 'MIN_VOTES'
+  requirement: 'MIN_VOTES'
 
 two: 
   id: 2
@@ -20,7 +20,7 @@ two:
   campaign_id: 1
   min_votes: 10 
   quantity: 1
-  requirement_type: 'MIN_VOTES'
+  requirement: 'MIN_VOTES'
 
 three:
   id: 3
@@ -30,7 +30,7 @@ three:
   campaign_id: 2
   min_votes: 12
   quantity: 1
-  requirement_type: 'MIN_VOTES'
+  requirement: 'MIN_VOTES'
 
 four:
   id: 4
@@ -38,7 +38,6 @@ four:
   description: asdfasdfasdfasdfasdfasdf
   title: asdfasdf asdfasdf asdfasdf asdfasdf
   campaign_id: 2
-  requirement_type: "TOP_POST"
-  number_of_leaders: 2  
+  requirement: "TOP_POST"
   min_votes: 2
   quantity: 2

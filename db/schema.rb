@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130525035115) do
+ActiveRecord::Schema.define(:version => 20130528051659) do
 
   create_table "assets", :force => true do |t|
     t.datetime "created_at",         :null => false
@@ -126,10 +126,8 @@ ActiveRecord::Schema.define(:version => 20130525035115) do
     t.integer  "quantity"
     t.string   "reward"
     t.integer  "min_votes"
-    t.integer  "number_of_leaders", :default => 0
     t.integer  "min_votes_to_lead", :default => 0
-    t.integer  "users_can_win",     :default => 1
-    t.string   "requirement_type",  :default => "NONE"
+    t.string   "requirement",       :default => "NONE"
   end
 
   create_table "rewards_users", :id => false, :force => true do |t|

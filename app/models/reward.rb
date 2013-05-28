@@ -1,5 +1,5 @@
 class Reward < ActiveRecord::Base
-  attr_accessible :id, :title, :description, :campaign_id, :reward, :quantity, :min_votes, :number_of_leaders, :users_can_win, :requirement_type
+  attr_accessible :id, :title, :description, :campaign_id, :reward, :quantity, :min_votes, :requirement
 
   belongs_to :campaign
 
@@ -14,7 +14,7 @@ class Reward < ActiveRecord::Base
     Jbuilder.encode do |json|
       json.array! rewards do |json, reward|
         json.(reward, :id, :title, :description, :campaign_id, :reward, :quantity, 
-            :min_votes)
+            :min_votes, :requirement)
       end
     end
   end
@@ -22,7 +22,7 @@ class Reward < ActiveRecord::Base
   def public_model
     Jbuilder.encode do |json|
       json.(self, :id, :title, :description, :campaign_id, :reward, :quantity,
-            :min_votes)
+            :min_votes, :requirement)
     end
   end 
 
@@ -49,7 +49,7 @@ class Reward < ActiveRecord::Base
   
   def refresh_winners
     winners = []
-    case self.requirement_type
+    case self.requirement
     when "MIN_VOTES"
       winners = self.min_vote_winners
     when "TOP_POST"
