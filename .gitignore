@@ -26,7 +26,6 @@
 *.swo
 
 # Ignore the config files
-/config/database.yml
 /config/s3.yml
 
 # Heroku Procfile
