@@ -95,11 +95,16 @@ class Company < ActiveRecord::Base
         json.selected asset.selected
       end
       json.(self, :posts) if options[:include_posts]
+      json.(self, :campaigns) if options[:include_campaigns]
       json.editable false
       if options[:company] && options[:company].id == self.id
         json.editable true
       end
     end
+  end
+
+  def current_campaigns
+    self.campaigns.select { |campaign| campaign.starttime <= DateTime.now && campaign.endtime > DateTime.now }
   end
 
   def self.public_models(companies, options={})
@@ -120,6 +125,10 @@ class Company < ActiveRecord::Base
           json.selected asset.selected
         end
         json.editable false
+
+        if options[:include_current_campaigns]
+          json.current_campaigns company.current_campaigns
+        end
         if options[:company] && options[:company].id == company.id
           json.editable true
         end

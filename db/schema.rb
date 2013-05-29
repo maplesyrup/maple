@@ -53,10 +53,10 @@ ActiveRecord::Schema.define(:version => 20130528175545) do
 
   create_table "companies", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at",                                                              :null => false
-    t.datetime "updated_at",                                                              :null => false
-    t.string   "email",                     :default => "",                               :null => false
-    t.string   "encrypted_password",        :default => "",                               :null => false
+    t.datetime "created_at",                                                               :null => false
+    t.datetime "updated_at",                                                               :null => false
+    t.string   "email",                     :default => "",                                :null => false
+    t.string   "encrypted_password",        :default => "",                                :null => false
     t.string   "authentication_token"
     t.integer  "sign_in_count",             :default => 0
     t.datetime "current_sign_in_at"
@@ -64,12 +64,12 @@ ActiveRecord::Schema.define(:version => 20130528175545) do
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.datetime "remember_created_at"
-    t.string   "image",                     :default => "",                               :null => false
-    t.string   "company_url",               :default => "",                               :null => false
-    t.string   "blurb_title",               :default => "Company Blurb",                  :null => false
-    t.string   "blurb_body",                :default => "Hey, this is our company!",      :null => false
-    t.string   "more_info_title",           :default => "More Info",                      :null => false
-    t.string   "more_info_body",            :default => "Here's a little more about us.", :null => false
+    t.string   "image",                     :default => "",                                :null => false
+    t.string   "company_url",               :default => "",                                :null => false
+    t.string   "blurb_title",               :default => "Company Blurb",                   :null => false
+    t.string   "blurb_body",                :default => "Hey, this is our company!",       :null => false
+    t.string   "more_info_title",           :default => "More Info",                       :null => false
+    t.string   "more_info_body",            :default => "Here''s a little more about us.", :null => false
     t.string   "logo_file_name"
     t.string   "logo_content_type"
     t.integer  "logo_file_size"
@@ -149,6 +149,7 @@ ActiveRecord::Schema.define(:version => 20130528175545) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.string   "authentication_token"
     t.datetime "created_at",                                               :null => false
     t.datetime "updated_at",                                               :null => false
     t.string   "avatar_file_name"
@@ -157,8 +158,7 @@ ActiveRecord::Schema.define(:version => 20130528175545) do
     t.datetime "avatar_updated_at"
     t.string   "provider"
     t.string   "uid"
-    t.string   "name",                                                     :null => false
-    t.string   "authentication_token"
+    t.string   "name"
     t.string   "type"
     t.text     "personal_info",          :default => "A little about me."
   end
