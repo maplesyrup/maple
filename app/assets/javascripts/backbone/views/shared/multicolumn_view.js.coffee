@@ -43,12 +43,20 @@ class Maple.Views.MultiColumnView extends Backbone.View
       @render()
       @addAll()
 
+    @data = (@options.data || {})
+
+    @collection.on 'change', (model) =>
+      if @data.company_id != model.company_id
+        # Remove the model from the collection if we're looking at company view
+        # Keep silent so we don't trigger a remove event that actually removes model
+        @collection.remove(model, { silent: true })
+      @render()
+      @addAll()
+
     @parent = @options.parent || window
     @modelView = @options.modelView
 
     @loading = false
-
-    @data = (@options.data || {})
 
     _.defaults(@data, {
       page: if @options.bootstrapped then 2 else 1,
@@ -142,5 +150,6 @@ class Maple.Views.MultiColumnView extends Backbone.View
     @
 
   close: ->
+    @collection.off()
     @remove
     @unbind

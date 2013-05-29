@@ -27,7 +27,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .gold {
-  color: #DAA520;  
+  color: #DAA520;
 }
 ul {
   margin: 0;
@@ -43,7 +43,7 @@ ul, li {
 }
 
 .flagged {
-  color: #da4f49; 
+  color: #da4f49;
 }
 
 .comment {
@@ -51,7 +51,7 @@ ul, li {
   float: left;
   padding-left: 10px;
   padding-top: 10px;
-  text-align: left;  
+  text-align: left;
   border-bottom: 1px solid #eee;
   border-top: 1px solid #fff;
   background-color: #f5f5f5
@@ -334,14 +334,14 @@ ul, li {
 
 .header-feature {
   visibility: hidden;
-  position: absolute; 
+  position: absolute;
   top: 0;
-  left: 0; 
+  left: 0;
   width: 100%;
 }
 
 .header-inner {
-  margin: 5px; 
+  margin: 5px;
 }
 
 .glimpse {
@@ -365,7 +365,7 @@ ul, li {
 }
 
 a hr{
-  text-decoration: none; 
+  text-decoration: none;
 }
 
 .rounded-top {
@@ -736,4 +736,19 @@ circle {
   .faq-footer {
     margin-top: 30px;
   }
+}
+
+/* custom icons */
+
+.myicon-untag {
+  /* taken from bootstrap file */
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  line-height: 14px;
+  vertical-align: text-top;
+  background-image: url("/assets/icons/untag.png");
+  background-size: 14px 14px;
+  background-position: 14px 14px;
+  margin-top: 1px;
 }

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130521205524) do
+ActiveRecord::Schema.define(:version => 20130528175545) do
 
   create_table "assets", :force => true do |t|
     t.datetime "created_at",         :null => false
@@ -23,6 +23,11 @@ ActiveRecord::Schema.define(:version => 20130521205524) do
     t.integer  "attachable_id"
     t.string   "attachable_type"
     t.boolean  "selected"
+  end
+
+  create_table "banned_companies_posts", :force => true do |t|
+    t.integer "company_id", :null => false
+    t.integer "post_id",    :null => false
   end
 
   create_table "campaigns", :force => true do |t|
