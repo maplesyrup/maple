@@ -144,6 +144,7 @@ ActiveRecord::Schema.define(:version => 20130521205524) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
+    t.string   "authentication_token"
     t.datetime "created_at",                                               :null => false
     t.datetime "updated_at",                                               :null => false
     t.string   "avatar_file_name"
@@ -152,8 +153,7 @@ ActiveRecord::Schema.define(:version => 20130521205524) do
     t.datetime "avatar_updated_at"
     t.string   "provider"
     t.string   "uid"
-    t.string   "name",                                                     :null => false
-    t.string   "authentication_token"
+    t.string   "name"
     t.string   "type"
     t.text     "personal_info",          :default => "A little about me."
   end
