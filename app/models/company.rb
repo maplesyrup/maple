@@ -26,6 +26,9 @@ class Company < ActiveRecord::Base
   has_many :posts
   has_many :campaigns
 
+  has_and_belongs_to_many :banned_posts, :class_name => "Post", :uniq => true,
+      :join_table => "banned_companies_posts"
+
   validates_associated :campaigns
 
   accepts_nested_attributes_for :assets, :allow_destroy => true
