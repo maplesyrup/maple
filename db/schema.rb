@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130521205524) do
+ActiveRecord::Schema.define(:version => 20130528175545) do
 
   create_table "assets", :force => true do |t|
     t.datetime "created_at",         :null => false
@@ -23,6 +23,11 @@ ActiveRecord::Schema.define(:version => 20130521205524) do
     t.integer  "attachable_id"
     t.string   "attachable_type"
     t.boolean  "selected"
+  end
+
+  create_table "banned_companies_posts", :force => true do |t|
+    t.integer "company_id", :null => false
+    t.integer "post_id",    :null => false
   end
 
   create_table "campaigns", :force => true do |t|
@@ -48,10 +53,10 @@ ActiveRecord::Schema.define(:version => 20130521205524) do
 
   create_table "companies", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at",                                                              :null => false
-    t.datetime "updated_at",                                                              :null => false
-    t.string   "email",                     :default => "",                               :null => false
-    t.string   "encrypted_password",        :default => "",                               :null => false
+    t.datetime "created_at",                                                               :null => false
+    t.datetime "updated_at",                                                               :null => false
+    t.string   "email",                     :default => "",                                :null => false
+    t.string   "encrypted_password",        :default => "",                                :null => false
     t.string   "authentication_token"
     t.integer  "sign_in_count",             :default => 0
     t.datetime "current_sign_in_at"
@@ -59,12 +64,12 @@ ActiveRecord::Schema.define(:version => 20130521205524) do
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.datetime "remember_created_at"
-    t.string   "image",                     :default => "",                               :null => false
-    t.string   "company_url",               :default => "",                               :null => false
-    t.string   "blurb_title",               :default => "Company Blurb",                  :null => false
-    t.string   "blurb_body",                :default => "Hey, this is our company!",      :null => false
-    t.string   "more_info_title",           :default => "More Info",                      :null => false
-    t.string   "more_info_body",            :default => "Here's a little more about us.", :null => false
+    t.string   "image",                     :default => "",                                :null => false
+    t.string   "company_url",               :default => "",                                :null => false
+    t.string   "blurb_title",               :default => "Company Blurb",                   :null => false
+    t.string   "blurb_body",                :default => "Hey, this is our company!",       :null => false
+    t.string   "more_info_title",           :default => "More Info",                       :null => false
+    t.string   "more_info_body",            :default => "Here''s a little more about us.", :null => false
     t.string   "logo_file_name"
     t.string   "logo_content_type"
     t.integer  "logo_file_size"

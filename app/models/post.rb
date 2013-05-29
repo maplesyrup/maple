@@ -12,12 +12,15 @@ class Post < ActiveRecord::Base
   # image_updated_at, company_id.
 
   attr_accessible :content, :title, :image, :company_id, :campaign_id
-  
+
   has_attached_file :image, :styles => { :large => "400x400>", :medium => "250x250>", :thumb => "100x100>"}, :default_url => "posts/:style/missing.png"
 
   belongs_to :user
   belongs_to :company
   belongs_to :campaign
+
+  has_and_belongs_to_many :banned_companies, :class_name => "Company", :uniq => true,
+      :join_table => "banned_companies_posts"
 
   acts_as_voteable
 
@@ -90,17 +93,17 @@ class Post < ActiveRecord::Base
           json.(post.user, :id, :created_at, :email, :uid, :provider, :name)
           json.avatar_thumb post.user.avatar.url(:thumb)
         end
-         
+
         if !post.rewards.empty?
-          json.rewards post.rewards do |reward| 
-            json.(reward, :id, :title, :description, :campaign_id, :reward, :quantity, :min_votes) 
+          json.rewards post.rewards do |reward|
+            json.(reward, :id, :title, :description, :campaign_id, :reward, :quantity, :min_votes)
           end
         end
-         
+
         if post.campaign
-          json.campaign(post.campaign, :id, :title, :description, :starttime, :endtime, :company_id) 
+          json.campaign(post.campaign, :id, :title, :description, :starttime, :endtime, :company_id)
         end
-        
+
         json.full_image_url post.image.url
         json.image_url post.image.url(:medium)
         json.total_votes post.votes_for

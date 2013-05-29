@@ -1,13 +1,15 @@
 Maple::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
+  credentials = YAML.load_file("#{::Rails.root}/config/s3.yml")
 
   # config/environments/production.rb
   config.paperclip_defaults = {
     :storage => :s3,
+    :s3_host_name => credentials['S3_DOMAIN'],
     :s3_credentials => {
-      :bucket => ENV['S3_BUCKET_NAME'],
-      :access_key_id => ENV['AWS_ACCESS_KEY_ID'],
-      :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
+      :bucket => credentials['production']['S3_BUCKET_NAME'],
+      :access_key_id => credentials['production']['AWS_ACCESS_KEY_ID'],
+      :secret_access_key => credentials['production']['AWS_SECRET_ACCESS_KEY'],
     }
   }
   # Code is not reloaded between requests
@@ -18,7 +20,7 @@ Maple::Application.configure do
   config.action_controller.perform_caching = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this)
-  config.serve_static_assets = false
+  config.serve_static_assets = true
 
   # Compress JavaScripts and CSS
   config.assets.compress = true
