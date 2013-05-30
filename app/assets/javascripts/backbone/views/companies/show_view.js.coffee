@@ -19,6 +19,8 @@ class Maple.Views.CompanyShowView extends Backbone.View
     "click .multiple-logo-image" : "selectLogo"
 
   initialize: ->
+    @viewManager = new Maple.ViewManager()
+
     @model.on "change", =>
       if @model.hasChanged("logos")
         replaceImageTemplate = JST["backbone/templates/helpers/replace_image"]
@@ -33,10 +35,14 @@ class Maple.Views.CompanyShowView extends Backbone.View
   render: ->
     @$el.html(@template(_.extend(@model.toJSON(), Maple.session.toJSON())))
     @populateCollection("company-posts")
-    @$el.find(".campaign").html new Maple.Views.CampaignShowView(
+
+    container = @$el.find(".campaign")
+    view = new Maple.Views.CampaignShowView(
       model: @model
       collection: @model.campaigns
-    ).el
+    )
+    @viewManager.showView(view, container)
+
     @
 
   submitSplash: (event) ->
@@ -156,23 +162,27 @@ class Maple.Views.CompanyShowView extends Backbone.View
   populateCollection: (collectionType) ->
     switch collectionType
       when "company-posts"
-        @$el.find("#company-posts-container").html new Maple.Views.MultiColumnView(
+        container = @$el.find("#company-posts-container")
+        view = new Maple.Views.MultiColumnView(
           collection: @model.posts
           parent: "#company-posts-container"
           modelView: Maple.Views.PostView
           data:
             company_id: @model.id
-        ).el
+        )
+        @viewManager.showView(view, container)
 
       when "company-followers"
-        @$el.find("#company-posts-container").html new Maple.Views.MultiColumnView(
+        container = @$el.find("#company-posts-container")
+        view = new Maple.Views.MultiColumnView(
           collection: @model.followers
           parent: "#company-posts-container"
           modelView: Maple.Views.UserView
           data:
             followable_id: @model.id
             type: 'Company'
-        ).el
+        )
+        @viewManager.showView(view, container)
 
       else
         if collectionType.type == "campaign"
@@ -214,4 +224,9 @@ class Maple.Views.CompanyShowView extends Backbone.View
     $(event.target).addClass("active")
 
     @populateCollection(collectionType)
+
+  close: ->
+    @remove()
+    @unbind()
+    @viewManager.closeAll()
 

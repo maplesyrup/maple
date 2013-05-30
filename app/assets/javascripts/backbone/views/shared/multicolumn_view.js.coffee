@@ -31,6 +31,8 @@ class Maple.Views.MultiColumnView extends Backbone.View
     "click .load-posts" : "onLoadModels"
 
   initialize: ->
+    @viewManager = new Maple.ViewManager()
+
     @.collection.bind 'reset', =>
       @.render()
       @.addAll()
@@ -43,12 +45,20 @@ class Maple.Views.MultiColumnView extends Backbone.View
       @render()
       @addAll()
 
+    @data = (@options.data || {})
+
+    @collection.on 'change', (model) =>
+      if @data.company_id != model.company_id
+        # Remove the model from the collection if we're looking at company view
+        # Keep silent so we don't trigger a remove event that actually removes model
+        @collection.remove(model, { silent: true })
+      @render()
+      @addAll()
+
     @parent = @options.parent || window
     @modelView = @options.modelView
 
     @loading = false
-
-    @data = (@options.data || {})
 
     _.defaults(@data, {
       page: if @options.bootstrapped then 2 else 1,
@@ -71,9 +81,12 @@ class Maple.Views.MultiColumnView extends Backbone.View
 
   addOne: (model, index) ->
     colId = @.getColumnId(index)
-
+    container = @$el.find(colId)
+    
     @view = new @modelView({ model: model, collection: @collection })
-    @$el.find(colId).append @view.render().el
+    @viewManager.appendView(@view, container)
+
+    #@$el.find(colId).append @view.render().el
 
   getColumnId: (index) ->
     @columnIds[index % @numberOfColumns]
@@ -138,9 +151,12 @@ class Maple.Views.MultiColumnView extends Backbone.View
           @addAll()
 
   render: ->
+    @viewManager.closeAll()
     @$el.html @template()
     @
 
   close: ->
-    @remove
-    @unbind
+    @collection.off()
+    @viewManager.closeAll()
+    @remove()
+    @unbind()

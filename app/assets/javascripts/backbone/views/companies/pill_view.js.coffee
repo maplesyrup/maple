@@ -10,4 +10,7 @@ class Maple.Views.CompaniesPillView extends Backbone.View
   render: ->
     @$el.html(@template(@model.toJSON()))
     @
-
+  
+  close: ->
+    @unbind()
+    @remove()

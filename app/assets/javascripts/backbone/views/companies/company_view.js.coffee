@@ -24,9 +24,9 @@ class Maple.Views.CompanyView extends Backbone.View
     @$el.find('.header-feature').css 'visibility', 'hidden'
 
   close: ->
-    @remove
-    @unbind
-    @.model.unbind
+    @remove()
+    @unbind()
+    @.model.unbind()
   
   follow: (event) ->
     if Maple.session.get("user_signed_in")
@@ -55,5 +55,4 @@ class Maple.Views.CompanyView extends Backbone.View
         error: (response) ->
           Maple.Utils.alert({ err: response })
         )
-
 
