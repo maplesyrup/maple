@@ -14,6 +14,7 @@ class Maple.Views.UserShowView extends Backbone.View
     "click .delete-user" : "onDeleteUser"
 
   initialize: ->
+    @viewManager = new Maple.ViewManager()
     @render()
 
   render: ->
@@ -52,54 +53,63 @@ class Maple.Views.UserShowView extends Backbone.View
     target = $(event.currentTarget)
     targetID = target.attr("id")
     if targetID == "avatar"
-      @$el.find("#user-select-new-avatar").html(
-        new Maple.Views.UploadImageView({
-          model: @model,
-          inputName: "user[avatar]",
-          targetImgContainer: "#avatar",
-          resourceName: "avatar"
-        }).el)
+      view = new Maple.Views.UploadImageView({
+        model: @model,
+        inputName: "user[avatar]",
+        targetImgContainer: "#avatar",
+        resourceName: "avatar"
+      })
+      container = @$el.find("#user-select-new-avatar")
+      @viewManager.showView(view, container)
     else
       return false
 
   populateCollection: (collectionType) ->
     switch collectionType
       when "user-posts"
-        @$el.find("#user-main-container").html new Maple.Views.MultiColumnView(
+        container = @$el.find("#user-main-container")
+        view = new Maple.Views.MultiColumnView(
           collection: @model.posts
           parent: "#user-main-container"
           modelView: Maple.Views.PostView
           data:
             user_id: @model.id
-        ).el
+        )
+        @viewManager.showView(view, container)
 
       when "user-following-companies"
-        @$el.find("#user-main-container").html new Maple.Views.MultiColumnView(
+        container = @$el.find("#user-main-container")
+        view = new Maple.Views.MultiColumnView(
           collection: @model.companies_following
           parent: "#user-main-container"
           modelView: Maple.Views.CompanyView
           data:
             follower: @model.id
-        ).el
+        )
+        @viewManager.showView(view, container)
 
       when "user-following-users"
-        @$el.find("#user-main-container").html new Maple.Views.MultiColumnView(
+        container = @$el.find("#user-main-container")
+        view = new Maple.Views.MultiColumnView(
           collection: @model.users_following
           parent: "#user-main-container"
           modelView: Maple.Views.UserView
           data:
             follower: @model.id
-        ).el
+        )
+        @viewManager.showView(view, container)
 
       when "user-followers"
-        @$el.find("#user-main-container").html new Maple.Views.MultiColumnView(
+        container = @$el.find("#user-main-container")
+        view = new Maple.Views.MultiColumnView(
           collection: @model.followers
           parent: "#user-main-container"
           modelView: Maple.Views.UserView
           data:
             followable_id: @model.id
             type: 'User'
-        ).el
+        )
+        @viewManager.showView(view, container)
 
   refilterCollection: (event) ->
     event.stopPropagation()
@@ -147,3 +157,7 @@ class Maple.Views.UserShowView extends Backbone.View
           Maple.Utils.alert({ err: response })
         )
 
+  close: ->
+    @viewManager.closeAll()
+    @remove()
+    @unbind()

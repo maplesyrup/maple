@@ -8,3 +8,7 @@ class Maple.Views.SplashView extends Backbone.View
   render: ->
     @$el.html(@template())
     @
+
+  close: ->
+    @unbind()
+    @remove()

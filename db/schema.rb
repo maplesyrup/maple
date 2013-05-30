@@ -126,11 +126,13 @@ ActiveRecord::Schema.define(:version => 20130528175545) do
     t.integer  "campaign_id"
     t.string   "title"
     t.text     "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
     t.integer  "quantity"
     t.string   "reward"
     t.integer  "min_votes"
+    t.integer  "min_votes_to_lead", :default => 0
+    t.string   "requirement",       :default => "NONE"
   end
 
   create_table "rewards_users", :id => false, :force => true do |t|
