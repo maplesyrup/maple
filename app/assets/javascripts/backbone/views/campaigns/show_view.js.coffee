@@ -107,6 +107,11 @@ class Maple.Views.CampaignShowView extends Backbone.View
       model: model
       company: @model
     ).el
-    
+
+    Maple.mapleEvents.trigger("campaignFilter",
+      type: "campaign"
+      id: target.attr("campaign-id")
+    )
+
   close: ->
     @unbind()

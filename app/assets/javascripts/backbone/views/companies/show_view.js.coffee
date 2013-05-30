@@ -27,6 +27,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
         @$el.find("#logo-placeholder").html(replaceImageTemplate({url: updatedLogo[0].medium}))
 
     $(window).scroll(@hideNav)
+    Maple.mapleEvents.bind("campaignFilter", @campaignFilter)
     @render()
 
   render: ->
@@ -173,11 +174,26 @@ class Maple.Views.CompanyShowView extends Backbone.View
             type: 'Company'
         ).el
 
+      else
+        if collectionType.type == "campaign"
+          @$el.find("#company-posts-container").html new Maple.Views.MultiColumnView(
+            collection: @model.posts.byCampaign(parseInt(collectionType.id))
+            parent: "#company-posts-container"
+            modelView: Maple.Views.PostView
+            data:
+              company_id: @model.id
+          ).el
+
   hideNav: ->
     if $(window).scrollTop() < $("#company-header-image").height()
       $(".scroll-hide").css("display", "visible").fadeIn("slow")
     else if $(".scroll-hide").is(":visible")
       $(".scroll-hide").css("display", "hidden").fadeOut("slow")
+
+  campaignFilter: (event) =>
+    @populateCollection(event)
+    event.stopPropagation()
+    event.preventDefault()
 
   refilterCollection: (event) ->
     event.stopPropagation()

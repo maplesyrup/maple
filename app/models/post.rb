@@ -85,7 +85,7 @@ class Post < ActiveRecord::Base
 
     Jbuilder.encode do |json|
       json.array! posts do |json, post|
-        json.(post, :id, :company, :company_id, :content, :created_at, :title)
+        json.(post, :id, :company, :company_id, :campaign_id, :content, :created_at, :title)
         json.user do
           json.(post.user, :id, :created_at, :email, :uid, :provider, :name)
           json.avatar_thumb post.user.avatar.url(:thumb)
