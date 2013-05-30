@@ -114,4 +114,5 @@ class Maple.Views.CampaignShowView extends Backbone.View
     )
 
   close: ->
+    Maple.mapleEvents.unbind("blurCampaign")
     @unbind()

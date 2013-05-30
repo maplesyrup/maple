@@ -23,7 +23,7 @@ class Maple.Collections.PostsCollection extends Backbone.Collection
   order_by_created_at: ->
     @_order_by = 'created_at'
     @sort()
-  
+
   byCampaign: (id) ->
     new Maple.Collections.PostsCollection @where campaign_id: id
   

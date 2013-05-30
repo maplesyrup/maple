@@ -186,23 +186,28 @@ class Maple.Views.CompanyShowView extends Backbone.View
 
       else
         if collectionType.type == "campaign"
-          @$el.find("#company-posts-container").html new Maple.Views.MultiColumnView(
+          container = @$el.find("#company-posts-container")
+          view = new Maple.Views.MultiColumnView(
             collection: @model.posts.byCampaign(parseInt(collectionType.id))
             parent: "#company-posts-container"
             modelView: Maple.Views.PostView
             bootstrapped: true
             data:
               company_id: @model.id
-          ).el
+          )
+          @viewManager.showView(view, container)
+
         if collectionType.type == "reward"
-          @$el.find("#company-posts-container").html new Maple.Views.MultiColumnView(
+          container = @$el.find("#company-posts-container")
+          view = new Maple.Views.MultiColumnView(
             collection: @model.posts.byReward(parseInt(collectionType.id))
             parent: "#company-posts-container"
             modelView: Maple.Views.PostView
             bootstrapped: true
             data:
               company_id: @model.id
-          ).el
+          )
+          @viewManager.showView(view, container)
 
   hideNav: ->
     if $(window).scrollTop() < $("#company-header-image").height()
@@ -226,6 +231,9 @@ class Maple.Views.CompanyShowView extends Backbone.View
     @populateCollection(collectionType)
 
   close: ->
+    Maple.mapleEvents.unbind("campaignFilter")
+    @model.off("change")
+    $(window).unbind('scroll')
     @remove()
     @unbind()
     @viewManager.closeAll()
