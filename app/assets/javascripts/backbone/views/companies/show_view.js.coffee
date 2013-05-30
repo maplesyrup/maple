@@ -120,7 +120,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
     target = $(event.currentTarget)
     targetID = target.attr("id")
     if targetID == "company-splash-image"
-      $("#uploadSplashModal").modal('show')  
+      $("#uploadSplashModal").modal('show')
     else if targetID == "company-submit-logo"
       @submitLogo(event)
     else
@@ -129,7 +129,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
   follow: (event) ->
     if Maple.session.get("user_signed_in")
       # user is signed in and wants to perform an action
-      index = _.indexOf(Maple.session.currentUser.get("companies_im_following"), @model.id) 
+      index = _.indexOf(Maple.session.currentUser.get("companies_im_following"), @model.id)
       if index == -1
         # user is not already following this company. Follow
 
@@ -180,6 +180,16 @@ class Maple.Views.CompanyShowView extends Backbone.View
             collection: @model.posts.byCampaign(parseInt(collectionType.id))
             parent: "#company-posts-container"
             modelView: Maple.Views.PostView
+            bootstrapped: true
+            data:
+              company_id: @model.id
+          ).el
+        if collectionType.type == "reward"
+          @$el.find("#company-posts-container").html new Maple.Views.MultiColumnView(
+            collection: @model.posts.byReward(parseInt(collectionType.id))
+            parent: "#company-posts-container"
+            modelView: Maple.Views.PostView
+            bootstrapped: true
             data:
               company_id: @model.id
           ).el
@@ -192,8 +202,6 @@ class Maple.Views.CompanyShowView extends Backbone.View
 
   campaignFilter: (event) =>
     @populateCollection(event)
-    event.stopPropagation()
-    event.preventDefault()
 
   refilterCollection: (event) ->
     event.stopPropagation()

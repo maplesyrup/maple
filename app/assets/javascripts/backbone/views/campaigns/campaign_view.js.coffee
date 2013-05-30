@@ -3,6 +3,7 @@ class Maple.Views.CampaignView extends Backbone.View
   template: JST["backbone/templates/campaigns/campaign"]
 
   events:
+    "click .reward-glimpse" : "filterByReward"
     "click #back-to-campaigns" : "blurCampaign"
     "click #create-award" : "createAward"
     "click #submit-to-campaign" : "newPost"
@@ -35,6 +36,7 @@ class Maple.Views.CampaignView extends Backbone.View
     event.stopPropagation()
 
     @close()
+    Maple.mapleEvents.trigger("campaignFilter", "company-posts")
     Maple.mapleEvents.trigger("blurCampaign")
 
   flashAlert: (container, message) ->
@@ -94,6 +96,15 @@ class Maple.Views.CampaignView extends Backbone.View
         campaign: @model
         collection: @company.posts
       ).el
+
+  filterByReward: (event) ->
+    rewardId = $(event.currentTarget).attr("reward-id")
+    Maple.mapleEvents.trigger("campaignFilter",
+      type: "reward"
+      id: rewardId
+    )
+    event.preventDefault()
+    event.stopPropagation()
 
   close: ->
     @remove()

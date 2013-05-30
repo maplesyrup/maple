@@ -26,6 +26,13 @@ class Maple.Collections.PostsCollection extends Backbone.Collection
   
   byCampaign: (id) ->
     new Maple.Collections.PostsCollection @where campaign_id: id
+  
+  byReward: (id) ->
+    filtered = @filter((post) ->
+      _.where(post.get("rewards"),
+        id: id
+      ).length != 0 )
+    new Maple.Collections.PostsCollection filtered
 
 # All constants and enums declared here for post
 Maple.Post =
