@@ -1,4 +1,4 @@
-<div class="navbar navbar-inverse navbar-fixed-top navigation nav-escape-above nav-push-down">
+<div class="navbar navbar-inverse navbar-fixed-top navigation nav-escape-above nav-push-down scroll-hide">
 	<div class="nav-opaque navbar-inner">
 		<div class="container-fluid">
 			<a class = "brand" href=<%= "/#companies/" + id %> ><%= name %></a>
@@ -62,11 +62,8 @@
 				</p>
 			</div>
 		</div>
-		<div class="span4 campaign">
-		</div>
 	</div>
 </div>
-
 <hr>
 <div class="container-fluid">
 	<div class="center">
@@ -77,9 +74,14 @@
 	</div>
 </div>
 <div class="nav-escape-above"></div>
-<div id="company-posts-container" class="container-fluid posts-container nav-escape-above">
+<div class="container-fluid">
+  <div class="row">
+    <div id="company-posts-container" class="span11 posts-container nav-escape-above"></div>
+    <div class="span4">
+      <div class="campaign"></div>
+    </div>
+  </div>
 </div>
-
 <% if (editable) { %>
 	<div id="uploadLogoModal" class="modal hide">
 		<div class="modal-header">

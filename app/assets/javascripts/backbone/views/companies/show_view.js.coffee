@@ -26,6 +26,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
           return logo.selected
         @$el.find("#logo-placeholder").html(replaceImageTemplate({url: updatedLogo[0].medium}))
 
+    $(window).scroll(@hideNav)
     @render()
 
   render: ->
@@ -80,7 +81,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
           Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText }))
     else
       Maple.Utils.alert({ err: 'You forgot to select a file.' })
-    $("#uploadLogoModal").modal('hide')  
+    $("#uploadLogoModal").modal('hide')
 
   saveContent: (id, content) ->
     if id ==  "company-blurb-title"
@@ -171,6 +172,12 @@ class Maple.Views.CompanyShowView extends Backbone.View
             followable_id: @model.id
             type: 'Company'
         ).el
+
+  hideNav: ->
+    if $(window).scrollTop() < $("#company-header-image").height()
+      $(".scroll-hide").css("display", "visible").fadeIn("slow")
+    else if $(".scroll-hide").is(":visible")
+      $(".scroll-hide").css("display", "hidden").fadeOut("slow")
 
   refilterCollection: (event) ->
     event.stopPropagation()
