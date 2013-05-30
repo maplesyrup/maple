@@ -116,3 +116,6 @@ class Maple.Views.CompaniesDashboardGraphView extends Backbone.View
                 .style("opacity", 0))
 
     @
+  close: ->
+    @remove()
+    @unbind()
