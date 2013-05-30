@@ -37,6 +37,7 @@ class Post < ActiveRecord::Base
     indexes :user_id, type: "integer"
     indexes :total_votes, type: "integer", index: :not_analyzed
     indexes :created_at, type: "date", index: :not_analyzed
+    indexes :last_voted_on, type: "integer", index: :not_analyzed
   end
 
   module VOTED
@@ -73,7 +74,7 @@ class Post < ActiveRecord::Base
     post_json[:total_votes] = self.votes_for
     post_json[:voted_on] = self.voted_on(options[:user])
     post_json[:relative_time] = time_ago_in_words(self.created_at)
-
+    post_json[:last_voted_on] = self.votes && self.votes.maximum("created_at").to_i || 0
     post_json.to_json
   end
 
@@ -153,22 +154,11 @@ class Post < ActiveRecord::Base
     VOTED::UNAVAILABLE
   end
 
-  def update_rewards
-    if self.campaign
-      self.campaign.rewards.each do |reward|
-        unless self.rewards.include?(reward)
-          if reward.qualifies_for?(self)
-            # Post qualifies for an award that it doesn't already have.
-            # Add it to the collection of awards owned by the post
-            # Add it to the collection of awards owned by the user
+  def wins(reward)
+    self.rewards << reward      
+  end
 
-            self.rewards << reward
-
-            self.user.rewards << reward
-            reward.one_less
-          end
-        end
-      end
-    end
+  def has_already_won?(reward)
+    self.rewards.include?(reward)
   end
 end
