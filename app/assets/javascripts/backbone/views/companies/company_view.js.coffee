@@ -24,16 +24,16 @@ class Maple.Views.CompanyView extends Backbone.View
     @$el.find('.header-feature').css 'visibility', 'hidden'
 
   close: ->
-    @remove
-    @unbind
-    @.model.unbind
+    @remove()
+    @unbind()
+    @.model.unbind()
   
   follow: (event) ->
     if Maple.session.get("user_signed_in")
       # user is signed in and wants to perform an action
       target = $(event.currentTarget)
-      index = _.indexOf(Maple.session.currentUser.get("companies_im_following"), @model.id) 
-      if index == -1 
+      index = _.indexOf(Maple.session.currentUser.get("companies_im_following"), @model.id)
+      if index == -1
         # user is not already following this company. Follow
 
         Maple.session.currentUser.get("companies_im_following").push(@model.id)
@@ -55,5 +55,4 @@ class Maple.Views.CompanyView extends Backbone.View
         error: (response) ->
           Maple.Utils.alert({ err: response })
         )
-
 

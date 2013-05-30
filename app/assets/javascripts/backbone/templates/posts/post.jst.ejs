@@ -10,7 +10,13 @@
                 <i class="icon-trash"></i>
               </button>
             </a>
-          <% } %>
+            <% } else if (company && company_signed_in && session.currentCompany.id === company.id) {  %>
+            <a href="#">
+              <button class="btn untag-post">
+                <i class="myicon-untag"></i>
+              </button>
+            </a>
+            <% } %>
         </div>
         <div class="pull-left">
           <a href="https://www.facebook.com/dialog/feed?
@@ -25,7 +31,7 @@
         </div>
       </div>
     </div>
-    
+
     <a href="/#posts/<%= id %>" data-img='<%= full_image_url %>'><img class="rounded-top" src="<%= image_url %>" /></a>
     <div class="outer-feature">
       <div class="inner-feature">
@@ -39,14 +45,14 @@
         </div>
         <h4><%= title %></h4>
       </div>
-      
+
     </div>
   </div>
 
 
   <div class="glimpse-info">
     <div class="content">
-      <p class="wrap-text">         
+      <p class="wrap-text">
         <small>
           <%= content %>
         </small>
@@ -54,7 +60,7 @@
     </div>
     <hr class="hr-thin">
 
-    <div class="pull-left">   
+    <div class="pull-left">
       <% if (typeof(user) !== "undefined" && user) { %>
         <% if (user.avatar_thumb && user.avatar_thumb != "avatars/thumb/missing.png") { %>
           <img class="pull-left" src="<%= user.avatar_thumb %>" />
@@ -80,16 +86,16 @@
     <div class="clearfix"></div>
     <hr class="hr-thin">
 
-      <% if (typeof(company) !== "undefined" && typeof(company.id) !== "undefined" && typeof(company.name) !== "undefined") { %>
+      <% if (typeof(company) !== "undefined" && company && typeof(company.id) !== "undefined" && typeof(company.name) !== "undefined") { %>
         <span class="tag">For <a href="/#companies/<%=company_id %>"><strong><%= company.name %></strong></a></span>
-         <% if (typeof(campaign) !== "undefined" && campaign.tagName === undefined) { %> 
+         <% if (typeof(campaign) !== "undefined" && campaign.tagName === undefined) { %>
           <span class="tag">'s campaign <strong><%= campaign.title %></strong></span>
          <% } %>
       <% } %>
-    <% if (typeof(rewards) !== "undefined") { %>  
+    <% if (typeof(rewards) !== "undefined") { %>
       <div class="clearfix"></div>
       <hr class="hr-thin">
-      <div class="well">       
+      <div class="well">
         <h5> Treasure Chest </h5>
         <i class="icon-trophy"></i>&nbsp;x&nbsp;<%= rewards.length %>
       </div>
