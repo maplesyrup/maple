@@ -17,3 +17,7 @@ class Maple.Views.CodView extends Backbone.View
   render: (data) ->
     @$el.html @template(data)
     @
+
+  close: ->
+    @remove()
+    @unbind()

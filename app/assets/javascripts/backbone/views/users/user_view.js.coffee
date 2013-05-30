@@ -51,6 +51,6 @@ class Maple.Views.UserView extends Backbone.View
       )
 
   close: ->
-    @remove
-    @unbind
-    @.model.unbind
+    @remove()
+    @unbind()
+    @.model.unbind()
