@@ -73,7 +73,7 @@ class Campaign < ActiveRecord::Base
     # the end of the array
     min_votes = options[:min_votes] || 0
 
-    s = self.posts.search do
+    s = self.posts.search(load: true) do
       size options[:limit] if options[:limit]
       filter :range, 'total_votes' => [:from => min_votes]
       filter :term, 'campaign_id' => options[:campaign_id] if options[:campaign_id]

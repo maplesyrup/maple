@@ -36,7 +36,7 @@ class Reward < ActiveRecord::Base
       :min_votes => self.min_votes, 
       :campaign_id => self.campaign_id,
     ).results
-    top_posts = top_posts.sort_by { |p| Post.find_by_id(p.id.to_i).votes[self.min_votes - 1].created_at }.take(self.quantity)
+    top_posts = top_posts.sort_by { |p| p.votes[self.min_votes - 1].created_at }.take(self.quantity)
   end
 
   def top_post_winners
