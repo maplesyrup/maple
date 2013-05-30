@@ -1,7 +1,7 @@
 Maple::Application.configure do
   credentials = YAML.load_file("#{::Rails.root}/config/s3.yml")
 
-  # config/environments/production.rb
+  # config/environments/test.rb
   config.paperclip_defaults = {
     :storage => :s3,
     :s3_host_name => credentials['S3_DOMAIN'],
