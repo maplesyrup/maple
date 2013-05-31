@@ -70,18 +70,19 @@ class Maple.Views.PostView extends Backbone.View
     @
 
   endorse: (event) ->
-    target = $(event.currentTarget)
-    target.toggleClass("gold icon-star-empty icon-star")
+    if Maple.session.get("company_signed_in") == true
+      target = $(event.currentTarget)
+      target.toggleClass("gold icon-star-empty icon-star")
 
-    $.ajax
-      type: "POST"
-      url: "/posts/endorse"
-      data:
-        id: @model.get('id')
-      success: (post) =>
-        console.log("endorsed")
-      error: (xhr) =>
-        Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
+      $.ajax
+        type: "POST"
+        url: "/posts/endorse"
+        data:
+          id: @model.get('id')
+        success: (post) =>
+          console.log("endorsed")
+        error: (xhr) =>
+          Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
 
   close: ->
     @remove()
