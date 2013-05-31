@@ -36,6 +36,8 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     'about' : 'about'
     'faq' : 'faq'
     'cod': 'cod'
+    'terms': 'terms'
+    'privacy': 'privacy'
     '*default' : 'index'
 
   index: ->
@@ -51,7 +53,12 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
       $(mainContainer).html new Maple.Views.SplashView().el
     
     @company_pill_view = new Maple.Views.CompaniesIndexView({ collection: @companies})
+  
+  terms: ->
+    $(mainContainer).html( new Maple.Views.TermsView().el )
 
+  privacy: ->
+    $(mainContainer).html( new Maple.Views.PrivacyView().el )
 
   about: ->
     $(mainContainer).html( new Maple.Views.AboutView().el )
