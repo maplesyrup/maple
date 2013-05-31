@@ -1,4 +1,4 @@
-<div class="navbar navbar-inverse navbar-fixed-top navigation nav-escape-above nav-push-down">
+<div class="navbar navbar-inverse navbar-fixed-top navigation nav-escape-above nav-push-down scroll-hide">
 	<div class="nav-opaque navbar-inner">
 		<div class="container-fluid">
 			<a class = "brand" href=<%= "/#companies/" + id %> ><%= name %></a>
@@ -41,32 +41,29 @@
 						<% } %>
 						" class="logo-thumb center">
 					<% } else { %>
-						<i class="icon-camera-retro icon-large"></i>
+					  <i class="icon-camera-retro icon-large"></i>
 					<% } %>
 				</div>
 				<div class="company-content">
-				<h1 contenteditable="<%= editable %>" id="company-blurb-title">
-					<%= blurb_title %>
-				</h1>
-				<p class="lead" id="company-blurb-body" contenteditable="<%= editable %>">
-					<%= blurb_body %>
-				</p>
-			</div>
-		</div>
-			<div class="content">
-				<h2 id="company-more-info-title" contenteditable="<%= editable %>">
-					<%= more_info_title %>
-				</h2>
-				<p id="company-more-info-body" contenteditable="<%= editable %>">
-					<%= more_info_body %>
-				</p>
-			</div>
-		</div>
-		<div class="span4 campaign">
-		</div>
+				  <h1 contenteditable="<%= editable %>" id="company-blurb-title">
+					  <%= blurb_title %>
+				  </h1>
+				  <p class="lead" id="company-blurb-body" contenteditable="<%= editable %>">
+					  <%= blurb_body %>
+				  </p>
+			  </div>
+		  </div>
+    </div>
+	  <div class="span4 content">
+		  <h2 id="company-more-info-title" contenteditable="<%= editable %>">
+				<%= more_info_title %>
+			</h2>
+			<p id="company-more-info-body" contenteditable="<%= editable %>">
+				<%= more_info_body %>
+			</p>
+    </div>
 	</div>
 </div>
-
 <hr>
 <div class="container-fluid">
 	<div class="center">
@@ -77,9 +74,14 @@
 	</div>
 </div>
 <div class="nav-escape-above"></div>
-<div id="company-posts-container" class="container-fluid posts-container nav-escape-above">
+<div class="container-fluid">
+  <div class="row">
+    <div id="company-posts-container" class="span11 posts-container nav-escape-above"></div>
+    <div class="span4">
+      <div class="campaign"></div>
+    </div>
+  </div>
 </div>
-
 <% if (editable) { %>
 	<div id="uploadLogoModal" class="modal hide">
 		<div class="modal-header">
