@@ -7,6 +7,7 @@ class Maple.Views.CampaignView extends Backbone.View
     "click #back-to-campaigns" : "blurCampaign"
     "click #create-award" : "createAward"
     "click #submit-to-campaign" : "newPost"
+    "click #competition-types" : "toggleAvailableFormInput"
 
   initialize: (options) ->
     @company = options.company || {}
@@ -50,12 +51,22 @@ class Maple.Views.CampaignView extends Backbone.View
 
   createAward: (event) ->
     form = $("#new-reward-form")
+    requirement = "MIN_VOTES"
+
+    requirementType = $("input[type=radio]:checked").attr("id")
+    quantity = form.find("input[name='quantity']").val()
+
+    if requirementType == "top-post-type"
+      requirement = "TOP_POST"
+      quantity = form.find("input[name='top-post-quantity']").val()
+    else if requirement == "company-nominated-type"
+      requirement = "COMPANY_NOMINATED"
+
     title = form.find("input[name='title']").val()
     description = form.find("textarea[name='description']").val()
     reward = form.find("input[name='reward']").val()
     minVotes = form.find("input[name='min-votes']").val()
-    quantity = form.find("input[name='quantity']").val()
-    
+      
     alertContainer = $("#reward-alert")
 
     if @isEmpty(title)
@@ -74,6 +85,7 @@ class Maple.Views.CampaignView extends Backbone.View
         quantity: quantity
         min_votes: minVotes
         campaign_id: @model.id
+        requirement: requirement
         },
         {
         success: (model) =>
@@ -105,6 +117,19 @@ class Maple.Views.CampaignView extends Backbone.View
     )
     event.preventDefault()
     event.stopPropagation()
+
+  toggleAvailableFormInput: (event) ->
+    targetId = $(event.target).attr("id")
+
+    if targetId == "top-post-type"
+      $("#quantity-input").attr("disabled", "disabled")
+      $("#top-posts-input").removeAttr("disabled")
+    else if targetId == "min-vote-type"
+      $("#top-posts-input").attr("disabled", "disabled")
+      $("#quantity-input").removeAttr("disabled")
+    else if targetId == "company-nominated-type"
+      $("#top-posts-input").attr("disabled", "disabled")
+      $("#quantity-input").attr("disabled", "disabled")
 
   close: ->
     @remove()
