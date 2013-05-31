@@ -43,7 +43,19 @@ test:
   timeout: 5000
 
 production:
-  adapter: sqlite3
-  database: db/production.sqlite3
+  adapter: postgresql
+  database: additt_production
+  host: localhost
   pool: 5
   timeout: 5000
+  username: maple
+  password: <%= begin IO.read("/home/ubuntu/.additt_db") rescue "" end %>
+
+testing:
+  adapter: postgresql
+  database: additt_testing
+  host: localhost
+  pool: 5
+  timeout: 5000
+  username: maple
+  password: <%= begin IO.read("/home/ubuntu/.additt_db") rescue "" end %>

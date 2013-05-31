@@ -1,6 +1,7 @@
 class Maple.Views.PostShowView extends Backbone.View
   
   template: JST["backbone/templates/posts/show"]
+
   events:
     "click #new-comment": "newComment"
     "click .comment-flag": "flagComment"
@@ -42,3 +43,7 @@ class Maple.Views.PostShowView extends Backbone.View
           error: (xhr) =>
             Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
         )
+
+  close: ->
+    @remove()
+    @unbind()

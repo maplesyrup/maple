@@ -1,0 +1,9 @@
+production:
+  AWS_ACCESS_KEY_ID: AKIAIV6QUZP54T7UOBKA
+  AWS_SECRET_ACCESS_KEY: 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
+  S3_BUCKET_NAME: additt-assets-production
+staging:
+  AWS_ACCESS_KEY_ID: AKIAIV6QUZP54T7UOBKA
+  AWS_SECRET_ACCESS_KEY: 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
+  S3_BUCKET_NAME: additt-assets-staging
+S3_DOMAIN: s3-us-west-1.amazonaws.com

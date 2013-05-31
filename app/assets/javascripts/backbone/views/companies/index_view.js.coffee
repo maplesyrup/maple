@@ -18,6 +18,8 @@ class Maple.Views.CompaniesIndexView extends Backbone.View
     "keyup #discover-companies-search" : "filter"
 
   initialize: ->
+    @viewManager = new Maple.ViewManager()
+
     @filteredCollection = @collection
     $("#find-companies").live "click", =>
       @$el.toggle("1000")
@@ -30,8 +32,7 @@ class Maple.Views.CompaniesIndexView extends Backbone.View
 
   addOne: (model, index) ->
     @view = new Maple.Views.CompaniesPillView({ model: model })
-     
-    $(@listEl).append @view.render().el
+    @viewManager.appendView(@view, $(@listEl))
 
   render: ->
     @$el.html @template()
@@ -43,7 +44,8 @@ class Maple.Views.CompaniesIndexView extends Backbone.View
     @addAll()
 
   close: ->
+    @viewManager.closeAll()
     @unbind()
     $("#find-companies").die("click")
-    @$el.html("")  
+    @$el.html("")
         
