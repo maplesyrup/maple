@@ -27,7 +27,7 @@ class Maple.Views.UserView extends Backbone.View
     if Maple.session.get("user_signed_in")
       # user is signed in and wants to perform a follow
       target = $(event.currentTarget)
-      index = _.indexOf(Maple.session.currentUser.get("users_im_following"), @model.id) 
+      index = _.indexOf(Maple.session.currentUser.get("users_im_following"), @model.id)
       if index == -1
         # current user is not already following this user. Follow him!
         Maple.session.currentUser.get("users_im_following").push(@model.id)
@@ -51,6 +51,6 @@ class Maple.Views.UserView extends Backbone.View
       )
 
   close: ->
-    @remove
-    @unbind
-    @.model.unbind
+    @remove()
+    @unbind()
+    @.model.unbind()

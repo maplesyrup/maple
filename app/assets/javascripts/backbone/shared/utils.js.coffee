@@ -88,6 +88,55 @@ Backbone.Collection::access = (options) ->
 			}
 	@
 
+Maple.ViewManager = ->
+  # View Manager. Maintains a hash of view containers 
+  # active views and their corresponding active view(s)
+  # View must be a newed backbone view and container
+  # must be a jquery object $("#mycontainer").
+  # Capable of handling multiple views at a time on 
+  # a single page.
+
+  activeViews: {}
+
+  showView: (view, container) ->
+    # use this if you are adding a view
+    # to an element with the .html(view.el)
+    # method
+    containerId = container.attr("id")
+
+    if @activeViews[containerId]
+      @activeViews[containerId].close()
+    
+    @activeViews[containerId] = view
+    container.html(view.el)
+
+  appendView: (view, container) ->
+    # use this if you're appending views
+    # to a signle container
+    containerId = container.attr("id")
+
+    if !@activeViews[containerId]
+      @activeViews[containerId] = []
+
+    if _.contains(@activeViews[containerId], view)
+      view.close()
+      _.without(@activeViews[containerId], view)
+
+    @activeViews[containerId].push(view)
+    container.append view.el
+
+  closeAll: ->
+    # call close for all views registered
+    # to this instance of the view manager
+    for key, value of @activeViews
+      if $.isArray(value)
+        for view in value
+          view.close()
+      else
+        value.close()
+
+    @activeViews = {}
+
 Maple.Utils =
   alert: (err) ->
     el = (new Maple.Views.AlertView(err)).render().el

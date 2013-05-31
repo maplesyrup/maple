@@ -11,19 +11,22 @@ class Post < ActiveRecord::Base
   # image_content_type, image_file_size,
   # image_updated_at, company_id.
 
-  attr_accessible :content, :title, :image, :company_id, :campaign_id
-  
-  has_attached_file :image, :styles => { :large => "400x400>", :medium => "250x250>", :thumb => "100x100>"}, :default_url => "posts/:style/missing.png"
+  attr_accessible :content, :title, :image, :company_id, :campaign_id, :endorsed
 
-  belongs_to :user
-  belongs_to :company
-  belongs_to :campaign
+  has_attached_file :image, :styles => { :large => "400x400>", :medium => "250x250>", :thumb => "100x100>"}, :default_url => "posts/:style/missing.png"
 
   validates :title, :presence => true
   validates :content, :presence => true
   validates :company_id, :presence => true
   validates :user_id, :presence => true
   validates_attachment_presence :image
+
+  belongs_to :user
+  belongs_to :company
+  belongs_to :campaign
+
+  has_and_belongs_to_many :banned_companies, :class_name => "Company", :uniq => true,
+      :join_table => "banned_companies_posts"
 
   acts_as_voteable
 
@@ -40,6 +43,8 @@ class Post < ActiveRecord::Base
     indexes :user_id, type: "integer"
     indexes :total_votes, type: "integer", index: :not_analyzed
     indexes :created_at, type: "date", index: :not_analyzed
+    indexes :last_voted_on, type: "integer", index: :not_analyzed
+    indexes :endorsed, type: "boolean", index: :not_analyzed
   end
 
   module VOTED
@@ -76,7 +81,7 @@ class Post < ActiveRecord::Base
     post_json[:total_votes] = self.votes_for
     post_json[:voted_on] = self.voted_on(options[:user])
     post_json[:relative_time] = time_ago_in_words(self.created_at)
-
+    post_json[:last_voted_on] = self.votes && self.votes.maximum("created_at").to_i || 0
     post_json.to_json
   end
 
@@ -90,22 +95,23 @@ class Post < ActiveRecord::Base
     # and voted_on
     Jbuilder.encode do |json|
       json.array! posts do |json, post|
-        json.(post, :id, :company, :company_id, :content, :created_at, :title)
+        json.(post, :id, :company, :company_id, :campaign_id, :content, :created_at, :title, :endorsed)
+
         json.user do
           json.(post.user, :id, :created_at, :email, :uid, :provider, :name)
           json.avatar_thumb post.user.avatar.url(:thumb)
         end
-         
+
         if !post.rewards.empty?
-          json.rewards post.rewards do |reward| 
-            json.(reward, :id, :title, :description, :campaign_id, :reward, :quantity, :min_votes) 
+          json.rewards post.rewards do |reward|
+            json.(reward, :id, :title, :description, :campaign_id, :reward, :quantity, :min_votes)
           end
         end
-         
+
         if post.campaign
-          json.campaign(post.campaign, :id, :title, :description, :starttime, :endtime, :company_id) 
+          json.campaign(post.campaign, :id, :title, :description, :starttime, :endtime, :company_id)
         end
-        
+
         json.full_image_url post.image.url
         json.image_url post.image.url(:medium)
         json.total_votes post.votes_for
@@ -155,22 +161,15 @@ class Post < ActiveRecord::Base
     VOTED::UNAVAILABLE
   end
 
-  def update_rewards
-    if self.campaign
-      self.campaign.rewards.each do |reward|
-        unless self.rewards.include?(reward)
-          if reward.qualifies_for?(self)
-            # Post qualifies for an award that it doesn't already have.
-            # Add it to the collection of awards owned by the post
-            # Add it to the collection of awards owned by the user
+  def wins(reward)
+    self.rewards << reward      
+  end
 
-            self.rewards << reward
+  def loses(reward)
+    self.rewards.find(reward).destroy
+  end
 
-            self.user.rewards << reward
-            reward.one_less
-          end
-        end
-      end
-    end
+  def has_already_won?(reward)
+    self.rewards.include?(reward)
   end
 end

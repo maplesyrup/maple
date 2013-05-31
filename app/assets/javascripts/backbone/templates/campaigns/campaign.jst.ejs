@@ -89,10 +89,20 @@
       <textarea name="description"></textarea>&nbsp;&nbsp<small> Extra info or requirements to qualify</small></br>
       Reward</br>
       <input type="text" name="reward" value="What's the reward?">&nbsp;&nbsp<small>1 tshirt, 10 dollars etc. </small></br>
+      Competition Type</br>  
+      <div class="well" id="competition-types">
+        <label for="min-vote-type"> Minimum Vote </label>
+        <input type="radio" name="reward-type" id="min-vote-type" value="min-vote" checked>
+        <label for="top-post-type"> Top Posts </label>
+        <input type="radio" name="reward-type" id="top-post-type" value="top-post">
+        <label for="company-endorsed-type"> Company Endorsed </label>
+        <input type="radio" name="reward-type" id="company-endorsed-type" value="company-endorsed">
+      </div>
       Minium Qualifying Votes</br>
-      <input type="number" name="min-votes" min="0">&nbsp;&nbsp;<small> Users will automatically win an award if they achieve this minimum. (Not Required)</small></br> 
+      <input type="number" name="min-votes" min="1" id="qualifying-votes-input">&nbsp;&nbsp;<small> Users will automatically win an award if they achieve this minimum. (Not Required)</small></br> 
       Quantity</br>
-      <input type="number" name="quantity" min="1">&nbsp;&nbsp;<small>How many of these do you have to give away?</small></br>
+      <input type="number" name="quantity" id="quantity-input" min="1">&nbsp;&nbsp;<small>How many of these do you have to give away?</small></br>
+      Award to top &nbsp; <input type="number" name="top-post-quantity" min="1" id="top-posts-input" disabled> &nbsp; posts</br>
       <div id="reward-alert" class="alert" style="display:none">
       </div>
     </form>
@@ -103,6 +113,3 @@
     <button class="btn btn-primary" id="create-award">Create Award</button>
   </div>
 </div>
-
-
-

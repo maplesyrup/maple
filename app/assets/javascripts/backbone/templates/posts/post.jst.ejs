@@ -1,52 +1,63 @@
 <div class="glimpse rounded-top subtle-shadow">
   <div class="inner-glimpse rounded-top">
 
-    <div class="header-feature pull-up">
-      <div class="header-inner">
-        <div class="pull-right">
-          <% if (user && user_signed_in && session.currentUser.id === user.id) { %>
-            <a href="#">
-              <button class="btn delete-post">
-                <i class="icon-trash"></i>
-              </button>
-            </a>
-          <% } %>
-        </div>
-        <div class="pull-left">
-          <a href="https://www.facebook.com/dialog/feed?
-            app_id=<%= window.config.FACEBOOK_APP_ID %>&
-            link=http://<%= window.config.HOSTNAME %>/&
-            name=Additt&
-            caption=<%= title %>&
-            description=<%= content %>&
-            redirect_uri=http://<%= window.config.HOSTNAME %>/">
-            <i class="icon-facebook-sign icon-2x"></i>
+  <div class="header-feature pull-up">
+    <div class="header-inner">
+      <div class="pull-right">
+        <% if (user && user_signed_in && session.currentUser.id === user.id) { %>
+          <a href="#">
+            <button class="btn delete-post">
+              <i class="icon-trash"></i>
+            </button>
           </a>
-        </div>
-      </div>
-    </div>
-    
-    <a href="/#posts/<%= id %>" data-img='<%= full_image_url %>'><img class="rounded-top" src="<%= image_url %>" /></a>
-    <div class="outer-feature">
-      <div class="inner-feature">
-        <div class="votes">
-          <span class="num-votes"><%= total_votes %> votes</span>
-          <% if (voted_on == Maple.Post.VOTED.NO) { %>
-            <a class="vote"><span class="label label-info">Vote</span></a>
-          <% } else if (voted_on == Maple.Post.VOTED.YES) { %>
-            <span class="label label-inverse">Voted</span>
+          <% } else if (company && company_signed_in && session.currentCompany.id === company.id) {  %>
+          <a href="#">
+            <button class="btn untag-post">
+              <i class="myicon-untag"></i>
+            </button>
+          </a>
           <% } %>
-        </div>
-        <h4><%= title %></h4>
       </div>
-      
+      <div class="pull-left">
+        <a href="https://www.facebook.com/dialog/feed?
+          app_id=<%= window.config.FACEBOOK_APP_ID %>&
+          link=http://<%= window.config.HOSTNAME %>/&
+          name=Additt&
+          caption=<%= title %>&
+          description=<%= content %>&
+          redirect_uri=http://<%= window.config.HOSTNAME %>/">
+          <i class="icon-facebook-sign icon-2x"></i>
+        </a>
+      </div>
     </div>
   </div>
 
+  <a href="/#posts/<%= id %>" data-img='<%= full_image_url %>'><img class="rounded-top" src="<%= image_url %>" /></a>
+  <div class="outer-feature">
+    <div class="inner-feature">
+      <div class="votes">
+        <span class="num-votes"><%= total_votes %> votes</span>
+        <% if (voted_on == Maple.Post.VOTED.NO) { %>
+          <a class="vote"><span class="label label-info">Vote</span></a>
+        <% } else if (voted_on == Maple.Post.VOTED.YES) { %>
+          <span class="label label-inverse">Voted</span>
+        <% } %>
+      </div>
+      <h4><%= title %></h4>
+    </div>
 
-  <div class="glimpse-info">
-    <div class="content">
-      <p class="wrap-text">         
+  </div>
+</div>
+
+
+<div class="glimpse-info">
+  <div class="content">
+      <% if (endorsed === false && company && company_signed_in && session.currentCompany.id === company.id) {  %>
+        <i class="pull-right icon-star-empty muted endorsable"></i> 
+      <% } else if (endorsed === true) { %>
+        <i class="pull-right icon-star gold endorsable"></i>
+      <% } %>
+      <p class="wrap-text">
         <small>
           <%= content %>
         </small>
@@ -54,7 +65,7 @@
     </div>
     <hr class="hr-thin">
 
-    <div class="pull-left">   
+    <div class="pull-left">
       <% if (typeof(user) !== "undefined" && user) { %>
         <% if (user.avatar_thumb && user.avatar_thumb != "avatars/thumb/missing.png") { %>
           <img class="pull-left" src="<%= user.avatar_thumb %>" />
@@ -80,16 +91,16 @@
     <div class="clearfix"></div>
     <hr class="hr-thin">
 
-      <% if (typeof(company) !== "undefined" && typeof(company.id) !== "undefined" && typeof(company.name) !== "undefined") { %>
+      <% if (typeof(company) !== "undefined" && company && typeof(company.id) !== "undefined" && typeof(company.name) !== "undefined") { %>
         <span class="tag">For <a href="/#companies/<%=company_id %>"><strong><%= company.name %></strong></a></span>
-         <% if (typeof(campaign) !== "undefined" && campaign.tagName === undefined) { %> 
+         <% if (typeof(campaign) !== "undefined" && campaign.tagName === undefined) { %>
           <span class="tag">'s campaign <strong><%= campaign.title %></strong></span>
          <% } %>
       <% } %>
-    <% if (typeof(rewards) !== "undefined") { %>  
+    <% if (typeof(rewards) !== "undefined") { %>
       <div class="clearfix"></div>
       <hr class="hr-thin">
-      <div class="well">       
+      <div class="well">
         <h5> Treasure Chest </h5>
         <i class="icon-trophy"></i>&nbsp;x&nbsp;<%= rewards.length %>
       </div>

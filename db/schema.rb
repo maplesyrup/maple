@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130502044203) do
+ActiveRecord::Schema.define(:version => 20130531074515) do
 
   create_table "assets", :force => true do |t|
     t.datetime "created_at",         :null => false
@@ -23,6 +23,11 @@ ActiveRecord::Schema.define(:version => 20130502044203) do
     t.integer  "attachable_id"
     t.string   "attachable_type"
     t.boolean  "selected"
+  end
+
+  create_table "banned_companies_posts", :force => true do |t|
+    t.integer "company_id", :null => false
+    t.integer "post_id",    :null => false
   end
 
   create_table "campaigns", :force => true do |t|
@@ -88,11 +93,21 @@ ActiveRecord::Schema.define(:version => 20130502044203) do
   add_index "follows", ["followable_id", "followable_type"], :name => "fk_followables"
   add_index "follows", ["follower_id", "follower_type"], :name => "fk_follows"
 
+  create_table "log_entries", :force => true do |t|
+    t.string   "additt_version"
+    t.string   "android_build"
+    t.string   "time"
+    t.string   "stack_trace"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.string   "ad_creation_log"
+  end
+
   create_table "posts", :force => true do |t|
     t.string   "title"
     t.string   "content"
-    t.datetime "created_at",         :null => false
-    t.datetime "updated_at",         :null => false
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
     t.integer  "user_id"
     t.string   "image_file_name"
     t.string   "image_content_type"
@@ -100,6 +115,7 @@ ActiveRecord::Schema.define(:version => 20130502044203) do
     t.datetime "image_updated_at"
     t.integer  "company_id"
     t.integer  "campaign_id"
+    t.boolean  "endorsed",           :default => false
   end
 
   create_table "posts_rewards", :id => false, :force => true do |t|
@@ -111,11 +127,13 @@ ActiveRecord::Schema.define(:version => 20130502044203) do
     t.integer  "campaign_id"
     t.string   "title"
     t.text     "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-    t.integer  "quantity"
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
     t.string   "reward"
-    t.integer  "min_votes"
+    t.integer  "min_votes_to_lead", :default => 0
+    t.string   "requirement",       :default => "NONE"
+    t.integer  "min_votes",         :default => 1
+    t.integer  "quantity",          :default => 1
   end
 
   create_table "rewards_users", :id => false, :force => true do |t|

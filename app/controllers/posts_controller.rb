@@ -57,7 +57,28 @@ class PostsController < ApplicationController
         render :json => post.public_model
       end
     else
-      redirect_to :controller => 'users', :action => 'login_in' 
+      redirect_to :controller => 'users', :action => 'login_in'
+    end
+  end
+
+  def untag
+    authenticate_company!
+
+    post = Post.find_by_id(params[:id])
+
+    if current_company.id == post.company_id
+      current_company.posts.delete(post)
+      post.campaign.posts.delete(post) if post.campaign
+      post.banned_companies << current_company
+      post.company = nil
+      post.campaign = nil
+      post.save
+      current_company.save
+      render :json => post.public_model
+    else
+      # Forbidden to modify post
+      render :json => post.public_model,
+             :status => Rack::Utils.status_code(403)
     end
   end
 
@@ -69,9 +90,28 @@ class PostsController < ApplicationController
     post = Post.find_by_id(params[:post_id])
 
     current_user.vote_for(post)
-    post.update_rewards
+    post.save
+    Post.index.refresh
+  
+    post.campaign.refresh_rewards if post.campaign
 
     render :json => post
+  end
+
+  def endorse
+    authenticate_company!
+    
+    post = current_company.posts.find_by_id(params[:id])  
+    if post
+      post.endorsed = !post.endorsed 
+      post.save
+      Post.index.refresh
+
+      post.campaign.refresh_rewards if post.campaign
+      render :json => post
+    else
+      render :json => {}, :status => 404
+    end
   end
 
   def destroy

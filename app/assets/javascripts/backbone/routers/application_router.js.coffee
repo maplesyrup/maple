@@ -22,6 +22,8 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     Maple.mapleEvents = _.extend({}, Backbone.Events)
 
     @users = new Maple.Collections.UsersCollection()
+    
+    @viewManager = new Maple.ViewManager()
 
     # no users bootstrapping
     # We'll lazy load instead
@@ -36,34 +38,47 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     'about' : 'about'
     'faq' : 'faq'
     'cod': 'cod'
+    'terms': 'terms'
+    'privacy': 'privacy'
     '*default' : 'index'
 
   index: ->
     if Maple.session.get("user_signed_in") || Maple.session.get("company_signed_in")
-      $(mainContainer).html new Maple.Views.MultiColumnView(
+      view = new Maple.Views.MultiColumnView(
         collection: @posts
         parent: mainContainer
         modelView: Maple.Views.PostView
         bootstrapped: true
-      ).el
+      )
+      @viewManager.showView(view, $(mainContainer))
+     
 
     else
-      $(mainContainer).html new Maple.Views.SplashView().el
+      view = new Maple.Views.SplashView()
+      @viewManager.showView(view, $(mainContainer))
     
     @company_pill_view = new Maple.Views.CompaniesIndexView({ collection: @companies})
+  
+  terms: ->
+    $(mainContainer).html( new Maple.Views.TermsView().el )
 
+  privacy: ->
+    $(mainContainer).html( new Maple.Views.PrivacyView().el )
 
   about: ->
-    $(mainContainer).html( new Maple.Views.AboutView().el )
+    view = new Maple.Views.AboutView()
+    @viewManager.showView(view, $(mainContainer))
 
   cod: ->
-    $(mainContainer).html new Maple.Views.CodView(
+    view = new Maple.Views.CodView(
       companies: @companies
       ads: @posts
-    ).el
+    )
+    @viewManager.showView(view, $(mainContainer))
 
   faq: ->
-    $(mainContainer).html( new Maple.Views.FaqView().el )
+    view = new Maple.Views.FaqView()
+    @viewManager.showView(view, $(mainContainer))
 
   newPost: ->
     $modal = $("#mainModal")
@@ -80,25 +95,24 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     @companies.access {
       id: id
       success: (company) =>
-        $(mainContainer).html new Maple.Views.CompanyShowView({
-          model: company,
-          }).el
+        view = new Maple.Views.CompanyShowView({ model: company })
+        @viewManager.showView(view, $(mainContainer))
       error: (company, xhr, options) =>
         Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
       }
 
   dashboard: (id) ->
     company = @companies.get id
-    $(mainContainer).html( new Maple.Views.CompaniesDashboardView({ model: company }).el )
+    view = new Maple.Views.CompaniesDashboardView({ model: company })
+    @viewManager.showView(view, $(mainContainer))
 
   showUser: (id) ->
     @company_pill_view && @company_pill_view.close()
     @users.access {
       id: id
       success: (user) =>
-        $(mainContainer).html new Maple.Views.UserShowView({
-          model: user,
-          }).el
+        view = new Maple.Views.UserShowView({ model: user })
+        @viewManager.showView(view, $(mainContainer))
       error: (user, xhr, options) =>
         Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
     }
@@ -107,9 +121,8 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     @posts.access {
       id: id
       success: (post) =>
-        $(mainContainer).html new Maple.Views.PostShowView({
-          model: post,
-          }).el
+        view = new Maple.Views.PostShowView({ model: post })
+        @viewManager.showView(view, $(mainContainer))
       error: (post, xhr, options) =>
         Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
     }

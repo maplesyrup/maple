@@ -12,6 +12,8 @@ class Maple.Views.PostView extends Backbone.View
   events:
     "click .vote": "vote"
     "click .delete-post": "deletePost"
+    "click .endorsable": "endorse"
+    "click .untag-post": "untagPost"
     "mouseover" : "onMouseover"
     "mouseout" : "onMouseout"
 
@@ -20,6 +22,7 @@ class Maple.Views.PostView extends Backbone.View
       if(@.model.hasChanged('total_votes'))
         @.render()
 
+    @render()
 
   onMouseover: (e) =>
     @$el.find('.delete-post').css 'visibility', 'visible'
@@ -51,12 +54,37 @@ class Maple.Views.PostView extends Backbone.View
 
     @collection.remove(@model)
 
+  untagPost: (event) =>
+    event.stopPropagation()
+    event.preventDefault()
+
+    @model.save({ company: null, campaign: null },
+      url: @model.paramRoot + @model.id + '/untag'
+      success: (model) =>
+        console.log("Successfully untagged: " + model.id)
+      error: (model, xhr, options) =>
+        Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText }))
 
   render: ->
-    @$el.html(@template($.extend(@model.toJSON(), Maple.session.toJSON())))
+    @$el.html(@template(_.extend(@model.toJSON(), Maple.session.toJSON())))
     @
 
+  endorse: (event) ->
+    if Maple.session.get("company_signed_in") == true
+      target = $(event.currentTarget)
+      target.toggleClass("gold icon-star-empty icon-star")
+
+      $.ajax
+        type: "POST"
+        url: "/posts/endorse"
+        data:
+          id: @model.get('id')
+        success: (post) =>
+          console.log("endorsed")
+        error: (xhr) =>
+          Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
+
   close: ->
-    @remove
-    @unbind
-    @.model.unbind
+    @remove()
+    @unbind()
+    @.model.unbind()
