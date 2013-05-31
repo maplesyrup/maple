@@ -26,21 +26,21 @@
       </div>
     </div>
     
-    <a href="/#posts/<%= id %>" data-img='<%= full_image_url %>'><img class="rounded-top" src="<%= image_url %>" /></a>
-    <div class="outer-feature">
-      <div class="inner-feature">
-        <div class="votes">
-          <span class="num-votes"><%= total_votes %> votes</span>
-          <% if (voted_on == Maple.Post.VOTED.NO) { %>
-            <a class="vote"><span class="label label-info">Vote</span></a>
-          <% } else if (voted_on == Maple.Post.VOTED.YES) { %>
-            <span class="label label-inverse">Voted</span>
-          <% } %>
+    <a href="/#posts/<%= id %>" data-img='<%= full_image_url %>'><img class="rounded-top" src="<%= image_url %>" />
+      <div class="outer-feature">
+        <div class="inner-feature">
+          <div class="votes">
+            <span class="num-votes"><%= total_votes %> votes</span>
+            <% if (voted_on == Maple.Post.VOTED.NO) { %>
+              <a class="vote"><span class="label label-info">Vote</span></a>
+            <% } else if (voted_on == Maple.Post.VOTED.YES) { %>
+              <span class="label label-inverse">Voted</span>
+            <% } %>
+          </div>
+          <h4><%= title %></h4>
         </div>
-        <h4><%= title %></h4>
       </div>
-      
-    </div>
+    </a>
   </div>
 
 
