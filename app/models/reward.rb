@@ -43,8 +43,6 @@ class Reward < ActiveRecord::Base
       :min_votes => self.min_votes, 
       :campaign_id => self.campaign_id,
     ).results
-    require 'pry'
-    binding.pry
     if !top_posts.empty?
       top_posts = top_posts.sort_by { |p| p.votes[self.min_votes - 1].created_at }.take(self.quantity)
     else

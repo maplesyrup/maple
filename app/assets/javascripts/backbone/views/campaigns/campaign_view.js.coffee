@@ -124,12 +124,15 @@ class Maple.Views.CampaignView extends Backbone.View
     if targetId == "top-post-type"
       $("#quantity-input").attr("disabled", "disabled")
       $("#top-posts-input").removeAttr("disabled")
+      $("#qualifying-votes-input").removeAttr("disabled")
     else if targetId == "min-vote-type"
       $("#top-posts-input").attr("disabled", "disabled")
       $("#quantity-input").removeAttr("disabled")
+      $("#qualifying-votes-input").removeAttr("disabled")
     else if targetId == "company-endorsed-type"
+      $("#quantity-input").removeAttr("disabled")
+      $("#qualifying-votes-input").attr("disabled", "disabled")
       $("#top-posts-input").attr("disabled", "disabled")
-      $("#quantity-input").attr("disabled", "disabled")
 
   close: ->
     @remove()
