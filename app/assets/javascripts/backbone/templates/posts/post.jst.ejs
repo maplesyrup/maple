@@ -46,7 +46,12 @@
 
   <div class="glimpse-info">
     <div class="content">
-      <p class="wrap-text">         
+      <% if (nominated === false && company_signed_in) { %>
+        <i class="pull-right icon-star-empty muted nominatable"></i> 
+      <% } else if (nominated === true) { %>
+        <i class="pull-right icon-star gold nominatable"></i>
+      <% } %>
+      <p class="wrap-text">
         <small>
           <%= content %>
         </small>
@@ -54,7 +59,7 @@
     </div>
     <hr class="hr-thin">
 
-    <div class="pull-left">   
+    <div class="pull-left">
       <% if (typeof(user) !== "undefined" && user) { %>
         <% if (user.avatar_thumb && user.avatar_thumb != "avatars/thumb/missing.png") { %>
           <img class="pull-left" src="<%= user.avatar_thumb %>" />
@@ -89,7 +94,7 @@
     <% if (typeof(rewards) !== "undefined") { %>  
       <div class="clearfix"></div>
       <hr class="hr-thin">
-      <div class="well">       
+      <div class="well">
         <h5> Treasure Chest </h5>
         <i class="icon-trophy"></i>&nbsp;x&nbsp;<%= rewards.length %>
       </div>

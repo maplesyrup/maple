@@ -12,6 +12,7 @@ class Maple.Views.PostView extends Backbone.View
   events:
     "click .vote": "vote"
     "click .delete-post": "deletePost"
+    "click .nominatable": "nominate"
     "mouseover" : "onMouseover"
     "mouseout" : "onMouseout"
 
@@ -51,10 +52,28 @@ class Maple.Views.PostView extends Backbone.View
 
     @collection.remove(@model)
 
+  externalData: ->
+    # Any additional json to patch into the 
+    # template
+
+    nominated = false
+    nominatable_reward = _.where(@model.get("rewards"), requirement: "COMPANY-NOMINATED")
+
+    if nominatable_reward.length != 0
+      nominated = true
+
+    {
+      nominated: nominated
+    }
 
   render: ->
-    @$el.html(@template($.extend(@model.toJSON(), Maple.session.toJSON())))
+    externals = @externalData()
+    @$el.html(@template(_.extend(@model.toJSON(), Maple.session.toJSON(), externals)))
     @
+
+  nominate:(event) ->
+    target = $(event.currentTarget)
+    target.toggleClass("gold icon-star-empty icon-star")
 
   close: ->
     @remove
