@@ -11,7 +11,7 @@ class Post < ActiveRecord::Base
   # image_content_type, image_file_size,
   # image_updated_at, company_id.
 
-  attr_accessible :content, :title, :image, :company_id, :campaign_id
+  attr_accessible :content, :title, :image, :company_id, :campaign_id, :endorsed
 
   has_attached_file :image, :styles => { :large => "400x400>", :medium => "250x250>", :thumb => "100x100>"}, :default_url => "posts/:style/missing.png"
 
@@ -38,6 +38,7 @@ class Post < ActiveRecord::Base
     indexes :total_votes, type: "integer", index: :not_analyzed
     indexes :created_at, type: "date", index: :not_analyzed
     indexes :last_voted_on, type: "integer", index: :not_analyzed
+    indexes :endorsed, type: "boolean", index: :not_analyzed
   end
 
   module VOTED
@@ -89,7 +90,8 @@ class Post < ActiveRecord::Base
 
     Jbuilder.encode do |json|
       json.array! posts do |json, post|
-        json.(post, :id, :company, :company_id, :campaign_id, :content, :created_at, :title)
+        json.(post, :id, :company, :company_id, :campaign_id, :content, :created_at, :title, :endorsed)
+
         json.user do
           json.(post.user, :id, :created_at, :email, :uid, :provider, :name)
           json.avatar_thumb post.user.avatar.url(:thumb)
@@ -156,6 +158,10 @@ class Post < ActiveRecord::Base
 
   def wins(reward)
     self.rewards << reward      
+  end
+
+  def loses(reward)
+    self.rewards.find(reward).destroy
   end
 
   def has_already_won?(reward)
