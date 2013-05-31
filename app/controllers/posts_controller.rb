@@ -103,12 +103,7 @@ class PostsController < ApplicationController
     
     post = current_company.posts.find_by_id(params[:id])  
     if post
-      if post.endorsed == true
-        post.endorsed = false 
-      else
-        post.endorsed = true
-      end
-
+      post.endorsed = !post.endorsed 
       post.save
       Post.index.refresh
 
