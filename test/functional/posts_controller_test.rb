@@ -6,7 +6,10 @@ class PostsControllerTest < ActionController::TestCase
 
   def setup
     @user = users(:one)
+
     @company = companies(:apple)
+    @company2 = companies(:microsoft)
+
     @post = posts(:two)
     sign_in @user
 
@@ -17,8 +20,9 @@ class PostsControllerTest < ActionController::TestCase
     @leader = posts(:leader)
     @leader2 = posts(:leader2)
     @leader3 = posts(:leader3)
+    @endorsed = posts(:endorsed)
 
-    Post.index.import [@leader, @leader2, @leader3]
+    Post.index.import [@leader, @leader2, @leader3, @endorsed]
     Post.index.refresh
 
   end 
@@ -134,5 +138,16 @@ class PostsControllerTest < ActionController::TestCase
     c = Company.find(@company.id)
 
     assert c.posts.empty?
+  end
+
+  test "endorses post" do
+    sign_in @company2
+    post :endorse, {'id' => @endorsed.id} 
+    assert_equal true, Post.find(@endorsed).endorsed, "wasn't endorsed"    
+    assert_equal 1, @endorsed.rewards.count, "post didn't win endorsement award"    
+
+    post :endorse, {'id' => @endorsed.id}
+    assert_equal false, Post.find(@endorsed).endorsed, "wasn't un-endorsed"
+    assert_equal 0, @endorsed.rewards.count, "post didn't lose endorsement award"    
   end
 end

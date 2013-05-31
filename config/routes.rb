@@ -32,6 +32,8 @@ Maple::Application.routes.draw do
     end
   end
 
+  post 'posts/endorse'
+
   resources :campaigns
 
   resources :rewards

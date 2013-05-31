@@ -10,6 +10,13 @@ class Reward < ActiveRecord::Base
   validates :title, :presence => true
   validates :description, :presence => true
   
+  module REWARD_TYPE
+    MIN_VOTES = "MIN_VOTES" 
+    TOP_POST = "TOP_POST" 
+    COMPANY_ENDORSED = "COMPANY_ENDORSED"
+    NONE = "NONE"
+  end
+
   def self.public_models(rewards)
     Jbuilder.encode do |json|
       json.array! rewards do |json, reward|
@@ -36,7 +43,11 @@ class Reward < ActiveRecord::Base
       :min_votes => self.min_votes, 
       :campaign_id => self.campaign_id,
     ).results
-    top_posts = top_posts.sort_by { |p| p.votes[self.min_votes - 1].created_at }.take(self.quantity)
+    if !top_posts.empty?
+      top_posts = top_posts.sort_by { |p| p.votes[self.min_votes - 1].created_at }.take(self.quantity)
+    else
+      []
+    end
   end
 
   def top_post_winners
@@ -46,15 +57,23 @@ class Reward < ActiveRecord::Base
       :limit => self.quantity
     ).results
   end
-  
+
+  def endorsed_winners
+    endorsed_posts = self.campaign.posts.select { |post| post.endorsed == true }
+    endorsed_posts.take(self.quantity)
+  end
+   
   def refresh_winners
     winners = []
     case self.requirement
-    when "MIN_VOTES"
+    when REWARD_TYPE::MIN_VOTES
       winners = self.min_vote_winners
-    when "TOP_POST"
+    when REWARD_TYPE::TOP_POST
       self.clear_winners
       winners = self.top_post_winners  
+    when REWARD_TYPE::COMPANY_ENDORSED
+      self.clear_winners
+      winners = self.endorsed_winners 
     end
     winners.each do |winner|
       winner = Post.find_by_id(winner.id)
