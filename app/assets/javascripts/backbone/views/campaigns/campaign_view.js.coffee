@@ -59,8 +59,8 @@ class Maple.Views.CampaignView extends Backbone.View
     if requirementType == "top-post-type"
       requirement = "TOP_POST"
       quantity = form.find("input[name='top-post-quantity']").val()
-    else if requirement == "company-nominated-type"
-      requirement = "COMPANY_NOMINATED"
+    else if requirementType == "company-endorsed-type"
+      requirement = "COMPANY_ENDORSED"
 
     title = form.find("input[name='title']").val()
     description = form.find("textarea[name='description']").val()
@@ -127,7 +127,7 @@ class Maple.Views.CampaignView extends Backbone.View
     else if targetId == "min-vote-type"
       $("#top-posts-input").attr("disabled", "disabled")
       $("#quantity-input").removeAttr("disabled")
-    else if targetId == "company-nominated-type"
+    else if targetId == "company-endorsed-type"
       $("#top-posts-input").attr("disabled", "disabled")
       $("#quantity-input").attr("disabled", "disabled")
 

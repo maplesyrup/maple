@@ -52,10 +52,10 @@
 
 <div class="glimpse-info">
   <div class="content">
-      <% if (nominated === false && company && company_signed_in && session.currentCompany.id === company.id) {  %>
-        <i class="pull-right icon-star-empty muted nominatable"></i> 
-      <% } else if (nominated === true) { %>
-        <i class="pull-right icon-star gold nominatable"></i>
+      <% if (endorsed === false && company && company_signed_in && session.currentCompany.id === company.id) {  %>
+        <i class="pull-right icon-star-empty muted endorsable"></i> 
+      <% } else if (endorsed === true) { %>
+        <i class="pull-right icon-star gold endorsable"></i>
       <% } %>
       <p class="wrap-text">
         <small>

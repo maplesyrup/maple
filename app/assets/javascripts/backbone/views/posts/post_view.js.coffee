@@ -12,7 +12,7 @@ class Maple.Views.PostView extends Backbone.View
   events:
     "click .vote": "vote"
     "click .delete-post": "deletePost"
-    "click .nominatable": "nominate"
+    "click .endorsable": "endorse"
     "click .untag-post": "untagPost"
     "mouseover" : "onMouseover"
     "mouseout" : "onMouseout"
@@ -54,20 +54,6 @@ class Maple.Views.PostView extends Backbone.View
 
     @collection.remove(@model)
 
-  externalData: ->
-    # Any additional json to patch into the 
-    # template
-
-    nominated = false
-    nominatable_reward = _.where(@model.get("rewards"), requirement: "COMPANY-NOMINATED")
-
-    if nominatable_reward.length != 0
-      nominated = true
-
-    {
-      nominated: nominated
-    }
-
   untagPost: (event) =>
     event.stopPropagation()
     event.preventDefault()
@@ -80,13 +66,22 @@ class Maple.Views.PostView extends Backbone.View
         Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText }))
 
   render: ->
-    externals = @externalData()
-    @$el.html(@template(_.extend(@model.toJSON(), Maple.session.toJSON(), externals)))
+    @$el.html(@template(_.extend(@model.toJSON(), Maple.session.toJSON())))
     @
 
-  nominate:(event) ->
+  endorse: (event) ->
     target = $(event.currentTarget)
     target.toggleClass("gold icon-star-empty icon-star")
+
+    $.ajax
+      type: "POST"
+      url: "/posts/endorse"
+      data:
+        id: @model.get('id')
+      success: (post) =>
+        console.log("endorsed")
+      error: (xhr) =>
+        Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
 
   close: ->
     @remove()
