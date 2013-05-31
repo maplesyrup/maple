@@ -31,6 +31,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 .nominatable:hover {
   color: #DAA505;
+
+ul.bulleted li{
+  list-style-type: circle;
+  margin-left: 80px;
 }
 
 ul {
@@ -328,6 +332,13 @@ ul, li {
 
 .footer {
   margin: 6px;
+}
+
+footer {
+  padding: 20px;
+  text-align: center;
+  background-color: #EEE;
+  border-top: 1px solid #CCC;
 }
 
 .glimpse-column {
