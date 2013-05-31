@@ -26,10 +26,9 @@ class User < ActiveRecord::Base
                   :personal_info, :avatar, :authentication_token
 
   has_many :posts
+
   has_many :comments, :as => :commenter
   validates_associated :comments
-
-  has_and_belongs_to_many :rewards
 
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "50x50", :header_thumb => "25x25" }, :default_url => "avatars/:style/missing.png"
 
@@ -112,6 +111,16 @@ class User < ActiveRecord::Base
         json.editable true
       end
     end
+  end
+  
+  def rewards
+    users_rewards = [] 
+    self.posts.each do |post|
+      post.rewards.each do |reward|
+        users_rewards << reward
+      end
+    end
+    users_rewards
   end
 
 end

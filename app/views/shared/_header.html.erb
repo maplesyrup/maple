@@ -17,16 +17,14 @@
           <a href="#newPost" class="new-post navbar-link"><i class="icon-edit"></i> Submit Ad </a>
           <%= link_to "Logout", destroy_user_session_path, {:class => "navbar-link", :method => :delete} %>
         <% elsif current_company %>
-          <a href="#" class="navbar-link"><%= current_company.email %></a>
+          <a href="/#companies/<%= current_company.id %>" class="navbar-link"><%= current_company.email %></a>
           <a href="/#companies/<%= current_company.id %>/dashboard" class="navbar-link">Dashboard</a>
           <%= link_to "Logout", destroy_company_session_path, {:class => "navbar-link", :method => :delete} %>
         <% else %>
           <%= link_to "Login", new_user_session_path, :class => "navbar-link" %>
           <%= link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook), :class => "navbar-link" %>
         <% end %>
-        <a href="/#about" class="navbar-link">About</a>
-        <a href="/#faq" class="navbar-link">FAQ</a>
-      </p>
+     </p>
     </div>
   </div>
 </div>

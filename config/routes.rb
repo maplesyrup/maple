@@ -26,7 +26,13 @@ Maple::Application.routes.draw do
 
   resources :log_entries
 
-  resources :posts
+  resources :posts do
+    member do
+      put 'untag'
+    end
+  end
+
+  post 'posts/endorse'
 
   resources :campaigns
 

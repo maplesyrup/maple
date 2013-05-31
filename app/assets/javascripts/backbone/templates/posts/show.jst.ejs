@@ -52,9 +52,7 @@
       <% if (typeof(rewards) !== "undefined") { %>
         <div class="clearfix"></div>
         <hr>
-      <% if (typeof(campaign) !== "undefined" && campaign.tagName === undefined){ %>
-        <p> <strong>Submitted to</strong>&nbsp;<%= campaign.title %></p>
-      <% } %>
+        <p> <strong>Submitted to</strong>&nbsp;<a href="#companies/<%= company_id %>"><%= company.name %></a></p>
         <div class="pull-left well">
           <h5> Treasures won </h5>
           <% _.each(rewards, function(reward) { %>
