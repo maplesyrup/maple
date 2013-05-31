@@ -41,3 +41,12 @@ four:
   requirement: "TOP_POST"
   min_votes: 2
   quantity: 2
+
+five: 
+  id: 5
+  reward: asdfasdfasdf
+  description: asdfasdfasdfasdfasdfasdfasdf
+  title: asdfasdf asdfasdf asdfasdf asdfasdf
+  campaign_id: 2
+  requirement: "COMPANY_ENDORSED"
+  quantity: 2

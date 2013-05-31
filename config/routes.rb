@@ -29,6 +29,7 @@ Maple::Application.routes.draw do
   resources :posts do
     member do
       put 'untag'
+      post 'endorse'
     end
   end
 

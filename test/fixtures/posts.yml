@@ -33,3 +33,11 @@ leader3:
   title: blahblahblahblah
   content: blah blah blah
   campaign_id: 2
+
+endorsed:
+  id: 6
+  title: blablablabla
+  content: blah blah blah
+  campaign_id: 2
+  company_id: 2
+  endorsed: false

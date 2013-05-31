@@ -98,6 +98,27 @@ class PostsController < ApplicationController
     render :json => post
   end
 
+  def endorse
+    authenticate_company!
+    
+    post = current_company.posts.find_by_id(params[:id])  
+    if post
+      if post.endorsed == true
+        post.endorsed = false 
+      else
+        post.endorsed = true
+      end
+
+      post.save
+      Post.index.refresh
+
+      post.campaign.refresh_rewards if post.campaign
+      render :json => post
+    else
+      render :json => {}, :status => 404
+    end
+  end
+
   def destroy
     post = Post.destroy(params[:id])
 
