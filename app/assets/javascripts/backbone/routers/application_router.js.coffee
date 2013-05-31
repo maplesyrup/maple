@@ -60,10 +60,12 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
     @company_pill_view = new Maple.Views.CompaniesIndexView({ collection: @companies})
   
   terms: ->
-    $(mainContainer).html( new Maple.Views.TermsView().el )
+    view = new Maple.Views.TermsView()
+    @viewManager.showView(view, $(mainContainer))
 
   privacy: ->
-    $(mainContainer).html( new Maple.Views.PrivacyView().el )
+    view = new Maple.Views.PrivacyView()
+    @viewManager.showView(view, $(mainContainer))
 
   about: ->
     view = new Maple.Views.AboutView()

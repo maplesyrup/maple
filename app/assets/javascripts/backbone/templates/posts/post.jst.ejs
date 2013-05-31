@@ -31,39 +31,38 @@
       </div>
     </div>
   </div>
-
-  <a href="/#posts/<%= id %>" data-img='<%= full_image_url %>'><img class="rounded-top" src="<%= image_url %>" /></a>
-  <div class="outer-feature">
-    <div class="inner-feature">
-      <div class="votes">
-        <span class="num-votes"><%= total_votes %> votes</span>
-        <% if (voted_on == Maple.Post.VOTED.NO) { %>
-          <a class="vote"><span class="label label-info">Vote</span></a>
-        <% } else if (voted_on == Maple.Post.VOTED.YES) { %>
-          <span class="label label-inverse">Voted</span>
-        <% } %>
+    
+  <a href="/#posts/<%= id %>" data-img='<%= full_image_url %>'><img class="rounded-top" src="<%= image_url %>" />
+    <div class="outer-feature">
+      <div class="inner-feature">
+        <div class="votes">
+          <span class="num-votes"><%= total_votes %> votes</span>
+          <% if (voted_on == Maple.Post.VOTED.NO) { %>
+            <a class="vote"><span class="label label-info">Vote</span></a>
+          <% } else if (voted_on == Maple.Post.VOTED.YES) { %>
+            <span class="label label-inverse">Voted</span>
+          <% } %>
+        </div>
+        <h4><%= title %></h4>
       </div>
-      <h4><%= title %></h4>
     </div>
-
-  </div>
+  </a>
 </div>
-
 
 <div class="glimpse-info">
   <div class="content">
-      <% if (endorsed === false && company && company_signed_in && session.currentCompany.id === company.id) {  %>
-        <i class="pull-right icon-star-empty muted endorsable"></i> 
-      <% } else if (endorsed === true) { %>
-        <i class="pull-right icon-star gold endorsable"></i>
-      <% } %>
-      <p class="wrap-text">
-        <small>
-          <%= content %>
-        </small>
-      </p>
-    </div>
-    <hr class="hr-thin">
+    <% if (endorsed === false && company && company_signed_in && session.currentCompany.id === company.id) {  %>
+      <i class="pull-right icon-star-empty muted endorsable"></i> 
+    <% } else if (endorsed === true) { %>
+      <i class="pull-right icon-star gold endorsable"></i>
+    <% } %>
+    <p class="wrap-text">
+      <small>
+        <%= content %>
+      </small>
+    </p>
+  </div>
+  <hr class="hr-thin">
 
     <div class="pull-left">
       <% if (typeof(user) !== "undefined" && user) { %>
