@@ -29,6 +29,11 @@ h1, h2, h3, h4, h5, h6 {
 .gold {
   color: #DAA520;
 }
+ul.bulleted li{
+  list-style-type: circle;
+  margin-left: 80px;
+}
+
 ul {
   margin: 0;
 }
@@ -324,6 +329,13 @@ ul, li {
 
 .footer {
   margin: 6px;
+}
+
+footer {
+  padding: 20px;
+  text-align: center;
+  background-color: #EEE;
+  border-top: 1px solid #CCC;
 }
 
 .glimpse-column {
