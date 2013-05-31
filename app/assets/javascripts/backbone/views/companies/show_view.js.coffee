@@ -28,6 +28,8 @@ class Maple.Views.CompanyShowView extends Backbone.View
           return logo.selected
         @$el.find("#logo-placeholder").html(replaceImageTemplate({url: updatedLogo[0].medium}))
 
+    $(window).scroll(@hideNav)
+    Maple.mapleEvents.bind("campaignFilter", @campaignFilter)
     @render()
 
   render: ->
@@ -86,7 +88,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
           Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText }))
     else
       Maple.Utils.alert({ err: 'You forgot to select a file.' })
-    $("#uploadLogoModal").modal('hide')  
+    $("#uploadLogoModal").modal('hide')
 
   saveContent: (id, content) ->
     if id ==  "company-blurb-title"
@@ -182,6 +184,40 @@ class Maple.Views.CompanyShowView extends Backbone.View
         )
         @viewManager.showView(view, container)
 
+      else
+        if collectionType.type == "campaign"
+          container = @$el.find("#company-posts-container")
+          view = new Maple.Views.MultiColumnView(
+            collection: @model.posts.byCampaign(parseInt(collectionType.id))
+            parent: "#company-posts-container"
+            modelView: Maple.Views.PostView
+            bootstrapped: true
+            data:
+              company_id: @model.id
+          )
+          @viewManager.showView(view, container)
+
+        if collectionType.type == "reward"
+          container = @$el.find("#company-posts-container")
+          view = new Maple.Views.MultiColumnView(
+            collection: @model.posts.byReward(parseInt(collectionType.id))
+            parent: "#company-posts-container"
+            modelView: Maple.Views.PostView
+            bootstrapped: true
+            data:
+              company_id: @model.id
+          )
+          @viewManager.showView(view, container)
+
+  hideNav: ->
+    if $(window).scrollTop() < $("#company-header-image").height()
+      $(".scroll-hide").css("display", "visible").fadeIn("slow")
+    else if $(".scroll-hide").is(":visible")
+      $(".scroll-hide").css("display", "hidden").fadeOut("slow")
+
+  campaignFilter: (event) =>
+    @populateCollection(event)
+
   refilterCollection: (event) ->
     event.stopPropagation()
     event.preventDefault()
@@ -195,6 +231,9 @@ class Maple.Views.CompanyShowView extends Backbone.View
     @populateCollection(collectionType)
 
   close: ->
+    Maple.mapleEvents.unbind("campaignFilter")
+    @model.off("change")
+    $(window).unbind('scroll')
     @remove()
     @unbind()
     @viewManager.closeAll()
