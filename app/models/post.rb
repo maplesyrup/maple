@@ -12,6 +12,7 @@ class Post < ActiveRecord::Base
   # image_updated_at, company_id.
 
   attr_accessible :content, :title, :image, :company_id, :campaign_id, :endorsed
+  attr_accessor :endorsed
 
   has_attached_file :image, :styles => { :large => "400x400>", :medium => "250x250>", :thumb => "100x100>"}, :default_url => "posts/:style/missing.png"
 
@@ -38,7 +39,7 @@ class Post < ActiveRecord::Base
     indexes :total_votes, type: "integer", index: :not_analyzed
     indexes :created_at, type: "date", index: :not_analyzed
     indexes :last_voted_on, type: "integer", index: :not_analyzed
-    indexes :endorsed, type: "boolean", index: :not_analyzed
+    #indexes :endorsed, type: "boolean", index: :not_analyzed
   end
 
   module VOTED
@@ -73,6 +74,8 @@ class Post < ActiveRecord::Base
     post_json[:full_image_url] = self.image.url
     post_json[:image_url] = self.image.url(:medium)
     post_json[:total_votes] = self.votes_for
+    post_json[:endorsed] = self.endorsed
+    post_json[:voted_on] = self.voted_on(options[:user])
     post_json[:voted_on] = self.voted_on(options[:user])
     post_json[:relative_time] = time_ago_in_words(self.created_at)
     post_json[:last_voted_on] = self.votes && self.votes.maximum("created_at").to_i || 0
