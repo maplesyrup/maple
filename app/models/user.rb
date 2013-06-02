@@ -78,8 +78,9 @@ class User < ActiveRecord::Base
         user_follows = user.follows_by_type('User')
         users_following = user.following_by_type('User')
 
-        json.(user, :id, :name, :created_at, :avatar, :personal_info, :all_follows)
+        json.(user, :id, :name, :created_at, :personal_info, :all_follows)
         json.avatar_thumb user.avatar.url(:thumb)
+        json.avatar user.avatar.file? ? user.avatar.url(:original) : "/assets/#{user.avatar.url(:original)}"
         json.(user, :posts) if options[:include_posts]
         json.editable false
         if options[:user] && options[:user].id == user.id
@@ -98,7 +99,7 @@ class User < ActiveRecord::Base
     users_following = self.followers_by_type('User')
 
     Jbuilder.encode do |json|
-      json.(self, :id, :name, :created_at, :avatar, :personal_info, :all_follows)
+      json.(self, :id, :name, :created_at, :personal_info, :all_follows)
       json.(self, :posts) if options[:include_posts]
       json.(self, :authentication_token) if options[:authentication_token]
       json.(self, :email) if options[:email]
@@ -106,6 +107,7 @@ class User < ActiveRecord::Base
       json.users_im_following user_follows.map{|user| user.followable_id}
       json.users_following_me users_following.map{|user| user.id}
       json.avatar_thumb avatar.url(:thumb)
+      json.avatar self.avatar.file? ? self.avatar.url(:original) : "/assets/#{self.avatar.url(:original)}"
       json.editable false
       if options[:user] && options[:user].id == self.id
         json.editable true
