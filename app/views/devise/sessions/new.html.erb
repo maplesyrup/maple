@@ -1,6 +1,6 @@
 <div class="container-fluid account-form">
   <div class="center">
-    <%= image_tag("additt_logo.png") %>  
+    <%= image_tag("additt_logo.png") %>
   </div>
   <h3 class="sub-header">For Users</h3>
 
@@ -11,7 +11,6 @@
 
   <%= f.password_field :password, :placeholder => "Enter your password" %><br />
 
-  <%= link_to "For Companies", new_company_session_path, :class => "btn btn-large btn-primary" %>
   <%= f.submit :class => "btn btn-large btn-success", :value => "Login" %>
 
 <% end %>
