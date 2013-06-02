@@ -173,10 +173,10 @@ ul, li {
 .campaign {
   background-color: #272b30;
   position: fixed;
-  top: 60px;
+  top: 85px;
   right: 0;
   width: 300px !important;
-  height: 93% !important;
+  height: 88% !important;
   overflow: scroll;
   border-left: 1px solid #ccc;
   color: $orange-grey;
@@ -418,6 +418,10 @@ ul, li {
   padding-top: 20px;
   padding-bottom: 20px;
   background: rgba(0,0,0,0.4)
+}
+
+.navbar-fixed-bottom {
+  bottom: 0;
 }
 
 .sub-header {
