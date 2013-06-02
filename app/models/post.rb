@@ -39,7 +39,6 @@ class Post < ActiveRecord::Base
     indexes :total_votes, type: "integer", index: :not_analyzed
     indexes :created_at, type: "date", index: :not_analyzed
     indexes :last_voted_on, type: "integer", index: :not_analyzed
-    #indexes :endorsed, type: "boolean", index: :not_analyzed
   end
 
   module VOTED
@@ -75,7 +74,6 @@ class Post < ActiveRecord::Base
     post_json[:image_url] = self.image.url(:medium)
     post_json[:total_votes] = self.votes_for
     post_json[:endorsed] = self.endorsed
-    post_json[:voted_on] = self.voted_on(options[:user])
     post_json[:voted_on] = self.voted_on(options[:user])
     post_json[:relative_time] = time_ago_in_words(self.created_at)
     post_json[:last_voted_on] = self.votes && self.votes.maximum("created_at").to_i || 0
