@@ -1,6 +1,6 @@
 <ul class="breadcrumb">
   <li id="back-to-campaigns">
-    <a href="#"> Campaigns </a>
+    <a href="#"> Competitions </a>
     <span class="divider">/</span>
   </li>
   <li class="active"> <%= title %> </li>
@@ -71,42 +71,4 @@
   <% }) %>
 </ul>     
 
-<div id="new-reward-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">New Reward</h3>
-  </div>
 
-  <div class="modal-body">
-
-    <form enctype="multipart/form-data" method="post" name="campaign" id="new-reward-form">
-      Title</br> 
-      <input type="text" name="title"></br>
-      Description</br> 
-      <textarea name="description"></textarea>&nbsp;&nbsp<small> Extra info or requirements to qualify</small></br>
-      Reward</br>
-      <input type="text" name="reward" value="What's the reward?">&nbsp;&nbsp<small>1 tshirt, 10 dollars etc. </small></br>
-      Competition Type</br>  
-      <div class="well" id="competition-types">
-        <label for="min-vote-type"> Minimum Vote </label>
-        <input type="radio" name="reward-type" id="min-vote-type" value="min-vote" checked>
-        <label for="top-post-type"> Top Posts </label>
-        <input type="radio" name="reward-type" id="top-post-type" value="top-post">
-        <label for="company-endorsed-type"> Company Endorsed </label>
-        <input type="radio" name="reward-type" id="company-endorsed-type" value="company-endorsed">
-      </div>
-      Minium Qualifying Votes</br>
-      <input type="number" name="min-votes" min="1" id="qualifying-votes-input">&nbsp;&nbsp;<small> Users will automatically win an award if they achieve this minimum. (Not Required)</small></br> 
-      Quantity</br>
-      <input type="number" name="quantity" id="quantity-input" min="1">&nbsp;&nbsp;<small>How many of these do you have to give away?</small></br>
-      Award to top &nbsp; <input type="number" name="top-post-quantity" min="1" id="top-posts-input" disabled> &nbsp; posts</br>
-      <div id="reward-alert" class="alert" style="display:none">
-      </div>
-    </form>
-  </div> 
-
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <button class="btn btn-primary" id="create-award">Create Award</button>
-  </div>
-</div>

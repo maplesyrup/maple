@@ -1,5 +1,5 @@
 <ul class="breadcrumb">
-  <li class="active"> Campaigns </li>
+  <li class="active"> Competitions </li>
 </ul>
 <div class="navbar dark-nav">
   <div class="navbar-inner">
@@ -14,38 +14,6 @@
         <a href="#tab3" data-toggle="tab" id="past-campaigns"><small>Archive (<%= campaigns.past.length %>) </small></a>
       </li>
     </ul>
-  </div>
-</div>
-
-<div id="new-campaign-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h3 id="myModalLabel">New Campaign</h3>
-  </div>
-
-  <div class="modal-body">
-
-    <form enctype="multipart/form-data" method="post" name="campaign" id="new-campaign-form">
-      Title</br> 
-      <input type="text" name="title"></br>
-      Description</br> 
-      <textarea name="description"></textarea></br>
-      Starting </br>
-      <input type="text" id="starttime">&nbsp;<i class="icon-calendar icon-2x"></i>&nbsp;&nbsp;<small> eg: today, tomorrow, July 4, etc. </small></br>
-      <h6 id="starttimeinput"></h6></br>
-      Ending </br>
-      <input type="text" id="endtime">&nbsp;<i class="icon-calendar icon-2x"></i></br>
-      <h6 id="endtimeinput"></h6></br>
-
-      <div id="campaign-alert" class="alert" style="display:none">
-      </div>
-
-    </form>
-  </div> 
-
-  <div class="modal-footer">
-    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-    <button class="btn btn-primary" id="create-campaign">Create Campaign</button>
   </div>
 </div>
 
@@ -133,7 +101,7 @@
             <%= campaign.description %>
           </p>
           <div class="clear-fix"></div>
-          <ul class="well inline">
+          <ul class="inline">
             <% campaign.random_post_thumbs.forEach(function(post_thumb) { %>
               <li> <img class="post-thumb img-rounded" src="<%= post_thumb %>"></li>
             <% }); %>
@@ -154,5 +122,3 @@
     <% }) %> 
   </div>
 </div>
-
-<% $('.modal').appendTo($('body')) %>
