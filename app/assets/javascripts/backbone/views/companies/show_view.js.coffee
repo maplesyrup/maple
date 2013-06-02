@@ -29,7 +29,6 @@ class Maple.Views.CompanyShowView extends Backbone.View
           return logo.selected
         @$el.find("#logo-placeholder").html(replaceImageTemplate({url: updatedLogo[0].medium}))
 
-    $(window).scroll(@hideNav)
     Maple.mapleEvents.bind("campaignFilter", @campaignFilter)
     @render()
 
@@ -227,12 +226,6 @@ class Maple.Views.CompanyShowView extends Backbone.View
               company_id: @model.id
           )
           @viewManager.showView(view, container)
-
-  hideNav: ->
-    if $(window).scrollTop() <= 5
-      $(".scroll-hide").css("display", "visible").fadeIn("slow")
-    else if $(".scroll-hide").is(":visible")
-      $(".scroll-hide").css("display", "hidden").fadeOut("slow")
 
   campaignFilter: (event) =>
     @populateCollection(event)
