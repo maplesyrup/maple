@@ -20,6 +20,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
 
   initialize: ->
     @viewManager = new Maple.ViewManager()
+    @cachedPostsCollection
 
     @model.on "change", =>
       if @model.hasChanged("logos")
@@ -34,7 +35,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
 
   render: ->
     @$el.html(@template(_.extend(@model.toJSON(), Maple.session.toJSON())))
-    @populateCollection("company-posts")
+    @populateCollection("all-company-posts")
 
     container = @$el.find(".campaign")
     view = new Maple.Views.CampaignShowView(
@@ -161,12 +162,28 @@ class Maple.Views.CompanyShowView extends Backbone.View
 
   populateCollection: (collectionType) ->
     switch collectionType
-      when "company-posts"
+      when "all-company-posts"
         container = @$el.find("#company-posts-container")
+
+        @cachedPostsCollection = @model.posts
+
         view = new Maple.Views.MultiColumnView(
           collection: @model.posts
           parent: "#company-posts-container"
           modelView: Maple.Views.PostView
+          data:
+            company_id: @model.id
+        )
+        @viewManager.showView(view, container)
+
+      when "company-posts"
+        container = @$el.find("#company-posts-container")
+
+        view = new Maple.Views.MultiColumnView(
+          collection: @cachedPostsCollection || @model.posts
+          parent: "#company-posts-container"
+          modelView: Maple.Views.PostView
+          bootstrapped: true
           data:
             company_id: @model.id
         )
@@ -187,8 +204,9 @@ class Maple.Views.CompanyShowView extends Backbone.View
       else
         if collectionType.type == "campaign"
           container = @$el.find("#company-posts-container")
+          @cachedPostsCollection = @model.posts.byCampaign(parseInt(collectionType.id))
           view = new Maple.Views.MultiColumnView(
-            collection: @model.posts.byCampaign(parseInt(collectionType.id))
+            collection: @cachedPostsCollection
             parent: "#company-posts-container"
             modelView: Maple.Views.PostView
             bootstrapped: true
@@ -199,8 +217,9 @@ class Maple.Views.CompanyShowView extends Backbone.View
 
         if collectionType.type == "reward"
           container = @$el.find("#company-posts-container")
+          @cachedPostsCollection = @model.posts.byReward(parseInt(collectionType.id))
           view = new Maple.Views.MultiColumnView(
-            collection: @model.posts.byReward(parseInt(collectionType.id))
+            collection: @cachedPostsCollection
             parent: "#company-posts-container"
             modelView: Maple.Views.PostView
             bootstrapped: true
@@ -210,7 +229,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
           @viewManager.showView(view, container)
 
   hideNav: ->
-    if $(window).scrollTop() < $("#company-header-image").height()
+    if $(window).scrollTop() <= 5
       $(".scroll-hide").css("display", "visible").fadeIn("slow")
     else if $(".scroll-hide").is(":visible")
       $(".scroll-hide").css("display", "hidden").fadeOut("slow")
@@ -233,6 +252,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
   close: ->
     Maple.mapleEvents.unbind("campaignFilter")
     @model.off("change")
+
     $(window).unbind('scroll')
     @remove()
     @unbind()

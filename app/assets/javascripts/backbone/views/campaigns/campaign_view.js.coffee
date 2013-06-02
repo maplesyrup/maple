@@ -37,7 +37,7 @@ class Maple.Views.CampaignView extends Backbone.View
     event.stopPropagation()
 
     @close()
-    Maple.mapleEvents.trigger("campaignFilter", "company-posts")
+    Maple.mapleEvents.trigger("campaignFilter", "all-company-posts")
     Maple.mapleEvents.trigger("blurCampaign")
 
   flashAlert: (container, message) ->
