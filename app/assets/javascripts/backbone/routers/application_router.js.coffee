@@ -27,6 +27,7 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
 
     # no users bootstrapping
     # We'll lazy load instead
+    
 
   routes:
     '' : 'index'

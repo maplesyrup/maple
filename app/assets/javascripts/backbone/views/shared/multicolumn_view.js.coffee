@@ -18,7 +18,8 @@ class Maple.Views.MultiColumnView extends Backbone.View
   numberOfColumns:      0
 
   postWidth:             270 # post width is 250, margin of 20px
-
+  
+  twoColumnTemplate: JST["backbone/templates/shared/two_column_index"]
   threeColumnTemplate:  JST["backbone/templates/shared/three_column_index"]
   fourColumnTemplate:   JST["backbone/templates/shared/four_column_index"]
   fiveColumnTemplate:   JST["backbone/templates/shared/five_column_index"]
@@ -47,7 +48,7 @@ class Maple.Views.MultiColumnView extends Backbone.View
 
     @data = (@options.data || {})
 
-    @collection.on 'change', (model) =>
+    @collection.on 'change:company', (model) =>
       if @data.company_id != model.company_id
         # Remove the model from the collection if we're looking at company view
         # Keep silent so we don't trigger a remove event that actually removes model
@@ -82,7 +83,7 @@ class Maple.Views.MultiColumnView extends Backbone.View
   addOne: (model, index) ->
     colId = @.getColumnId(index)
     container = @$el.find(colId)
-    
+
     @view = new @modelView({ model: model, collection: @collection })
     @viewManager.appendView(@view, container)
 
@@ -142,6 +143,13 @@ class Maple.Views.MultiColumnView extends Backbone.View
           @template = @sixColumnTemplate
           @render()
           @addAll()
+      when 2
+        if @numberOfColumns != 6
+          @$el.width(2 * (@postWidth))
+          @numberOfColumns = 2
+          @template = @twoColumnTemplate
+          @render()
+          @addAll()
       else
         if @numberOfColumns != 3
           @$el.width(3 * (@postWidth))
@@ -151,7 +159,6 @@ class Maple.Views.MultiColumnView extends Backbone.View
           @addAll()
 
   render: ->
-    @viewManager.closeAll()
     @$el.html @template()
     @
 
