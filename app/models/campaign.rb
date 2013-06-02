@@ -43,6 +43,8 @@ class Campaign < ActiveRecord::Base
         json.(campaign, :id, :title, :description, :company_id)
         json.starttime campaign.starttime.to_i
         json.endtime campaign.endtime.to_i
+        random_posts = campaign.posts.sample(3)
+        json.random_post_thumbs random_posts.map { |p| p.image.url(:thumb) if p } 
       end
     end
   end

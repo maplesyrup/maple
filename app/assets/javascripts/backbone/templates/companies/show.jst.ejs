@@ -23,106 +23,79 @@
 	</div>
 </div>
 
-<div class="container-fluid" id="company-splash-image" contenteditable="<%= editable %>" >
-	<img id="company-header-image" class="center-container" src="<%= splash_image %>">
-	</div>
-	<div id="company-select-new-image"></div>
-</div>
-<div id="company-information" class="container">
-	<div class="row-fluid">
-		<div class="span8 company-blurb">
-			<div class="hero-unit">
-				<div contenteditable="<%= editable %>" id="logo-placeholder">
-          <% if (logos && logos.length > 0) { %>
-						<img src="<% for (var i = 0; i < logos.length; i++) { %>
-							<% if (logos[i].selected) { %>
-								<%= logos[i].medium %>
-							<% } %>
-						<% } %>
-						" class="logo-thumb center">
-					<% } else { %>
-					  <i class="icon-camera-retro icon-large"></i>
-					<% } %>
-				</div>
-				<div class="company-content">
-				  <h1 contenteditable="<%= editable %>" id="company-blurb-title">
-					  <%= blurb_title %>
-				  </h1>
-				  <p class="lead" id="company-blurb-body" contenteditable="<%= editable %>">
-					  <%= blurb_body %>
-				  </p>
-			  </div>
-		  </div>
-    </div>
-	  <div class="span4 content">
-		  <h2 id="company-more-info-title" contenteditable="<%= editable %>">
-				<%= more_info_title %>
-			</h2>
-			<p id="company-more-info-body" contenteditable="<%= editable %>">
-				<%= more_info_body %>
-			</p>
-    </div>
-	</div>
-</div>
-<hr>
 <div class="container-fluid">
-	<div class="center">
-		<div class="btn-group center-container collection-filter">
-	  	<button id="company-posts" class="btn active">Posts</button>
-  		<button id="company-followers" class="btn">Followers</button>
-		</div>
-	</div>
-</div>
-<div class="nav-escape-above"></div>
-<div class="container-fluid">
-  <div class="row">
-    <div id="company-posts-container" class="span11 posts-container nav-escape-above"></div>
-    <div class="span4">
-      <div class="campaign"></div>
+  <div class="row-fluid">
+    <div class="span9">
+      <div id="company-information">
+        <div class="hero-unit">
+          <div contenteditable="<%= editable %>" id="logo-placeholder">
+            <% if (logos && logos.length > 0) { %>
+              <img src="<% for (var i = 0; i < logos.length; i++) { %>
+                <% if (logos[i].selected) { %>
+                  <%= logos[i].medium %>
+                <% } %>
+              <% } %>
+              " class="logo-thumb center">
+            <% } else { %>
+              <i class="icon-camera-retro icon-large"></i>
+            <% } %>
+          </div>
+          <div class="company-content">
+            <h1 contenteditable="<%= editable %>" id="company-blurb-title">
+              <%= blurb_title %>
+            </h1>
+            <p class="lead" id="company-blurb-body" contenteditable="<%= editable %>">
+              <%= blurb_body %>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="container-fluid">
+	      <div class="center">
+		      <div class="btn-group center-container collection-filter">
+            <button id="company-posts" class="btn active">Posts</button>
+            <button id="company-followers" class="btn">Followers</button>
+          </div>
+        </div>
+      </div>
+      <div class="nav-escape-above"></div>
+      <div class="container-fluid">
+        <div id="company-posts-container" class="posts-container nav-escape-above"></div>
+      </div>
+      <% if (editable) { %>
+	      <div id="uploadLogoModal" class="modal hide">
+		      <div class="modal-header">
+			      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	          <h3>Select Company Logo</h3>
+          </div>
+
+          <div class="modal-body">
+            <div id="multiple-logo-panel">
+              <% for (var i = 0; i < logos.length; i++) { %>
+            
+                <img class="multiple-logo-image <% if (logos[i].selected) { %>selected<% } %>" data-id="<%=logos[i].id %>" src="<%= logos[i].thumb %>" />
+
+              <% } %>
+            </div>
+
+          </div>
+
+          <div class="modal-footer">
+            <form accept-charset="UTF-8" action="/companies" enctype="multipart/form-data" id="add-company-logo" method="post">
+            <input id="upload-logo-field" type="file" name="company[assets_attributes][][image]" id="company-logo-field" />
+            <input type="hidden" name="company[assets_attributes][][selected]" value="true" />
+            </form>
+            <a href="#" id="company-submit-logo" class="btn btn-primary">Upload</a>
+          </div>
+
+        </div>
+      <% } %>
+    </div>
+    <div class="span3">
+      <div class="campaign wrap-text"></div>
     </div>
   </div>
 </div>
-<% if (editable) { %>
-	<div id="uploadLogoModal" class="modal hide">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	    <h3>Select Company Logo</h3>
-		</div>
-
-		<div class="modal-body">
-			<div id="multiple-logo-panel">
-			<% for (var i = 0; i < logos.length; i++) { %>
-				
-				<img class="multiple-logo-image <% if (logos[i].selected) { %>selected<% } %>" data-id="<%=logos[i].id %>" src="<%= logos[i].thumb %>" />
-
-			<% } %>
-			</div>
-
-		</div>
-
-		<div class="modal-footer">
-			<form accept-charset="UTF-8" action="/companies" enctype="multipart/form-data" id="add-company-logo" method="post">
-			  <input id="upload-logo-field" type="file" name="company[assets_attributes][][image]" id="company-logo-field" />
-			  <input type="hidden" name="company[assets_attributes][][selected]" value="true" />
-			</form>
-			<a href="#" id="company-submit-logo" class="btn btn-primary">Upload</a>
-		</div>
-
-	</div>
-
-	<div id="uploadSplashModal" class="modal hide">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	    <h3>Upload Splash Image </h3>
-		</div>
-		<div class="modal-body">
-			<form accept-charset="UTF-8" action="/companies" enctype="multipart/form-data" id="add-company-splash" method="post">
-			  <input type="file" name="company[splash_image]" id="company-splash-image-field" />
-			 </form>
-		</div>
-		<div class="modal-footer">
-			<a href="#" class="btn btn-primary" id="company-submit-splash-image">Upload</a>
-		</div>
-	</div>
-<% } %>
-

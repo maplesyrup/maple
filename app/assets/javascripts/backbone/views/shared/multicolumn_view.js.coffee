@@ -18,7 +18,8 @@ class Maple.Views.MultiColumnView extends Backbone.View
   numberOfColumns:      0
 
   postWidth:             270 # post width is 250, margin of 20px
-
+  
+  twoColumnTemplate: JST["backbone/templates/shared/two_column_index"]
   threeColumnTemplate:  JST["backbone/templates/shared/three_column_index"]
   fourColumnTemplate:   JST["backbone/templates/shared/four_column_index"]
   fiveColumnTemplate:   JST["backbone/templates/shared/five_column_index"]
@@ -140,6 +141,13 @@ class Maple.Views.MultiColumnView extends Backbone.View
           @$el.width(6 * (@postWidth))
           @numberOfColumns = 6
           @template = @sixColumnTemplate
+          @render()
+          @addAll()
+      when 2
+        if @numberOfColumns != 6
+          @$el.width(2 * (@postWidth))
+          @numberOfColumns = 2
+          @template = @twoColumnTemplate
           @render()
           @addAll()
       else

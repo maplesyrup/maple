@@ -1,17 +1,21 @@
-<hr>
-<h3 class="center"> Campaigns </h3>
-<hr>
-<ul class="nav nav-tabs">
-  <li class="active">
-    <a href="#tab1" data-toggle="tab" id="current-campaigns">Current (<%= campaigns.current.length %>) </a>
-  </li>
-  <li>
-    <a href="#tab2" data-toggle="tab" id="future-campaigns">Future (<%= campaigns.future.length %>)</a>
-  </li>
-  <li>
-    <a href="#tab3" data-toggle="tab" id="past-campaigns">Archive (<%= campaigns.past.length %>) </a>
-  </li>
+<ul class="breadcrumb">
+  <li class="active"> Campaigns </li>
 </ul>
+<div class="navbar dark-nav">
+  <div class="navbar-inner">
+    <ul class="nav">
+      <li class="active">
+        <a href="#tab1" data-toggle="tab" id="current-campaigns"><small>Current (<%= campaigns.current.length %>) </small></a>
+      </li>
+      <li>
+        <a href="#tab2" data-toggle="tab" id="future-campaigns"><small>Future (<%= campaigns.future.length %>)</small></a>
+      </li>
+      <li>
+        <a href="#tab3" data-toggle="tab" id="past-campaigns"><small>Archive (<%= campaigns.past.length %>) </small></a>
+      </li>
+    </ul>
+  </div>
+</div>
 
 <div id="new-campaign-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-header">
@@ -58,18 +62,18 @@
     <% campaigns.current.forEach(function(campaign){ %> 
       <li class="campaign-glimpse" campaign-id="<%=campaign.id%>">
         <a href="#">
+          <img class="pull-left img-rounded" src="<%= campaign.random_post_thumb %>">
           <h3> <%= campaign.title %> </h3>
           <p>
             <%= campaign.description %>
           </p>
           <div class="clear-fix"></div>
-          <hr class="hr-thin">
           <% 
             var end = Maple.Utils.fromRubyDateTime(campaign.endtime);
             var now = Date.now();
             var span = new TimeSpan(end - now);      
           %> 
-          <span>
+          <span class="label label-inverse">
             <small>
               Ends in <%= span.getDays() %> days, <%= span.getHours() %> hours, <%= span.getMinutes() %> minutes. 
             </small>
@@ -91,6 +95,7 @@
     <% campaigns.future.forEach(function(campaign){ %>
       <li class="campaign-glimpse" campaign-id="<%= campaign.id %>"> 
         <a href="#">
+          <img class="pull-left img-rounded" src="<%= campaign.random_post_thumb %>">
           <h3> <%= campaign.title %> </h3>
           <p>
             <%= campaign.description %>
@@ -128,13 +133,18 @@
             <%= campaign.description %>
           </p>
           <div class="clear-fix"></div>
-          <hr class="hr-thin">
+          <ul class="well inline">
+            <% campaign.random_post_thumbs.forEach(function(post_thumb) { %>
+              <li> <img class="post-thumb img-rounded" src="<%= post_thumb %>"></li>
+            <% }); %>
+          </ul>
+          <div class="clear-fix"></div>
           <% 
             var end = Maple.Utils.fromRubyDateTime(campaign.endtime);
             var now = Date.now();
             var span = new TimeSpan(now - end);      
           %> 
-          <span>
+          <span class="label label-inverse">
             <small>
               Ended <%= span.getDays() %> days ago. 
             </small>
@@ -144,3 +154,5 @@
     <% }) %> 
   </div>
 </div>
+
+<% $('.modal').appendTo($('body')) %>
