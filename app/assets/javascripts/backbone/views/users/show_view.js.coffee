@@ -12,6 +12,7 @@ class Maple.Views.UserShowView extends Backbone.View
     "click .collection-filter" : "refilterCollection"
     "click .follow" : "follow"
     "click .delete-user" : "onDeleteUser"
+    "click #user-submit-avatar" : "submitAvatar"
 
   initialize: ->
     @viewManager = new Maple.ViewManager()
@@ -53,17 +54,25 @@ class Maple.Views.UserShowView extends Backbone.View
     target = $(event.currentTarget)
     targetID = target.attr("id")
     if targetID == "avatar"
-      view = new Maple.Views.UploadImageView({
-        model: @model,
-        inputName: "user[avatar]",
-        targetImgContainer: "#avatar",
-        resourceName: "avatar"
-      })
-      container = @$el.find("#user-select-new-avatar")
-      @viewManager.showView(view, container)
+      $("#userAvatarModal").modal('show')
     else
       return false
+  
+  submitAvatar: (event) ->
+    event.preventDefault()
+    event.stopPropagation()
+    
+    formData = new FormData($("#new-user-avatar")[0])
 
+    @model.savePaperclip(formData,
+      type: 'PUT'
+      success: (user) =>
+        @model.set(user)
+        $("#avatar").attr("src", @model.get("avatar"))
+        $("#userAvatarModal").modal('hide')
+      error: (xhr) =>
+        Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText }))
+ 
   populateCollection: (collectionType) ->
     switch collectionType
       when "user-posts"
