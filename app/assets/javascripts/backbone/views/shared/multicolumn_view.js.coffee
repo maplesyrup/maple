@@ -47,7 +47,7 @@ class Maple.Views.MultiColumnView extends Backbone.View
 
     @data = (@options.data || {})
 
-    @collection.on 'change', (model) =>
+    @collection.on 'change:company', (model) =>
       if @data.company_id != model.company_id
         # Remove the model from the collection if we're looking at company view
         # Keep silent so we don't trigger a remove event that actually removes model
@@ -82,7 +82,7 @@ class Maple.Views.MultiColumnView extends Backbone.View
   addOne: (model, index) ->
     colId = @.getColumnId(index)
     container = @$el.find(colId)
-    
+
     @view = new @modelView({ model: model, collection: @collection })
     @viewManager.appendView(@view, container)
 
@@ -151,7 +151,6 @@ class Maple.Views.MultiColumnView extends Backbone.View
           @addAll()
 
   render: ->
-    @viewManager.closeAll()
     @$el.html @template()
     @
 
