@@ -61,6 +61,7 @@ class Maple.Views.EditPostView extends Backbone.View
         error: (post, response, options) =>
           @submitLocked = false
           $(".spinner").toggle()
+          $("#mainModal").modal('hide')
           Maple.Utils.alert({ err: response.status + ': ' + response.statusText }))
 
   loadCampaigns: (event) =>
