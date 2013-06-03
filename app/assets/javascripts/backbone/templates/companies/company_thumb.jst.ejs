@@ -30,7 +30,11 @@
       </div> 
     </div>
     <a href="/#companies/<%= id %>">
-      <img src="<%= splash_image %>" class="rounded-top">
+      <% if (logos && logos.length > 0) { %>
+        <img src="<%= logos[0].full %>" class="rounded-top">
+      <% } else { %>
+        <img src="<%= splash_image %>" class="rounded-top">
+      <% } %>
     </a> 
   </div>
 </div>
