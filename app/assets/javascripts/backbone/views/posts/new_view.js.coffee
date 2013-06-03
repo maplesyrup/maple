@@ -16,6 +16,7 @@ class Maple.Views.NewPostView extends Backbone.View
     'click #post-submit' : 'save'
 
   initialize: (options) ->
+    @submitLocked = false
     @companies =  options.companies
     @company = options.company
     @campaign = options.campaign
@@ -34,18 +35,28 @@ class Maple.Views.NewPostView extends Backbone.View
 
 
   save: (e) =>
-    e.preventDefault()
-    e.stopPropagation()
+    if !@submitLocked
+      e.preventDefault()
+      e.stopPropagation()
 
-    formData = new FormData($('#new-post')[0])
-   
-    @collection.savePaperclip(formData,
-      success: (post) =>
-        @collection.add([post])
-        $("#mainModal").modal('hide')
-        window.router.navigate('/')
-      error: (e) =>
-        console.log(e))
+      formData = new FormData($('#new-post')[0])
+
+      $(".spinner").toggle()
+      @submitLocked = true
+
+      @collection.savePaperclip(formData,
+        success: (post) =>
+
+          @submitLocked = false
+          $(".spinner").toggle()
+
+          @collection.add([post])
+          $("#mainModal").modal('hide')
+          window.router.navigate('/')
+        error: (e) =>
+          @submitLocked = false
+          $(".spinner").toggle()
+          console.log(e))
     
   validate: (e) =>
     console.log(e)
