@@ -1,0 +1,6 @@
+<label for="post[campaign_id]">Select Campaign</label>
+  <select name="post[campaign_id]"> 
+    <% campaigns.forEach(function(campaign) { %>
+      <option value="<%=campaign.get("id") %>"><%= campaign.get("title") %></option>
+    <% }) %>
+  </select>

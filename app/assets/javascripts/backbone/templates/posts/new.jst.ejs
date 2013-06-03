@@ -21,12 +21,14 @@
       <option value ="<%= company.id %>"><%= company.name %></option>
     <% } %>
     </select>
-
+    
     <% if (campaign) { %> 
       <label for="post[campaign_id]">Select Campaign</label>
       <select name="post[campaign_id]"> 
         <option value="<%=campaign.id %>"><%= campaign.title %></option>
       </select>
+    <% } else { %>
+      <div id="campaign-select"></div>
     <% } %>
 
     <label for="post[image]">Upload Ad</label>

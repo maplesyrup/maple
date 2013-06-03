@@ -11,17 +11,25 @@ class Maple.Views.NewPostView extends Backbone.View
   tagName: 'div'
 
   template: JST["backbone/templates/posts/new"]
+  
+  campaignTemplate: JST["backbone/templates/campaigns/select-list"]
 
   events:
     'click #post-submit' : 'save'
 
   initialize: (options) ->
+
     @submitLocked = false
     @companies =  options.companies
     @company = options.company
     @campaign = options.campaign
 
     @render()
+
+    @$el.find("#company").change(@loadCampaigns)
+
+    if !options.campaign
+      @loadCampaigns()
 
   render: ->
     @$el.html @template(_.extend(
@@ -57,7 +65,21 @@ class Maple.Views.NewPostView extends Backbone.View
           @submitLocked = false
           $(".spinner").toggle()
           console.log(e))
-    
+  
+  loadCampaigns: (event) =>
+    company_id = @$el.find("#company").val()
+    @companies.get(company_id).campaigns.fetch(
+      success:(event) =>
+        @$el.find("#campaign-select").html @campaignTemplate(
+          campaigns: event
+        )
+        console.log(event)
+      error:(event) ->
+        Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
+      data:
+        company_id: company_id
+    )
+
   validate: (e) =>
     console.log(e)
 
