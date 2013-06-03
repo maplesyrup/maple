@@ -156,6 +156,16 @@ ul, li {
   margin-bottom: 60px;
 }
 
+#company-blurb-title {
+  min-height: 100px;
+  min-width: 150px;
+}
+
+#company-blurb-body {
+  min-width: 100px;
+  min-height: 40px;
+}
+
 #add-company-logo {
   float: left
 }
