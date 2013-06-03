@@ -142,7 +142,7 @@ class Maple.Views.UserShowView extends Backbone.View
   follow: (event) ->
     if Maple.session.get("user_signed_in")
       # user is signed in and wants to perform an action
-      index = _.indexOf(Maple.session.currentUser.get("users_im_following"), @model.id) 
+      index = _.indexOf(Maple.session.currentUser.get("users_im_following"), @model.id)
       if index == -1
         # user is not already following this user. Follow
 
