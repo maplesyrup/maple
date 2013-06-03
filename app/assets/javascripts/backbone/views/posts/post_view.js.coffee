@@ -62,7 +62,7 @@ class Maple.Views.PostView extends Backbone.View
     event.preventDefault()
 
     @model.save({ company: null, campaign: null },
-      url: @model.paramRoot + @model.id + '/untag'
+      url: @model.urlRoot + @model.id + '/untag'
       success: (model) =>
         console.log("Successfully untagged: " + model.id)
       error: (model, xhr, options) =>
