@@ -86,6 +86,3 @@ class Maple.Views.NewPostView extends Backbone.View
   close: =>
     @$el.remove()
     @unbind()
-
-
-
