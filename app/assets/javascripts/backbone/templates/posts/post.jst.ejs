@@ -29,7 +29,7 @@
       <% } %>
   </div>
 </div>
-  
+
 <a href="/#posts/<%= id %>" data-img='<%= full_image_url %>'><img class="rounded-top" src="<%= image_url %>" />
   <div class="outer-feature">
     <div class="inner-feature">
@@ -50,7 +50,7 @@
 <div class="glimpse-info">
 <div class="content">
   <% if (endorsed === false && company && company_signed_in && session.currentCompany.id === company.id) {  %>
-    <i class="pull-right icon-star-empty muted endorsable"></i> 
+    <i class="pull-right icon-star-empty muted endorsable"></i>
   <% } else if (endorsed === true) { %>
     <i class="pull-right icon-star gold endorsable"></i>
   <% } %>
@@ -90,10 +90,13 @@
 
     <% if (typeof(company) !== "undefined" && company && typeof(company.id) !== "undefined" && typeof(company.name) !== "undefined") { %>
       <span class="tag">For <a href="/#companies/<%=company_id %>"><strong><%= company.name %></strong></a></span>
-       <% if (typeof(campaign) !== "undefined" && campaign.tagName === undefined) { %>
+      <% if (typeof(campaign) !== "undefined" && campaign.tagName === undefined) { %>
         <span class="tag">'s campaign <strong><%= campaign.title %></strong></span>
-       <% } %>
-    <% } %>
+      <% } %>
+      <% if (user && user_signed_in && session.currentUser.id === user.id) { %>
+        <a href="/#editPost/<%= id %>" class="post-edit">edit</a>
+     <% } %>
+   <% } %>
   <% if (typeof(rewards) !== "undefined") { %>
     <div class="clearfix"></div>
     <hr class="hr-thin">
