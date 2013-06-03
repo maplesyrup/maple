@@ -51,9 +51,9 @@ class Maple.Views.UserShowView extends Backbone.View
     event.stopPropagation()
     event.preventDefault()
 
-    target = $(event.currentTarget)
+    target = $(event.target)
     targetID = target.attr("id")
-    if targetID == "avatar"
+    if targetID == "user-avatar-container"
       $("#userAvatarModal").modal('show')
     else
       return false
