@@ -21,10 +21,6 @@ class Maple.Views.PostView extends Backbone.View
     "mouseout" : "onMouseout"
 
   initialize: ->
-    @.model.bind 'change', =>
-      if(@.model.hasChanged('total_votes'))
-        @.render()
-
     @render()
 
   onMouseover: (e) =>
@@ -45,11 +41,12 @@ class Maple.Views.PostView extends Backbone.View
       url: "/posts/vote_up"
       data: "post_id=" + @.model.get('id')
       success: =>
-        console.log("Success")
+        @.model.set({'total_votes': num_votes + 1, 'voted_on': Maple.Post.VOTED.YES})
+        @render()
       error: (xhr) =>
         Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
 
-    @.model.set({'total_votes': num_votes + 1, 'voted_on': Maple.Post.VOTED.YES})
+
 
   deletePost: (event) =>
     event.stopPropagation()
