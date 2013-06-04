@@ -4,7 +4,8 @@
 <div id="navigation" class="navbar navbar-inverse">
   <div class="navbar-inner">
     <div class="container-fluid">
-      <a class="brand" href="/">Additt</a>&nbsp;&nbsp;
+      <a class="brand" href="/">Additt</a>
+      <span class="companyName beta-tag"> beta </span>
       <% if current_company %>
         <a class="brand companyName" href="/#companies/<%= current_company.id %>"> for <%= current_company.name %></a>
       <% end %>
