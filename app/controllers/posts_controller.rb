@@ -53,7 +53,7 @@ class PostsController < ApplicationController
     if user_signed_in?
       post = current_user.posts.find_by_id(params[:post][:id])
       if post
-        post.update_attributes(sanitize(params[:post]))
+        post.update_attributes(sanitize(params[:post], false))
         render :json => post.public_model
       end
     else
@@ -92,7 +92,7 @@ class PostsController < ApplicationController
     current_user.vote_for(post)
     post.save
     Post.index.refresh
-  
+
     post.campaign.refresh_rewards if post.campaign
 
     render :json => post
@@ -100,10 +100,10 @@ class PostsController < ApplicationController
 
   def endorse
     authenticate_company!
-    
-    post = current_company.posts.find_by_id(params[:id])  
+
+    post = current_company.posts.find_by_id(params[:id])
     if post
-      post.endorsed = !post.endorsed 
+      post.endorsed = !post.endorsed
       post.save
       Post.index.refresh
 
@@ -120,10 +120,10 @@ class PostsController < ApplicationController
     render :json => post.public_model
   end
 
-  def sanitize(model)
+  def sanitize(model, check_present = true)
     sanitized = {}
     Post.attr_accessible[:default].each do |attr|
-      sanitized[attr] = model[attr] if model[attr]
+      sanitized[attr] = model[attr] if model[attr].present? || (!attr.empty? && !check_present)
     end
     sanitized
   end

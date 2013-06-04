@@ -15,6 +15,10 @@ class Maple.Views.CampaignShowView extends Backbone.View
     @reloadCollection()
   
   render: (collection) =>
+    $("#starttime").bind('keyup', @parseDatetime)
+    $(" #endtime").bind('keyup', @parseDatetime)
+    $("#create-campaign").bind('click', @createCampaign)
+
     @$el.html(@template(
       _.extend(@model.toJSON(),
       campaigns:
@@ -37,7 +41,7 @@ class Maple.Views.CampaignShowView extends Backbone.View
       data:
         company_id: @model.id
 
-  parseDatetime: (event) ->
+  parseDatetime: (event) =>
     parsed = Date.parse($(event.target).val())
     if parsed != null
       if event.target.id == "starttime"
@@ -54,7 +58,7 @@ class Maple.Views.CampaignShowView extends Backbone.View
       true
     false
 
-  createCampaign: (event) ->
+  createCampaign: (event) =>
     form = $("#new-campaign-form")
     title = form.find("input[name='title']").val()
     description = form.find("textarea[name='description']").val()
@@ -115,4 +119,7 @@ class Maple.Views.CampaignShowView extends Backbone.View
 
   close: ->
     Maple.mapleEvents.unbind("blurCampaign")
+    $("#starttime").unbind('keyup', @parseDatetime)
+    $(" #endtime").unbind('keyup', @parseDatetime)
+    $("#create-campaign").unbind('click', @createCampaign)
     @unbind()

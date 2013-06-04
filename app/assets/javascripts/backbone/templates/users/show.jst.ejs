@@ -1,7 +1,9 @@
 <div class="container">
 	<div class="center">
 		<div id="user-info-container">
-			<img id="avatar" contenteditable="<%= editable %>" src="<%= avatar %>" class="img-polaroid small-photo pull-left">
+      <div class="pull-left margin-right" id="user-avatar-container" contenteditable="<%= editable %>">
+			  <img id="avatar" src="<%= avatar %>" class="img-polaroid small-photo pull-left">
+      </div>
 			<div class="pull-left">
 					<%if (name) { %>
 				<h2> <%= name %> </h2>
