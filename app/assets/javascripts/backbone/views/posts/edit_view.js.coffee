@@ -49,8 +49,10 @@ class Maple.Views.EditPostView extends Backbone.View
 
       $(".spinner").toggle()
       @submitLocked = true
+      
+      @model.set(attributes)
 
-      @model.save(attributes,
+      @model.patch(_.keys(attributes),
         success: (post) =>
 
           @submitLocked = false
