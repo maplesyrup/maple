@@ -93,9 +93,6 @@
       <% if (typeof(campaign) !== "undefined" && campaign.tagName === undefined) { %>
         <span class="tag">'s campaign <strong><%= campaign.title %></strong></span>
       <% } %>
-      <% if (user && user_signed_in && session.currentUser.id === user.id) { %>
-        <a href="/#editPost/<%= id %>" class="post-edit">edit</a>
-     <% } %>
    <% } %>
   <% if (typeof(rewards) !== "undefined") { %>
     <div class="clearfix"></div>
