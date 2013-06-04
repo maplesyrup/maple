@@ -96,7 +96,7 @@ class Maple.Views.CampaignShowView extends Backbone.View
           @filterCollection()
           @render()
         error: (error) =>
-          console.log error
+          Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
         }
       )
 
