@@ -5,7 +5,6 @@ class Maple.Views.CampaignView extends Backbone.View
   events:
     "click .reward-glimpse" : "filterByReward"
     "click #back-to-campaigns" : "blurCampaign"
-    "click #create-award" : "createAward"
     "click #submit-to-campaign" : "newPost"
     "click #competition-types" : "toggleAvailableFormInput"
 
@@ -14,6 +13,7 @@ class Maple.Views.CampaignView extends Backbone.View
     @reloadCollection()
      
   render: ->
+    $("#create-award").bind("click", @createAward)
     @$el.html(@template(
       _.extend(@model.toJSON(),
         rewards:
@@ -37,7 +37,7 @@ class Maple.Views.CampaignView extends Backbone.View
     event.stopPropagation()
 
     @close()
-    Maple.mapleEvents.trigger("campaignFilter", "company-posts")
+    Maple.mapleEvents.trigger("campaignFilter", "all-company-posts")
     Maple.mapleEvents.trigger("blurCampaign")
 
   flashAlert: (container, message) ->
@@ -49,7 +49,7 @@ class Maple.Views.CampaignView extends Backbone.View
       true
     false
 
-  createAward: (event) ->
+  createAward: (event) =>
     form = $("#new-reward-form")
     requirement = "MIN_VOTES"
 
@@ -135,5 +135,6 @@ class Maple.Views.CampaignView extends Backbone.View
       $("#top-posts-input").attr("disabled", "disabled")
 
   close: ->
+    $("#create-award").unbind("click", @createAward)
     @remove()
     @unbind()

@@ -1,5 +1,6 @@
 class Maple.Models.Post extends Backbone.Model
-  paramRoot: '/posts/'
+  paramRoot: 'post'
+  urlRoot: '/posts/'
 
   initialize: ->
     @comments = new Maple.Collections.CommentsCollection
@@ -26,7 +27,7 @@ class Maple.Collections.PostsCollection extends Backbone.Collection
 
   byCampaign: (id) ->
     new Maple.Collections.PostsCollection @where campaign_id: id
-  
+
   byReward: (id) ->
     filtered = @filter((post) ->
       _.where(post.get("rewards"),

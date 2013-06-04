@@ -17,20 +17,22 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
       Maple.session.currentCompany.set(options.current_company)
     else if options.current_user
       Maple.session.currentUser.set(options.current_user)
-    
+
     # Custom event aggregator for inter-view communication
     Maple.mapleEvents = _.extend({}, Backbone.Events)
 
     @users = new Maple.Collections.UsersCollection()
-    
+
     @viewManager = new Maple.ViewManager()
 
     # no users bootstrapping
     # We'll lazy load instead
 
+
   routes:
     '' : 'index'
     'newPost' : 'newPost'
+    'editPost/:id' : 'editPost'
     'companies/:id' : 'showCompany'
     'companies/:id/dashboard' : 'dashboard'
     'users/:id' : 'showUser'
@@ -51,14 +53,14 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
         bootstrapped: true
       )
       @viewManager.showView(view, $(mainContainer))
-     
+
 
     else
       view = new Maple.Views.SplashView()
       @viewManager.showView(view, $(mainContainer))
-    
+
     @company_pill_view = new Maple.Views.CompaniesIndexView({ collection: @companies})
-  
+
   terms: ->
     view = new Maple.Views.TermsView()
     @viewManager.showView(view, $(mainContainer))
@@ -91,6 +93,14 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
 
     $modal.on 'hidden', =>
       @navigate("#", true)
+
+  editPost: (id) ->
+    $modal = $("#mainModal")
+    $modal.modal('show').html new Maple.Views.EditPostView(
+      model: @posts.get(id)
+      collection: @posts
+      companies: @companies
+    ).el
 
   showCompany: (id) ->
     @company_pill_view && @company_pill_view.close()

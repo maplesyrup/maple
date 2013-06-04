@@ -1,128 +1,165 @@
-<div class="navbar navbar-inverse navigation nav-escape-above nav-push-down scroll-hide">
-	<div class="nav-opaque navbar-inner">
-		<div class="container-fluid">
-			<a class = "brand" href=<%= "/#companies/" + id %> ><%= name %></a>
-			<% if (!company_signed_in) { %>
-				<div class="follow">
-				<% if (user_signed_in && _.contains(session.currentUser.companies_im_following, id)) { %>
-					<button class="btn btn-success pull-right">
-						Following
-					</button>
-				<% } else if (!user_signed_in){ %>
-          <a href="/users/sign_in" class="btn pull-right">
-            <i class="icon-plus"></i> Follow 
-          </a>
-          <% } else { %>
-					<button class="btn pull-right">
-						<i class="icon-plus"></i> Follow
-					</button>
-				<% } %>
-				</div>
-			<% } %>
-		</div>
-	</div>
+<div id="new-campaign-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">New Campaign</h3>
+  </div>
+
+  <div class="modal-body">
+
+    <form enctype="multipart/form-data" method="post" name="campaign" id="new-campaign-form">
+      Title</br> 
+      <input type="text" name="title"></br>
+      Description</br> 
+      <textarea name="description"></textarea></br>
+      Starting </br>
+      <input type="text" id="starttime">&nbsp;<i class="icon-calendar icon-2x"></i>&nbsp;&nbsp;<small> eg: today, tomorrow, July 4, etc. </small></br>
+      <h6 id="starttimeinput"></h6></br>
+      Ending </br>
+      <input type="text" id="endtime">&nbsp;<i class="icon-calendar icon-2x"></i></br>
+      <h6 id="endtimeinput"></h6></br>
+
+      <div id="campaign-alert" class="alert" style="display:none">
+      </div>
+
+    </form>
+  </div> 
+
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn btn-primary" id="create-campaign">Create Campaign</button>
+  </div>
 </div>
 
-<div class="container-fluid" id="company-splash-image" contenteditable="<%= editable %>" >
-	<img id="company-header-image" class="center-container" src="<%= splash_image %>">
-	</div>
-	<div id="company-select-new-image"></div>
+<div id="new-reward-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">New Reward</h3>
+  </div>
+
+  <div class="modal-body">
+
+    <form enctype="multipart/form-data" method="post" name="campaign" id="new-reward-form">
+      Title</br> 
+      <input type="text" name="title"></br>
+      Description</br> 
+      <textarea name="description"></textarea>&nbsp;&nbsp<small> Extra info or requirements to qualify</small></br>
+      Reward</br>
+      <input type="text" name="reward" value="What's the reward?">&nbsp;&nbsp<small>1 tshirt, 10 dollars etc. </small></br>
+      Competition Type</br>  
+      <div class="well" id="competition-types">
+        <label for="min-vote-type"> Minimum Vote </label>
+        <input type="radio" name="reward-type" id="min-vote-type" value="min-vote" checked>
+        <label for="top-post-type"> Top Posts </label>
+        <input type="radio" name="reward-type" id="top-post-type" value="top-post">
+        <label for="company-endorsed-type"> Company Endorsed </label>
+        <input type="radio" name="reward-type" id="company-endorsed-type" value="company-endorsed">
+      </div>
+      Minium Qualifying Votes</br>
+      <input type="number" name="min-votes" min="1" id="qualifying-votes-input">&nbsp;&nbsp;<small> Users will automatically win an award if they achieve this minimum. (Not Required)</small></br> 
+      Quantity</br>
+      <input type="number" name="quantity" id="quantity-input" min="1">&nbsp;&nbsp;<small>How many of these do you have to give away?</small></br>
+      Award to top &nbsp; <input type="number" name="top-post-quantity" min="1" id="top-posts-input" disabled> &nbsp; posts</br>
+      <div id="reward-alert" class="alert" style="display:none">
+      </div>
+    </form>
+  </div> 
+
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <button class="btn btn-primary" id="create-award">Create Award</button>
+  </div>
 </div>
-<div id="company-information" class="container">
-	<div class="row-fluid">
-		<div class="span8 company-blurb">
-			<div class="hero-unit">
-				<div contenteditable="<%= editable %>" id="logo-placeholder">
-          <% if (logos && logos.length > 0) { %>
-						<img src="<% for (var i = 0; i < logos.length; i++) { %>
-							<% if (logos[i].selected) { %>
-								<%= logos[i].medium %>
+
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="span9">
+      <div id="company-information">
+        <div class="hero-unit">
+          <div contenteditable="<%= editable %>" id="logo-placeholder">
+            <% if (logos && logos.length > 0) { %>
+              <img src="<% for (var i = 0; i < logos.length; i++) { %>
+                <% if (logos[i].selected) { %>
+                  <%= logos[i].medium %>
+                <% } %>
+              <% } %>
+              " class="logo-thumb center">
+            <% } else { %>
+              <i class="icon-camera-retro icon-large"></i>
+            <% } %>
+          </div>
+          <div class="company-content">
+						<% if (!company_signed_in) { %>
+							<div class="follow">
+							<% if (user_signed_in && _.contains(session.currentUser.companies_im_following, id)) { %>
+								<button class="btn btn-success pull-right">
+									Following
+								</button>
+							<% } else if (!user_signed_in){ %>
+			          <a href="/users/sign_in" class="btn pull-right">
+			            <i class="icon-plus"></i> Follow 
+			          </a>
+			        <% } else { %>
+								<button class="btn pull-right">
+									<i class="icon-plus"></i> Follow
+								</button>
 							<% } %>
+							</div>
 						<% } %>
-						" class="logo-thumb center">
-					<% } else { %>
-					  <i class="icon-camera-retro icon-large"></i>
-					<% } %>
-				</div>
-				<div class="company-content">
-				  <h1 contenteditable="<%= editable %>" id="company-blurb-title">
-					  <%= blurb_title %>
-				  </h1>
-				  <p class="lead" id="company-blurb-body" contenteditable="<%= editable %>">
-					  <%= blurb_body %>
-				  </p>
-			  </div>
-		  </div>
+            <h1 contenteditable="<%= editable %>" id="company-blurb-title">
+              <%= blurb_title %>
+            </h1>
+            <p class="lead" id="company-blurb-body" contenteditable="<%= editable %>">
+              <%= blurb_body %>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="container-fluid">
+	      <div class="center">
+		      <div class="btn-group center-container collection-filter">
+            <button id="company-posts" class="btn active">Posts</button>
+            <button id="company-followers" class="btn">Followers</button>
+          </div>
+        </div>
+      </div>
+      <div class="nav-escape-above"></div>
+      <div class="container-fluid">
+        <div id="company-posts-container" class="posts-container nav-escape-above"></div>
+      </div>
+      <% if (editable) { %>
+	      <div id="uploadLogoModal" class="modal hide">
+		      <div class="modal-header">
+			      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	          <h3>Select Company Logo</h3>
+          </div>
+
+          <div class="modal-body">
+            <div id="multiple-logo-panel">
+              <% for (var i = 0; i < logos.length; i++) { %>
+            
+                <img class="multiple-logo-image <% if (logos[i].selected) { %>selected<% } %>" data-id="<%=logos[i].id %>" src="<%= logos[i].thumb %>" />
+
+              <% } %>
+            </div>
+
+          </div>
+
+          <div class="modal-footer">
+            <form accept-charset="UTF-8" action="/companies" enctype="multipart/form-data" id="add-company-logo" method="post">
+            <input id="upload-logo-field" type="file" name="company[assets_attributes][][image]" id="company-logo-field" />
+            <input type="hidden" name="company[assets_attributes][][selected]" value="true" />
+            </form>
+            <a href="#" id="company-submit-logo" class="btn btn-primary">Upload</a>
+          </div>
+
+        </div>
+      <% } %>
     </div>
-	  <div class="span4 content">
-		  <h2 id="company-more-info-title" contenteditable="<%= editable %>">
-				<%= more_info_title %>
-			</h2>
-			<p id="company-more-info-body" contenteditable="<%= editable %>">
-				<%= more_info_body %>
-			</p>
-    </div>
-	</div>
-</div>
-<hr>
-<div class="container-fluid">
-	<div class="center">
-		<div class="btn-group center-container collection-filter">
-	  	<button id="company-posts" class="btn active">Posts</button>
-  		<button id="company-followers" class="btn">Followers</button>
-		</div>
-	</div>
-</div>
-<div class="nav-escape-above"></div>
-<div class="container-fluid">
-  <div class="row">
-    <div id="company-posts-container" class="span11 posts-container nav-escape-above"></div>
-    <div class="span4">
-      <div class="campaign"></div>
+    <div class="span3">
+      <div class="campaign wrap-text"></div>
     </div>
   </div>
 </div>
-<% if (editable) { %>
-	<div id="uploadLogoModal" class="modal hide">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	    <h3>Select Company Logo</h3>
-		</div>
-
-		<div class="modal-body">
-			<div id="multiple-logo-panel">
-			<% for (var i = 0; i < logos.length; i++) { %>
-				
-				<img class="multiple-logo-image <% if (logos[i].selected) { %>selected<% } %>" data-id="<%=logos[i].id %>" src="<%= logos[i].thumb %>" />
-
-			<% } %>
-			</div>
-
-		</div>
-
-		<div class="modal-footer">
-			<form accept-charset="UTF-8" action="/companies" enctype="multipart/form-data" id="add-company-logo" method="post">
-			  <input id="upload-logo-field" type="file" name="company[assets_attributes][][image]" id="company-logo-field" />
-			  <input type="hidden" name="company[assets_attributes][][selected]" value="true" />
-			</form>
-			<a href="#" id="company-submit-logo" class="btn btn-primary">Upload</a>
-		</div>
-
-	</div>
-
-	<div id="uploadSplashModal" class="modal hide">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	    <h3>Upload Splash Image </h3>
-		</div>
-		<div class="modal-body">
-			<form accept-charset="UTF-8" action="/companies" enctype="multipart/form-data" id="add-company-splash" method="post">
-			  <input type="file" name="company[splash_image]" id="company-splash-image-field" />
-			 </form>
-		</div>
-		<div class="modal-footer">
-			<a href="#" class="btn btn-primary" id="company-submit-splash-image">Upload</a>
-		</div>
-	</div>
-<% } %>
-

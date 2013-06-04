@@ -7,6 +7,8 @@ $more-spacing: 20px;
 $small-font-size: 12px;
 $medium-font-size: 14px;
 $large-font-size: 18px;
+$dark-background: #272b30;
+$orange-grey: #f2e8d9;
 
 /* Shared Mixins */
 @mixin ul-reset {
@@ -178,6 +180,146 @@ ul, li {
   padding: 20px;
 }
 
+.campaign {
+  background-color: #272b30;
+  position: fixed;
+  top: 85px;
+  right: 0;
+  width: 300px !important;
+  height: 88% !important;
+  overflow: scroll;
+  border-left: 1px solid #ccc;
+  color: $orange-grey;
+  border-top: 1px solid #ccc;
+}
+.campaign .container-fluid {
+  padding: 0;
+}
+
+.dark-nav .navbar-inner{
+  border: none;
+  background-image: none;
+  background-color: #858585;
+}
+
+.dark-nav .nav>li>a {
+  text-shadow: none;
+}
+
+.campaign a {
+  text-decoration: none;
+  border: none !important;
+  color: $orange-grey;
+}
+
+.campaign-glimpse {
+  border-bottom: 2px groove #757575;
+}
+
+.campaign .navbar-inner {
+  min-height: 40px;
+  padding-right: 10px;
+  padding-left: 10px;
+  background-color: #32373c;
+  background-image: -moz-linear-gradient(top, #3a3f44, #272b30);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#3a3f44), to(#272b30));
+  background-image: -webkit-linear-gradient(top, #3a3f44, #272b30);
+  background-image: -o-linear-gradient(top, #3a3f44, #272b30);
+  background-image: linear-gradient(to bottom, #3a3f44, #272b30);
+  background-repeat: repeat-x;
+  border: 1px solid #0c0d0e;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3a3f44', endColorstr='#ff272b30', GradientType=0);
+  *zoom: 1;
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.065);
+}
+.campaign .nav > li > a {
+  float: none;
+  padding: 9.5px 15px 9.5px;
+  color: #c8c8c8;
+  text-decoration: none;
+  text-shadow: 0 1px 0 #3a3f44;
+}
+.campaign .nav > li > a:focus,
+.campaign .nav > li > a:hover {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #3a3f44;
+}
+
+.campaign .nav > .active > a,
+.campaign .nav > .active > a:hover,
+.campaign .nav > .active > a:focus {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #272b30;
+  -webkit-box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
+  -moz-box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
+  box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.125);
+}
+
+.campaign .breadcrumb {
+  background-color: #3a3f44;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#52575c), color-stop(70%, #3a3f44), to(#3a3f44));
+  background-image: -webkit-linear-gradient(#52575c, #3a3f44 70%, #3a3f44);
+  background-image: -moz-linear-gradient(top, #52575c, #3a3f44 70%, #3a3f44);
+  background-image: -o-linear-gradient(#52575c, #3a3f44 70%, #3a3f44);
+  background-image: linear-gradient(#52575c, #3a3f44 70%, #3a3f44);
+  background-repeat: no-repeat;
+  border: 1px solid transparent;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff52575c', endColorstr='#ff3a3f44', GradientType=0);
+  -webkit-box-shadow: '0 1px 3px rgba(0, 0, 0, 0.25), inset 0 -1px 0 rgba(0, 0, 0, 0.1)';
+  -moz-box-shadow: '0 1px 3px rgba(0, 0, 0, 0.25), inset 0 -1px 0 rgba(0, 0, 0, 0.1)';
+  box-shadow: '0 1px 3px rgba(0, 0, 0, 0.25), inset 0 -1px 0 rgba(0, 0, 0, 0.1)';
+}
+
+.campaign .breadcrumb li {
+  font-weight: bold;
+  color: #7a8288;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+}
+.campaign .hero-unit {
+  padding: 30px;
+  margin-bottom: 30px;
+  font-size: 18px;
+  font-weight: 200;
+  line-height: 31.5px;
+  color: inherit;
+  background-color: #202328;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+}
+
+.campaign .well {
+  min-height: 20px;
+  padding: 19px;
+  margin-bottom: 20px;
+  background-color: #202328;
+  border: 1px solid #101214;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+.campaign .post-thumb {
+  width: 70px;
+}
+
+.reward-glimpse {
+  border-bottom: 2px groove #757575;
+}
+
+.campaign .align-top {
+  margin-top: 2px;
+}
+
 .nav-escape-above { padding-top: 40px;}
 
 .large-header {
@@ -288,6 +430,10 @@ ul, li {
   background: rgba(0,0,0,0.4)
 }
 
+.navbar-fixed-bottom {
+  bottom: 0;
+}
+
 .sub-header {
   font-size: 28px;
   margin-bottom: 10px;
@@ -367,8 +513,8 @@ footer {
 }
 
 .glimpse-column {
-  width: 250px;
-  margin-left: 0;
+  width: 250px !important;
+  margin-left: 0 !important;
   margin-right: 20px
 }
 
@@ -387,7 +533,7 @@ footer {
 .glimpse {
   background-color: $secondary-background;
   width: 250px;
-  margin: 0px 20px 20px 0px;
+  margin: 0 0 20px 0 !important;
 }
 
 .glimpse a {
@@ -475,6 +621,9 @@ a hr{
 
 .glimpse-info img {
   float: left;
+}
+.margin-right {
+  margin-right: 10px;
 }
 
 .glimpse-meta {
@@ -784,7 +933,7 @@ circle {
 .myicon-untag {
   /* taken from bootstrap file */
   display: inline-block;
-  width: 14px;
+  width: 15px;
   height: 14px;
   line-height: 14px;
   vertical-align: text-top;
@@ -809,4 +958,20 @@ circle {
   a {
     text-decoration: underline;
   }
+}
+
+.spinner {
+  display: none;
+}
+
+.facebook-post {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.trash-post {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }

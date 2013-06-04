@@ -7,6 +7,9 @@ class Maple.Views.PostView extends Backbone.View
   # model's attributes will rerender
   # the View.
 
+  tagName: 'div'
+  className: 'glimpse rounded-top subtle-shadow'
+
   template: JST["backbone/templates/posts/post"]
 
   events:
@@ -59,7 +62,7 @@ class Maple.Views.PostView extends Backbone.View
     event.preventDefault()
 
     @model.save({ company: null, campaign: null },
-      url: @model.paramRoot + @model.id + '/untag'
+      url: @model.urlRoot + @model.id + '/untag'
       success: (model) =>
         console.log("Successfully untagged: " + model.id)
       error: (model, xhr, options) =>
