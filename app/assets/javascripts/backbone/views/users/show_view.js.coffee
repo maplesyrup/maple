@@ -59,6 +59,8 @@ class Maple.Views.UserShowView extends Backbone.View
       return false
   
   submitAvatar: (event) ->
+    $(".spinner").toggle()
+
     event.preventDefault()
     event.stopPropagation()
     
@@ -70,8 +72,11 @@ class Maple.Views.UserShowView extends Backbone.View
         @model.set(user)
         $("#avatar").attr("src", @model.get("avatar"))
         $("#userAvatarModal").modal('hide')
+        $(".spinner").toggle()
       error: (xhr) =>
-        Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText }))
+        $(".spinner").toggle()
+        Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
+    )
  
   populateCollection: (collectionType) ->
     switch collectionType
