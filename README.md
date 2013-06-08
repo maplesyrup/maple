@@ -1,4 +1,5 @@
 ![Additt Logo](http://www.additt.co/assets/additt_logo-469bd83f2f3dc81ca74754ab9b7c9469.png)
+Contact info: additt.team@gmail.com
 
 Guide to setup/contribution
 ===========================
