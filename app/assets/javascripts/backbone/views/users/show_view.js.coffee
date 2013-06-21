@@ -30,9 +30,7 @@ class Maple.Views.UserShowView extends Backbone.View
     if (confirmDelete)
       @model.destroy({
         wait: true
-        success: (model, response) ->
-          console.log(model)
-          console.log("success in deleting")
+        success: ->
           window.location.href = '/'
         })
         
@@ -40,7 +38,6 @@ class Maple.Views.UserShowView extends Backbone.View
 
       # For now this is necessary because we don't use backbone for the header,
       # thus we need to refresh the whole page :/
-      #window.location.href = '/'
 
   saveContent: (id, content) ->
     if id ==  "personal-info"
