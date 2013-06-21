@@ -94,9 +94,8 @@ class Maple.Views.CampaignView extends Backbone.View
           },
           {
           success: (model) =>
-            @createRewardLocked = false
-
             $("#new-reward-modal").modal('hide')
+            @createRewardLocked = false
             @model.rewards.add(model)
             @render()
           error: (error) =>
