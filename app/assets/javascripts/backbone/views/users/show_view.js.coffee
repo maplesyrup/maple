@@ -1,3 +1,4 @@
+# User Profile Page
 class Maple.Views.UserShowView extends Backbone.View
 
   tagName: 'div'
