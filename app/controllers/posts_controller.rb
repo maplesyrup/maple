@@ -53,7 +53,6 @@ class PostsController < ApplicationController
     if user_signed_in?
       post = current_user.posts.find_by_id(params[:post][:id])
       if post
-
         post.update_attributes(sanitize(params[:post]))
         render :json => post.public_model
 
@@ -125,9 +124,8 @@ class PostsController < ApplicationController
   def sanitize(model)
     sanitized = {}
     Post.attr_accessible[:default].each do |attr|
-      sanitized[attr] = model[attr] if model[attr].present?
+      sanitized[attr] = model[attr] if model[attr]
     end
     sanitized
   end
-
 end

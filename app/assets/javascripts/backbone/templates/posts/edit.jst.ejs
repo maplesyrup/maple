@@ -10,19 +10,6 @@
 
     <label for="content">Content</label>
     <input type="text" value="<%= post.content %>" name="content" maxlength="500" id="post-content" />
-
-    <label for="company">Select Company</label>
-    <select id="company" name="company_id">
-    <% if (companies) { %>
-      <% for (var i = 0; i < companies.length; i++) { %>
-      <option <% if (post.company_id == companies[i].id) { %> selected="selected" <% } %>value="<%= companies[i].id %>"><%= companies[i].name %></option>
-      <% } %>
-    <% } else if (company) { %>
-      <option value ="<%= company.id %>"><%= company.name %></option>
-    <% } %>
-    </select>
-
-    <div id="campaign-select"></div>
   </form>
 </div>
 
