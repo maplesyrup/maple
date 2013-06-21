@@ -73,7 +73,22 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    user = User.destroy(params[:id])
+    user = User.find_by_id(params[:id])
+    '''
+    puts "Inside of users_controller.rb destroy"
+    user = User.find_by_id(params[:id])
+    puts user.inspect
+    #user = User.destroy(params[:id])
+    user.posts.each do |post|
+      puts post.inspect
+      puts "Deleting a post index"
+      post.index.delete 
+    end
+    #Post.tire.index.refresh
+    '''
+    User.find_by_id(params[:id]).destroy
+    Post.tire.index.refresh
+    puts "After users_controller.rb destroy"
 
     render :json => user.public_model
   end

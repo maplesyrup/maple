@@ -1,3 +1,4 @@
+# Full Post View
 class Maple.Views.PostShowView extends Backbone.View
   
   template: JST["backbone/templates/posts/show"]

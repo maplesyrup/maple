@@ -28,11 +28,19 @@ class Maple.Views.UserShowView extends Backbone.View
     confirmDelete = confirm("Are you sure you want to delete your account?")
 
     if (confirmDelete)
-      @model.destroy()
+      @model.destroy({
+        wait: true
+        success: (model, response) ->
+          console.log(model)
+          console.log("success in deleting")
+          window.location.href = '/'
+        })
+        
+
 
       # For now this is necessary because we don't use backbone for the header,
       # thus we need to refresh the whole page :/
-      window.location.href = '/'
+      #window.location.href = '/'
 
   saveContent: (id, content) ->
     if id ==  "personal-info"

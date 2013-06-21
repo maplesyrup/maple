@@ -22,9 +22,10 @@ class Post < ActiveRecord::Base
   has_and_belongs_to_many :banned_companies, :class_name => "Company", :uniq => true,
       :join_table => "banned_companies_posts"
 
+  acts_as_paranoid
   acts_as_voteable
 
-  has_many :comments, :as => :commentable
+  has_many :comments, :as => :commentable, :dependent => :destroy
   validates_associated :comments
 
   has_and_belongs_to_many :rewards
@@ -55,16 +56,6 @@ class Post < ActiveRecord::Base
   ALGORITHM = "_score *
     ((doc['total_votes'].value + 1) /
     pow(((time() - doc['created_at'].date.getMillis()) / 100000) + 1, #{GRAVITY}))"
-
-  # Refresh Tire indexes when Posts are deleted
-  # through acts_as_paranoid
-  after_save do
-    if self.deleted_at.nil?
-      self.index.store self
-    else
-      self.index.remove self
-    end
-  end
 
   def to_indexed_json
     self.public_model
