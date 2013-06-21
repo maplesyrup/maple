@@ -32,6 +32,7 @@ class Maple.Routers.ApplicationRouter extends Backbone.Router
   routes:
     '' : 'index'
     'newPost' : 'newPost'
+    'editPost/:id' : 'editPost'
     'companies/:id' : 'showCompany'
     'companies/:id/dashboard' : 'dashboard'
     'users/:id' : 'showUser'
