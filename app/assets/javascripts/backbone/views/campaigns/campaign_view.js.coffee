@@ -144,6 +144,6 @@ class Maple.Views.CampaignView extends Backbone.View
 
   close: ->
     $("#competition-types").unbind('click', @toggleAvailableFormInput)
-    $("#create-award").unbind("click", @createAward)
+    $("#create-award").unbind("click", @createReward)
     @remove()
     @unbind()
