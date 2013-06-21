@@ -25,13 +25,14 @@ class User < ActiveRecord::Base
                   :remember_me, :provider, :uid, :name,
                   :personal_info, :avatar, :authentication_token
 
-  has_many :posts
+  has_many :posts, :dependent => :destroy
 
   has_many :comments, :as => :commenter
   validates_associated :comments
 
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "50x50", :header_thumb => "25x25" }, :default_url => "avatars/:style/missing.png"
 
+  acts_as_paranoid
   acts_as_voter
   acts_as_followable
   acts_as_follower
