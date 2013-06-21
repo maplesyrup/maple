@@ -11,7 +11,7 @@ class Post < ActiveRecord::Base
   # image_content_type, image_file_size,
   # image_updated_at, company_id.
 
-  attr_accessible :content, :title, :image, :company_id, :campaign_id, :endorsed
+  attr_accessible :content, :title, :image, :company_id, :campaign_id, :endorsed, :deleted_at
 
   has_attached_file :image, :styles => { :large => "400x400>", :medium => "250x250>", :thumb => "100x100>"}, :default_url => "posts/:style/missing.png"
 
@@ -55,6 +55,16 @@ class Post < ActiveRecord::Base
   ALGORITHM = "_score *
     ((doc['total_votes'].value + 1) /
     pow(((time() - doc['created_at'].date.getMillis()) / 100000) + 1, #{GRAVITY}))"
+
+  # Refresh Tire indexes when Posts are deleted
+  # through acts_as_paranoid
+  after_save do
+    if self.deleted_at.nil?
+      self.index.store self
+    else
+      self.index.remove self
+    end
+  end
 
   def to_indexed_json
     self.public_model

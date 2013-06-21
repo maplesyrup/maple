@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130621202352) do
+ActiveRecord::Schema.define(:version => 20130621205813) do
 
   create_table "assets", :force => true do |t|
     t.datetime "created_at",         :null => false
@@ -116,6 +116,7 @@ ActiveRecord::Schema.define(:version => 20130621202352) do
     t.integer  "company_id"
     t.integer  "campaign_id"
     t.boolean  "endorsed",           :default => false
+    t.datetime "deleted_at"
   end
 
   create_table "posts_rewards", :id => false, :force => true do |t|
