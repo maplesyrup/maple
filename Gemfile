@@ -16,6 +16,7 @@ gem "tire-contrib"
 gem 'randexp'
 gem 'acts_as_follower'
 
+
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
@@ -38,6 +39,15 @@ group :development, :test do
   gem 'quiet_assets'
   gem 'sqlite3'
   gem 'rake'
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+  gem 'capybara-webkit', github: 'thoughtbot/capybara-webkit', branch: 'master'
+  gem 'database_cleaner'
+end
+
+group :test do
+  gem 'faker'
+  gem 'guard-rspec'
 end
 
 group :production do
