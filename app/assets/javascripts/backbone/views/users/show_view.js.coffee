@@ -33,11 +33,6 @@ class Maple.Views.UserShowView extends Backbone.View
         success: ->
           window.location.href = '/'
         })
-        
-
-
-      # For now this is necessary because we don't use backbone for the header,
-      # thus we need to refresh the whole page :/
 
   saveContent: (id, content) ->
     if id ==  "personal-info"
