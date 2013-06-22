@@ -61,6 +61,11 @@ class Post < ActiveRecord::Base
     self.public_model
   end
 
+  # Do not delete the image if the Post is deleted
+  def destroy_attached_files
+    true
+  end
+
   def public_model(options = {})
     # public_model(options):
     # Parameters: "options" - "user" key should be
