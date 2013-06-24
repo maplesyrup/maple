@@ -1,38 +1,36 @@
-<div class="glimpse rounded-top subtle-shadow">
-  <div class="inner-glimpse rounded-top">
+<div class="inner-glimpse rounded-top">
 
-  <div class="header-feature pull-up">
-    <div class="header-inner">
-      <div class="pull-right">
-        <% if (user && user_signed_in && session.currentUser.id === user.id) { %>
-          <a href="#">
-            <button class="btn delete-post">
-              <i class="icon-trash"></i>
-            </button>
-          </a>
-          <% } else if (company && company_signed_in && session.currentCompany.id === company.id) {  %>
-          <a href="#">
-            <button class="btn untag-post">
-              <i class="myicon-untag"></i>
-            </button>
-          </a>
-          <% } %>
-      </div>
-      <div class="pull-left">
-        <a href="https://www.facebook.com/dialog/feed?
-          app_id=<%= window.config.FACEBOOK_APP_ID %>&
-          link=http://<%= window.config.HOSTNAME %>/&
-          name=Additt&
-          caption=<%= title %>&
-          description=<%= content %>&
-          redirect_uri=http://<%= window.config.HOSTNAME %>/">
-          <i class="icon-facebook-sign icon-2x"></i>
-        </a>
-      </div>
-    </div>
+<div class="header-feature pull-up">
+  <div class="facebook-post">
+    <a href="https://www.facebook.com/dialog/feed?
+      app_id=<%= window.config.FACEBOOK_APP_ID %>&
+      link=http://<%= window.config.HOSTNAME %>/&
+      name=Additt&
+      caption=<%= title %>&
+      description=<%= content %>&
+      redirect_uri=http://<%= window.config.HOSTNAME %>/">
+      <i class="icon-facebook-sign icon-2x"></i>
+    </a>
   </div>
 
-  <a href="/#posts/<%= id %>" data-img='<%= full_image_url %>'><img class="rounded-top" src="<%= image_url %>" /></a>
+  <div class="trash-post">
+    <% if (user && user_signed_in && session.currentUser.id === user.id) { %>
+      <a href="#">
+        <button class="btn delete-post">
+          <i class="icon-trash"></i>
+        </button>
+      </a>
+      <% } else if (company && company_signed_in && session.currentCompany.id === company.id) {  %>
+      <a href="#">
+        <button class="btn untag-post">
+          <i class="myicon-untag"></i>
+        </button>
+      </a>
+    <% } %>
+  </div>
+</div>
+
+<a href="/#posts/<%= id %>" data-img='<%= full_image_url %>'><img class="rounded-top" src="<%= image_url %>" />
   <div class="outer-feature">
     <div class="inner-feature">
       <div class="votes">
@@ -45,65 +43,66 @@
       </div>
       <h4><%= title %></h4>
     </div>
-
   </div>
+</a>
 </div>
 
-
 <div class="glimpse-info">
-  <div class="content">
-      <% if (endorsed === false && company && company_signed_in && session.currentCompany.id === company.id) {  %>
-        <i class="pull-right icon-star-empty muted endorsable"></i> 
-      <% } else if (endorsed === true) { %>
-        <i class="pull-right icon-star gold endorsable"></i>
-      <% } %>
-      <p class="wrap-text">
-        <small>
-          <%= content %>
-        </small>
-      </p>
-    </div>
-    <hr class="hr-thin">
+<div class="content">
+  <% if (endorsed === false && company && company_signed_in && session.currentCompany.id === company.id) {  %>
+    <i class="pull-right icon-star-empty muted endorsable"></i>
+  <% } else if (endorsed === true) { %>
+    <i class="pull-right icon-star gold endorsable"></i>
+  <% } %>
+  <p class="wrap-text">
+    <small>
+      <%= content %>
+    </small>
+  </p>
+</div>
+<hr class="hr-thin">
 
-    <div class="pull-left">
+  <div class="pull-left">
+    <% if (typeof(user) !== "undefined" && user) { %>
+      <% if (user.avatar_thumb && user.avatar_thumb != "avatars/thumb/missing.png") { %>
+        <img class="pull-left" src="<%= user.avatar_thumb %>" />
+      <% } else if (user.uid) { %>
+        <img class="pull-left" src="http://graph.facebook.com/<%= user.uid %>/picture" />
+      <% } %>
+    <% } %>
+
+    <div class="glimpse-meta">
       <% if (typeof(user) !== "undefined" && user) { %>
-        <% if (user.avatar_thumb && user.avatar_thumb != "avatars/thumb/missing.png") { %>
-          <img class="pull-left" src="<%= user.avatar_thumb %>" />
-        <% } else if (user.uid) { %>
-          <img class="pull-left" src="http://graph.facebook.com/<%= user.uid %>/picture" />
-        <% } %>
+        <span class="author">by <a href="/#users/<%= user.id %>"><%= user.name %></a></span>
+      <% } else { %>
+        <span class="author">author_deleted</span>
       <% } %>
-
-      <div class="glimpse-meta">
-        <% if (typeof(user) !== "undefined" && user) { %>
-          <span class="author">by <a href="/#users/<%= user.id %>"><%= user.name %></a></span>
-        <% } else { %>
-          <span class="author">author_deleted</span>
-        <% } %>
-        <span class="date">
-          <small>
-            <%= relative_time %> ago
-          </small>
-        </span>
-      </div>
+      <span class="date">
+        <small>
+          <%= relative_time %> ago
+        </small>
+      </span>
     </div>
+  </div>
 
+  <div class="clearfix"></div>
+  <hr class="hr-thin">
+
+    <% if (typeof(company) !== "undefined" && company && typeof(company.id) !== "undefined" && typeof(company.name) !== "undefined") { %>
+      <span class="tag">For <a href="/#companies/<%=company_id %>"><strong><%= company.name %></strong></a></span>
+      <% if (typeof(campaign) !== "undefined" && campaign.tagName === undefined) { %>
+        <span class="tag">'s campaign <strong><%= campaign.title %></strong></span>
+      <% } %>
+      <% if (user && user_signed_in && session.currentUser.id === user.id) { %>
+        <a href="/#editPost/<%= id %>" class="post-edit">edit</a>
+      <% } %>
+   <% } %>
+  <% if (typeof(rewards) !== "undefined") { %>
     <div class="clearfix"></div>
     <hr class="hr-thin">
-
-      <% if (typeof(company) !== "undefined" && company && typeof(company.id) !== "undefined" && typeof(company.name) !== "undefined") { %>
-        <span class="tag">For <a href="/#companies/<%=company_id %>"><strong><%= company.name %></strong></a></span>
-         <% if (typeof(campaign) !== "undefined" && campaign.tagName === undefined) { %>
-          <span class="tag">'s campaign <strong><%= campaign.title %></strong></span>
-         <% } %>
-      <% } %>
-    <% if (typeof(rewards) !== "undefined") { %>
-      <div class="clearfix"></div>
-      <hr class="hr-thin">
-      <div class="well">
-        <h5> Treasure Chest </h5>
-        <i class="icon-trophy"></i>&nbsp;x&nbsp;<%= rewards.length %>
-      </div>
-    <% } %>
-  </div>
+    <div class="well">
+      <h5> Treasure Chest </h5>
+      <i class="icon-trophy"></i>&nbsp;x&nbsp;<%= rewards.length %>
+    </div>
+  <% } %>
 </div>

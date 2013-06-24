@@ -5,15 +5,17 @@ class Maple.Views.CampaignView extends Backbone.View
   events:
     "click .reward-glimpse" : "filterByReward"
     "click #back-to-campaigns" : "blurCampaign"
-    "click #create-award" : "createAward"
     "click #submit-to-campaign" : "newPost"
-    "click #competition-types" : "toggleAvailableFormInput"
 
   initialize: (options) ->
+    @createRewardLocked = false
     @company = options.company || {}
     @reloadCollection()
      
   render: ->
+    $("#competition-types").bind('click', @toggleAvailableFormInput)
+
+    $("#create-award").bind("click", @createReward)
     @$el.html(@template(
       _.extend(@model.toJSON(),
         rewards:
@@ -37,47 +39,44 @@ class Maple.Views.CampaignView extends Backbone.View
     event.stopPropagation()
 
     @close()
-    Maple.mapleEvents.trigger("campaignFilter", "company-posts")
+    Maple.mapleEvents.trigger("campaignFilter", "all-company-posts")
     Maple.mapleEvents.trigger("blurCampaign")
 
   flashAlert: (container, message) ->
     container.html(message)
     container.css('display', 'block')
 
-  isEmpty: (object) ->
-    if !object || object == ""
-      true
-    false
+  createReward: (event) =>
+    if !@createRewardLocked
+      @createRewardLocked = true
 
-  createAward: (event) ->
-    form = $("#new-reward-form")
-    requirement = "MIN_VOTES"
-
-    requirementType = $("input[type=radio]:checked").attr("id")
-    quantity = form.find("input[name='quantity']").val()
-
-    if requirementType == "top-post-type"
-      requirement = "TOP_POST"
-      quantity = form.find("input[name='top-post-quantity']").val()
-    else if requirementType == "company-endorsed-type"
-      requirement = "COMPANY_ENDORSED"
-
-    title = form.find("input[name='title']").val()
-    description = form.find("textarea[name='description']").val()
-    reward = form.find("input[name='reward']").val()
-    minVotes = form.find("input[name='min-votes']").val()
-      
-    alertContainer = $("#reward-alert")
-
-    if @isEmpty(title)
-      @flashAlert(alertContainer, "Title can't be blank")
-    else if @isEmpty(reward)
-      @flashAlert(alertContainer, "Reward can't be blank")
-    else if @isEmpty(quantity)
-      @flashAlert(alertContainer, "Quantity Can't be blank")
-    else
+      alertContainer = $("#reward-alert")
       alertContainer.css('display', 'none')
+
+      form = $("#new-reward-form")
+      requirement = "MIN_VOTES"
+
+      requirementType = $("input[type=radio]:checked").attr("id")
+      quantity = form.find("input[name='quantity']").val()
+
+      if requirementType == "top-post-type"
+        requirement = "TOP_POST"
+        quantity = form.find("input[name='top-post-quantity']").val()
+      else if requirementType == "company-endorsed-type"
+        requirement = "COMPANY_ENDORSED"
+        
+      title = form.find("input[name='title']").val()
+      description = form.find("textarea[name='description']").val()
+      reward = form.find("input[name='reward']").val()
+      minVotes = form.find("input[name='min-votes']").val()
+        
       newReward = new Maple.Models.Reward()
+
+      newReward.on("invalid", (model, error) =>
+        @flashAlert(alertContainer, error)
+        @createRewardLocked = false
+      )
+
       newReward.save({
         title: title
         description: description
@@ -86,15 +85,15 @@ class Maple.Views.CampaignView extends Backbone.View
         min_votes: minVotes
         campaign_id: @model.id
         requirement: requirement
-        },
-        {
+      },
         success: (model) =>
+          @createRewardLocked = false
           $("#new-reward-modal").modal('hide')
           @model.rewards.add(model)
           @render()
-        error: (error) =>
-          console.log error
-        }
+        error: (xhr) =>
+          @createRewardLocked = false
+          Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
       )
   
   newPost: (event) ->
@@ -135,5 +134,7 @@ class Maple.Views.CampaignView extends Backbone.View
       $("#top-posts-input").attr("disabled", "disabled")
 
   close: ->
+    $("#competition-types").unbind('click', @toggleAvailableFormInput)
+    $("#create-award").unbind("click", @createAward)
     @remove()
     @unbind()

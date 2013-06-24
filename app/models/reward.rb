@@ -20,8 +20,9 @@ class Reward < ActiveRecord::Base
   def self.public_models(rewards)
     Jbuilder.encode do |json|
       json.array! rewards do |json, reward|
-        json.(reward, :id, :title, :description, :campaign_id, :reward, :quantity, 
+        json.(reward, :id, :title, :description, :campaign_id, :reward,
             :min_votes, :requirement)
+        json.quantity reward.quantity - reward.posts.length
       end
     end
   end
@@ -30,6 +31,7 @@ class Reward < ActiveRecord::Base
     Jbuilder.encode do |json|
       json.(self, :id, :title, :description, :campaign_id, :reward, :quantity,
             :min_votes, :requirement)
+      json.quantity self.quantity - self.posts.length
     end
   end 
 

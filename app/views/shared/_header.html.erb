@@ -1,7 +1,11 @@
-<div id="navigation" class="navbar navbar-inverse navbar-fixed-top">
+<div id="sticky-announcement">
+  <p>Congratulations to Becky's <a href="/#posts/43">Don't Slip</a> photo for winning Stanford Outdoor Education's "Outdoor Panoramas" grand prize!</p>
+</div>
+<div id="navigation" class="navbar navbar-inverse">
   <div class="navbar-inner">
     <div class="container-fluid">
-      <a class="brand" href="/">Additt</a>&nbsp;&nbsp;
+      <a class="brand" href="/">Additt</a>
+      <span class="companyName beta-tag"> beta </span>
       <% if current_company %>
         <a class="brand companyName" href="/#companies/<%= current_company.id %>"> for <%= current_company.name %></a>
       <% end %>
@@ -14,7 +18,7 @@
             <%= image_tag current_user.avatar.url(:thumb), :size => current_user.avatar.styles[:header_thumb].geometry  %>
           <% end %>
           <a href="/#users/<%= current_user.id %>" class="navbar-link"><%= current_user.name %></a>
-          <a href="#newPost" class="new-post navbar-link"><i class="icon-edit"></i> Submit Ad </a>
+          <a href="#newPost" class="new-post navbar-link"><i class="icon-edit"></i> Submit Photo</a>
           <%= link_to "Logout", destroy_user_session_path, {:class => "navbar-link", :method => :delete} %>
         <% elsif current_company %>
           <a href="/#companies/<%= current_company.id %>" class="navbar-link"><%= current_company.email %></a>

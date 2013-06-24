@@ -11,7 +11,6 @@ class Maple.Views.CompanyShowView extends Backbone.View
   events:
     "focus [contenteditable]" : "editContent"
     "blur [contenteditable]" : "updateContent"
-    "keyup [contenteditable]" : "stripContent"
     "click .follow" : "follow"
     "click .collection-filter" : "refilterCollection"
     "click #company-submit-logo" : "submitLogo"
@@ -20,6 +19,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
 
   initialize: ->
     @viewManager = new Maple.ViewManager()
+    @cachedPostsCollection
 
     @model.on "change", =>
       if @model.hasChanged("logos")
@@ -28,13 +28,12 @@ class Maple.Views.CompanyShowView extends Backbone.View
           return logo.selected
         @$el.find("#logo-placeholder").html(replaceImageTemplate({url: updatedLogo[0].medium}))
 
-    $(window).scroll(@hideNav)
     Maple.mapleEvents.bind("campaignFilter", @campaignFilter)
     @render()
 
   render: ->
     @$el.html(@template(_.extend(@model.toJSON(), Maple.session.toJSON())))
-    @populateCollection("company-posts")
+    @populateCollection("all-company-posts")
 
     container = @$el.find(".campaign")
     view = new Maple.Views.CampaignShowView(
@@ -48,7 +47,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
   submitSplash: (event) ->
     event.preventDefault()
     event.stopPropagation()
-    
+
     formData = new FormData($("#add-company-splash")[0])
 
     @model.savePaperclip(formData,
@@ -59,7 +58,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
         $("#uploadSplashModal").modal('hide')
       error: (xhr) =>
         Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText }))
-        
+
   selectLogo: (event) ->
     $(".selected").removeClass("selected")
     @selectedLogo = $(event.currentTarget)
@@ -115,10 +114,6 @@ class Maple.Views.CompanyShowView extends Backbone.View
     targetID = target.attr("id")
     @saveContent(targetID, target.html())
 
-  stripContent: (event) ->
-    target = $(event.currentTarget)
-    target.html(target.text())
-
   editContent: (event) ->
     event.stopPropagation()
     event.preventDefault()
@@ -161,12 +156,28 @@ class Maple.Views.CompanyShowView extends Backbone.View
 
   populateCollection: (collectionType) ->
     switch collectionType
-      when "company-posts"
+      when "all-company-posts"
         container = @$el.find("#company-posts-container")
+
+        @cachedPostsCollection = @model.posts
+
         view = new Maple.Views.MultiColumnView(
           collection: @model.posts
           parent: "#company-posts-container"
           modelView: Maple.Views.PostView
+          data:
+            company_id: @model.id
+        )
+        @viewManager.showView(view, container)
+
+      when "company-posts"
+        container = @$el.find("#company-posts-container")
+
+        view = new Maple.Views.MultiColumnView(
+          collection: @cachedPostsCollection || @model.posts
+          parent: "#company-posts-container"
+          modelView: Maple.Views.PostView
+          bootstrapped: true
           data:
             company_id: @model.id
         )
@@ -187,8 +198,9 @@ class Maple.Views.CompanyShowView extends Backbone.View
       else
         if collectionType.type == "campaign"
           container = @$el.find("#company-posts-container")
+          @cachedPostsCollection = @model.posts.byCampaign(parseInt(collectionType.id))
           view = new Maple.Views.MultiColumnView(
-            collection: @model.posts.byCampaign(parseInt(collectionType.id))
+            collection: @cachedPostsCollection
             parent: "#company-posts-container"
             modelView: Maple.Views.PostView
             bootstrapped: true
@@ -199,8 +211,9 @@ class Maple.Views.CompanyShowView extends Backbone.View
 
         if collectionType.type == "reward"
           container = @$el.find("#company-posts-container")
+          @cachedPostsCollection = @model.posts.byReward(parseInt(collectionType.id))
           view = new Maple.Views.MultiColumnView(
-            collection: @model.posts.byReward(parseInt(collectionType.id))
+            collection: @cachedPostsCollection
             parent: "#company-posts-container"
             modelView: Maple.Views.PostView
             bootstrapped: true
@@ -208,12 +221,6 @@ class Maple.Views.CompanyShowView extends Backbone.View
               company_id: @model.id
           )
           @viewManager.showView(view, container)
-
-  hideNav: ->
-    if $(window).scrollTop() < $("#company-header-image").height()
-      $(".scroll-hide").css("display", "visible").fadeIn("slow")
-    else if $(".scroll-hide").is(":visible")
-      $(".scroll-hide").css("display", "hidden").fadeOut("slow")
 
   campaignFilter: (event) =>
     @populateCollection(event)
@@ -233,6 +240,7 @@ class Maple.Views.CompanyShowView extends Backbone.View
   close: ->
     Maple.mapleEvents.unbind("campaignFilter")
     @model.off("change")
+
     $(window).unbind('scroll')
     @remove()
     @unbind()

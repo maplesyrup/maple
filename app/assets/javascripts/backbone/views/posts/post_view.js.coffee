@@ -7,6 +7,9 @@ class Maple.Views.PostView extends Backbone.View
   # model's attributes will rerender
   # the View.
 
+  tagName: 'div'
+  className: 'glimpse rounded-top subtle-shadow'
+
   template: JST["backbone/templates/posts/post"]
 
   events:
@@ -18,10 +21,6 @@ class Maple.Views.PostView extends Backbone.View
     "mouseout" : "onMouseout"
 
   initialize: ->
-    @.model.bind 'change', =>
-      if(@.model.hasChanged('total_votes'))
-        @.render()
-
     @render()
 
   onMouseover: (e) =>
@@ -42,11 +41,12 @@ class Maple.Views.PostView extends Backbone.View
       url: "/posts/vote_up"
       data: "post_id=" + @.model.get('id')
       success: =>
-        console.log("Success")
+        @.model.set({'total_votes': num_votes + 1, 'voted_on': Maple.Post.VOTED.YES})
+        @render()
       error: (xhr) =>
         Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
 
-    @.model.set({'total_votes': num_votes + 1, 'voted_on': Maple.Post.VOTED.YES})
+
 
   deletePost: (event) =>
     event.stopPropagation()
@@ -59,7 +59,7 @@ class Maple.Views.PostView extends Backbone.View
     event.preventDefault()
 
     @model.save({ company: null, campaign: null },
-      url: @model.paramRoot + @model.id + '/untag'
+      url: @model.urlRoot + @model.id + '/untag'
       success: (model) =>
         console.log("Successfully untagged: " + model.id)
       error: (model, xhr, options) =>

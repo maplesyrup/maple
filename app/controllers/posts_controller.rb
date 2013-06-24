@@ -55,6 +55,7 @@ class PostsController < ApplicationController
       if post
         post.update_attributes(sanitize(params[:post]))
         render :json => post.public_model
+
       end
     else
       redirect_to :controller => 'users', :action => 'login_in'
@@ -92,7 +93,7 @@ class PostsController < ApplicationController
     current_user.vote_for(post)
     post.save
     Post.index.refresh
-  
+
     post.campaign.refresh_rewards if post.campaign
 
     render :json => post
@@ -100,10 +101,10 @@ class PostsController < ApplicationController
 
   def endorse
     authenticate_company!
-    
-    post = current_company.posts.find_by_id(params[:id])  
+
+    post = current_company.posts.find_by_id(params[:id])
     if post
-      post.endorsed = !post.endorsed 
+      post.endorsed = !post.endorsed
       post.save
       Post.index.refresh
 
@@ -127,5 +128,4 @@ class PostsController < ApplicationController
     end
     sanitized
   end
-
 end

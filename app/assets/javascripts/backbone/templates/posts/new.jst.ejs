@@ -1,6 +1,6 @@
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-  <h3><i class="icon-edit icon-large"></i> Create New Ad</h3>
+  <h3><i class="icon-edit icon-large"></i> Create New Post</h3>
 </div>
 
 <div class="modal-body">
@@ -21,19 +21,24 @@
       <option value ="<%= company.id %>"><%= company.name %></option>
     <% } %>
     </select>
-
+    
     <% if (campaign) { %> 
       <label for="post[campaign_id]">Select Campaign</label>
       <select name="post[campaign_id]"> 
         <option value="<%=campaign.id %>"><%= campaign.title %></option>
       </select>
+    <% } else { %>
+      <div id="campaign-select"></div>
     <% } %>
 
-    <label for="post[image]">Upload Ad</label>
+    <label for="post[image]">Upload</label>
     <input type="file" name="post[image]" id="post-image" />
   </form>
 </div>
 
 <div class="modal-footer">
-  <a href="#" id="post-submit" class="btn btn-primary">Submit Ad</a>
+  <div class="spinner">
+    <i class="icon-spinner icon-spin icon-large"></i> Uploading ...
+  </div>
+  <a href="#" id="post-submit" class="btn btn-primary">Submit</a>
 </div>

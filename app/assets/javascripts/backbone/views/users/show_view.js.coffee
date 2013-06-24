@@ -1,3 +1,4 @@
+# User Profile Page
 class Maple.Views.UserShowView extends Backbone.View
 
   tagName: 'div'
@@ -12,6 +13,7 @@ class Maple.Views.UserShowView extends Backbone.View
     "click .collection-filter" : "refilterCollection"
     "click .follow" : "follow"
     "click .delete-user" : "onDeleteUser"
+    "click #user-submit-avatar" : "submitAvatar"
 
   initialize: ->
     @viewManager = new Maple.ViewManager()
@@ -50,20 +52,33 @@ class Maple.Views.UserShowView extends Backbone.View
     event.stopPropagation()
     event.preventDefault()
 
-    target = $(event.currentTarget)
+    target = $(event.target)
     targetID = target.attr("id")
-    if targetID == "avatar"
-      view = new Maple.Views.UploadImageView({
-        model: @model,
-        inputName: "user[avatar]",
-        targetImgContainer: "#avatar",
-        resourceName: "avatar"
-      })
-      container = @$el.find("#user-select-new-avatar")
-      @viewManager.showView(view, container)
+    if targetID == "user-avatar-container"
+      $("#userAvatarModal").modal('show')
     else
       return false
+  
+  submitAvatar: (event) ->
+    $(".spinner").toggle()
 
+    event.preventDefault()
+    event.stopPropagation()
+    
+    formData = new FormData($("#new-user-avatar")[0])
+
+    @model.savePaperclip(formData,
+      type: 'PUT'
+      success: (user) =>
+        @model.set(user)
+        $("#avatar").attr("src", @model.get("avatar"))
+        $("#userAvatarModal").modal('hide')
+        $(".spinner").toggle()
+      error: (xhr) =>
+        $(".spinner").toggle()
+        Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
+    )
+ 
   populateCollection: (collectionType) ->
     switch collectionType
       when "user-posts"
@@ -133,7 +148,7 @@ class Maple.Views.UserShowView extends Backbone.View
   follow: (event) ->
     if Maple.session.get("user_signed_in")
       # user is signed in and wants to perform an action
-      index = _.indexOf(Maple.session.currentUser.get("users_im_following"), @model.id) 
+      index = _.indexOf(Maple.session.currentUser.get("users_im_following"), @model.id)
       if index == -1
         # user is not already following this user. Follow
 
