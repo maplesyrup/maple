@@ -46,14 +46,12 @@ class Maple.Views.CampaignView extends Backbone.View
     container.html(message)
     container.css('display', 'block')
 
-  isEmpty: (object) ->
-    if !object || object == ""
-      true
-    false
-
   createReward: (event) =>
     if !@createRewardLocked
       @createRewardLocked = true
+
+      alertContainer = $("#reward-alert")
+      alertContainer.css('display', 'none')
 
       form = $("#new-reward-form")
       requirement = "MIN_VOTES"
@@ -66,43 +64,37 @@ class Maple.Views.CampaignView extends Backbone.View
         quantity = form.find("input[name='top-post-quantity']").val()
       else if requirementType == "company-endorsed-type"
         requirement = "COMPANY_ENDORSED"
-
+        
       title = form.find("input[name='title']").val()
       description = form.find("textarea[name='description']").val()
       reward = form.find("input[name='reward']").val()
       minVotes = form.find("input[name='min-votes']").val()
         
-      alertContainer = $("#reward-alert")
+      newReward = new Maple.Models.Reward()
 
-      if @isEmpty(title)
-        @flashAlert(alertContainer, "Title can't be blank")
-      else if @isEmpty(reward)
-        @flashAlert(alertContainer, "Reward can't be blank")
-      else if @isEmpty(quantity)
-        @flashAlert(alertContainer, "Quantity Can't be blank")
-      else
-        alertContainer.css('display', 'none')
-        newReward = new Maple.Models.Reward()
-        newReward.save({
-          title: title
-          description: description
-          reward: reward
-          quantity: quantity
-          min_votes: minVotes
-          campaign_id: @model.id
-          requirement: requirement
-          },
-          {
-          success: (model) =>
-            $("#new-reward-modal").modal('hide')
-            @createRewardLocked = false
-            @model.rewards.add(model)
-            @render()
-          error: (error) =>
-            @createRewardLocked = false
-            Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
-          }
-        )
+      newReward.on("invalid", (model, error) =>
+        @flashAlert(alertContainer, error)
+        @createRewardLocked = false
+      )
+
+      newReward.save({
+        title: title
+        description: description
+        reward: reward
+        quantity: quantity
+        min_votes: minVotes
+        campaign_id: @model.id
+        requirement: requirement
+      },
+        success: (model) =>
+          @createRewardLocked = false
+          $("#new-reward-modal").modal('hide')
+          @model.rewards.add(model)
+          @render()
+        error: (xhr) =>
+          @createRewardLocked = false
+          Maple.Utils.alert({ err: xhr.status + ': ' + xhr.statusText })
+      )
   
   newPost: (event) ->
     if Maple.session.get("user_signed_in")
