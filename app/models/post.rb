@@ -11,7 +11,7 @@ class Post < ActiveRecord::Base
   # image_content_type, image_file_size,
   # image_updated_at, company_id.
 
-  attr_accessible :content, :title, :image, :company_id, :campaign_id, :endorsed
+  attr_accessible :content, :title, :image, :company_id, :campaign_id, :endorsed, :deleted_at
 
   has_attached_file :image, :styles => { :large => "400x400>", :medium => "250x250>", :thumb => "100x100>"}, :default_url => "posts/:style/missing.png"
 
@@ -22,9 +22,10 @@ class Post < ActiveRecord::Base
   has_and_belongs_to_many :banned_companies, :class_name => "Company", :uniq => true,
       :join_table => "banned_companies_posts"
 
+  acts_as_paranoid
   acts_as_voteable
 
-  has_many :comments, :as => :commentable
+  has_many :comments, :as => :commentable, :dependent => :destroy
   validates_associated :comments
 
   has_and_belongs_to_many :rewards
@@ -58,6 +59,11 @@ class Post < ActiveRecord::Base
 
   def to_indexed_json
     self.public_model
+  end
+
+  # Do not delete the image if the Post is deleted
+  def destroy_attached_files
+    true
   end
 
   def public_model(options = {})
