@@ -15,6 +15,11 @@ class Post < ActiveRecord::Base
 
   has_attached_file :image, :styles => { :large => "400x400>", :medium => "250x250>", :thumb => "100x100>"}, :default_url => "posts/:style/missing.png"
 
+  validates :title, :presence => true
+  validates :company_id, :presence => true
+  validates :user_id, :presence => true
+  validates_attachment_presence :image
+
   belongs_to :user
   belongs_to :company
   belongs_to :campaign
@@ -93,7 +98,6 @@ class Post < ActiveRecord::Base
     # Returned JSON includes the author, company,
     # full_image_url, image_url, total_votes
     # and voted_on
-
     Jbuilder.encode do |json|
       json.array! posts do |json, post|
         json.(post, :id, :company, :company_id, :campaign_id, :content, :created_at, :title, :endorsed)
