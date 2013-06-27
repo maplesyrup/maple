@@ -11,7 +11,7 @@ class Post < ActiveRecord::Base
   # image_content_type, image_file_size,
   # image_updated_at, company_id.
 
-  attr_accessible :content, :title, :image, :company_id, :campaign_id, :endorsed, :deleted_at
+  attr_accessible :content, :title, :image, :company_id, :campaign_id, :endorsed, :deleted_at, :product_list, :brand_list, :coordinate_list, :size_list
 
   has_attached_file :image, :styles => { :large => "400x400>", :medium => "250x250>", :thumb => "100x100>"}, :default_url => "posts/:style/missing.png"
 
@@ -24,6 +24,12 @@ class Post < ActiveRecord::Base
 
   acts_as_paranoid
   acts_as_voteable
+
+  # These tags are stored as ordered arrays of strings, accessible with
+  # @post.product_list. @post.brand_list, @post.coordinate_list, @post.size_list
+  # where coordinate and size give the location and dimension of the tagging box
+  # over the image
+  acts_as_ordered_taggable_on :products, :brands, :coordinates, :sizes
 
   has_many :comments, :as => :commentable, :dependent => :destroy
   validates_associated :comments
