@@ -16,6 +16,7 @@ gem "tire-contrib"
 gem 'randexp'
 gem 'acts_as_follower'
 gem 'acts_as_paranoid'
+gem 'acts-as-taggable-on'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
