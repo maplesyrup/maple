@@ -16,7 +16,6 @@ class Post < ActiveRecord::Base
   has_attached_file :image, :styles => { :large => "400x400>", :medium => "250x250>", :thumb => "100x100>"}, :default_url => "posts/:style/missing.png"
 
   validates :title, :presence => true
-  validates :content, :presence => true
   validates :company_id, :presence => true
   validates :user_id, :presence => true
   validates_attachment_presence :image
