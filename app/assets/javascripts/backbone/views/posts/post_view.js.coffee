@@ -1,3 +1,4 @@
+# Post Thumbnail View
 class Maple.Views.PostView extends Backbone.View
   # Renders a View for a Single Post.
   # Binds a click event on the vote

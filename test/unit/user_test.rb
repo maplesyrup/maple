@@ -7,21 +7,6 @@ class UserTest < ActiveSupport::TestCase
     @user2 = users(:two)
   end
 
-  test "User deletion should not detele post" do
-    post = posts(:one)
-
-    @user1.posts << post
-    @user1.save
-
-    User.destroy(@user1.id)
-
-    updated_post = Post.find(post.id)
-
-    assert updated_post
-    assert !updated_post.user
-
-  end
-
   test "follow with stable data" do
 
     user = users(:one)

@@ -74,6 +74,7 @@ class UsersController < ApplicationController
 
   def destroy
     user = User.destroy(params[:id])
+    Post.tire.index.refresh
 
     render :json => user.public_model
   end
