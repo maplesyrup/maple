@@ -34,23 +34,6 @@ class CompanyTest < ActiveSupport::TestCase
     assert_equal 1, response['posts'].length
   end
 
-  test "Basic model search" do
-    c = Company.paged_companies
-    assert_equal 2, c.results.length
-  end
-
-  test "Search by name" do
-    c = Company.paged_companies({ :query => 'apple' })
-    assert_equal 1, c.results.length
-    assert_equal @apple.name, c.results[0].name
-  end
-
-  test "Search by blurb title" do
-    c = Company.paged_companies({ :crumb => 'blurb_title', :query => 'shit product*' })
-    assert_equal 1 ,c.results.length
-    assert_equal @microsoft.name, c.results[0].name
-  end
-
   test "Destroy company should not delete post" do
     post = posts(:one)
 

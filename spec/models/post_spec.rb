@@ -9,10 +9,6 @@ describe Post do
     FactoryGirl.build(:post, title: nil).should_not be_valid
   end
 
-  it "is invalid without content" do
-    FactoryGirl.build(:post, content: nil).should_not be_valid
-  end
-
   it "is invalid without a picture" do
     FactoryGirl.build(:post, image: nil).should_not be_valid
   end

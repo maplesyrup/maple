@@ -9,12 +9,16 @@ feature 'Create a Post' do
     company = FactoryGirl.create(:company)
     login_as user, :scope => :user
     visit '/'
-    click_link 'Submit Ad'
-    fill_in 'post-title', :with => 'Test Title'
-    fill_in 'post-content', :with => 'Test Content'
-    select company.name, :from => 'company'
-    attach_file 'post-image', 'spec/images/rails.png'
-    click_link 'post-submit'
+    click_link 'Submit Photo'
+
+    within("form#new-post") do
+        fill_in 'post-title', :with => 'Test Title'
+        fill_in 'post-content', :with => 'Test Content'
+        select company.name, :from => 'company'
+        attach_file 'post-image', 'spec/images/rails.png'
+        click_link 'post-submit'
+    end
+    
     page.should have_content company.name
   end
 end
