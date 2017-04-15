@@ -39,6 +39,9 @@ Maple::Application.routes.draw do
   resources :rewards
 
   resources :companies
+  resources :users do
+    resources :posts
+  end
 
   resources :stats, :only => :index
 
