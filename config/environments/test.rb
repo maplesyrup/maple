@@ -1,4 +1,16 @@
 Maple::Application.configure do
+  credentials = YAML.load_file("#{::Rails.root}/config/s3.yml")
+
+  # config/environments/test.rb
+  config.paperclip_defaults = {
+    :storage => :s3,
+    :s3_host_name => credentials['S3_DOMAIN'],
+    :s3_credentials => {
+      :bucket => credentials['testing']['S3_BUCKET_NAME'],
+      :access_key_id => credentials['testing']['AWS_ACCESS_KEY_ID'],
+      :secret_access_key => credentials['testing']['AWS_SECRET_ACCESS_KEY'],
+    }
+  }
   # Settings specified here will take precedence over those in config/application.rb
 
   # The test environment is used exclusively to run your application's
